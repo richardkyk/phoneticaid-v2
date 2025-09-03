@@ -30,8 +30,16 @@ export const useDocumentStore = create<DocumentState>((set) => ({
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setColumns: (columns: number) => set({ columns }),
-  setGapX: (gapX: number) => set({ gapX }),
-  setGapY: (gapY: number) => set({ gapY }),
+  setGapX: (gapX: number) => {
+    set({ gapX })
+    const cursor = useCursorStore.getState()
+    cursor.updateCursor(cursor.cursorRow, cursor.cursorCol)
+  },
+  setGapY: (gapY: number) => {
+    set({ gapY })
+    const cursor = useCursorStore.getState()
+    cursor.updateCursor(cursor.cursorRow, cursor.cursorCol)
+  },
   setMarginX: (marginX: number) => set({ marginX }),
   setMarginY: (marginY: number) => set({ marginY }),
   setMmToPx: (mmToPx: number) => set({ mmToPx }),

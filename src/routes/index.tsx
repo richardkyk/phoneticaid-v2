@@ -29,10 +29,16 @@ function App() {
     const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
     const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
 
+    // place the cursor at the end of the character if the user clicks on the right side of the character
+    const middleOfX =
+      col * (document.fontSize + document.gapX) * mmX +
+      (document.fontSize / 2) * mmX
+
+    const isEnd = x > middleOfX
     if (col < 0 || col >= document.columns) return
     if (row < 0 || row >= rows.length) return
 
-    setCursorPos(row, col)
+    setCursorPos(row, isEnd ? col + 1 : col)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
@@ -47,7 +53,7 @@ function App() {
     <div className="container mx-auto p-6 flex items-center justify-center">
       <div
         tabIndex={0}
-        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.5)] w-[210mm] h-[297mm]"
+        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none"
         ref={editorRef}
         onMouseDown={handleMouseDown}
         onKeyDown={handleKeyDown}
@@ -94,7 +100,7 @@ function App() {
                 return (
                   <div
                     key={`${i}-${j}`}
-                    className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-black cursor-text"
+                    className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-700 cursor-text"
                     style={{
                       top: `${cell.y}mm`,
                       left: `${cell.x}mm`,
