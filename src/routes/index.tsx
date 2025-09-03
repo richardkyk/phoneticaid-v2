@@ -29,16 +29,21 @@ function App() {
     const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
     const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
 
+    // if the user clicks in the gap between two rows, don't move the cursor
+    const middleOfY =
+      row * (document.fontSize + document.gapY) * mmY + document.fontSize * mmY
+    const isUnderChar = y > middleOfY
+    if (isUnderChar) return
+
+    if (col < 0 || col >= document.columns) return
+    if (row < 0 || row >= rows.length) return
+
     // place the cursor at the end of the character if the user clicks on the right side of the character
     const middleOfX =
       col * (document.fontSize + document.gapX) * mmX +
       (document.fontSize / 2) * mmX
-
-    const isEnd = x > middleOfX
-    if (col < 0 || col >= document.columns) return
-    if (row < 0 || row >= rows.length) return
-
-    setCursorPos(row, isEnd ? col + 1 : col)
+    const isCharRightSide = x > middleOfX
+    setCursorPos(row, isCharRightSide ? col + 1 : col)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
