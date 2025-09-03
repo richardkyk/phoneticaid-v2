@@ -111,7 +111,7 @@ export const useCursorStore = create<CursorState>((set, get) => ({
         break
       case 'ArrowRight':
         newCursorCol = cursorCol + 1
-        if (newCursorCol >= document.columns) return
+        if (newCursorCol > document.columns) return // allow to go beyond the last column so that we can 'delete' the last character
         get().updateCursor(cursorRow, newCursorCol)
         break
     }
