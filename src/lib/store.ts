@@ -80,7 +80,6 @@ interface CursorState {
   cursorCol: number
   cursorVisible: boolean
 
-  setCursorPos: (cursorX: number, cursorY: number) => void
   moveCursor: (key: string) => void
   updateCursor: (row: number, col: number) => void
 }
@@ -92,9 +91,6 @@ export const useCursorStore = create<CursorState>((set, get) => ({
   cursorCol: 0,
   cursorVisible: false,
 
-  setCursorPos: (cursorRow: number, cursorCol: number) => {
-    get().updateCursor(cursorRow, cursorCol)
-  },
   moveCursor: (key: string) => {
     const document = useDocumentStore.getState()
     const content = useContentStore.getState()

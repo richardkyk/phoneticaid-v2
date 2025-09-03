@@ -13,7 +13,7 @@ function App() {
 
   const { rows, originalBuffer, addBuffer } = useContentStore()
 
-  const { cursorVisible, cursorX, cursorY, setCursorPos, moveCursor } =
+  const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
     useCursorStore()
 
   const editorRef = useRef<HTMLDivElement>(null)
@@ -43,7 +43,7 @@ function App() {
       col * (document.fontSize + document.gapX) * mmX +
       (document.fontSize / 2) * mmX
     const isCharRightSide = x > middleOfX
-    setCursorPos(row, isCharRightSide ? col + 1 : col)
+    updateCursor(row, isCharRightSide ? col + 1 : col)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
@@ -80,7 +80,7 @@ function App() {
         {cursorVisible && (
           <div
             key={`${cursorX}-${cursorY}-${document.gapX}`}
-            className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.5)] bg-black opacity-100 animate-caret-blink"
+            className="absolute bg-black opacity-100 animate-caret-blink"
             style={{
               top: `${cursorY}mm`,
               left: `${cursorX}mm`,
