@@ -8,6 +8,7 @@ export interface DocumentState {
   gapY: number
   marginX: number
   marginY: number
+  mmToPx: number
 
   setFontSize: (fontSize: number) => void
   setColumns: (columns: number) => void
@@ -15,6 +16,7 @@ export interface DocumentState {
   setGapY: (gapY: number) => void
   setMarginX: (marginX: number) => void
   setMarginY: (marginY: number) => void
+  setMmToPx: (mmToPx: number) => void
 }
 
 export const useDocumentStore = create<DocumentState>((set) => ({
@@ -24,6 +26,7 @@ export const useDocumentStore = create<DocumentState>((set) => ({
   gapY: 0,
   marginX: 20,
   marginY: 20,
+  mmToPx: 1,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setColumns: (columns: number) => set({ columns }),
@@ -31,6 +34,7 @@ export const useDocumentStore = create<DocumentState>((set) => ({
   setGapY: (gapY: number) => set({ gapY }),
   setMarginX: (marginX: number) => set({ marginX }),
   setMarginY: (marginY: number) => set({ marginY }),
+  setMmToPx: (mmToPx: number) => set({ mmToPx }),
 }))
 
 export interface ContentState {
@@ -59,4 +63,65 @@ export const useContentStore = create<ContentState>((set) => ({
   ],
 
   appendAdd: (val: string) => set({ addBuffer: val }),
+}))
+
+interface CursorState {
+  cursorX: number
+  cursorY: number
+  cursorRow: number
+  cursorCol: number
+  cursorVisible: boolean
+
+  setCursorPos: (cursorX: number, cursorY: number) => void
+  moveCursor: (key: string) => void
+  updateCursor: (row: number, col: number) => void
+}
+
+export const useCursorStore = create<CursorState>((set, get) => ({
+  cursorX: 0,
+  cursorY: 0,
+  cursorRow: 0,
+  cursorCol: 0,
+  cursorVisible: false,
+
+  setCursorPos: (cursorRow: number, cursorCol: number) => {
+    get().updateCursor(cursorRow, cursorCol)
+  },
+  moveCursor: (key: string) => {
+    const document = useDocumentStore.getState()
+    const content = useContentStore.getState()
+    const { cursorRow, cursorCol } = get()
+    let newCursorRow,
+      newCursorCol = 0
+    switch (key) {
+      case 'ArrowUp':
+        newCursorRow = cursorRow - 1
+        if (newCursorRow < 0) return
+        get().updateCursor(newCursorRow, cursorCol)
+        break
+      case 'ArrowDown':
+        newCursorRow = cursorRow + 1
+        if (newCursorRow >= content.rows.length) return
+        get().updateCursor(newCursorRow, cursorCol)
+        break
+      case 'ArrowLeft':
+        newCursorCol = cursorCol - 1
+        if (newCursorCol < 0) return
+        get().updateCursor(cursorRow, newCursorCol)
+        break
+      case 'ArrowRight':
+        newCursorCol = cursorCol + 1
+        if (newCursorCol >= document.columns) return
+        get().updateCursor(cursorRow, newCursorCol)
+        break
+    }
+  },
+  updateCursor: (cursorRow: number, cursorCol: number) => {
+    const document = useDocumentStore.getState()
+    const cursorX =
+      document.marginX + cursorCol * (document.gapX + document.fontSize)
+    const cursorY =
+      document.marginY + cursorRow * (document.gapY + document.fontSize)
+    set({ cursorRow, cursorCol, cursorX, cursorY, cursorVisible: true })
+  },
 }))

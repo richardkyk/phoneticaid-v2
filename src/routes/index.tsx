@@ -1,6 +1,8 @@
 import { renderRow } from '@/lib/render'
-import { useContentStore, useDocumentStore } from '@/lib/store'
+import { useContentStore, useCursorStore, useDocumentStore } from '@/lib/store'
+import { getMmToPx } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
+import { useRef } from 'react'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -11,9 +13,45 @@ function App() {
 
   const { rows, originalBuffer, addBuffer } = useContentStore()
 
+  const { cursorVisible, cursorX, cursorY, setCursorPos, moveCursor } =
+    useCursorStore()
+
+  const editorRef = useRef<HTMLDivElement>(null)
+
+  function handleMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    if (!editorRef.current) return
+
+    const { mmX, mmY } = getMmToPx()
+
+    const rect = editorRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left - document.marginX * mmX
+    const y = e.clientY - rect.top - document.marginY * mmY
+    const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
+    const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
+
+    if (col < 0 || col >= document.columns) return
+    if (row < 0 || row >= rows.length) return
+
+    setCursorPos(row, col)
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (!editorRef.current) return
+
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      moveCursor(e.key)
+    }
+  }
+
   return (
     <div className="container mx-auto p-6 flex items-center justify-center">
-      <div className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.5)] w-[210mm] h-[297mm]">
+      <div
+        tabIndex={0}
+        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.5)] w-[210mm] h-[297mm]"
+        ref={editorRef}
+        onMouseDown={handleMouseDown}
+        onKeyDown={handleKeyDown}
+      >
         {/* Margins */}
         <div
           className="border-x border-dashed absolute inset-y-0"
@@ -27,6 +65,19 @@ function App() {
             insetBlock: `${document.marginY}mm`,
           }}
         ></div>
+
+        {cursorVisible && (
+          <div
+            key={`${cursorX}-${cursorY}`}
+            className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.5)] bg-black opacity-100 animate-caret-blink"
+            style={{
+              top: `calc(${cursorY}mm + 3px)`,
+              left: `${cursorX}mm`,
+              width: `0.5px`,
+              height: `calc(${document.fontSize}mm - 6px)`,
+            }}
+          ></div>
+        )}
 
         {/* Content */}
 
@@ -42,15 +93,15 @@ function App() {
               {cells.map((cell, j) => {
                 return (
                   <div
-                    key={j}
-                    className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-black"
+                    key={`${i}-${j}`}
+                    className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-black cursor-text"
                     style={{
                       top: `${cell.y}mm`,
                       left: `${cell.x}mm`,
                       width: `${cell.width}mm`,
                       height: `${cell.height}mm`,
-                      fontSize: `${cell.width}mm`,
-                      lineHeight: 0.93,
+                      fontSize: `${cell.height}mm`,
+                      lineHeight: `${cell.height}mm`,
                     }}
                   >
                     {cell.content}
