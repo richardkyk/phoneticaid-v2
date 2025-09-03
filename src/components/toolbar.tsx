@@ -43,8 +43,8 @@ export default function Toolbar() {
         <Slider
           defaultValue={[gapX]}
           onValueChange={([value]) => setGapX(value)}
-          max={100}
-          step={1}
+          max={10}
+          step={0.1}
         />
       </div>
       <div>
@@ -52,8 +52,8 @@ export default function Toolbar() {
         <Slider
           defaultValue={[gapY]}
           onValueChange={([value]) => setGapY(value)}
-          max={100}
-          step={1}
+          max={10}
+          step={0.1}
         />
       </div>
 

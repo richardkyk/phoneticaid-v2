@@ -74,13 +74,14 @@ function App() {
 
         {cursorVisible && (
           <div
-            key={`${cursorX}-${cursorY}`}
+            key={`${cursorX}-${cursorY}-${document.gapX}`}
             className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.5)] bg-black opacity-100 animate-caret-blink"
             style={{
-              top: `calc(${cursorY}mm + 3px)`,
+              top: `${cursorY}mm`,
               left: `${cursorX}mm`,
-              width: `0.5px`,
-              height: `calc(${document.fontSize}mm - 6px)`,
+              width: `max(${document.gapX}mm, 0.5px)`,
+              height: `${document.fontSize}mm`,
+              transform: `translateX(-100%)`,
             }}
           ></div>
         )}
