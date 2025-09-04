@@ -16,10 +16,19 @@ function App() {
   const document = useDocumentStore()
 
   const pt = usePieceTableStore((state) => state.pt)
+  const insertRange = usePieceTableStore((state) => state.insertRange)
+  const deleteRange = usePieceTableStore((state) => state.deleteRange)
   const rows = buildRows(pt, document)
 
-  const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
-    useCursorStore()
+  const {
+    cursorVisible,
+    cursorRow,
+    cursorCol,
+    cursorX,
+    cursorY,
+    updateCursor,
+    moveCursor,
+  } = useCursorStore()
 
   const editorRef = useRef<HTMLDivElement>(null)
 
@@ -56,6 +65,17 @@ function App() {
 
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
       moveCursor(e.key)
+      return
+    }
+    if (e.key === 'Enter') {
+      insertRange('\n')
+      updateCursor(cursorRow + 1, 0)
+      return
+    }
+    if (e.key === 'Backspace') {
+      deleteRange(1)
+      updateCursor(cursorRow, cursorCol - 1)
+      return
     }
   }
 

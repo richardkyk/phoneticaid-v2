@@ -27,7 +27,7 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
 
       if (ch === '\n' || col >= document.columns) {
         const _row = padRow(row, line, document)
-        if (_row) rows.push(_row)
+        rows.push(_row)
 
         if (ch === '\n') {
           if (!wasJustWrapped) line++
@@ -47,7 +47,7 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
 
   // need to commit the last row if it doesn't end with a newline/wrap
   const _row = padRow(row, line, document)
-  if (_row) rows.push(_row)
+  rows.push(_row)
 
   return rows
 }
@@ -68,8 +68,6 @@ function makeCell(
 }
 
 function padRow(row: Cell[], line: number, document: DocumentState) {
-  if (row.length === 0) return
-
   while (row.length < document.columns) {
     const cell = makeCell(line, row.length, '', document)
     row.push(cell)

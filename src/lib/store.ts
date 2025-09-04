@@ -1,5 +1,9 @@
 import { create } from 'zustand'
-import { deleteRange, insertTextAt, PieceTable } from './piece-table'
+import {
+  deleteBackwardsFromRowCol,
+  insertAtRowCol,
+  PieceTable,
+} from './piece-table'
 
 export interface DocumentState {
   fontSize: number
@@ -60,28 +64,40 @@ export const useDocumentStore = create<DocumentState>((set) => ({
 
 export interface PieceTableState {
   pt: PieceTable
-  insertRange: (pos: number, substr: string) => void
-  deleteRange: (pos: number, length: number) => void
+  insertRange: (substr: string) => void
+  deleteRange: (length: number) => void
 }
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
-    original: '',
-    add: '',
-    pieces: [{ buffer: 'original', start: 0, length: 1 }],
+    original: '    你\n好 世界',
+    add: '\n我是',
+    pieces: [
+      { buffer: 'original', start: 0, length: 10 },
+      { buffer: 'add', start: 0, length: 3 },
+    ],
   },
-  insertRange: (pos: number, text: string) => {
+  insertRange: (text: string) => {
+    const cursor = useCursorStore.getState()
+    const document = useDocumentStore.getState()
     set((state) => {
-      // clone shallow (so zustand sees a new object)
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      insertTextAt(pt, pos, text)
+      insertAtRowCol(pt, cursor.cursorRow, cursor.cursorCol, text, document)
       return { pt }
     })
   },
-  deleteRange: (pos: number, length: number) => {
+  deleteRange: (length: number) => {
+    const cursor = useCursorStore.getState()
+    const document = useDocumentStore.getState()
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      deleteRange(pt, pos, length)
+      deleteBackwardsFromRowCol(
+        pt,
+        cursor.cursorRow,
+        cursor.cursorCol,
+        length,
+        document,
+      )
       return { pt }
     })
   },
