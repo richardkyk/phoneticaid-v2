@@ -136,3 +136,14 @@ code {
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: 'KaiTi2';
+  src: url('/fonts/KaiTi2.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'KaiTi2', sans-serif;
+}
