@@ -44,6 +44,10 @@ export function insertAtRowCol(
 
   // Find piece index and offset in piece
   const [pieceIndex, offsetInPiece] = getPieceIndex(pt, row, col, document)
+  if (pieceIndex === null || offsetInPiece === null) {
+    console.log("we're trying to insert at a padded cell")
+    return
+  }
 
   // Split the piece at insertion point
   const [left, right] = splitPiece(pt.pieces[pieceIndex], offsetInPiece)
@@ -64,7 +68,7 @@ function getPieceIndex(
   row: number,
   col: number,
   document: DocumentState,
-): [number, number] {
+): [number | null, number | null] {
   let curRow = 0
   let curCol = 0
 
@@ -84,9 +88,9 @@ function getPieceIndex(
       }
     }
   }
-
-  // If row/col is beyond current text, insert at the end
-  return [pt.pieces.length - 1, pt.pieces[pt.pieces.length - 1].length]
+  // If we're still here, it means (row,col) was beyond content.
+  // That means it's in a padded cell → return sentinel.
+  return [null, null]
 }
 
 export function deleteBackwardsFromRowCol(
@@ -99,10 +103,14 @@ export function deleteBackwardsFromRowCol(
   if (length <= 0) return
 
   let [pieceIndex, offsetInPiece] = getPieceIndex(pt, row, col, document)
+  // Cursor is in padding → nothing to delete
+  if (pieceIndex === null || offsetInPiece === null) return
+
   let remaining = length
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
+    console.log(p)
 
     if (offsetInPiece === 0) {
       // Cursor is at the start of this piece → delete from previous piece

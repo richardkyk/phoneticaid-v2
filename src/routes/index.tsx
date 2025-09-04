@@ -74,7 +74,9 @@ function App() {
     }
     if (e.key === 'Backspace') {
       deleteRange(1)
-      updateCursor(cursorRow, cursorCol - 1)
+      const newCursorCol = cursorCol === 0 ? document.columns : cursorCol - 1
+      const newCursorRow = cursorCol === 0 ? cursorRow - 1 : cursorRow
+      updateCursor(newCursorRow, newCursorCol)
       return
     }
   }
