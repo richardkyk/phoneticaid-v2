@@ -11,7 +11,7 @@ export const Route = createFileRoute('/')({
 function App() {
   const document = useDocumentStore()
 
-  const { rows, originalBuffer, addBuffer } = useContentStore()
+  const { rows, originalBuffer, addBuffer, insertRow } = useContentStore()
 
   const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
     useCursorStore()
@@ -51,6 +51,10 @@ function App() {
 
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
       moveCursor(e.key)
+    }
+
+    if (e.key === 'Enter') {
+      insertRow()
     }
   }
 

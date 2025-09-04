@@ -66,9 +66,10 @@ export interface ContentState {
   }[]
 
   appendAdd: (add: string) => void
+  insertRow: (index?: number) => void
 }
 
-export const useContentStore = create<ContentState>((set) => ({
+export const useContentStore = create<ContentState>((set, get) => ({
   originalBuffer: '你好世界',
   addBuffer: '我叫',
   rows: [
@@ -83,7 +84,55 @@ export const useContentStore = create<ContentState>((set) => ({
     },
   ],
 
-  appendAdd: (val: string) => set({ addBuffer: val }),
+  appendAdd: (val) => set({ addBuffer: val }),
+  insertRow: (index) => {
+    const cursor = useCursorStore.getState()
+    const rowIdx = index || cursor.cursorRow
+    const newRows = [...get().rows]
+    const targetRow = newRows[rowIdx]
+
+    const targetRowPieces = []
+    const newRowPieces = []
+
+    for (const piece of targetRow.pieces) {
+      // contiguous piece remains in the same row
+      if (piece.col + piece.length < cursor.cursorCol) {
+        targetRowPieces.push(piece)
+        continue
+      }
+
+      // contiguous piece moves to the next row
+      if (piece.col > cursor.cursorCol) {
+        const newPiece = {
+          ...piece,
+          col: piece.col - cursor.cursorCol,
+        }
+        newRowPieces.push(newPiece)
+        continue
+      }
+
+      // need to split the piece
+      const targetRowLength = cursor.cursorCol - piece.col
+      const newRowLength = piece.length - targetRowLength
+      targetRowPieces.push({
+        ...piece,
+        length: targetRowLength,
+      })
+      newRowPieces.push({
+        ...piece,
+        start: piece.start + targetRowLength,
+        length: newRowLength,
+        col: 0,
+      })
+    }
+
+    targetRow.pieces = targetRowPieces
+
+    newRows.splice(rowIdx + 1, 0, {
+      pieces: newRowPieces,
+    })
+    set({ rows: newRows })
+  },
 }))
 
 interface CursorState {
