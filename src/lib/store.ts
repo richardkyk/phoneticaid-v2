@@ -8,7 +8,6 @@ export interface DocumentState {
   gapY: number
   marginX: number
   marginY: number
-  mmToPx: number
 
   setFontSize: (fontSize: number) => void
   setColumns: (columns: number) => void
@@ -16,7 +15,6 @@ export interface DocumentState {
   setGapY: (gapY: number) => void
   setMarginX: (marginX: number) => void
   setMarginY: (marginY: number) => void
-  setMmToPx: (mmToPx: number) => void
 }
 
 export const useDocumentStore = create<DocumentState>((set) => ({
@@ -26,10 +24,18 @@ export const useDocumentStore = create<DocumentState>((set) => ({
   gapY: 0,
   marginX: 20,
   marginY: 20,
-  mmToPx: 1,
 
-  setFontSize: (fontSize: number) => set({ fontSize }),
-  setColumns: (columns: number) => set({ columns }),
+  setFontSize: (fontSize: number) => {
+    set({ fontSize })
+    const cursor = useCursorStore.getState()
+    cursor.updateCursor(cursor.cursorRow, cursor.cursorCol)
+  },
+  setColumns: (columns: number) => {
+    set({ columns })
+    const cursor = useCursorStore.getState()
+    const newCursorCol = cursor.cursorCol > columns ? columns : cursor.cursorCol
+    cursor.updateCursor(cursor.cursorRow, newCursorCol)
+  },
   setGapX: (gapX: number) => {
     set({ gapX })
     const cursor = useCursorStore.getState()
@@ -40,9 +46,16 @@ export const useDocumentStore = create<DocumentState>((set) => ({
     const cursor = useCursorStore.getState()
     cursor.updateCursor(cursor.cursorRow, cursor.cursorCol)
   },
-  setMarginX: (marginX: number) => set({ marginX }),
-  setMarginY: (marginY: number) => set({ marginY }),
-  setMmToPx: (mmToPx: number) => set({ mmToPx }),
+  setMarginX: (marginX: number) => {
+    set({ marginX })
+    const cursor = useCursorStore.getState()
+    cursor.updateCursor(cursor.cursorRow, cursor.cursorCol)
+  },
+  setMarginY: (marginY: number) => {
+    set({ marginY })
+    const cursor = useCursorStore.getState()
+    cursor.updateCursor(cursor.cursorRow, cursor.cursorCol)
+  },
 }))
 
 export interface ContentState {

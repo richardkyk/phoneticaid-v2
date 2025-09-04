@@ -84,7 +84,7 @@ function App() {
             style={{
               top: `${cursorY}mm`,
               left: `${cursorX}mm`,
-              width: `max(${document.gapX}mm, 0.5px)`,
+              width: `max(${document.gapX}mm, 2px)`,
               height: `${document.fontSize}mm`,
               transform: `translateX(-100%)`,
             }}
@@ -106,17 +106,21 @@ function App() {
                 return (
                   <div
                     key={`${i}-${j}`}
-                    className="absolute shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-700 cursor-text"
+                    className="absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text"
                     style={{
                       top: `${cell.y}mm`,
                       left: `${cell.x}mm`,
                       width: `${cell.width}mm`,
                       height: `${cell.height}mm`,
-                      fontSize: `${cell.height}mm`,
-                      lineHeight: `${cell.height}mm`,
                     }}
                   >
-                    {cell.content}
+                    <span
+                      style={{
+                        fontSize: `${cell.height}mm`,
+                      }}
+                    >
+                      {cell.content}
+                    </span>
                   </div>
                 )
               })}
