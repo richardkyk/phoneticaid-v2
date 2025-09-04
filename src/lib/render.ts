@@ -1,54 +1,78 @@
+import { PieceTable } from './piece-table'
 import { DocumentState } from './store'
 
 interface Cell {
+  content: string
   x: number
   y: number
   width: number
   height: number
-  content: string
 }
 
-export interface Row {
-  pieces: Piece[]
-  originalBuffer: string
-  addBuffer: string
-}
+export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
+  const rows: Cell[][] = []
+  let row: Cell[] = []
+  let col = 0
+  let line = 0
+  let wasJustWrapped = false
 
-export interface Piece {
-  type: 'original' | 'add'
-  start: number
-  length: number
-  col: number
-}
+  for (const piece of pt.pieces) {
+    const buffer = piece.buffer === 'original' ? pt.original : pt.add
+    for (let i = 0; i < piece.length; i++) {
+      const ch = buffer[piece.start + i]
 
-export function renderRow(
-  rowOffset: number,
-  row: Row,
-  document: DocumentState,
-): Cell[] {
-  const cells = new Array(document.columns).fill(0).map((_, i) => {
-    return {
-      x: document.marginX + i * (document.gapX + document.fontSize),
-      y: document.marginY + rowOffset * (document.gapY + document.fontSize),
-      width: document.fontSize,
-      height: document.fontSize,
-      content: '',
-    }
-  })
+      const cell = makeCell(line, col, ch, document)
+      if (ch !== '\n') row.push(cell)
+      col++
 
-  for (const piece of row.pieces) {
-    const buffer =
-      piece.type === 'original' ? row.originalBuffer : row.addBuffer
+      if (ch === '\n' || col >= document.columns) {
+        const _row = padRow(row, line, document)
+        if (_row) rows.push(_row)
 
-    const content = buffer.slice(piece.start, piece.start + piece.length)
-    const col = piece.col
+        if (ch === '\n') {
+          if (!wasJustWrapped) line++
+          wasJustWrapped = false
+        } else {
+          line++
+          wasJustWrapped = true
+        }
 
-    for (let i = 0; i < content.length; i++) {
-      const char = content[i]
-      if (col + i < cells.length) {
-        cells[col + i].content = char
+        row = []
+        col = 0
+        continue
       }
+      wasJustWrapped = false
     }
   }
-  return cells
+
+  // need to commit the last row if it doesn't end with a newline/wrap
+  const _row = padRow(row, line, document)
+  if (_row) rows.push(_row)
+
+  return rows
+}
+
+function makeCell(
+  row: number,
+  col: number,
+  content: string,
+  document: DocumentState,
+) {
+  return {
+    content,
+    x: col * (document.fontSize + document.gapX) + document.marginX,
+    y: row * (document.fontSize + document.gapY) + document.marginY,
+    width: document.fontSize,
+    height: document.fontSize,
+  }
+}
+
+function padRow(row: Cell[], line: number, document: DocumentState) {
+  if (row.length === 0) return
+
+  while (row.length < document.columns) {
+    const cell = makeCell(line, row.length, '', document)
+    row.push(cell)
+  }
+  return row
 }

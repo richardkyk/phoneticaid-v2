@@ -34,6 +34,7 @@ export default function Toolbar() {
           defaultValue={[columns]}
           onValueChange={([value]) => setColumns(value)}
           max={24}
+          min={1}
           step={1}
         />
       </div>

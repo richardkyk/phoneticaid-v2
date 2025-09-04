@@ -1,5 +1,9 @@
-import { renderRow } from '@/lib/render'
-import { useContentStore, useCursorStore, useDocumentStore } from '@/lib/store'
+import { buildRows } from '@/lib/render'
+import {
+  useCursorStore,
+  useDocumentStore,
+  usePieceTableStore,
+} from '@/lib/store'
 import { getMmToPx } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
 import { useRef } from 'react'
@@ -11,7 +15,8 @@ export const Route = createFileRoute('/')({
 function App() {
   const document = useDocumentStore()
 
-  const { rows, originalBuffer, addBuffer, insertRow } = useContentStore()
+  const pt = usePieceTableStore((state) => state.pt)
+  const rows = buildRows(pt, document)
 
   const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
     useCursorStore()
@@ -51,10 +56,6 @@ function App() {
 
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
       moveCursor(e.key)
-    }
-
-    if (e.key === 'Enter') {
-      insertRow()
     }
   }
 
@@ -96,41 +97,59 @@ function App() {
         )}
 
         {/* Content */}
-
-        {rows.map((row, i) => {
-          const _row = {
-            pieces: row.pieces,
-            originalBuffer,
-            addBuffer,
-          }
-          const cells = renderRow(i, _row, document)
-          return (
-            <div key={i} className="">
-              {cells.map((cell, j) => {
-                return (
-                  <div
-                    key={`${i}-${j}`}
-                    className="absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text"
-                    style={{
-                      top: `${cell.y}mm`,
-                      left: `${cell.x}mm`,
-                      width: `${cell.width}mm`,
-                      height: `${cell.height}mm`,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: `${cell.height}mm`,
-                      }}
-                    >
-                      {cell.content}
-                    </span>
-                  </div>
-                )
-              })}
+        {rows.map((row, i) =>
+          row.map((cell, j) => (
+            <div
+              key={`${i}-${j}`}
+              className="absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text"
+              style={{
+                top: `${cell.y}mm`,
+                left: `${cell.x}mm`,
+                width: `${cell.width}mm`,
+                height: `${cell.height}mm`,
+              }}
+            >
+              <span style={{ fontSize: `${cell.height}mm` }}>
+                {cell.content}
+              </span>
             </div>
-          )
-        })}
+          )),
+        )}
+
+        {/* {rows.map((row, i) => { */}
+        {/*   const _row = { */}
+        {/*     pieces: row.pieces, */}
+        {/*     originalBuffer, */}
+        {/*     addBuffer, */}
+        {/*   } */}
+        {/*   const cells = renderRow(i, _row, document) */}
+        {/*   return ( */}
+        {/*     <div key={i} className=""> */}
+        {/*       {cells.map((cell, j) => { */}
+        {/*         return ( */}
+        {/*           <div */}
+        {/*             key={`${i}-${j}`} */}
+        {/*             className="absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text" */}
+        {/*             style={{ */}
+        {/*               top: `${cell.y}mm`, */}
+        {/*               left: `${cell.x}mm`, */}
+        {/*               width: `${cell.width}mm`, */}
+        {/*               height: `${cell.height}mm`, */}
+        {/*             }} */}
+        {/*           > */}
+        {/*             <span */}
+        {/*               style={{ */}
+        {/*                 fontSize: `${cell.height}mm`, */}
+        {/*               }} */}
+        {/*             > */}
+        {/*               {cell.content} */}
+        {/*             </span> */}
+        {/*           </div> */}
+        {/*         ) */}
+        {/*       })} */}
+        {/*     </div> */}
+        {/*   ) */}
+        {/* })} */}
       </div>
     </div>
   )

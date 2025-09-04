@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Piece } from './render'
+import { deleteRange, insertTextAt, PieceTable } from './piece-table'
 
 export interface DocumentState {
   fontSize: number
@@ -58,80 +58,32 @@ export const useDocumentStore = create<DocumentState>((set) => ({
   },
 }))
 
-export interface ContentState {
-  originalBuffer: string
-  addBuffer: string
-  rows: {
-    pieces: Piece[]
-  }[]
-
-  appendAdd: (add: string) => void
-  insertRow: (index?: number) => void
+export interface PieceTableState {
+  pt: PieceTable
+  insertRange: (pos: number, substr: string) => void
+  deleteRange: (pos: number, length: number) => void
 }
 
-export const useContentStore = create<ContentState>((set, get) => ({
-  originalBuffer: '你好世界',
-  addBuffer: '我叫',
-  rows: [
-    {
-      pieces: [{ type: 'original', start: 0, length: 4, col: 4 }],
-    },
-    {
-      pieces: [
-        { type: 'add', start: 0, length: 1, col: 2 },
-        { type: 'add', start: 1, length: 1, col: 8 },
-      ],
-    },
-  ],
-
-  appendAdd: (val) => set({ addBuffer: val }),
-  insertRow: (index) => {
-    const cursor = useCursorStore.getState()
-    const rowIdx = index || cursor.cursorRow
-    const newRows = [...get().rows]
-    const targetRow = newRows[rowIdx]
-
-    const targetRowPieces = []
-    const newRowPieces = []
-
-    for (const piece of targetRow.pieces) {
-      // contiguous piece remains in the same row
-      if (piece.col + piece.length < cursor.cursorCol) {
-        targetRowPieces.push(piece)
-        continue
-      }
-
-      // contiguous piece moves to the next row
-      if (piece.col > cursor.cursorCol) {
-        const newPiece = {
-          ...piece,
-          col: piece.col - cursor.cursorCol,
-        }
-        newRowPieces.push(newPiece)
-        continue
-      }
-
-      // need to split the piece
-      const targetRowLength = cursor.cursorCol - piece.col
-      const newRowLength = piece.length - targetRowLength
-      targetRowPieces.push({
-        ...piece,
-        length: targetRowLength,
-      })
-      newRowPieces.push({
-        ...piece,
-        start: piece.start + targetRowLength,
-        length: newRowLength,
-        col: 0,
-      })
-    }
-
-    targetRow.pieces = targetRowPieces
-
-    newRows.splice(rowIdx + 1, 0, {
-      pieces: newRowPieces,
+export const usePieceTableStore = create<PieceTableState>((set) => ({
+  pt: {
+    original: '',
+    add: '',
+    pieces: [{ buffer: 'original', start: 0, length: 1 }],
+  },
+  insertRange: (pos: number, text: string) => {
+    set((state) => {
+      // clone shallow (so zustand sees a new object)
+      const pt = { ...state.pt, pieces: [...state.pt.pieces] }
+      insertTextAt(pt, pos, text)
+      return { pt }
     })
-    set({ rows: newRows })
+  },
+  deleteRange: (pos: number, length: number) => {
+    set((state) => {
+      const pt = { ...state.pt, pieces: [...state.pt.pieces] }
+      deleteRange(pt, pos, length)
+      return { pt }
+    })
   },
 }))
 
@@ -155,7 +107,7 @@ export const useCursorStore = create<CursorState>((set, get) => ({
 
   moveCursor: (key: string) => {
     const document = useDocumentStore.getState()
-    const content = useContentStore.getState()
+    // const content = useContentStore.getState()
     const { cursorRow, cursorCol } = get()
     let newCursorRow,
       newCursorCol = 0
@@ -165,11 +117,11 @@ export const useCursorStore = create<CursorState>((set, get) => ({
         if (newCursorRow < 0) return
         get().updateCursor(newCursorRow, cursorCol)
         break
-      case 'ArrowDown':
-        newCursorRow = cursorRow + 1
-        if (newCursorRow >= content.rows.length) return
-        get().updateCursor(newCursorRow, cursorCol)
-        break
+      // case 'ArrowDown':
+      //   newCursorRow = cursorRow + 1
+      //   if (newCursorRow >= content.rows.length) return
+      //   get().updateCursor(newCursorRow, cursorCol)
+      //   break
       case 'ArrowLeft':
         newCursorCol = cursorCol - 1
         if (newCursorCol < 0) return
