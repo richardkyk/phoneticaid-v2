@@ -87,30 +87,50 @@ export function getPieceIndex(
   col: number,
   document: DocumentState,
 ): {
-  padding: boolean
+  padding: number
   pieceIndex: number
   offsetInPiece: number
 } {
+  let lastCol = 0
   let lastPieceIndex = 0
   let lastOffsetInPiece = 0
+
+  let prevCol = 0
+  let prevPieceIndex = 0
+  let prevOffsetInPiece = 0
+  console.log(`searching for cell (${row}, ${col})`)
 
   for (const { row: r, col: c, pieceIndex, offsetInPiece } of walkPieces(
     pt,
     document,
   )) {
+    lastCol = c
     lastPieceIndex = pieceIndex
     lastOffsetInPiece = offsetInPiece
 
+    console.log(`(${r}, ${c}) ${pieceIndex} ${offsetInPiece}`)
+
     if (r === row && c === col) {
-      return { padding: false, pieceIndex, offsetInPiece }
+      return { padding: 0, pieceIndex, offsetInPiece }
     }
+
+    if (r > row) {
+      console.log('in virtual cell, padding: ', col - prevCol)
+      return {
+        padding: col - prevCol,
+        pieceIndex: prevPieceIndex,
+        offsetInPiece: prevOffsetInPiece,
+      }
+    }
+    prevCol = c
+    prevPieceIndex = pieceIndex
+    prevOffsetInPiece = offsetInPiece
   }
 
-  // If we didn’t find the exact cell, we’re in padding after the last character
   return {
-    padding: true,
-    pieceIndex: lastPieceIndex,
-    offsetInPiece: lastOffsetInPiece + 1, // cursor is after the last character
+    padding: col - lastCol - 1,
+    pieceIndex: lastPieceIndex + 1,
+    offsetInPiece: 0,
   }
 }
 
@@ -121,42 +141,32 @@ export function insertAtRowCol(
   text: string,
   document: DocumentState,
 ) {
-  // Append new text to add buffer
-  const addStart = pt.add.length
-  pt.add += text
-  const newPiece: Piece = {
-    buffer: 'add',
-    start: addStart,
-    length: text.length,
-  }
-  console.log(pt)
+  console.log('before', JSON.stringify(pt, null, 2))
 
-  // Find piece index and offset in piece
   const { padding, pieceIndex, offsetInPiece } = getPieceIndex(
     pt,
     row,
     col,
     document,
   )
-  if (padding) {
-    // since we are in padding, there is no piece that spans this area
-    // so we can just insert the new piece at the end
-    // but we need to pad the piece based on the offset
-    const piecesToInsert: Piece[] = []
+  console.log(
+    `found corresponding piece at index ${pieceIndex} and offset ${offsetInPiece}`,
+  )
 
-    if (offsetInPiece > 0) {
-      pt.add += ' '.repeat(offsetInPiece)
-      const paddingPiece: Piece = {
-        buffer: 'add',
-        start: pt.add.length,
-        length: offsetInPiece,
-      }
-      piecesToInsert.push(paddingPiece)
-    }
-    piecesToInsert.push(newPiece)
+  const addStart = pt.add.length
+  if (padding > 0) {
+    pt.add += ' '.repeat(padding)
+  }
+  pt.add += text
+  const newPiece: Piece = {
+    buffer: 'add',
+    start: addStart,
+    length: pt.add.length - addStart,
+  }
 
-    pt.pieces.splice(pieceIndex, 0, ...piecesToInsert)
-    return getCursorPosition(pt, pieceIndex + 2, 0, document)
+  if (pieceIndex > pt.pieces.length) {
+    pt.pieces.push(newPiece)
+    return getCursorPosition(pt, pt.pieces.length - 1, pt.add.length, document)
   }
 
   // Split the piece at insertion point
@@ -168,8 +178,11 @@ export function insertAtRowCol(
   piecesToInsert.push(newPiece) // insert new piece
   if (right) piecesToInsert.push(right) // keep right part
 
+  console.log('piecesToInsert', piecesToInsert)
+
   // Replace the original piece with new pieces
   pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)
+  console.log('after', JSON.stringify(pt, null, 2))
   return getCursorPosition(pt, pieceIndex + 2, 0, document)
 }
 
@@ -182,14 +195,7 @@ export function deleteBackwardsFromRowCol(
 ) {
   if (length <= 0 || (row === 0 && col === 0)) return
 
-  let { padding, pieceIndex, offsetInPiece } = getPieceIndex(
-    pt,
-    row,
-    col,
-    document,
-  )
-  // Cursor is in padding → nothing to delete
-  if (padding) return
+  let { pieceIndex, offsetInPiece } = getPieceIndex(pt, row, col, document)
 
   // the piece index that was returned is for the piece to the right of the cursor
   if (offsetInPiece > 0) {

@@ -23,7 +23,7 @@ export interface DocumentState {
 
 export const useDocumentStore = create<DocumentState>((set) => ({
   fontSize: 10,
-  columns: 2,
+  columns: 3,
   gapX: 0,
   gapY: 0,
   marginX: 20,
@@ -70,11 +70,15 @@ export interface PieceTableState {
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
-    original: 'ab\nc',
-    add: '\n\n1x3',
+    original: 'abc\ndef',
+    add: '123',
     pieces: [
-      { buffer: 'original', start: 0, length: 4 },
-      { buffer: 'add', start: 0, length: 5 },
+      { buffer: 'original', start: 0, length: 7 },
+      {
+        buffer: 'add',
+        start: 0,
+        length: 3,
+      },
     ],
   },
   insertRange: (text: string) => {
@@ -107,7 +111,16 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
         document,
       )
       console.log(newPos)
-      if (newPos) cursor.updateCursor(newPos.curRow, newPos.curCol)
+      if (newPos) {
+        cursor.updateCursor(newPos.curRow, newPos.curCol)
+      } else {
+        if (cursor.cursorRow === 0 && cursor.cursorCol === 0) return { pt }
+
+        const newCursorCol =
+          cursor.cursorCol > 0 ? cursor.cursorCol - 1 : document.columns
+        const newCursorRow = cursor.cursorCol === 0 ? cursor.cursorRow - 1 : 0
+        cursor.updateCursor(newCursorRow, newCursorCol)
+      }
       return { pt }
     })
   },

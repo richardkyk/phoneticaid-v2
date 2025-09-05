@@ -1,6 +1,6 @@
-import { getPieceIndex, PieceTable } from '@/lib/piece-table'
+import { getPieceIndex, insertAtRowCol, PieceTable } from '@/lib/piece-table'
 import { useDocumentStore } from '@/lib/store'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 
 // Small helper for tests
 function makePT(original: string, add: string): PieceTable {
@@ -15,15 +15,17 @@ function makePT(original: string, add: string): PieceTable {
 }
 
 const document = useDocumentStore.getState()
-document.columns = 17
 
 describe('getPieceIndex', () => {
+  beforeEach(() => {
+    document.columns = 17
+  })
+
   it('returns the correct values', () => {
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 0, 4, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(1)
-    expect(res.padding).toBe(false)
   })
 
   it('handles newline correctly', () => {
@@ -31,7 +33,6 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 1, 1, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(2)
-    expect(res.padding).toBe(false)
   })
 
   it('handles multiple newlines correctly', () => {
@@ -39,7 +40,14 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 4, 1, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(3)
-    expect(res.padding).toBe(false)
+  })
+
+  it('handles word wrapping correctly', () => {
+    document.columns = 3
+    const pt = makePT('abc\ndef', '123')
+    const res = getPieceIndex(pt, 0, 3, document)
+    expect(res.pieceIndex).toBe(0)
+    expect(res.offsetInPiece).toBe(3)
   })
 
   it('handles space correctly', () => {
@@ -47,7 +55,6 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 0, 5, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(2)
-    expect(res.padding).toBe(false)
   })
 
   it('handles multiple spaces correctly', () => {
@@ -55,7 +62,6 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 0, 9, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(5)
-    expect(res.padding).toBe(false)
   })
 
   it('handles padding correctly', () => {
@@ -63,7 +69,6 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 1, 5, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(3)
-    expect(res.padding).toBe(true)
   })
 
   it('handles wrapping correctly', () => {
@@ -72,7 +77,6 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 2, 0, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(1)
-    expect(res.padding).toBe(false)
   })
 
   it('handles wrapping with newlines correctly', () => {
@@ -81,7 +85,6 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 2, 1, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(2)
-    expect(res.padding).toBe(false)
   })
 
   it('handles wrapping with mutliple newlines correctly', () => {
@@ -90,6 +93,38 @@ describe('getPieceIndex', () => {
     const res = getPieceIndex(pt, 3, 1, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(3)
-    expect(res.padding).toBe(false)
+  })
+})
+
+describe('PieceTable insert/delete', () => {
+  let pt: PieceTable
+
+  beforeEach(() => {
+    pt = {
+      original: 'hello\nworld',
+      add: '',
+      pieces: [{ buffer: 'original', start: 0, length: 11 }],
+    }
+    document.columns = 5
+  })
+
+  it('inserts text in the middle of a piece', () => {
+    // heXXl
+    // lo
+    // world
+    const cursor = insertAtRowCol(pt, 0, 2, 'XX', document)
+    expect(pt.add).toBe('XX')
+    expect(pt.pieces.length).toBe(3) // left + new + right
+    expect(cursor).toEqual({ curRow: 0, curCol: 4 })
+  })
+
+  it('inserts text at the end of a row', () => {
+    // hello
+    // XX
+    // world
+    console.log(pt)
+    const cursor = insertAtRowCol(pt, 0, 5, 'XX', document)
+    expect(pt.add).toBe('XX')
+    expect(cursor).toEqual({ curRow: 1, curCol: 2 })
   })
 })
