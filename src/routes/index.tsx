@@ -20,15 +20,8 @@ function App() {
   const deleteRange = usePieceTableStore((state) => state.deleteRange)
   const rows = buildRows(pt, document)
 
-  const {
-    cursorVisible,
-    cursorRow,
-    cursorCol,
-    cursorX,
-    cursorY,
-    updateCursor,
-    moveCursor,
-  } = useCursorStore()
+  const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
+    useCursorStore()
 
   const editorRef = useRef<HTMLDivElement>(null)
 
@@ -69,14 +62,10 @@ function App() {
     }
     if (e.key === 'Enter') {
       insertRange('\n')
-      updateCursor(cursorRow + 1, 0)
       return
     }
     if (e.key === 'Backspace') {
       deleteRange(1)
-      const newCursorCol = cursorCol === 0 ? document.columns : cursorCol - 1
-      const newCursorRow = cursorCol === 0 ? cursorRow - 1 : cursorRow
-      updateCursor(newCursorRow, newCursorCol)
       return
     }
   }
