@@ -67,21 +67,29 @@ describe('getPieceIndex', () => {
   })
 
   it('handles wrapping correctly', () => {
-    const _document = { ...document, columns: 2 }
+    document.columns = 2
     const pt = makePT('abc', '1x3')
-    const res = getPieceIndex(pt, 2, 0, _document)
+    const res = getPieceIndex(pt, 2, 0, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(1)
     expect(res.padding).toBe(false)
   })
 
   it('handles wrapping with newlines correctly', () => {
-    const _document = { ...document, columns: 2 }
+    document.columns = 2
     const pt = makePT('ab\nc', '\n1x3')
-    const res = getPieceIndex(pt, 2, 1, _document)
-    console.log(res)
+    const res = getPieceIndex(pt, 2, 1, document)
     expect(res.pieceIndex).toBe(1)
     expect(res.offsetInPiece).toBe(2)
+    expect(res.padding).toBe(false)
+  })
+
+  it('handles wrapping with mutliple newlines correctly', () => {
+    document.columns = 2
+    const pt = makePT('ab\nc', '\n\n1x3')
+    const res = getPieceIndex(pt, 3, 1, document)
+    expect(res.pieceIndex).toBe(1)
+    expect(res.offsetInPiece).toBe(3)
     expect(res.padding).toBe(false)
   })
 })
