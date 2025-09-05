@@ -64,11 +64,11 @@ describe('getPieceIndex', () => {
     expect(res.offsetInPiece).toBe(5)
   })
 
-  it('handles padding correctly', () => {
+  it('should show index at the end of array', () => {
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 1, 5, document)
-    expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(3)
+    expect(res.pieceIndex).toBe(2)
+    expect(res.offsetInPiece).toBe(0)
   })
 
   it('handles wrapping correctly', () => {
@@ -96,7 +96,7 @@ describe('getPieceIndex', () => {
   })
 })
 
-describe('PieceTable insert/delete', () => {
+describe('PieceTable insert', () => {
   let pt: PieceTable
 
   beforeEach(() => {

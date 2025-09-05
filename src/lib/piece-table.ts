@@ -115,11 +115,11 @@ export function getPieceIndex(
     }
 
     if (r > row) {
-      console.log('in virtual cell, padding: ', col - prevCol)
+      console.log('in virtual cell, padding: ', col - (prevCol + 1))
       return {
-        padding: col - prevCol,
+        padding: col - (prevCol + 1), // its prevCol + 1 since the prevCol is occupied, so we want the cell right after it
         pieceIndex: prevPieceIndex,
-        offsetInPiece: prevOffsetInPiece,
+        offsetInPiece: prevOffsetInPiece + 1,
       }
     }
     prevCol = c
@@ -152,6 +152,8 @@ export function insertAtRowCol(
   console.log(
     `found corresponding piece at index ${pieceIndex} and offset ${offsetInPiece}`,
   )
+
+  if (text.length === 0) return
 
   const addStart = pt.add.length
   if (padding > 0) {
