@@ -12,44 +12,68 @@ interface Cell {
 export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
   const rows: Cell[][] = []
   let row: Cell[] = []
+  let lastRowNumber = 0
+
+  for (const { row: r, col: c, ch } of walkPieces(pt, document)) {
+    const cell = makeCell(r, c, ch, document)
+    if (ch !== '\n') row.push(cell)
+
+    // commit row on newline or column wrap
+    if (ch === '\n' || c === document.columns - 1) {
+      rows.push(padRow(row, r, document))
+      row = []
+    }
+
+    lastRowNumber = r
+  }
+
+  // commit remaining row (that didn't end with newline or wrap)
+  if (row.length > 0) {
+    rows.push(padRow(row, lastRowNumber, document))
+  }
+
+  return rows
+}
+
+export function* walkPieces(pt: PieceTable, document: DocumentState) {
+  let row = 0
   let col = 0
-  let line = 0
   let wasJustWrapped = false
 
-  for (const piece of pt.pieces) {
+  for (let i = 0; i < pt.pieces.length; i++) {
+    const piece = pt.pieces[i]
     const buffer = piece.buffer === 'original' ? pt.original : pt.add
-    for (let i = 0; i < piece.length; i++) {
-      const ch = buffer[piece.start + i]
 
-      const cell = makeCell(line, col, ch, document)
-      if (ch !== '\n') row.push(cell)
+    for (let j = 0; j < piece.length; j++) {
+      const ch = buffer[piece.start + j]
+
+      // Yield current visual position
+      yield {
+        row,
+        col,
+        ch,
+        pieceIndex: i,
+        offsetInPiece: j,
+      }
+
       col++
 
       if (ch === '\n' || col >= document.columns) {
-        const _row = padRow(row, line, document)
-        rows.push(_row)
-
-        if (ch === '\n') {
-          if (!wasJustWrapped) line++
-          wasJustWrapped = false
+        if (ch === '\n' && wasJustWrapped) {
+          // Do not increment row again
+          col = 0
         } else {
-          line++
-          wasJustWrapped = true
+          row++
+          col = 0
         }
 
-        row = []
-        col = 0
-        continue
+        // Track wrap status
+        wasJustWrapped = ch !== '\n' && col === 0
+      } else {
+        wasJustWrapped = false
       }
-      wasJustWrapped = false
     }
   }
-
-  // need to commit the last row if it doesn't end with a newline/wrap
-  const _row = padRow(row, line, document)
-  rows.push(_row)
-
-  return rows
 }
 
 function makeCell(

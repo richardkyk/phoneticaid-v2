@@ -23,7 +23,7 @@ export interface DocumentState {
 
 export const useDocumentStore = create<DocumentState>((set) => ({
   fontSize: 10,
-  columns: 17,
+  columns: 2,
   gapX: 0,
   gapY: 0,
   marginX: 20,
@@ -70,16 +70,27 @@ export interface PieceTableState {
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
-    original: ' 你好世界',
-    add: '',
-    pieces: [{ buffer: 'original', start: 0, length: 5 }],
+    original: 'ab\nc',
+    add: '\n\n1x3',
+    pieces: [
+      { buffer: 'original', start: 0, length: 4 },
+      { buffer: 'add', start: 0, length: 5 },
+    ],
   },
   insertRange: (text: string) => {
     const cursor = useCursorStore.getState()
     const document = useDocumentStore.getState()
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      insertAtRowCol(pt, cursor.cursorRow, cursor.cursorCol, text, document)
+      const newPos = insertAtRowCol(
+        pt,
+        cursor.cursorRow,
+        cursor.cursorCol,
+        text,
+        document,
+      )
+      console.log(newPos)
+      cursor.updateCursor(newPos.curRow, newPos.curCol)
       return { pt }
     })
   },
@@ -88,13 +99,15 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
     const document = useDocumentStore.getState()
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      deleteBackwardsFromRowCol(
+      const newPos = deleteBackwardsFromRowCol(
         pt,
         cursor.cursorRow,
         cursor.cursorCol,
         length,
         document,
       )
+      console.log(newPos)
+      if (newPos) cursor.updateCursor(newPos.curRow, newPos.curCol)
       return { pt }
     })
   },

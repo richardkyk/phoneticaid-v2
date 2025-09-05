@@ -1,3 +1,4 @@
+import { walkPieces } from './render'
 import { DocumentState } from './store'
 
 type BufferType = 'original' | 'add'
@@ -14,6 +15,28 @@ export interface PieceTable {
   pieces: Piece[]
 }
 
+// Split a piece at a given offset, return [left, right]
+// If offset is 0, left is null; if offset === length, right is null
+function splitPiece(
+  piece: Piece,
+  offset: number,
+): [Piece | null, Piece | null] {
+  if (offset <= 0) return [null, { ...piece }]
+  if (offset >= piece.length) return [{ ...piece }, null]
+
+  const left: Piece = {
+    buffer: piece.buffer,
+    start: piece.start,
+    length: offset,
+  }
+  const right: Piece = {
+    buffer: piece.buffer,
+    start: piece.start + offset,
+    length: piece.length - offset,
+  }
+  return [left, right]
+}
+
 // Get text back out (for debugging / rendering)
 export function getText(pt: PieceTable): string {
   return pt.pieces
@@ -24,6 +47,71 @@ export function getText(pt: PieceTable): string {
       ),
     )
     .join('')
+}
+
+export function getCursorPosition(
+  pt: PieceTable,
+  pieceIndex: number,
+  offsetInPiece: number,
+  document: DocumentState,
+) {
+  for (const { row, col, pieceIndex: i, offsetInPiece: j } of walkPieces(
+    pt,
+    document,
+  )) {
+    if (i === pieceIndex && j === offsetInPiece) {
+      return { curRow: row, curCol: col }
+    }
+  }
+
+  // fallback: cursor at the end of the last piece
+  const lastPiece = pt.pieces[pt.pieces.length - 1]
+  const lastOffset = lastPiece.length - 1
+  for (const { row, col, pieceIndex: i, offsetInPiece: j } of walkPieces(
+    pt,
+    document,
+  )) {
+    if (i === pt.pieces.length - 1 && j === lastOffset) {
+      return { curRow: row, curCol: col + 1 } // cursor after last character
+    }
+  }
+
+  // default fallback
+  return { curRow: 0, curCol: 0 }
+}
+
+// Walk the pieces to find the insertion point
+export function getPieceIndex(
+  pt: PieceTable,
+  row: number,
+  col: number,
+  document: DocumentState,
+): {
+  padding: boolean
+  pieceIndex: number
+  offsetInPiece: number
+} {
+  let lastPieceIndex = 0
+  let lastOffsetInPiece = 0
+
+  for (const { row: r, col: c, pieceIndex, offsetInPiece } of walkPieces(
+    pt,
+    document,
+  )) {
+    lastPieceIndex = pieceIndex
+    lastOffsetInPiece = offsetInPiece
+
+    if (r === row && c === col) {
+      return { padding: false, pieceIndex, offsetInPiece }
+    }
+  }
+
+  // If we didn’t find the exact cell, we’re in padding after the last character
+  return {
+    padding: true,
+    pieceIndex: lastPieceIndex,
+    offsetInPiece: lastOffsetInPiece + 1, // cursor is after the last character
+  }
 }
 
 export function insertAtRowCol(
@@ -41,6 +129,7 @@ export function insertAtRowCol(
     start: addStart,
     length: text.length,
   }
+  console.log(pt)
 
   // Find piece index and offset in piece
   const { padding, pieceIndex, offsetInPiece } = getPieceIndex(
@@ -67,7 +156,7 @@ export function insertAtRowCol(
     piecesToInsert.push(newPiece)
 
     pt.pieces.splice(pieceIndex, 0, ...piecesToInsert)
-    return
+    return getCursorPosition(pt, pieceIndex + 2, 0, document)
   }
 
   // Split the piece at insertion point
@@ -81,55 +170,7 @@ export function insertAtRowCol(
 
   // Replace the original piece with new pieces
   pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)
-}
-
-// Walk the pieces to find the insertion point
-function getPieceIndex(
-  pt: PieceTable,
-  row: number,
-  col: number,
-  document: DocumentState,
-): {
-  padding: boolean
-  pieceIndex: number
-  offsetInPiece: number
-} {
-  let curRow = 0
-  let curCol = 0
-
-  for (let i = 0; i < pt.pieces.length; i++) {
-    const piece = pt.pieces[i]
-    const buffer = piece.buffer === 'original' ? pt.original : pt.add
-
-    for (let j = 0; j <= piece.length; j++) {
-      if (curRow === row && curCol === col) {
-        return { padding: false, pieceIndex: i, offsetInPiece: j }
-      }
-
-      curCol++
-      if (buffer[piece.start + j] === '\n' || curCol >= document.columns) {
-        // we are about to go to the next row
-        if (curRow === row) {
-          // since we are in the target row, and about to go to the next row, this must mean we are in padding
-          return {
-            padding: true,
-            pieceIndex: i,
-            offsetInPiece: col - curCol,
-          }
-        }
-
-        curRow++
-        curCol = 0
-      }
-    }
-  }
-
-  // otherwise return the last piece
-  return {
-    padding: true,
-    pieceIndex: pt.pieces.length - 1,
-    offsetInPiece: pt.pieces[pt.pieces.length - 1].length,
-  }
+  return getCursorPosition(pt, pieceIndex + 2, 0, document)
 }
 
 export function deleteBackwardsFromRowCol(
@@ -139,7 +180,7 @@ export function deleteBackwardsFromRowCol(
   length: number,
   document: DocumentState,
 ) {
-  if (length <= 0) return
+  if (length <= 0 || (row === 0 && col === 0)) return
 
   let { padding, pieceIndex, offsetInPiece } = getPieceIndex(
     pt,
@@ -150,33 +191,52 @@ export function deleteBackwardsFromRowCol(
   // Cursor is in padding → nothing to delete
   if (padding) return
 
+  // the piece index that was returned is for the piece to the right of the cursor
+  if (offsetInPiece > 0) {
+    offsetInPiece--
+  } else {
+    // at the start of a piece → step into the previous piece
+    pieceIndex--
+    if (pieceIndex < 0) return
+    offsetInPiece = pt.pieces[pieceIndex].length - 1
+  }
+
+  let newPieceIndex = pieceIndex
+  let newOffsetInPiece = offsetInPiece
   let remaining = length
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
 
     if (remaining >= p.length) {
+      console.log('delete the whole piece')
       // delete the whole piece
       pt.pieces.splice(pieceIndex, 1)
       remaining -= p.length
+      newPieceIndex = pieceIndex
       pieceIndex--
       continue
     }
 
     if (offsetInPiece === 0 || offsetInPiece === remaining) {
+      console.log('removal from the start')
       // removal from the start
       p.start += remaining
       p.length -= remaining
-      remaining = 0
-      continue
+      newPieceIndex = pieceIndex
+      break
     }
 
     if (offsetInPiece === p.length) {
+      console.log('removal from the end')
       // removal from the end
       p.length -= remaining
-      remaining = 0
-      continue
+      newPieceIndex = pieceIndex + 1
+      newOffsetInPiece = p.length
+      break
     }
+
+    console.log('removal from the middle')
 
     // otherwise remove it from the middle
     const [left, rest] = splitPiece(p, offsetInPiece - remaining)
@@ -186,28 +246,8 @@ export function deleteBackwardsFromRowCol(
         pt.pieces.splice(pieceIndex, 1, ...[left, right])
       }
     }
-    remaining = 0
+    newPieceIndex = pieceIndex + 1
+    break
   }
-}
-
-// Split a piece at a given offset, return [left, right]
-// If offset is 0, left is null; if offset === length, right is null
-function splitPiece(
-  piece: Piece,
-  offset: number,
-): [Piece | null, Piece | null] {
-  if (offset <= 0) return [null, { ...piece }]
-  if (offset >= piece.length) return [{ ...piece }, null]
-
-  const left: Piece = {
-    buffer: piece.buffer,
-    start: piece.start,
-    length: offset,
-  }
-  const right: Piece = {
-    buffer: piece.buffer,
-    start: piece.start + offset,
-    length: piece.length - offset,
-  }
-  return [left, right]
+  return getCursorPosition(pt, newPieceIndex, newOffsetInPiece, document)
 }
