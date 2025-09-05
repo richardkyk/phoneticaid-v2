@@ -43,9 +43,30 @@ export function insertAtRowCol(
   }
 
   // Find piece index and offset in piece
-  const [pieceIndex, offsetInPiece] = getPieceIndex(pt, row, col, document)
-  if (pieceIndex === null || offsetInPiece === null) {
-    console.log("we're trying to insert at a padded cell")
+  const { padding, pieceIndex, offsetInPiece } = getPieceIndex(
+    pt,
+    row,
+    col,
+    document,
+  )
+  if (padding) {
+    // since we are in padding, there is no piece that spans this area
+    // so we can just insert the new piece at the end
+    // but we need to pad the piece based on the offset
+    const piecesToInsert: Piece[] = []
+
+    if (offsetInPiece > 0) {
+      pt.add += ' '.repeat(offsetInPiece)
+      const paddingPiece: Piece = {
+        buffer: 'add',
+        start: pt.add.length,
+        length: offsetInPiece,
+      }
+      piecesToInsert.push(paddingPiece)
+    }
+    piecesToInsert.push(newPiece)
+
+    pt.pieces.splice(pieceIndex, 0, ...piecesToInsert)
     return
   }
 
@@ -68,7 +89,11 @@ function getPieceIndex(
   row: number,
   col: number,
   document: DocumentState,
-): [number | null, number | null] {
+): {
+  padding: boolean
+  pieceIndex: number
+  offsetInPiece: number
+} {
   let curRow = 0
   let curCol = 0
 
@@ -78,19 +103,32 @@ function getPieceIndex(
 
     for (let j = 0; j < piece.length; j++) {
       if (curRow === row && curCol === col) {
-        return [i, j]
+        return { padding: false, pieceIndex: i, offsetInPiece: j }
       }
 
       curCol++
       if (buffer[piece.start + j] === '\n' || curCol >= document.columns) {
+        // we are about to go to the next row
+        if (curRow === row) {
+          // since we are in the target row, and about to go to the next row, this must mean we are in padding
+          return {
+            padding: true,
+            pieceIndex: curRow,
+            offsetInPiece: col - curCol,
+          }
+        }
+
         curRow++
         curCol = 0
       }
     }
   }
-  // If we're still here, it means (row,col) was beyond content.
-  // That means it's in a padded cell → return sentinel.
-  return [null, null]
+  // otherwise return the last piece
+  return {
+    padding: true,
+    pieceIndex: pt.pieces.length - 1,
+    offsetInPiece: pt.pieces[pt.pieces.length - 1].length,
+  }
 }
 
 export function deleteBackwardsFromRowCol(
@@ -102,15 +140,20 @@ export function deleteBackwardsFromRowCol(
 ) {
   if (length <= 0) return
 
-  let [pieceIndex, offsetInPiece] = getPieceIndex(pt, row, col, document)
+  let { padding, pieceIndex, offsetInPiece } = getPieceIndex(
+    pt,
+    row,
+    col,
+    document,
+  )
   // Cursor is in padding → nothing to delete
-  if (pieceIndex === null || offsetInPiece === null) return
+  if (padding) return
 
+  console.log(pt, pieceIndex, offsetInPiece)
   let remaining = length
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
-    console.log(p)
 
     if (offsetInPiece === 0) {
       // Cursor is at the start of this piece → delete from previous piece
