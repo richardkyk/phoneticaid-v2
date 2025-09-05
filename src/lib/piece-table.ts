@@ -101,7 +101,7 @@ function getPieceIndex(
     const piece = pt.pieces[i]
     const buffer = piece.buffer === 'original' ? pt.original : pt.add
 
-    for (let j = 0; j < piece.length; j++) {
+    for (let j = 0; j <= piece.length; j++) {
       if (curRow === row && curCol === col) {
         return { padding: false, pieceIndex: i, offsetInPiece: j }
       }
@@ -113,7 +113,7 @@ function getPieceIndex(
           // since we are in the target row, and about to go to the next row, this must mean we are in padding
           return {
             padding: true,
-            pieceIndex: curRow,
+            pieceIndex: i,
             offsetInPiece: col - curCol,
           }
         }
@@ -123,6 +123,7 @@ function getPieceIndex(
       }
     }
   }
+
   // otherwise return the last piece
   return {
     padding: true,
@@ -149,39 +150,43 @@ export function deleteBackwardsFromRowCol(
   // Cursor is in padding → nothing to delete
   if (padding) return
 
-  console.log(pt, pieceIndex, offsetInPiece)
   let remaining = length
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
 
-    if (offsetInPiece === 0) {
-      // Cursor is at the start of this piece → delete from previous piece
+    if (remaining >= p.length) {
+      // delete the whole piece
+      pt.pieces.splice(pieceIndex, 1)
+      remaining -= p.length
       pieceIndex--
-      if (pieceIndex >= 0) {
-        offsetInPiece = pt.pieces[pieceIndex].length
-      }
       continue
     }
 
-    if (offsetInPiece <= remaining) {
-      // Delete whole left part of this piece
-      p.length -= offsetInPiece
-      offsetInPiece = 0
-      remaining -= offsetInPiece
-
-      // If piece becomes empty, remove it
-      if (p.length === 0) {
-        pt.pieces.splice(pieceIndex, 1)
-      } else {
-        pieceIndex--
-      }
-    } else {
-      // Delete only part of this piece
+    if (offsetInPiece === 0 || offsetInPiece === remaining) {
+      // removal from the start
+      p.start += remaining
       p.length -= remaining
-      offsetInPiece -= remaining
       remaining = 0
+      continue
     }
+
+    if (offsetInPiece === p.length) {
+      // removal from the end
+      p.length -= remaining
+      remaining = 0
+      continue
+    }
+
+    // otherwise remove it from the middle
+    const [left, rest] = splitPiece(p, offsetInPiece - remaining)
+    if (left && rest) {
+      const [_, right] = splitPiece(rest, remaining)
+      if (right) {
+        pt.pieces.splice(pieceIndex, 1, ...[left, right])
+      }
+    }
+    remaining = 0
   }
 }
 

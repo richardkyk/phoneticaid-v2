@@ -70,12 +70,9 @@ export interface PieceTableState {
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
-    original: '    你\n好 世界',
-    add: '\n我是',
-    pieces: [
-      { buffer: 'original', start: 0, length: 10 },
-      { buffer: 'add', start: 0, length: 3 },
-    ],
+    original: ' 你好世界',
+    add: '',
+    pieces: [{ buffer: 'original', start: 0, length: 5 }],
   },
   insertRange: (text: string) => {
     const cursor = useCursorStore.getState()
