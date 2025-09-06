@@ -13,6 +13,7 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
   const rows: Cell[][] = []
   let row: Cell[] = []
   let lastRowNumber = 0
+  let lastChar = ''
 
   for (const { row: r, col: c, ch } of walkPieces(pt, document)) {
     const cell = makeCell(r, c, ch, document)
@@ -25,11 +26,17 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     }
 
     lastRowNumber = r
+    lastChar = ch
   }
 
-  // commit remaining row (that didn't end with newline or wrap)
+  // commit remaining row (that didn't end with newline or wrap, which didn't commit this row)
   if (row.length > 0) {
     rows.push(padRow(row, lastRowNumber, document))
+  }
+
+  // special case when a newline character is added to the end of the document
+  if (lastChar === '\n') {
+    rows.push(padRow(row, lastRowNumber + 1, document))
   }
 
   return rows

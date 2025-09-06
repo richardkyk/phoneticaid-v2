@@ -164,6 +164,7 @@ export function insertAtRowCol(
   if (offsetInPiece === -1) {
     // we are going to insert it after the index (not replacing it)
     pt.pieces.splice(pieceIndex + 1, 0, newPiece)
+    console.log(pt)
     return getCursorPosition(
       pt,
       pieceIndex + 1,
