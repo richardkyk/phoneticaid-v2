@@ -88,7 +88,6 @@ export function getPieceIndex(
   document: DocumentState,
 ): {
   isNewline: boolean
-  isVirtual: boolean
   padding: number
   pieceIndex: number
   offsetInPiece: number
@@ -104,20 +103,24 @@ export function getPieceIndex(
     pt,
     document,
   )) {
+    console.log(`(${r},${c}) [${pieceIndex}][${offsetInPiece}]=${ch}`)
     if (r > row) {
       // if the r is greater than the row we are looking for, then we are working with a virtual cell
+      // since the last ch position is for the start of the real char, we need to add 1 to the offset
+      // to get the correct position for where we need to maniuplate text for the virtual cell
+      //
+      // in the case where the prev char is \n, we don't need to add 1 to it, because we want the position of the \n
+      // then it is up to the consumer if they wish to maniupate the char before or after the \n
       return {
-        isVirtual: true,
         isNewline: prev.ch === '\n',
-        padding: col - prev.col - (prev.ch !== '\n' ? 1 : 0),
+        padding: col - prev.col - (prev.ch === '\n' ? 0 : 1),
         pieceIndex: prev.pieceIndex,
-        offsetInPiece: prev.offsetInPiece,
+        offsetInPiece: prev.offsetInPiece + (prev.ch === '\n' ? 0 : 1),
       }
     }
 
     if (r === row && c === col) {
       return {
-        isVirtual: false,
         isNewline: ch === '\n',
         padding: 0,
         pieceIndex,
@@ -130,7 +133,6 @@ export function getPieceIndex(
 
   // if we are here then the cursor is in the last row
   return {
-    isVirtual: true,
     isNewline: prev.ch === '\n',
     padding: col - (prev.col + 1), // +1 because we want to compare the padding to the position to the right of the previous character
     pieceIndex: prev.pieceIndex,
@@ -145,8 +147,12 @@ export function insertAtRowCol(
   text: string,
   document: DocumentState,
 ) {
-  let { isVirtual, isNewline, padding, pieceIndex, offsetInPiece } =
-    getPieceIndex(pt, row, col, document)
+  let { isNewline, padding, pieceIndex, offsetInPiece } = getPieceIndex(
+    pt,
+    row,
+    col,
+    document,
+  )
 
   if (text.length === 0) return
 
@@ -176,12 +182,6 @@ export function insertAtRowCol(
   if (isNewline && col === 0) {
     // if the char is a newline and the cursor is at the start
     // we want to insert the text after the newline char
-    offsetInPiece++
-  }
-
-  if (isVirtual && col === document.columns) {
-    // in the case of a virtual cell, the offsetInPiece is the index of the previous real character
-    // so if we are at the end of a row, we want to insert a character after the real character
     offsetInPiece++
   }
 

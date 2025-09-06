@@ -22,6 +22,8 @@ describe('getPieceIndex', () => {
   })
 
   it('returns the correct values', () => {
+    // abc
+    // 1x3
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 0, 4, document)
     expect(res.pieceIndex).toBe(1)
@@ -29,6 +31,8 @@ describe('getPieceIndex', () => {
   })
 
   it('handles newline correctly', () => {
+    //   abc
+    // \n1x3
     const pt = makePT('abc', '\n1x3')
     const res = getPieceIndex(pt, 1, 1, document)
     expect(res.pieceIndex).toBe(1)
@@ -36,6 +40,11 @@ describe('getPieceIndex', () => {
   })
 
   it('handles multiple newlines correctly', () => {
+    //   a
+    // \nbc
+    // \n
+    // \n
+    // \n1x3
     const pt = makePT('a\nbc\n', '\n\n1x3')
     const res = getPieceIndex(pt, 4, 1, document)
     expect(res.pieceIndex).toBe(1)
@@ -44,6 +53,9 @@ describe('getPieceIndex', () => {
 
   it('handles word wrapping correctly 1', () => {
     document.columns = 3
+    //   abc
+    // \ndef
+    //   123
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 2, document)
     expect(res.pieceIndex).toBe(0)
@@ -54,16 +66,22 @@ describe('getPieceIndex', () => {
 
   it('handles word wrapping correctly 2', () => {
     document.columns = 3
+    //   abc
+    // \ndef
+    //   123
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 3, document)
     expect(res.pieceIndex).toBe(0)
-    expect(res.offsetInPiece).toBe(2)
+    expect(res.offsetInPiece).toBe(3)
     expect(res.isNewline).toBe(false)
     expect(res.isVirtual).toBe(true)
   })
 
   it('handles word wrapping correctly 3', () => {
     document.columns = 3
+    //   abc
+    // \ndef
+    //   123
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 1, 0, document)
     expect(res.pieceIndex).toBe(0)
@@ -73,12 +91,15 @@ describe('getPieceIndex', () => {
   })
 
   it('handles virtual cells correctly', () => {
+    //   abc__x
+    // \ndef123
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 5, document)
     expect(res.pieceIndex).toBe(0)
     expect(res.offsetInPiece).toBe(3)
     expect(res.isNewline).toBe(true)
     expect(res.isVirtual).toBe(true)
+    expect(res.padding).toBe(2)
   })
 
   it('handles space correctly', () => {
@@ -111,6 +132,9 @@ describe('getPieceIndex', () => {
   })
 
   it('handles wrapping with newlines correctly', () => {
+    //   ab
+    // \nc
+    // \n1x3
     document.columns = 2
     const pt = makePT('ab\nc', '\n1x3')
     const res = getPieceIndex(pt, 2, 1, document)

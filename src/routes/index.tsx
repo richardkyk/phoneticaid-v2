@@ -61,7 +61,7 @@ function App() {
       return
     }
     if (e.key === 'Enter') {
-      insertRange('\n')
+      insertRange('x')
       return
     }
     if (e.key === 'Backspace') {
