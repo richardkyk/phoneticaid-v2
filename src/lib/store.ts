@@ -23,7 +23,7 @@ export interface DocumentState {
 
 export const useDocumentStore = create<DocumentState>((set) => ({
   fontSize: 10,
-  columns: 3,
+  columns: 17,
   gapX: 0,
   gapY: 0,
   marginX: 20,
@@ -70,12 +70,9 @@ export interface PieceTableState {
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
-    original: 'abc\ndef',
-    add: '123',
-    pieces: [
-      { buffer: 'original', start: 0, length: 7 },
-      { buffer: 'add', start: 0, length: 3 },
-    ],
+    original: 'hello\nworld',
+    add: '',
+    pieces: [{ buffer: 'original', start: 0, length: 11 }],
   },
   insertRange: (text: string) => {
     const cursor = useCursorStore.getState()

@@ -72,6 +72,15 @@ describe('getPieceIndex', () => {
     expect(res.isVirtual).toBe(false)
   })
 
+  it('handles virtual cells correctly', () => {
+    const pt = makePT('abc\ndef', '123')
+    const res = getPieceIndex(pt, 0, 5, document)
+    expect(res.pieceIndex).toBe(0)
+    expect(res.offsetInPiece).toBe(3)
+    expect(res.isNewline).toBe(true)
+    expect(res.isVirtual).toBe(true)
+  })
+
   it('handles space correctly', () => {
     const pt = makePT('abc', ' 1x3')
     const res = getPieceIndex(pt, 0, 5, document)
@@ -130,6 +139,15 @@ describe('PieceTable insert', () => {
     document.columns = 5
   })
 
+  it('inserts text at the start of a row', () => {
+    // hello
+    // XXwor
+    // ld
+    const cursor = insertAtRowCol(pt, 1, 0, 'XX', document)
+    expect(pt.add).toBe('XX')
+    expect(cursor).toEqual({ curRow: 1, curCol: 2 })
+  })
+
   it('inserts text in the middle of a piece', () => {
     // heXXl
     // lo
@@ -144,9 +162,26 @@ describe('PieceTable insert', () => {
     // hello
     // XX
     // world
-    console.log(pt)
     const cursor = insertAtRowCol(pt, 0, 5, 'XX', document)
     expect(pt.add).toBe('XX')
     expect(cursor).toEqual({ curRow: 1, curCol: 2 })
+  })
+
+  it('inserts text in virtual cell', () => {
+    // hello  XX
+    // world
+    document.columns = 17
+    const cursor = insertAtRowCol(pt, 0, 7, 'XX', document)
+    expect(pt.add).toBe('  XX')
+    expect(cursor).toEqual({ curRow: 0, curCol: 9 })
+  })
+
+  it('inserts text in virtual cell in last row', () => {
+    // hello
+    // world  XX
+    document.columns = 17
+    const cursor = insertAtRowCol(pt, 1, 7, 'XX', document)
+    expect(pt.add).toBe('  XX')
+    expect(cursor).toEqual({ curRow: 1, curCol: 9 })
   })
 })
