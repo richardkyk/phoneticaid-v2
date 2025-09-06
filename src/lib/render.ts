@@ -66,9 +66,7 @@ export function* walkPieces(pt: PieceTable, document: DocumentState) {
           row++
           col = 0
         }
-
-        // Track wrap status
-        wasJustWrapped = ch !== '\n' && col === 0
+        wasJustWrapped = ch !== '\n'
       } else {
         wasJustWrapped = false
       }

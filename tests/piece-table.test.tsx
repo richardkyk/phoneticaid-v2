@@ -42,12 +42,34 @@ describe('getPieceIndex', () => {
     expect(res.offsetInPiece).toBe(3)
   })
 
-  it('handles word wrapping correctly', () => {
+  it('handles word wrapping correctly 1', () => {
+    document.columns = 3
+    const pt = makePT('abc\ndef', '123')
+    const res = getPieceIndex(pt, 0, 2, document)
+    expect(res.pieceIndex).toBe(0)
+    expect(res.offsetInPiece).toBe(2)
+    expect(res.isNewline).toBe(false)
+    expect(res.isVirtual).toBe(false)
+  })
+
+  it('handles word wrapping correctly 2', () => {
     document.columns = 3
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 3, document)
     expect(res.pieceIndex).toBe(0)
+    expect(res.offsetInPiece).toBe(2)
+    expect(res.isNewline).toBe(false)
+    expect(res.isVirtual).toBe(true)
+  })
+
+  it('handles word wrapping correctly 3', () => {
+    document.columns = 3
+    const pt = makePT('abc\ndef', '123')
+    const res = getPieceIndex(pt, 1, 0, document)
+    expect(res.pieceIndex).toBe(0)
     expect(res.offsetInPiece).toBe(3)
+    expect(res.isNewline).toBe(true)
+    expect(res.isVirtual).toBe(false)
   })
 
   it('handles space correctly', () => {
@@ -67,8 +89,8 @@ describe('getPieceIndex', () => {
   it('should show index at the end of array', () => {
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 1, 5, document)
-    expect(res.pieceIndex).toBe(2)
-    expect(res.offsetInPiece).toBe(0)
+    expect(res.pieceIndex).toBe(1)
+    expect(res.offsetInPiece).toBe(-1)
   })
 
   it('handles wrapping correctly', () => {

@@ -87,50 +87,54 @@ export function getPieceIndex(
   col: number,
   document: DocumentState,
 ): {
+  isNewline: boolean
+  isVirtual: boolean
   padding: number
   pieceIndex: number
   offsetInPiece: number
 } {
-  let lastCol = 0
-  let lastPieceIndex = 0
-  let lastOffsetInPiece = 0
+  let prev = {
+    col: 0,
+    pieceIndex: 0,
+    offsetInPiece: 0,
+    ch: '',
+  }
 
-  let prevCol = 0
-  let prevPieceIndex = 0
-  let prevOffsetInPiece = 0
-  console.log(`searching for cell (${row}, ${col})`)
-
-  for (const { row: r, col: c, pieceIndex, offsetInPiece } of walkPieces(
+  for (const { row: r, col: c, pieceIndex, offsetInPiece, ch } of walkPieces(
     pt,
     document,
   )) {
-    lastCol = c
-    lastPieceIndex = pieceIndex
-    lastOffsetInPiece = offsetInPiece
-
-    console.log(`(${r}, ${c}) ${pieceIndex} ${offsetInPiece}`)
-
-    if (r === row && c === col) {
-      return { padding: 0, pieceIndex, offsetInPiece }
-    }
-
     if (r > row) {
-      console.log('in virtual cell, padding: ', col - (prevCol + 1))
+      // if the r is greater than the row we are looking for, then we are working with a virtual cell
       return {
-        padding: col - (prevCol + 1), // its prevCol + 1 since the prevCol is occupied, so we want the cell right after it
-        pieceIndex: prevPieceIndex,
-        offsetInPiece: prevOffsetInPiece + 1,
+        isVirtual: true,
+        isNewline: prev.ch === '\n',
+        padding: col - (prev.col + 1),
+        pieceIndex: prev.pieceIndex,
+        offsetInPiece: prev.offsetInPiece,
       }
     }
-    prevCol = c
-    prevPieceIndex = pieceIndex
-    prevOffsetInPiece = offsetInPiece
+
+    if (r === row && c === col) {
+      return {
+        isVirtual: false,
+        isNewline: ch === '\n',
+        padding: 0,
+        pieceIndex,
+        offsetInPiece,
+      }
+    }
+
+    prev = { col: c, pieceIndex, offsetInPiece, ch }
   }
 
+  // if we are here then the cursor is in the last row
   return {
-    padding: col - lastCol - 1,
-    pieceIndex: lastPieceIndex + 1,
-    offsetInPiece: 0,
+    isVirtual: true,
+    isNewline: prev.ch === '\n',
+    padding: col - (prev.col + 1), // +1 because we want to compare the padding to the position to the right of the previous character
+    pieceIndex: prev.pieceIndex,
+    offsetInPiece: -1,
   }
 }
 
@@ -141,17 +145,8 @@ export function insertAtRowCol(
   text: string,
   document: DocumentState,
 ) {
-  console.log('before', JSON.stringify(pt, null, 2))
-
-  const { padding, pieceIndex, offsetInPiece } = getPieceIndex(
-    pt,
-    row,
-    col,
-    document,
-  )
-  console.log(
-    `found corresponding piece at index ${pieceIndex} and offset ${offsetInPiece}`,
-  )
+  let { isVirtual, isNewline, padding, pieceIndex, offsetInPiece } =
+    getPieceIndex(pt, row, col, document)
 
   if (text.length === 0) return
 
@@ -166,25 +161,30 @@ export function insertAtRowCol(
     length: pt.add.length - addStart,
   }
 
-  if (pieceIndex > pt.pieces.length) {
-    pt.pieces.push(newPiece)
-    return getCursorPosition(pt, pt.pieces.length - 1, pt.add.length, document)
+  if (offsetInPiece === -1) {
+    // we are going to insert it after the index (not replacing it)
+    pt.pieces.splice(pieceIndex + 1, 0, newPiece)
+    return getCursorPosition(
+      pt,
+      pieceIndex + 1,
+      pt.add.length - addStart,
+      document,
+    )
   }
 
-  // Split the piece at insertion point
+  if ((isNewline && col === 0) || isVirtual) {
+    offsetInPiece++
+  }
+
   const [left, right] = splitPiece(pt.pieces[pieceIndex], offsetInPiece)
 
   const piecesToInsert: Piece[] = []
-
-  if (left) piecesToInsert.push(left) // keep left part
-  piecesToInsert.push(newPiece) // insert new piece
-  if (right) piecesToInsert.push(right) // keep right part
-
-  console.log('piecesToInsert', piecesToInsert)
+  if (left) piecesToInsert.push(left)
+  piecesToInsert.push(newPiece)
+  if (right) piecesToInsert.push(right)
 
   // Replace the original piece with new pieces
   pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)
-  console.log('after', JSON.stringify(pt, null, 2))
   return getCursorPosition(pt, pieceIndex + 2, 0, document)
 }
 
