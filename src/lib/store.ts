@@ -90,7 +90,7 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
         document,
       )
       console.log(newPos)
-      if (newPos) cursor.updateCursor(newPos.curRow, newPos.curCol)
+      if (newPos) cursor.updateCursor(newPos.curRow, newPos.curCol + 1)
       return { pt }
     })
   },
