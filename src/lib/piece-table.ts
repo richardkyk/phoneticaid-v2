@@ -52,15 +52,19 @@ export function getCursorPosition(
   charIndex: number,
   document: DocumentState,
 ) {
+  console.log(`[${pieceIndex}][${charIndex}]`, JSON.stringify(pt, null, 2))
+
   for (const { row, col, pieceIndex: i, charIndex: j } of walkPieces(
     pt,
     document,
   )) {
+    console.log(`(${row},${col}) [${i}][${j}]`)
     if (i === pieceIndex && j === charIndex) {
       return { curRow: row, curCol: col }
     }
   }
 
+  // return { curRow: lastRow, curCol: lastCol + 1 }
   throw new Error('Could not find position')
 }
 
@@ -197,19 +201,26 @@ export function deleteBackwardsFromRowCol(
 
   let { pieceIndex, charIndex } = resolveCharPosition(pt, row, col, document)
 
-  // the piece index that was returned is for the piece to the right of the cursor
-  if (charIndex > 0) {
-    charIndex--
-  } else {
+  console.log(`found (${row},${col}) [${pieceIndex}][${charIndex}]`)
+  console.log(JSON.stringify(pt, null, 2))
+
+  let newPieceIndex = pieceIndex
+  let newCharIndex = charIndex
+  let remaining = length
+
+  // we have the position of the cursor, but when we are deleting, we need to have the char to the left of the cursor
+  if (charIndex < 0) {
+    charIndex = pt.pieces[pieceIndex].length - 1
+  } else if (charIndex === 0) {
     // at the start of a piece → step into the previous piece
     pieceIndex--
     if (pieceIndex < 0) return
     charIndex = pt.pieces[pieceIndex].length - 1
+  } else {
+    charIndex--
   }
 
-  let newPieceIndex = pieceIndex
-  let newOffsetInPiece = charIndex
-  let remaining = length
+  console.log(`actual delete [${pieceIndex}][${charIndex}]`)
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
@@ -219,9 +230,19 @@ export function deleteBackwardsFromRowCol(
       // delete the whole piece
       pt.pieces.splice(pieceIndex, 1)
       remaining -= p.length
-      newPieceIndex = pieceIndex
       pieceIndex--
+      charIndex = p.length - 1
+      newPieceIndex = pieceIndex
+      newCharIndex = charIndex
       continue
+    }
+
+    if (charIndex === p.length - 1) {
+      console.log('removal from the end')
+      // removal from the end
+      p.length -= remaining
+      newCharIndex = p.length
+      break
     }
 
     if (charIndex === 0 || charIndex === remaining) {
@@ -229,31 +250,23 @@ export function deleteBackwardsFromRowCol(
       // removal from the start
       p.start += remaining
       p.length -= remaining
-      newPieceIndex = pieceIndex
-      break
-    }
-
-    if (charIndex === p.length) {
-      console.log('removal from the end')
-      // removal from the end
-      p.length -= remaining
-      newPieceIndex = pieceIndex + 1
-      newOffsetInPiece = p.length
       break
     }
 
     console.log('removal from the middle')
-
     // otherwise remove it from the middle
     const [left, rest] = splitPiece(p, charIndex - remaining)
     if (left && rest) {
       const [_, right] = splitPiece(rest, remaining)
       if (right) {
         pt.pieces.splice(pieceIndex, 1, ...[left, right])
+        newPieceIndex = pieceIndex + 1
+        newCharIndex = 0
       }
     }
-    newPieceIndex = pieceIndex + 1
     break
   }
-  return getCursorPosition(pt, newPieceIndex, newOffsetInPiece, document)
+  // if the newCharIndex is -1, then you need to go to the end of the current piece at the newPieceIndex
+  console.log(`new [${newPieceIndex},${newCharIndex}]`)
+  return getCursorPosition(pt, newPieceIndex, newCharIndex, document)
 }

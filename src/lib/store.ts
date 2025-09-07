@@ -12,6 +12,7 @@ export interface DocumentState {
   gapY: number
   marginX: number
   marginY: number
+  debug: boolean
 
   setFontSize: (fontSize: number) => void
   setColumns: (columns: number) => void
@@ -22,12 +23,13 @@ export interface DocumentState {
 }
 
 export const useDocumentStore = create<DocumentState>((set) => ({
-  fontSize: 10,
-  columns: 17,
+  fontSize: 20,
+  columns: 9,
   gapX: 0,
   gapY: 0,
-  marginX: 20,
-  marginY: 20,
+  marginX: 15,
+  marginY: 15,
+  debug: true,
 
   setFontSize: (fontSize: number) => {
     set({ fontSize })
@@ -64,8 +66,8 @@ export const useDocumentStore = create<DocumentState>((set) => ({
 
 export interface PieceTableState {
   pt: PieceTable
-  insertRange: (substr: string) => void
-  deleteRange: (length: number) => void
+  insertAtCursor: (substr: string) => void
+  deleteAtCursor: (length: number) => void
 }
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
@@ -77,7 +79,7 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
       { buffer: 'add', start: 0, length: 3 },
     ],
   },
-  insertRange: (text: string) => {
+  insertAtCursor: (text: string) => {
     const cursor = useCursorStore.getState()
     const document = useDocumentStore.getState()
     set((state) => {
@@ -94,7 +96,7 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
       return { pt }
     })
   },
-  deleteRange: (length: number) => {
+  deleteAtCursor: (length: number) => {
     const cursor = useCursorStore.getState()
     const document = useDocumentStore.getState()
     set((state) => {

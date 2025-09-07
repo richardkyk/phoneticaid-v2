@@ -5,6 +5,8 @@ interface Cell {
   content: string
   x: number
   y: number
+  pieceIndex: number
+  charIndex: number
   width: number
   height: number
 }
@@ -15,8 +17,11 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
   let lastRowNumber = 0
   let lastChar = ''
 
-  for (const { row: r, col: c, ch } of walkPieces(pt, document)) {
-    const cell = makeCell(r, c, ch, document)
+  for (const { row: r, col: c, ch, pieceIndex, charIndex } of walkPieces(
+    pt,
+    document,
+  )) {
+    const cell = makeCell(r, c, ch, pieceIndex, charIndex, document)
     if (ch !== '\n') row.push(cell)
 
     // commit row on newline or column wrap
@@ -85,12 +90,16 @@ function makeCell(
   row: number,
   col: number,
   content: string,
+  pieceIndex: number,
+  charIndex: number,
   document: DocumentState,
 ) {
   return {
     content,
     x: col * (document.fontSize + document.gapX) + document.marginX,
     y: row * (document.fontSize + document.gapY) + document.marginY,
+    pieceIndex,
+    charIndex,
     width: document.fontSize,
     height: document.fontSize,
   }
@@ -98,7 +107,7 @@ function makeCell(
 
 function padRow(row: Cell[], line: number, document: DocumentState) {
   while (row.length < document.columns) {
-    const cell = makeCell(line, row.length, '', document)
+    const cell = makeCell(line, row.length, '', -1, -1, document)
     row.push(cell)
   }
   return row

@@ -6,7 +6,7 @@ import {
 } from '@/lib/store'
 import { getMmToPx } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -16,8 +16,8 @@ function App() {
   const document = useDocumentStore()
 
   const pt = usePieceTableStore((state) => state.pt)
-  const insertRange = usePieceTableStore((state) => state.insertRange)
-  const deleteRange = usePieceTableStore((state) => state.deleteRange)
+  const insertAtCursor = usePieceTableStore((state) => state.insertAtCursor)
+  const deleteAtCursor = usePieceTableStore((state) => state.deleteAtCursor)
   const rows = buildRows(pt, document)
 
   const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
@@ -61,11 +61,11 @@ function App() {
       return
     }
     if (e.key === 'Enter') {
-      insertRange('x')
+      insertAtCursor('xyz')
       return
     }
     if (e.key === 'Backspace') {
-      deleteRange(1)
+      deleteAtCursor(1)
       return
     }
   }
@@ -120,47 +120,25 @@ function App() {
                 height: `${cell.height}mm`,
               }}
             >
+              {document.debug && (
+                <Fragment>
+                  <div className="absolute text-[10px] left-0 top-0">
+                    ({i},{j})
+                  </div>
+
+                  {cell.pieceIndex !== -1 && (
+                    <div className="absolute text-[10px] bottom-0 right-0">
+                      [{cell.pieceIndex},{cell.charIndex}]
+                    </div>
+                  )}
+                </Fragment>
+              )}
               <span style={{ fontSize: `${cell.height}mm` }}>
                 {cell.content}
               </span>
             </div>
           )),
         )}
-
-        {/* {rows.map((row, i) => { */}
-        {/*   const _row = { */}
-        {/*     pieces: row.pieces, */}
-        {/*     originalBuffer, */}
-        {/*     addBuffer, */}
-        {/*   } */}
-        {/*   const cells = renderRow(i, _row, document) */}
-        {/*   return ( */}
-        {/*     <div key={i} className=""> */}
-        {/*       {cells.map((cell, j) => { */}
-        {/*         return ( */}
-        {/*           <div */}
-        {/*             key={`${i}-${j}`} */}
-        {/*             className="absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text" */}
-        {/*             style={{ */}
-        {/*               top: `${cell.y}mm`, */}
-        {/*               left: `${cell.x}mm`, */}
-        {/*               width: `${cell.width}mm`, */}
-        {/*               height: `${cell.height}mm`, */}
-        {/*             }} */}
-        {/*           > */}
-        {/*             <span */}
-        {/*               style={{ */}
-        {/*                 fontSize: `${cell.height}mm`, */}
-        {/*               }} */}
-        {/*             > */}
-        {/*               {cell.content} */}
-        {/*             </span> */}
-        {/*           </div> */}
-        {/*         ) */}
-        {/*       })} */}
-        {/*     </div> */}
-        {/*   ) */}
-        {/* })} */}
       </div>
     </div>
   )
