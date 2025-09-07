@@ -15,24 +15,21 @@ export interface PieceTable {
   pieces: Piece[]
 }
 
-// Split a piece at a given offset, return [left, right]
-// If offset is 0, left is null; if offset === length, right is null
-function splitPiece(
-  piece: Piece,
-  offset: number,
-): [Piece | null, Piece | null] {
-  if (offset <= 0) return [null, { ...piece }]
-  if (offset >= piece.length) return [{ ...piece }, null]
+// Split a piece at a given index, return [left, right]
+// If index is 0, left is null; if index === length, right is null
+function splitPiece(piece: Piece, index: number): [Piece | null, Piece | null] {
+  if (index <= 0) return [null, { ...piece }]
+  if (index >= piece.length) return [{ ...piece }, null]
 
   const left: Piece = {
     buffer: piece.buffer,
     start: piece.start,
-    length: offset,
+    length: index,
   }
   const right: Piece = {
     buffer: piece.buffer,
-    start: piece.start + offset,
-    length: piece.length - offset,
+    start: piece.start + index,
+    length: piece.length - index,
   }
   return [left, right]
 }
@@ -52,36 +49,23 @@ export function getText(pt: PieceTable): string {
 export function getCursorPosition(
   pt: PieceTable,
   pieceIndex: number,
-  offsetInPiece: number,
+  charIndex: number,
   document: DocumentState,
 ) {
-  for (const { row, col, pieceIndex: i, offsetInPiece: j } of walkPieces(
+  for (const { row, col, pieceIndex: i, charIndex: j } of walkPieces(
     pt,
     document,
   )) {
-    if (i === pieceIndex && j === offsetInPiece) {
+    if (i === pieceIndex && j === charIndex) {
       return { curRow: row, curCol: col }
     }
   }
 
-  // fallback: cursor at the end of the last piece
-  const lastPiece = pt.pieces[pt.pieces.length - 1]
-  const lastOffset = lastPiece.length - 1
-  for (const { row, col, pieceIndex: i, offsetInPiece: j } of walkPieces(
-    pt,
-    document,
-  )) {
-    if (i === pt.pieces.length - 1 && j === lastOffset) {
-      return { curRow: row, curCol: col + 1 } // cursor after last character
-    }
-  }
-
-  // default fallback
-  return { curRow: 0, curCol: 0 }
+  throw new Error('Could not find position')
 }
 
-// Walk the pieces to find the insertion point
-export function getPieceIndex(
+// Walk the pieces to find the corresponding character position
+export function resolveCharPosition(
   pt: PieceTable,
   row: number,
   col: number,
@@ -90,20 +74,20 @@ export function getPieceIndex(
   isNewline: boolean
   padding: number
   pieceIndex: number
-  offsetInPiece: number
+  charIndex: number
 } {
   let prev = {
     col: 0,
     pieceIndex: 0,
-    offsetInPiece: 0,
+    charIndex: 0,
     ch: '',
   }
 
-  for (const { row: r, col: c, pieceIndex, offsetInPiece, ch } of walkPieces(
+  for (const { row: r, col: c, pieceIndex, charIndex, ch } of walkPieces(
     pt,
     document,
   )) {
-    console.log(`(${r},${c}) [${pieceIndex}][${offsetInPiece}]=${ch}`)
+    console.log(`(${r},${c}) [${pieceIndex}][${charIndex}]=${ch}`)
     if (r > row) {
       // if the r is greater than the row we are looking for, then we are working with a virtual cell
       // since the last ch position is for the start of the real char, we need to add 1 to the offset
@@ -115,7 +99,7 @@ export function getPieceIndex(
         isNewline: prev.ch === '\n',
         padding: col - prev.col - (prev.ch === '\n' ? 0 : 1),
         pieceIndex: prev.pieceIndex,
-        offsetInPiece: prev.offsetInPiece + (prev.ch === '\n' ? 0 : 1),
+        charIndex: prev.charIndex + (prev.ch === '\n' ? 0 : 1),
       }
     }
 
@@ -124,11 +108,11 @@ export function getPieceIndex(
         isNewline: ch === '\n',
         padding: 0,
         pieceIndex,
-        offsetInPiece,
+        charIndex: charIndex,
       }
     }
 
-    prev = { col: c, pieceIndex, offsetInPiece, ch }
+    prev = { col: c, pieceIndex, charIndex, ch }
   }
 
   // if we are here then the cursor is in the last row
@@ -136,7 +120,7 @@ export function getPieceIndex(
     isNewline: prev.ch === '\n',
     padding: col - (prev.col + 1), // +1 because we want to compare the padding to the position to the right of the previous character
     pieceIndex: prev.pieceIndex,
-    offsetInPiece: -1,
+    charIndex: -1,
   }
 }
 
@@ -147,7 +131,7 @@ export function insertAtRowCol(
   text: string,
   document: DocumentState,
 ) {
-  let { isNewline, padding, pieceIndex, offsetInPiece } = getPieceIndex(
+  let { isNewline, padding, pieceIndex, charIndex } = resolveCharPosition(
     pt,
     row,
     col,
@@ -167,14 +151,14 @@ export function insertAtRowCol(
     length: pt.add.length - addStart,
   }
 
-  if (offsetInPiece === -1) {
+  if (charIndex === -1) {
     // we are going to insert it after the index (not replacing it)
     pt.pieces.splice(pieceIndex + 1, 0, newPiece)
     console.log(pt)
     return getCursorPosition(
       pt,
       pieceIndex + 1,
-      pt.add.length - addStart,
+      pt.add.length - addStart - 1,
       document,
     )
   }
@@ -182,10 +166,10 @@ export function insertAtRowCol(
   if (isNewline && col === 0) {
     // if the char is a newline and the cursor is at the start
     // we want to insert the text after the newline char
-    offsetInPiece++
+    charIndex++
   }
 
-  const [left, right] = splitPiece(pt.pieces[pieceIndex], offsetInPiece)
+  const [left, right] = splitPiece(pt.pieces[pieceIndex], charIndex)
 
   const piecesToInsert: Piece[] = []
   if (left) piecesToInsert.push(left)
@@ -194,7 +178,12 @@ export function insertAtRowCol(
 
   // Replace the original piece with new pieces
   pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)
-  return getCursorPosition(pt, pieceIndex + 2, 0, document)
+  return getCursorPosition(
+    pt,
+    pieceIndex + (left ? 1 : 0),
+    newPiece.length - 1,
+    document,
+  )
 }
 
 export function deleteBackwardsFromRowCol(
@@ -206,20 +195,20 @@ export function deleteBackwardsFromRowCol(
 ) {
   if (length <= 0 || (row === 0 && col === 0)) return
 
-  let { pieceIndex, offsetInPiece } = getPieceIndex(pt, row, col, document)
+  let { pieceIndex, charIndex } = resolveCharPosition(pt, row, col, document)
 
   // the piece index that was returned is for the piece to the right of the cursor
-  if (offsetInPiece > 0) {
-    offsetInPiece--
+  if (charIndex > 0) {
+    charIndex--
   } else {
     // at the start of a piece → step into the previous piece
     pieceIndex--
     if (pieceIndex < 0) return
-    offsetInPiece = pt.pieces[pieceIndex].length - 1
+    charIndex = pt.pieces[pieceIndex].length - 1
   }
 
   let newPieceIndex = pieceIndex
-  let newOffsetInPiece = offsetInPiece
+  let newOffsetInPiece = charIndex
   let remaining = length
 
   while (remaining > 0 && pieceIndex >= 0) {
@@ -235,7 +224,7 @@ export function deleteBackwardsFromRowCol(
       continue
     }
 
-    if (offsetInPiece === 0 || offsetInPiece === remaining) {
+    if (charIndex === 0 || charIndex === remaining) {
       console.log('removal from the start')
       // removal from the start
       p.start += remaining
@@ -244,7 +233,7 @@ export function deleteBackwardsFromRowCol(
       break
     }
 
-    if (offsetInPiece === p.length) {
+    if (charIndex === p.length) {
       console.log('removal from the end')
       // removal from the end
       p.length -= remaining
@@ -256,7 +245,7 @@ export function deleteBackwardsFromRowCol(
     console.log('removal from the middle')
 
     // otherwise remove it from the middle
-    const [left, rest] = splitPiece(p, offsetInPiece - remaining)
+    const [left, rest] = splitPiece(p, charIndex - remaining)
     if (left && rest) {
       const [_, right] = splitPiece(rest, remaining)
       if (right) {

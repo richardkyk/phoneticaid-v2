@@ -60,7 +60,7 @@ export function* walkPieces(pt: PieceTable, document: DocumentState) {
         col,
         ch,
         pieceIndex: i,
-        offsetInPiece: j,
+        charIndex: j,
       }
 
       col++

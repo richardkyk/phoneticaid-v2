@@ -27,7 +27,7 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 0, 4, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(1)
+    expect(res.charIndex).toBe(1)
   })
 
   it('handles newline correctly', () => {
@@ -36,7 +36,7 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc', '\n1x3')
     const res = getPieceIndex(pt, 1, 1, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(2)
+    expect(res.charIndex).toBe(2)
   })
 
   it('handles multiple newlines correctly', () => {
@@ -48,7 +48,7 @@ describe('getPieceIndex', () => {
     const pt = makePT('a\nbc\n', '\n\n1x3')
     const res = getPieceIndex(pt, 4, 1, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(3)
+    expect(res.charIndex).toBe(3)
   })
 
   it('handles word wrapping correctly 1', () => {
@@ -59,9 +59,8 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 2, document)
     expect(res.pieceIndex).toBe(0)
-    expect(res.offsetInPiece).toBe(2)
+    expect(res.charIndex).toBe(2)
     expect(res.isNewline).toBe(false)
-    expect(res.isVirtual).toBe(false)
   })
 
   it('handles word wrapping correctly 2', () => {
@@ -72,9 +71,8 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 3, document)
     expect(res.pieceIndex).toBe(0)
-    expect(res.offsetInPiece).toBe(3)
+    expect(res.charIndex).toBe(3)
     expect(res.isNewline).toBe(false)
-    expect(res.isVirtual).toBe(true)
   })
 
   it('handles word wrapping correctly 3', () => {
@@ -85,9 +83,8 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 1, 0, document)
     expect(res.pieceIndex).toBe(0)
-    expect(res.offsetInPiece).toBe(3)
+    expect(res.charIndex).toBe(3)
     expect(res.isNewline).toBe(true)
-    expect(res.isVirtual).toBe(false)
   })
 
   it('handles virtual cells correctly', () => {
@@ -96,9 +93,8 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc\ndef', '123')
     const res = getPieceIndex(pt, 0, 5, document)
     expect(res.pieceIndex).toBe(0)
-    expect(res.offsetInPiece).toBe(3)
+    expect(res.charIndex).toBe(3)
     expect(res.isNewline).toBe(true)
-    expect(res.isVirtual).toBe(true)
     expect(res.padding).toBe(2)
   })
 
@@ -106,21 +102,21 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc', ' 1x3')
     const res = getPieceIndex(pt, 0, 5, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(2)
+    expect(res.charIndex).toBe(2)
   })
 
   it('handles multiple spaces correctly', () => {
     const pt = makePT('a bc', '   1 x3')
     const res = getPieceIndex(pt, 0, 9, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(5)
+    expect(res.charIndex).toBe(5)
   })
 
   it('should show index at the end of array', () => {
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 1, 5, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(-1)
+    expect(res.charIndex).toBe(-1)
   })
 
   it('handles wrapping correctly', () => {
@@ -128,7 +124,7 @@ describe('getPieceIndex', () => {
     const pt = makePT('abc', '1x3')
     const res = getPieceIndex(pt, 2, 0, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(1)
+    expect(res.charIndex).toBe(1)
   })
 
   it('handles wrapping with newlines correctly', () => {
@@ -139,7 +135,7 @@ describe('getPieceIndex', () => {
     const pt = makePT('ab\nc', '\n1x3')
     const res = getPieceIndex(pt, 2, 1, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(2)
+    expect(res.charIndex).toBe(2)
   })
 
   it('handles wrapping with mutliple newlines correctly', () => {
@@ -147,7 +143,7 @@ describe('getPieceIndex', () => {
     const pt = makePT('ab\nc', '\n\n1x3')
     const res = getPieceIndex(pt, 3, 1, document)
     expect(res.pieceIndex).toBe(1)
-    expect(res.offsetInPiece).toBe(3)
+    expect(res.charIndex).toBe(3)
   })
 })
 
