@@ -44,6 +44,11 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     rows.push(padRow(row, lastRowNumber + 1, document))
   }
 
+  // special case when the document is empty
+  if (rows.length === 0) {
+    rows.push(padRow([], 0, document))
+  }
+
   return rows
 }
 

@@ -94,9 +94,9 @@ export function resolveCharPosition(
   charIndex: number
 } {
   let prev = {
-    col: 0,
-    pieceIndex: 0,
-    charIndex: 0,
+    col: -1,
+    pieceIndex: -1,
+    charIndex: -1,
     ch: '',
   }
 
@@ -155,6 +155,9 @@ export function insertAtRowCol(
     document,
   )
 
+  console.log(`found (${row},${col}) [${pieceIndex}][${charIndex}]`)
+  console.log(JSON.stringify(pt, null, 2))
+
   if (text.length === 0) return
 
   const addStart = pt.add.length
@@ -171,7 +174,6 @@ export function insertAtRowCol(
   if (charIndex === -1) {
     // we are going to insert it after the index (not replacing it)
     pt.pieces.splice(pieceIndex + 1, 0, newPiece)
-    console.log(pt)
     return getCursorPosition(
       pt,
       pieceIndex + 1,

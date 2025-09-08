@@ -72,12 +72,9 @@ export interface PieceTableState {
 
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
-    original: 'abc\ndef',
-    add: '123',
-    pieces: [
-      { buffer: 'original', start: 0, length: 7 },
-      { buffer: 'add', start: 0, length: 3 },
-    ],
+    original: '',
+    add: '',
+    pieces: [],
   },
   insertAtCursor: (text: string) => {
     const cursor = useCursorStore.getState()
