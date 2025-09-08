@@ -125,10 +125,9 @@ function App() {
                   <div className="absolute text-[10px] left-0 top-0">
                     ({i},{j})
                   </div>
-
                   {cell.pieceIndex !== -1 && (
-                    <div className="absolute text-[10px] bottom-0 right-0">
-                      [{cell.pieceIndex},{cell.charIndex}]
+                    <div className="absolute text-[10px] left-0 bottom-0">
+                      [{cell.pieceIndex}][{cell.charIndex}]
                     </div>
                   )}
                 </Fragment>

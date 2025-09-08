@@ -53,18 +53,25 @@ export function getCursorPosition(
   document: DocumentState,
 ) {
   console.log(`[${pieceIndex}][${charIndex}]`, JSON.stringify(pt, null, 2))
+  let lastRow = 0
+  let lastCol = 0
 
-  for (const { row, col, pieceIndex: i, charIndex: j } of walkPieces(
+  for (const { row, col, pieceIndex: i, charIndex: j, ch } of walkPieces(
     pt,
     document,
   )) {
-    console.log(`(${row},${col}) [${i}][${j}]`)
+    console.log(`[${i}][${j}]=${ch} -> (${row},${col}) `)
+    if (i > pieceIndex) {
+      break
+    }
     if (i === pieceIndex && j === charIndex) {
       return { curRow: row, curCol: col }
     }
+    lastRow = row
+    lastCol = col
   }
 
-  // return { curRow: lastRow, curCol: lastCol + 1 }
+  return { curRow: lastRow, curCol: lastCol + 1 }
   throw new Error('Could not find position')
 }
 
@@ -91,7 +98,7 @@ export function resolveCharPosition(
     pt,
     document,
   )) {
-    console.log(`(${r},${c}) [${pieceIndex}][${charIndex}]=${ch}`)
+    console.log(`(${r},${c}) -> [${pieceIndex}][${charIndex}]=${ch}`)
     if (r > row) {
       // if the r is greater than the row we are looking for, then we are working with a virtual cell
       // since the last ch position is for the start of the real char, we need to add 1 to the offset
@@ -204,15 +211,12 @@ export function deleteBackwardsFromRowCol(
   console.log(`found (${row},${col}) [${pieceIndex}][${charIndex}]`)
   console.log(JSON.stringify(pt, null, 2))
 
-  let newPieceIndex = pieceIndex
-  let newCharIndex = charIndex
-  let remaining = length
-
   // we have the position of the cursor, but when we are deleting, we need to have the char to the left of the cursor
   if (charIndex < 0) {
+    // cursor is at the end of the document -> get the last character of this piece (at pieceIndex)
     charIndex = pt.pieces[pieceIndex].length - 1
   } else if (charIndex === 0) {
-    // at the start of a piece → step into the previous piece
+    //cursor is at the start of a piece (at pieceIndex) → step into the previous piece
     pieceIndex--
     if (pieceIndex < 0) return
     charIndex = pt.pieces[pieceIndex].length - 1
@@ -220,20 +224,31 @@ export function deleteBackwardsFromRowCol(
     charIndex--
   }
 
-  console.log(`actual delete [${pieceIndex}][${charIndex}]`)
+  let newPieceIndex = pieceIndex
+  let newCharIndex = charIndex
+  let remaining = length
+
+  const buffer = pt.pieces[pieceIndex].buffer
+  const ch = buffer === 'original' ? pt.original[charIndex] : pt.add[charIndex]
+
+  console.log(`actual delete [${pieceIndex}][${charIndex}]=${ch}`)
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
+    if (charIndex === -1) {
+      // if the charIndex is -1, it means we are at the end of the piece
+      charIndex = p.length - 1
+    }
 
     if (remaining >= p.length) {
       console.log('delete the whole piece')
       // delete the whole piece
       pt.pieces.splice(pieceIndex, 1)
       remaining -= p.length
-      pieceIndex--
-      charIndex = p.length - 1
-      newPieceIndex = pieceIndex
       newCharIndex = charIndex
+      newPieceIndex = pieceIndex
+      pieceIndex--
+      charIndex = -1
       continue
     }
 
@@ -245,7 +260,7 @@ export function deleteBackwardsFromRowCol(
       break
     }
 
-    if (charIndex === 0 || charIndex === remaining) {
+    if (charIndex === 0) {
       console.log('removal from the start')
       // removal from the start
       p.start += remaining
@@ -255,7 +270,7 @@ export function deleteBackwardsFromRowCol(
 
     console.log('removal from the middle')
     // otherwise remove it from the middle
-    const [left, rest] = splitPiece(p, charIndex - remaining)
+    const [left, rest] = splitPiece(p, charIndex)
     if (left && rest) {
       const [_, right] = splitPiece(rest, remaining)
       if (right) {
@@ -267,6 +282,6 @@ export function deleteBackwardsFromRowCol(
     break
   }
   // if the newCharIndex is -1, then you need to go to the end of the current piece at the newPieceIndex
-  console.log(`new [${newPieceIndex},${newCharIndex}]`)
+  console.log(`new [${newPieceIndex}][${newCharIndex}]`)
   return getCursorPosition(pt, newPieceIndex, newCharIndex, document)
 }
