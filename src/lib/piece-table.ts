@@ -16,21 +16,21 @@ export interface PieceTable {
 }
 
 // Split a piece at a given index, return [left, right]
-// If index is 0, left is null; if index === length, right is null
-function splitPiece(piece: Piece, index: number): [Piece | null, Piece | null] {
-  if (index <= 0) return [null, { ...piece }]
-  if (index >= piece.length) return [{ ...piece }, null]
+function splitPiece(piece: Piece, index: number): [Piece, Piece] {
+  const leftLength = Math.max(0, Math.min(index, piece.length))
+  const rightLength = piece.length - leftLength
 
   const left: Piece = {
     buffer: piece.buffer,
     start: piece.start,
-    length: index,
+    length: leftLength,
   }
   const right: Piece = {
     buffer: piece.buffer,
-    start: piece.start + index,
-    length: piece.length - index,
+    start: piece.start + leftLength,
+    length: rightLength,
   }
+
   return [left, right]
 }
 
@@ -53,8 +53,13 @@ export function getCursorPosition(
   document: DocumentState,
 ) {
   console.log(`[${pieceIndex}][${charIndex}]`, JSON.stringify(pt, null, 2))
-  let lastRow = 0
-  let lastCol = 0
+  if (pieceIndex === 0 && charIndex === 0) return { curRow: 0, curCol: 0 }
+
+  let last = {
+    row: 0,
+    col: 0,
+    ch: '',
+  }
 
   for (const { row, col, pieceIndex: i, charIndex: j, ch } of walkPieces(
     pt,
@@ -67,12 +72,13 @@ export function getCursorPosition(
     if (i === pieceIndex && j === charIndex) {
       return { curRow: row, curCol: col }
     }
-    lastRow = row
-    lastCol = col
+    last = { row, col, ch }
   }
 
-  return { curRow: lastRow, curCol: lastCol + 1 }
-  throw new Error('Could not find position')
+  return {
+    curRow: last.ch === '\n' ? last.row + 1 : last.row,
+    curCol: last.ch === '\n' ? 0 : last.col + 1,
+  }
 }
 
 // Walk the pieces to find the corresponding character position
@@ -235,50 +241,84 @@ export function deleteBackwardsFromRowCol(
 
   while (remaining > 0 && pieceIndex >= 0) {
     const p = pt.pieces[pieceIndex]
+
+    // normalize: -1 means "end of piece"
     if (charIndex === -1) {
-      // if the charIndex is -1, it means we are at the end of the piece
       charIndex = p.length - 1
     }
 
-    if (remaining >= p.length) {
-      console.log('delete the whole piece')
-      // delete the whole piece
-      pt.pieces.splice(pieceIndex, 1)
-      remaining -= p.length
-      newCharIndex = charIndex
+    // CASE 1 + 2: Cursor is at end of this piece
+    if (charIndex === p.length - 1) {
+      if (remaining >= p.length) {
+        // Delete whole piece
+        console.log('delete whole piece')
+        pt.pieces.splice(pieceIndex, 1)
+        remaining -= p.length
+
+        newPieceIndex = pieceIndex
+        newCharIndex = 0
+
+        pieceIndex--
+        charIndex = -1
+        continue
+      } else {
+        // Truncate from the end
+        console.log(`delete ${remaining} from end`)
+        p.length -= remaining
+        remaining = 0
+
+        newPieceIndex = pieceIndex
+        newCharIndex = p.length
+        break
+      }
+    }
+
+    // CASE 3: Remove from the start
+    const canDeleteHere = charIndex + 1
+    if (remaining >= canDeleteHere) {
+      console.log(`delete ${canDeleteHere} from start`)
+      p.start += canDeleteHere
+      p.length -= canDeleteHere
+      remaining -= canDeleteHere
+
       newPieceIndex = pieceIndex
+      newCharIndex = -1
+
       pieceIndex--
       charIndex = -1
       continue
     }
 
-    if (charIndex === p.length - 1) {
-      console.log('removal from the end')
-      // removal from the end
-      p.length -= remaining
-      newCharIndex = p.length
-      break
+    console.log(`delete ${remaining} from middle`)
+
+    // CASE 4: Remove from the middle (split)
+    const deleteStart = charIndex - (remaining - 1)
+
+    // First split: [left, rest] → left side + "rest" (the part including what we want to delete)
+    const [left, rest] = splitPiece(p, deleteStart)
+
+    // Second split: [deleted, right] → cut "rest" into the part to delete + right side
+    const [_, right] = splitPiece(rest, remaining)
+
+    // At this point we always have left + right pieces (could be zero-length)
+    const newPieces = []
+    if (left.length > 0) newPieces.push(left)
+    if (right.length > 0) newPieces.push(right)
+
+    // Replace original with new set
+    pt.pieces.splice(pieceIndex, 1, ...newPieces)
+
+    // Cursor should land at start of the right piece if it exists,
+    // otherwise at the end of the left piece
+    if (right.length > 0) {
+      newPieceIndex = pieceIndex + (left.length > 0 ? 1 : 0)
+      newCharIndex = 0
+    } else {
+      newPieceIndex = pieceIndex
+      newCharIndex = left.length
     }
 
-    if (charIndex === 0) {
-      console.log('removal from the start')
-      // removal from the start
-      p.start += remaining
-      p.length -= remaining
-      break
-    }
-
-    console.log('removal from the middle')
-    // otherwise remove it from the middle
-    const [left, rest] = splitPiece(p, charIndex)
-    if (left && rest) {
-      const [_, right] = splitPiece(rest, remaining)
-      if (right) {
-        pt.pieces.splice(pieceIndex, 1, ...[left, right])
-        newPieceIndex = pieceIndex + 1
-        newCharIndex = 0
-      }
-    }
+    remaining = 0
     break
   }
   // if the newCharIndex is -1, then you need to go to the end of the current piece at the newPieceIndex
