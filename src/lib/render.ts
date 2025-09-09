@@ -21,22 +21,23 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     pt,
     document,
   )) {
-    const cell = makeCell(r, c, ch, pieceIndex, charIndex, document)
-    if (ch !== '\n') row.push(cell)
-
-    // commit row on newline or column wrap
-    if (ch === '\n' || c === document.columns - 1) {
-      rows.push(padRow(row, r, document))
+    console.log(`[${pieceIndex}][${charIndex}]=${ch} -> (${r},${c}) `)
+    if (r > lastRowNumber) {
+      rows.push(padRow(row, lastRowNumber, document))
       row = []
     }
+
+    const cell = makeCell(r, c, ch, pieceIndex, charIndex, document)
+    if (ch !== '\n') row.push(cell)
 
     lastRowNumber = r
     lastChar = ch
   }
 
-  // commit remaining row (that didn't end with newline or wrap, which didn't commit this row)
+  // flush remaining row (that didn't end with newline or wrap, which didn't commit this row)
   if (row.length > 0) {
     rows.push(padRow(row, lastRowNumber, document))
+    row = []
   }
 
   // special case when a newline character is added to the end of the document
