@@ -214,10 +214,16 @@ export function deleteBackwardsFromRowCol(
 ) {
   if (length <= 0 || (row === 0 && col === 0)) return
 
-  let { pieceIndex, charIndex } = resolveCharPosition(pt, row, col, document)
+  let { pieceIndex, charIndex, padding } = resolveCharPosition(
+    pt,
+    row,
+    col,
+    document,
+  )
 
-  console.log(`found (${row},${col}) [${pieceIndex}][${charIndex}]`)
-  console.log(JSON.stringify(pt, null, 2))
+  if (padding > 0) {
+    return { curRow: row, curCol: col - 1 }
+  }
 
   // we have the position of the cursor, but when we are deleting, we need to have the char to the left of the cursor
   if (charIndex < 0) {
