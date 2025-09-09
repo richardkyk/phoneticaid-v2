@@ -67,6 +67,9 @@ export function getCursorPosition(
   )) {
     console.log(`[${i}][${j}]=${ch} -> (${row},${col}) `)
     if (i > pieceIndex) {
+      if (charIndex === -1) {
+        return { curRow: row, curCol: col }
+      }
       break
     }
     if (i === pieceIndex && j === charIndex) {
@@ -289,11 +292,11 @@ export function deleteBackwardsFromRowCol(
       p.length -= canDeleteHere
       remaining -= canDeleteHere
 
-      newPieceIndex = pieceIndex
-      newCharIndex = -1
-
       pieceIndex--
       charIndex = -1
+      newPieceIndex = pieceIndex
+      newCharIndex = charIndex
+
       continue
     }
 
