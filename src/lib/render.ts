@@ -3,6 +3,8 @@ import { DocumentState, useRowsStore } from './store'
 
 interface Cell {
   content: string
+  row: number
+  col: number
   x: number
   y: number
   pieceIndex: number
@@ -14,35 +16,40 @@ interface Cell {
 export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
   const rows: Cell[][] = []
   let row: Cell[] = []
-  let lastRowNumber = 0
-  let lastChar = ''
+  let last: null | Cell = null
 
   for (const { row: r, col: c, ch, pieceIndex, charIndex } of walkPieces(
     pt,
     document,
   )) {
     console.log(`[${pieceIndex}][${charIndex}]=${ch} -> (${r},${c}) `)
-    if (r > lastRowNumber) {
-      rows.push(padRow(row, lastRowNumber, document))
+
+    if (last && r > last.row) {
+      const paddedRow = padRow(row, last.row, document)
+      if (last.content === '\n') {
+        const newLineCell = makeCell(
+          last.row,
+          document.columns,
+          '␍',
+          last.pieceIndex,
+          last.charIndex,
+          document,
+        )
+        paddedRow[paddedRow.length - 1] = newLineCell
+      }
+      rows.push(paddedRow)
       row = []
     }
-
     const cell = makeCell(r, c, ch, pieceIndex, charIndex, document)
-    if (ch !== '\n') row.push(cell)
+    if (cell.content !== '\n') row.push(cell)
 
-    lastRowNumber = r
-    lastChar = ch
+    last = cell
   }
 
   // flush remaining row (that didn't end with newline or wrap, which didn't commit this row)
-  if (row.length > 0) {
-    rows.push(padRow(row, lastRowNumber, document))
+  if (last && row.length > 0) {
+    rows.push(padRow(row, last.row, document))
     row = []
-  }
-
-  // // special case when a newline character is added to the end of the document
-  if (lastChar === '\n') {
-    rows.push(padRow(row, lastRowNumber + 1, document))
   }
 
   // special case when the document is empty
@@ -50,6 +57,7 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     rows.push(padRow([], 0, document))
   }
 
+  console.log(rows)
   useRowsStore.getState().setRows(rows.length)
   return rows
 }
@@ -57,7 +65,6 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
 export function* walkPieces(pt: PieceTable, document: DocumentState) {
   let row = 0
   let col = 0
-  let wasJustWrapped = false
 
   for (let i = 0; i < pt.pieces.length; i++) {
     const piece = pt.pieces[i]
@@ -66,7 +73,11 @@ export function* walkPieces(pt: PieceTable, document: DocumentState) {
     for (let j = 0; j < piece.length; j++) {
       const ch = buffer[piece.start + j]
 
-      // Yield current visual position
+      if (ch !== '\n' && col > document.columns - 1) {
+        row++
+        col = 0
+      }
+
       yield {
         row,
         col,
@@ -74,20 +85,10 @@ export function* walkPieces(pt: PieceTable, document: DocumentState) {
         pieceIndex: i,
         charIndex: j,
       }
-
       col++
-
-      if (ch === '\n' || col >= document.columns) {
-        if (ch === '\n' && wasJustWrapped) {
-          // Do not increment row again
-          col = 0
-        } else {
-          row++
-          col = 0
-        }
-        wasJustWrapped = ch !== '\n'
-      } else {
-        wasJustWrapped = false
+      if (ch === '\n') {
+        row++
+        col = 0
       }
     }
   }
@@ -103,6 +104,8 @@ function makeCell(
 ) {
   return {
     content,
+    row,
+    col,
     x: col * (document.fontSize + document.gapX) + document.marginX,
     y: row * (document.fontSize + document.gapY) + document.marginY,
     pieceIndex,
@@ -113,7 +116,7 @@ function makeCell(
 }
 
 function padRow(row: Cell[], line: number, document: DocumentState) {
-  while (row.length < document.columns) {
+  while (row.length <= document.columns) {
     const cell = makeCell(line, row.length, '', -1, -1, document)
     row.push(cell)
   }

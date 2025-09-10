@@ -35,8 +35,8 @@ describe('getPieceIndex', () => {
   })
 
   it('handles newline correctly', () => {
-    //   abc
-    // \n1x3
+    // abc  \n
+    // 1x3
     const pt = makePT('abc', '\n1x3')
     const res = resolveCharPosition(pt, 1, 1, document)
     expect(res.pieceIndex).toBe(1)
@@ -44,11 +44,11 @@ describe('getPieceIndex', () => {
   })
 
   it('handles multiple newlines correctly', () => {
-    //   a
-    // \nbc
-    // \n
-    // \n
-    // \n1x3
+    // a   \n
+    // bc  \n
+    //     \n
+    //     \n
+    // 1x3
     const pt = makePT('a\nbc\n', '\n\n1x3')
     const res = resolveCharPosition(pt, 4, 1, document)
     expect(res.pieceIndex).toBe(1)
@@ -57,9 +57,9 @@ describe('getPieceIndex', () => {
 
   it('handles word wrapping correctly 1', () => {
     document.columns = 3
-    //   abc
-    // \ndef
-    //   123
+    // abc\n
+    // def
+    // 123
     const pt = makePT('abc\ndef', '123')
     const res = resolveCharPosition(pt, 0, 2, document)
     expect(res.pieceIndex).toBe(0)
@@ -69,31 +69,31 @@ describe('getPieceIndex', () => {
 
   it('handles word wrapping correctly 2', () => {
     document.columns = 3
-    //   abc
-    // \ndef
-    //   123
+    // abc\n
+    // def
+    // 123
     const pt = makePT('abc\ndef', '123')
     const res = resolveCharPosition(pt, 0, 3, document)
-    expect(res.pieceIndex).toBe(0)
-    expect(res.charIndex).toBe(3)
-    expect(res.isNewline).toBe(false)
-  })
-
-  it('handles word wrapping correctly 3', () => {
-    document.columns = 3
-    //   abc
-    // \ndef
-    //   123
-    const pt = makePT('abc\ndef', '123')
-    const res = resolveCharPosition(pt, 1, 0, document)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(3)
     expect(res.isNewline).toBe(true)
   })
 
+  it('handles word wrapping correctly 3', () => {
+    document.columns = 3
+    // abc\n
+    // def
+    // 123
+    const pt = makePT('abc\ndef', '123')
+    const res = resolveCharPosition(pt, 1, 0, document)
+    expect(res.pieceIndex).toBe(0)
+    expect(res.charIndex).toBe(4)
+    expect(res.isNewline).toBe(false)
+  })
+
   it('handles virtual cells correctly', () => {
-    //   abc__x
-    // \ndef123
+    // abc__x\n
+    // def123
     const pt = makePT('abc\ndef', '123')
     const res = resolveCharPosition(pt, 0, 5, document)
     expect(res.pieceIndex).toBe(0)
