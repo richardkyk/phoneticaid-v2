@@ -1,32 +1,27 @@
-import { buildRows } from '@/lib/render'
+import { Cursor, Grid, Margins } from '@/components/grid'
 import {
   useCursorStore,
   useDocumentStore,
   usePieceTableStore,
+  useRowsStore,
 } from '@/lib/store'
 import { getMmToPx } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
-import { Fragment, useRef } from 'react'
+import { useRef } from 'react'
 
 export const Route = createFileRoute('/')({
   component: App,
 })
 
 function App() {
-  const document = useDocumentStore()
-
-  const pt = usePieceTableStore((state) => state.pt)
-  const insertAtCursor = usePieceTableStore((state) => state.insertAtCursor)
-  const deleteAtCursor = usePieceTableStore((state) => state.deleteAtCursor)
-  const rows = buildRows(pt, document)
-
-  const { cursorVisible, cursorX, cursorY, updateCursor, moveCursor } =
-    useCursorStore()
-
   const editorRef = useRef<HTMLDivElement>(null)
 
   function handleMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     if (!editorRef.current) return
+
+    const document = useDocumentStore.getState()
+    const cursor = useCursorStore.getState()
+    const rowsCount = useRowsStore.getState().rows
 
     const { mmX, mmY } = getMmToPx()
 
@@ -43,29 +38,32 @@ function App() {
     if (isUnderChar) return
 
     if (col < 0 || col >= document.columns) return
-    if (row < 0 || row >= rows.length) return
+    if (row < 0 || row >= rowsCount) return
 
     // place the cursor at the end of the character if the user clicks on the right side of the character
     const middleOfX =
       col * (document.fontSize + document.gapX) * mmX +
       (document.fontSize / 2) * mmX
     const isCharRightSide = x > middleOfX
-    updateCursor(row, isCharRightSide ? col + 1 : col)
+    cursor.updateCursor(row, isCharRightSide ? col + 1 : col)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     if (!editorRef.current) return
 
+    const pieceTable = usePieceTableStore.getState()
+    const cursor = useCursorStore.getState()
+
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-      moveCursor(e.key)
+      cursor.moveCursor(e.key)
       return
     }
     if (e.key === 'Enter') {
-      insertAtCursor('xyz')
+      pieceTable.insertAtCursor('XX')
       return
     }
     if (e.key === 'Backspace') {
-      deleteAtCursor(1)
+      pieceTable.deleteAtCursor(1)
       return
     }
   }
@@ -80,64 +78,11 @@ function App() {
         onKeyDown={handleKeyDown}
       >
         {/* Margins */}
-        <div
-          className="border-x border-dashed absolute inset-y-0"
-          style={{
-            insetInline: `${document.marginX}mm`,
-          }}
-        ></div>
-        <div
-          className="border-y border-dashed absolute inset-x-0"
-          style={{
-            insetBlock: `${document.marginY}mm`,
-          }}
-        ></div>
-
-        {cursorVisible && (
-          <div
-            key={`${cursorX}-${cursorY}-${document.gapX}`}
-            className="absolute bg-black opacity-100 animate-caret-blink"
-            style={{
-              top: `${cursorY}mm`,
-              left: `${cursorX}mm`,
-              width: `max(${document.gapX}mm, 2px)`,
-              height: `${document.fontSize}mm`,
-              transform: `translateX(-100%)`,
-            }}
-          ></div>
-        )}
+        <Margins />
+        <Cursor />
 
         {/* Content */}
-        {rows.map((row, i) =>
-          row.map((cell, j) => (
-            <div
-              key={`${i}-${j}`}
-              className="absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text"
-              style={{
-                top: `${cell.y}mm`,
-                left: `${cell.x}mm`,
-                width: `${cell.width}mm`,
-                height: `${cell.height}mm`,
-              }}
-            >
-              {document.debug && (
-                <Fragment>
-                  <div className="absolute text-[10px] left-0 top-0">
-                    ({i},{j})
-                  </div>
-                  {cell.pieceIndex !== -1 && (
-                    <div className="absolute text-[10px] left-0 bottom-0">
-                      [{cell.pieceIndex}][{cell.charIndex}]
-                    </div>
-                  )}
-                </Fragment>
-              )}
-              <span style={{ fontSize: `${cell.height}mm` }}>
-                {cell.content}
-              </span>
-            </div>
-          )),
-        )}
+        <Grid />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 import { PieceTable } from './piece-table'
-import { DocumentState } from './store'
+import { DocumentState, useRowsStore } from './store'
 
 interface Cell {
   content: string
@@ -40,7 +40,7 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     row = []
   }
 
-  // special case when a newline character is added to the end of the document
+  // // special case when a newline character is added to the end of the document
   if (lastChar === '\n') {
     rows.push(padRow(row, lastRowNumber + 1, document))
   }
@@ -50,6 +50,7 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     rows.push(padRow([], 0, document))
   }
 
+  useRowsStore.getState().setRows(rows.length)
   return rows
 }
 
