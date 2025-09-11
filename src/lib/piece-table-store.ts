@@ -20,21 +20,33 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
     ],
   },
   insertAtCursor: (text: string) => {
-    const cursor = useCursorStore.getState()
+    const cursor = { ...useCursorStore.getState() }
+    console.log('insert', cursor)
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
+      if (cursor.isNewLine) {
+        cursor.charIndex--
+        if (cursor.charIndex < 0) {
+          cursor.pieceIndex--
+          if (cursor.pieceIndex < 0) return { pt }
+          const piece = pt.pieces[cursor.pieceIndex]
+          cursor.charIndex = piece.length - 1
+        }
+      }
       const newCursor = insertText({
         pt,
         pieceIndex: cursor.pieceIndex,
-        offset: cursor.offset,
         charIndex: cursor.charIndex,
+        offset: cursor.offset,
         text,
       })
+      console.log('newCursor', newCursor)
       useCursorStore
         .getState()
         .setCursorByPiece(
           newCursor.pieceIndex,
           newCursor.charIndex,
+          false,
           newCursor.offset,
         )
       return { pt }

@@ -11,6 +11,7 @@ interface Cell {
   charIndex: number
   width: number
   height: number
+  offset: number
 }
 
 export function buildRows(pt: PieceTable, document: DocumentState) {
@@ -25,11 +26,14 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
     pt,
     document,
   )) {
-    const isNewline = ch === '\n'
+    const isNewLine = ch === '\n'
     const pieceKey = `${pieceIndex}:${charIndex}`
-    const gridKey = `${r}:${isNewline ? document.columns : c}`
-    pieceMap.set(pieceKey, `${gridKey}:${isNewline ? 1 : 0}`)
-    gridMap.set(gridKey, `${pieceKey}:${isNewline ? 1 : 0}`)
+    const gridKey = `${r}:${isNewLine ? document.columns : c}`
+    pieceMap.set(pieceKey, `${gridKey}:${isNewLine ? 1 : 0}`)
+    gridMap.set(
+      gridKey,
+      `${pieceKey}:${isNewLine ? 1 : 0}:${isNewLine && last ? document.columns - last.col : 0}`,
+    )
 
     if (last && r > last.row) {
       const paddedRow = padRow(row, last.row, document)
@@ -39,14 +43,15 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
 
     const cell = makeCell(
       r,
-      isNewline ? document.columns : c,
-      isNewline ? '␍' : ch,
+      isNewLine ? document.columns : c,
+      isNewLine ? '␍' : ch,
       pieceIndex,
       charIndex,
+      isNewLine && last ? document.columns - last.col : 0,
       document,
     )
 
-    if (isNewline) {
+    if (isNewLine) {
       const paddedRow = padRow(row, r, document)
       paddedRow[paddedRow.length - 1] = cell
       row = paddedRow
@@ -122,6 +127,7 @@ function makeCell(
   content: string,
   pieceIndex: number,
   charIndex: number,
+  offset: number,
   document: DocumentState,
 ) {
   return {
@@ -132,17 +138,18 @@ function makeCell(
     y: row * (document.fontSize + document.gapY) + document.marginY,
     pieceIndex,
     charIndex,
+    offset,
     width: document.fontSize,
     height: document.fontSize,
   }
 }
 
 function padRow(row: Cell[], line: number, document: DocumentState) {
-  let padding = 1
+  let offset = 1
   while (row.length <= document.columns) {
-    const cell = makeCell(line, row.length, '', -1, padding, document)
+    const cell = makeCell(line, row.length, '', -1, -1, offset, document)
     row.push(cell)
-    padding++
+    offset++
   }
   return row
 }

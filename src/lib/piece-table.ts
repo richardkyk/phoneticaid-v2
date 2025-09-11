@@ -60,7 +60,7 @@ export function resolveCharPosition(
   row: number,
   col: number,
 ): {
-  isNewline: boolean
+  isNewLine: boolean
   offset: number
   pieceIndex: number
   charIndex: number
@@ -71,12 +71,12 @@ export function resolveCharPosition(
   while (_row >= 0 && _col >= 0) {
     const pos = useMapStore.getState().gridMap.get(`${_row}:${_col}`)
     if (pos) {
-      const [pieceIndex, charIndex, newLine] = pos.split(':')
-      const isNewline = newLine === '1'
+      const [pieceIndex, charIndex, newLine, _offset] = pos.split(':')
+      const isNewLine = newLine === '1'
 
       return {
-        isNewline,
-        offset,
+        isNewLine,
+        offset: isNewLine ? parseInt(_offset) : offset,
         pieceIndex: parseInt(pieceIndex),
         charIndex: parseInt(charIndex),
       }

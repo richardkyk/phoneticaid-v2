@@ -40,8 +40,8 @@ export const Grid = () => {
               ({i},{j})
             </div>
             <div className="absolute text-[10px] left-0 bottom-0">
-              {cell.pieceIndex === -1
-                ? `+${cell.charIndex}`
+              {cell.offset !== 0
+                ? `+${cell.offset}`
                 : `[${cell.pieceIndex}][${cell.charIndex}]`}
             </div>
           </Fragment>
@@ -81,6 +81,7 @@ export const Cursor = () => {
 
   const pieceIndex = useCursorStore((state) => state.pieceIndex)
   const charIndex = useCursorStore((state) => state.charIndex)
+  const isNewLine = useCursorStore((state) => state.isNewLine)
   const offset = useCursorStore((state) => state.offset)
 
   const pieceMap = useMapStore((state) => state.pieceMap)
@@ -94,7 +95,8 @@ export const Cursor = () => {
 
   const cursorX =
     document.marginX +
-    (parseInt(col) + offset) * (document.gapX + document.fontSize)
+    (parseInt(col) + (isNewLine ? 0 : offset)) *
+      (document.gapX + document.fontSize)
   const cursorY =
     document.marginY + parseInt(row) * (document.gapY + document.fontSize)
 
