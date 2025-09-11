@@ -3,7 +3,7 @@ import {
   insertAtRowCol,
   PieceTable,
 } from '@/lib/piece-table'
-import { useDocumentStore } from '@/lib/store'
+import { useDocumentStore } from '@/lib/document-store'
 import { describe, it, expect, beforeEach } from 'vitest'
 
 // Small helper for tests
@@ -28,8 +28,8 @@ describe('getPieceIndex', () => {
   it('returns the correct values', () => {
     // abc
     // 1x3
-    const pt = makePT('abc', '1x3')
-    const res = resolveCharPosition(pt, 0, 4, document)
+    makePT('abc', '1x3')
+    const res = resolveCharPosition(0, 4)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(1)
   })
@@ -37,8 +37,8 @@ describe('getPieceIndex', () => {
   it('handles newline correctly', () => {
     // abc  \n
     // 1x3
-    const pt = makePT('abc', '\n1x3')
-    const res = resolveCharPosition(pt, 1, 1, document)
+    makePT('abc', '\n1x3')
+    const res = resolveCharPosition(1, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
   })
@@ -49,8 +49,8 @@ describe('getPieceIndex', () => {
     //     \n
     //     \n
     // 1x3
-    const pt = makePT('a\nbc\n', '\n\n1x3')
-    const res = resolveCharPosition(pt, 4, 1, document)
+    makePT('a\nbc\n', '\n\n1x3')
+    const res = resolveCharPosition(4, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(3)
   })
@@ -60,8 +60,8 @@ describe('getPieceIndex', () => {
     // abc\n
     // def
     // 123
-    const pt = makePT('abc\ndef', '123')
-    const res = resolveCharPosition(pt, 0, 2, document)
+    makePT('abc\ndef', '123')
+    const res = resolveCharPosition(0, 2)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(2)
     expect(res.isNewline).toBe(false)
@@ -72,8 +72,8 @@ describe('getPieceIndex', () => {
     // abc\n
     // def
     // 123
-    const pt = makePT('abc\ndef', '123')
-    const res = resolveCharPosition(pt, 0, 3, document)
+    makePT('abc\ndef', '123')
+    const res = resolveCharPosition(0, 3)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(3)
     expect(res.isNewline).toBe(true)
@@ -84,8 +84,8 @@ describe('getPieceIndex', () => {
     // abc\n
     // def
     // 123
-    const pt = makePT('abc\ndef', '123')
-    const res = resolveCharPosition(pt, 1, 0, document)
+    makePT('abc\ndef', '123')
+    const res = resolveCharPosition(1, 0)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(4)
     expect(res.isNewline).toBe(false)
@@ -94,8 +94,8 @@ describe('getPieceIndex', () => {
   it('handles virtual cells correctly', () => {
     // abc__x\n
     // def123
-    const pt = makePT('abc\ndef', '123')
-    const res = resolveCharPosition(pt, 0, 5, document)
+    makePT('abc\ndef', '123')
+    const res = resolveCharPosition(0, 5)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(3)
     expect(res.isNewline).toBe(true)
@@ -103,30 +103,30 @@ describe('getPieceIndex', () => {
   })
 
   it('handles space correctly', () => {
-    const pt = makePT('abc', ' 1x3')
-    const res = resolveCharPosition(pt, 0, 5, document)
+    makePT('abc', ' 1x3')
+    const res = resolveCharPosition(0, 5)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
   })
 
   it('handles multiple spaces correctly', () => {
-    const pt = makePT('a bc', '   1 x3')
-    const res = resolveCharPosition(pt, 0, 9, document)
+    makePT('a bc', '   1 x3')
+    const res = resolveCharPosition(0, 9)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(5)
   })
 
   it('should show index at the end of array', () => {
-    const pt = makePT('abc', '1x3')
-    const res = resolveCharPosition(pt, 1, 5, document)
+    makePT('abc', '1x3')
+    const res = resolveCharPosition(1, 5)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(-1)
   })
 
   it('handles wrapping correctly', () => {
     document.columns = 2
-    const pt = makePT('abc', '1x3')
-    const res = resolveCharPosition(pt, 2, 0, document)
+    makePT('abc', '1x3')
+    const res = resolveCharPosition(2, 0)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(1)
   })
@@ -136,16 +136,16 @@ describe('getPieceIndex', () => {
     // \nc
     // \n1x3
     document.columns = 2
-    const pt = makePT('ab\nc', '\n1x3')
-    const res = resolveCharPosition(pt, 2, 1, document)
+    makePT('ab\nc', '\n1x3')
+    const res = resolveCharPosition(2, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
   })
 
   it('handles wrapping with mutliple newlines correctly', () => {
     document.columns = 2
-    const pt = makePT('ab\nc', '\n\n1x3')
-    const res = resolveCharPosition(pt, 3, 1, document)
+    makePT('ab\nc', '\n\n1x3')
+    const res = resolveCharPosition(3, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(3)
   })
@@ -167,7 +167,7 @@ describe('PieceTable insert', () => {
     // hello
     // XXwor
     // ld
-    const cursor = insertAtRowCol(pt, 1, 0, 'XX', document)
+    const cursor = insertAtRowCol(pt, 1, 0, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
     // function returns the index of the new piece, but in the case of an insert, we add one to the index
@@ -179,7 +179,7 @@ describe('PieceTable insert', () => {
     // heXXl
     // lo
     // world
-    const cursor = insertAtRowCol(pt, 0, 2, 'XX', document)
+    const cursor = insertAtRowCol(pt, 0, 2, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
     expect(cursor).toEqual({ curRow: 0, curCol: 3 })
@@ -189,7 +189,7 @@ describe('PieceTable insert', () => {
     // hello
     // XX
     // world
-    const cursor = insertAtRowCol(pt, 0, 5, 'XX', document)
+    const cursor = insertAtRowCol(pt, 0, 5, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
     expect(cursor).toEqual({ curRow: 1, curCol: 1 })
@@ -199,7 +199,7 @@ describe('PieceTable insert', () => {
     // hello  XX
     // world
     document.columns = 17
-    const cursor = insertAtRowCol(pt, 0, 7, 'XX', document)
+    const cursor = insertAtRowCol(pt, 0, 7, 'XX')
     expect(pt.add).toBe('  XX')
     expect(pt.pieces.length).toBe(3)
     expect(cursor).toEqual({ curRow: 0, curCol: 8 })
@@ -209,7 +209,7 @@ describe('PieceTable insert', () => {
     // hello
     // world  XX
     document.columns = 17
-    const cursor = insertAtRowCol(pt, 1, 7, 'XX', document)
+    const cursor = insertAtRowCol(pt, 1, 7, 'XX')
     expect(pt.add).toBe('  XX')
     expect(pt.pieces.length).toBe(2)
     expect(cursor).toEqual({ curRow: 1, curCol: 8 })

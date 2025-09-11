@@ -1,5 +1,5 @@
 import { PieceTable } from './piece-table'
-import { DocumentState, useRowsStore } from './store'
+import { DocumentState } from './document-store'
 
 interface Cell {
   content: string
@@ -13,43 +13,58 @@ interface Cell {
   height: number
 }
 
-export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
+export function buildRows(pt: PieceTable, document: DocumentState) {
   const rows: Cell[][] = []
   let row: Cell[] = []
   let last: null | Cell = null
+
+  const pieceMap = new Map<string, string>()
+  const gridMap = new Map<string, string>()
 
   for (const { row: r, col: c, ch, pieceIndex, charIndex } of walkPieces(
     pt,
     document,
   )) {
-    console.log(`[${pieceIndex}][${charIndex}]=${ch} -> (${r},${c}) `)
+    const isNewline = ch === '\n'
+    const pieceKey = `${pieceIndex}:${charIndex}`
+    const gridKey = `${r}:${isNewline ? document.columns : c}`
+    pieceMap.set(pieceKey, `${gridKey}:${isNewline ? 1 : 0}`)
+    gridMap.set(gridKey, `${pieceKey}:${isNewline ? 1 : 0}`)
 
     if (last && r > last.row) {
       const paddedRow = padRow(row, last.row, document)
-      if (last.content === '\n') {
-        const newLineCell = makeCell(
-          last.row,
-          document.columns,
-          '␍',
-          last.pieceIndex,
-          last.charIndex,
-          document,
-        )
-        paddedRow[paddedRow.length - 1] = newLineCell
-      }
       rows.push(paddedRow)
       row = []
     }
-    const cell = makeCell(r, c, ch, pieceIndex, charIndex, document)
-    if (cell.content !== '\n') row.push(cell)
+
+    const cell = makeCell(
+      r,
+      isNewline ? document.columns : c,
+      isNewline ? '␍' : ch,
+      pieceIndex,
+      charIndex,
+      document,
+    )
+
+    if (isNewline) {
+      const paddedRow = padRow(row, r, document)
+      paddedRow[paddedRow.length - 1] = cell
+      row = paddedRow
+    } else {
+      row.push(cell)
+    }
 
     last = cell
   }
 
-  // flush remaining row (that didn't end with newline or wrap, which didn't commit this row)
+  // flush remaining row
   if (last && row.length > 0) {
     rows.push(padRow(row, last.row, document))
-    row = []
+  }
+
+  if (last && last.content === '␍') {
+    // special case: document ends with newline → add an empty padded row
+    rows.push(padRow([], last.row + 1, document))
   }
 
   // special case when the document is empty
@@ -57,20 +72,27 @@ export function buildRows(pt: PieceTable, document: DocumentState): Cell[][] {
     rows.push(padRow([], 0, document))
   }
 
-  console.log(rows)
-  useRowsStore.getState().setRows(rows.length)
-  return rows
+  return {
+    rows,
+    pieceMap,
+    gridMap,
+    rowCount: last?.row ?? 1,
+  }
 }
 
-export function* walkPieces(pt: PieceTable, document: DocumentState) {
-  let row = 0
-  let col = 0
+export function* walkPieces(
+  pt: PieceTable,
+  document: DocumentState,
+  initial?: { row: number; col: number; pieceIndex: number; charIndex: number },
+) {
+  let row = initial?.row ?? 0
+  let col = initial?.col ?? 0
 
-  for (let i = 0; i < pt.pieces.length; i++) {
+  for (let i = initial?.pieceIndex ?? 0; i < pt.pieces.length; i++) {
     const piece = pt.pieces[i]
     const buffer = piece.buffer === 'original' ? pt.original : pt.add
 
-    for (let j = 0; j < piece.length; j++) {
+    for (let j = initial?.charIndex ?? 0; j < piece.length; j++) {
       const ch = buffer[piece.start + j]
 
       if (ch !== '\n' && col > document.columns - 1) {
@@ -116,9 +138,11 @@ function makeCell(
 }
 
 function padRow(row: Cell[], line: number, document: DocumentState) {
+  let padding = 1
   while (row.length <= document.columns) {
-    const cell = makeCell(line, row.length, '', -1, -1, document)
+    const cell = makeCell(line, row.length, '', -1, padding, document)
     row.push(cell)
+    padding++
   }
   return row
 }

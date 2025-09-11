@@ -1,4 +1,4 @@
-import { useDocumentStore } from '@/lib/store'
+import { useDocumentStore } from '@/lib/document-store'
 import { Slider } from './ui/slider'
 
 export default function Toolbar() {

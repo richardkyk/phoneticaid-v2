@@ -1,10 +1,7 @@
 import { Cursor, Grid, Margins } from '@/components/grid'
-import {
-  useCursorStore,
-  useDocumentStore,
-  usePieceTableStore,
-  useRowsStore,
-} from '@/lib/store'
+import { useCursorStore } from '@/lib/cursor-store'
+import { useDocumentStore, useRowsStore } from '@/lib/document-store'
+import { usePieceTableStore } from '@/lib/piece-table-store'
 import { getMmToPx } from '@/lib/utils'
 import { createFileRoute } from '@tanstack/react-router'
 import { useRef } from 'react'
@@ -45,7 +42,7 @@ function App() {
       col * (document.fontSize + document.gapX) * mmX +
       (document.fontSize / 2) * mmX
     const isCharRightSide = x > middleOfX
-    cursor.updateCursor(row, isCharRightSide ? col + 1 : col)
+    cursor.setCursorByRowCol(row, isCharRightSide ? col + 1 : col)
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
@@ -79,10 +76,10 @@ function App() {
       >
         {/* Margins */}
         <Margins />
-        <Cursor />
-
         {/* Content */}
         <Grid />
+
+        <Cursor />
       </div>
     </div>
   )
