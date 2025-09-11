@@ -33,13 +33,13 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
           cursor.charIndex = piece.length - 1
         }
       }
-      const newCursor = insertText({
+      const newCursor = insertText(
         pt,
-        pieceIndex: cursor.pieceIndex,
-        charIndex: cursor.charIndex,
-        offset: cursor.offset,
+        cursor.pieceIndex,
+        cursor.charIndex,
+        cursor.offset,
         text,
-      })
+      )
       console.log('newCursor', newCursor)
       useCursorStore
         .getState()

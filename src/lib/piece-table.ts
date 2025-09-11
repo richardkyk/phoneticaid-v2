@@ -92,17 +92,14 @@ export function resolveCharPosition(
   throw new Error('Could not resolve char position')
 }
 
-interface InsertTextArgs {
-  pt: PieceTable
-  pieceIndex: number
-  charIndex: number
-  offset: number
-  text: string
-}
-export function insertText(args: InsertTextArgs) {
-  const { pt, pieceIndex, offset, text } = args
-  let charIndex = args.charIndex
-  if (args.text.length === 0) return { pieceIndex, charIndex, offset }
+export function insertText(
+  pt: PieceTable,
+  pieceIndex: number,
+  charIndex: number,
+  offset: number,
+  text: string,
+) {
+  if (text.length === 0) return { pieceIndex, charIndex, offset }
 
   const addStart = pt.add.length
   if (offset > 0) {
