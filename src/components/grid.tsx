@@ -97,7 +97,17 @@ export const Cursor = (props: CursorProps) => {
   let charIndex = useCursorStore((state) => state.charIndex)
   let offset = useCursorStore((state) => state.offset)
 
-  const { row, col } = getCursorPosition(pieceIndex, charIndex, pieceMap)
+  let { row, col } = getCursorPosition(pieceIndex, charIndex, pieceMap)
+  if (
+    pieceIndex === 0 &&
+    charIndex === 0 &&
+    offset === 0 &&
+    col === document.columns
+  ) {
+    // special case where the row is empty with a newline
+    row = 0
+    col = 0
+  }
 
   const cursorX =
     document.marginX + (col + offset) * (document.gapX + document.fontSize)

@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { deleteBackwards, insertText, PieceTable } from './piece-table'
 import { useCursorStore } from './cursor-store'
-import { useDocumentStore } from './document-store'
 
 export interface PieceTableState {
   pt: PieceTable
@@ -44,10 +43,38 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
   },
   deleteAtCursor: () => {
     const cursor = useCursorStore.getState()
-    const document = useDocumentStore.getState()
+    if (cursor.offset > 1) {
+      useCursorStore
+        .getState()
+        .setCursorByPiece(
+          cursor.pieceIndex,
+          cursor.charIndex,
+          cursor.offset - 1,
+        )
+      return
+    }
+    if (
+      cursor.pieceIndex === 0 &&
+      cursor.charIndex === 0 &&
+      cursor.offset === 0
+    )
+      return
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      // deleteBackwards(pt, cursor.row, cursor.col, document)
+      const newCursor = deleteBackwards(
+        pt,
+        cursor.pieceIndex,
+        cursor.charIndex,
+        cursor.offset,
+      )
+      console.log('newCursor', newCursor)
+      useCursorStore
+        .getState()
+        .setCursorByPiece(
+          newCursor.pieceIndex,
+          newCursor.charIndex,
+          newCursor.offset,
+        )
       return { pt }
     })
   },

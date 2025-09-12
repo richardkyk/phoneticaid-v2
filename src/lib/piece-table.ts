@@ -147,7 +147,6 @@ export function insertText(
 interface RangePosition {
   pieceIndex: number
   charIndex: number
-  offset: number
 }
 
 export function deleteRange(
@@ -155,80 +154,115 @@ export function deleteRange(
   start: RangePosition,
   end: RangePosition,
 ) {
+  if (start.pieceIndex === end.pieceIndex) {
+    // Single-piece deletion
+    const piece = pt.pieces[start.pieceIndex]
+    const [left, rest] = splitPiece(piece, start.charIndex)
+    const [_, right] = splitPiece(
+      rest,
+      end.charIndex === start.charIndex ? 1 : end.charIndex - start.charIndex,
+    )
+
+    const newPieces: Piece[] = []
+    if (left.length) newPieces.push(left)
+    if (right.length) newPieces.push(right)
+    console.log('left', JSON.stringify(left, null, 2))
+    console.log('right', JSON.stringify(right, null, 2))
+
+    pt.pieces.splice(start.pieceIndex, 1, ...newPieces)
+    console.log('pieces', JSON.stringify(pt.pieces, null, 2))
+    console.log('###########################################')
+
+    if (newPieces.length === 0) {
+      // if no new pieces were added, move the cursor to the end of the previous piece
+      const _pieceIndex = start.pieceIndex - 1
+      if (_pieceIndex < 0) return { pieceIndex: 0, charIndex: 0, offset: 0 }
+      const _charIndex = pt.pieces[_pieceIndex].length - 1
+      return {
+        pieceIndex: _pieceIndex,
+        charIndex: _charIndex,
+        offset: 1,
+      }
+    }
+
+    if (right.length) {
+      // if there is a right piece, move the cursor to the beginning of it
+      const _piece = pt.pieces[start.pieceIndex + (left.length ? 1 : 0)]
+      const buffer = _piece.buffer === 'original' ? pt.original : pt.add
+      const ch = buffer[_piece.start]
+      if (ch !== '\n') {
+        return {
+          pieceIndex: start.pieceIndex + (left.length ? 1 : 0),
+          charIndex: 0,
+          offset: 0,
+        }
+      }
+    }
+
+    if (left.length) {
+      // if there is a left piece, move the cursor to the end of it
+      return {
+        pieceIndex: start.pieceIndex,
+        charIndex: left.length - 1,
+        offset: 1,
+      }
+    }
+
+    return {
+      pieceIndex: 0,
+      charIndex: 0,
+      offset: 0,
+    }
+  }
+
+  // Multi-piece deletion
+  const newPieces: Piece[] = []
   const startPiece = pt.pieces[start.pieceIndex]
   const endPiece = pt.pieces[end.pieceIndex]
 
-  if (start.pieceIndex === end.pieceIndex && start.charIndex === 0) {
-    // delete from start
-    const deleteCount =
-      end.charIndex === start.charIndex ? 1 : end.charIndex - start.charIndex
-    console.log('delete from start', deleteCount)
-    startPiece.start += deleteCount
-    startPiece.length -= deleteCount
-    if (startPiece.length === 0) pt.pieces.splice(start.pieceIndex, 1)
-    return getCursorPosition(start.pieceIndex, start.charIndex)
-  }
-  if (
-    start.pieceIndex === end.pieceIndex &&
-    end.charIndex === endPiece.length - 1
-  ) {
-    // delete from end
-    const deleteCount =
-      end.charIndex === start.charIndex ? 1 : end.charIndex - start.charIndex
-    console.log('delete from end', deleteCount)
-    endPiece.length -= deleteCount
-    if (endPiece.length === 0) pt.pieces.splice(end.pieceIndex, 1)
-    return getCursorPosition(start.pieceIndex, start.charIndex)
-  }
+  const [left] = splitPiece(startPiece, start.charIndex)
+  const [, right] = splitPiece(endPiece, end.charIndex)
 
-  // delete from middle
-  const newPieces: Piece[] = []
+  if (left.length) newPieces.push(left)
+  if (right.length) newPieces.push(right)
 
-  if (start.pieceIndex === end.pieceIndex) {
-    // middle of same piece
-    console.log('delete from middle of same piece')
-    const [startLeft, startRight] = splitPiece(startPiece, start.charIndex)
-    if (startLeft.length) newPieces.push(startLeft)
-    const [_endLeft, endRight] = splitPiece(
-      startRight,
-      end.charIndex - start.charIndex + 1,
-    )
-    if (endRight.length) newPieces.push(endRight)
-    console.log(JSON.stringify({ startLeft, startRight }, null, 2))
-  } else {
-    console.log('delete from middle of different pieces')
-    const [startLeft, _startRight] = splitPiece(startPiece, start.charIndex)
-    if (startLeft.length) newPieces.push(startLeft)
-    const [_endLeft, endRight] = splitPiece(endPiece, end.charIndex)
-    if (endRight.length) newPieces.push(endRight)
-  }
-
-  // Splice out everything from startPiece → endPiece (inclusive),
-  // and replace with whatever survived
   pt.pieces.splice(
     start.pieceIndex,
     end.pieceIndex - start.pieceIndex + 1,
     ...newPieces,
   )
 
-  // Cursor ends up at start
-  return getCursorPosition(start.pieceIndex, start.charIndex)
+  return {
+    pieceIndex: start.pieceIndex + newPieces.length - 1,
+    charIndex: 0,
+    offset: 0,
+  }
 }
 export function deleteBackwards(
   pt: PieceTable,
-  row: number,
-  col: number,
-  document: DocumentState,
+  pieceIndex: number,
+  charIndex: number,
+  offset: number,
 ) {
-  const end = resolveCharPosition(row, col)
-  console.log(JSON.stringify({ end }, null, 2))
-  const startRow = col === 0 ? row - 1 : row
-  const startCol = col === 0 ? document.columns : col - 1
-  if (startCol < 0) return
-  if (end.offset > 1) {
-    return { row: startRow, col: startCol }
+  let startPieceIndex = pieceIndex
+  let startCharIndex = charIndex + offset - 1
+
+  if (startCharIndex < 0) {
+    // Move to previous piece
+    startPieceIndex -= 1
+    if (startPieceIndex < 0) return { pieceIndex, charIndex, offset }
+    startCharIndex = pt.pieces[startPieceIndex].length - 1
   }
-  const start = resolveCharPosition(startRow, startCol)
-  console.log(JSON.stringify({ start, end }, null, 2))
+
+  console.log('begin', JSON.stringify(pt, null, 2))
+
+  const start: RangePosition = {
+    pieceIndex: startPieceIndex,
+    charIndex: startCharIndex,
+  }
+  const end: RangePosition = { pieceIndex, charIndex }
+  console.log('start', start)
+  console.log('end', end)
+
   return deleteRange(pt, start, end)
 }
