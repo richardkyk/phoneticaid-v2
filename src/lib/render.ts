@@ -30,10 +30,7 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
     const pieceKey = `${pieceIndex}:${charIndex}`
     const gridKey = `${r}:${isNewLine ? document.columns : c}`
     pieceMap.set(pieceKey, `${gridKey}:${isNewLine ? 1 : 0}`)
-    gridMap.set(
-      gridKey,
-      `${pieceKey}:${isNewLine ? 1 : 0}:${isNewLine && last ? document.columns - last.col : 0}`,
-    )
+    gridMap.set(gridKey, `${pieceKey}:${isNewLine ? 1 : 0}`)
 
     if (last && r > last.row) {
       const paddedRow = padRow(row, last.row, document)

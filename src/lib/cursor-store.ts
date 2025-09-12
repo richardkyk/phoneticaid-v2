@@ -86,7 +86,11 @@ export const useCursorStore = create<CursorState>((set, get) => ({
     set({ pieceIndex, charIndex, offset })
   },
   setCursorByRowCol: (row: number, col: number) => {
-    let { pieceIndex, charIndex, offset } = resolveCharPosition(row, col, true)
+    const { pieceIndex, charIndex, offset } = resolveCharPosition(
+      row,
+      col,
+      true,
+    )
     set({ pieceIndex, charIndex, offset })
   },
 }))

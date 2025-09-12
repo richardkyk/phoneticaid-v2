@@ -49,9 +49,7 @@ export const useDocumentStore = create<DocumentState>((set) => ({
     let { row, col } = getCursorPosition(cursor.pieceIndex, cursor.charIndex)
     col += cursor.offset
 
-    if (col > columns) {
-      col = columns
-    }
+    if (col > columns) col = columns
 
     const newPos = resolveCharPosition(row, col, true)
     cursor.setCursorByPiece(newPos.pieceIndex, newPos.charIndex, newPos.offset)
