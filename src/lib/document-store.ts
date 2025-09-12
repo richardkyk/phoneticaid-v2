@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import { useCursorStore } from './cursor-store'
+import { getCursorPosition, resolveCharPosition } from './piece-table'
 
 export interface RowsState {
   rows: number
@@ -39,7 +41,21 @@ export const useDocumentStore = create<DocumentState>((set) => ({
   debug: true,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
-  setColumns: (columns: number) => set({ columns }),
+  setColumns: (columns: number) => {
+    set({ columns })
+    const cursor = useCursorStore.getState()
+    if (cursor.offset <= 1) return
+
+    let { row, col } = getCursorPosition(cursor.pieceIndex, cursor.charIndex)
+    col += cursor.offset
+
+    if (col > columns) {
+      col = columns
+    }
+
+    const newPos = resolveCharPosition(row, col, true)
+    cursor.setCursorByPiece(newPos.pieceIndex, newPos.charIndex, newPos.offset)
+  },
   setGapX: (gapX: number) => set({ gapX }),
   setGapY: (gapY: number) => set({ gapY }),
   setMarginX: (marginX: number) => set({ marginX }),

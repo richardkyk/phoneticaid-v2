@@ -242,7 +242,7 @@ describe('PieceTable insert', () => {
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(5)
     expect(res.isNewLine).toBe(true)
-    expect(res.offset).toBe(1)
+    expect(res.offset).toBe(0)
 
     const cursor = insertText(
       pt,

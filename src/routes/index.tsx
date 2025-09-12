@@ -1,4 +1,4 @@
-import { Cursor, Grid, Margins } from '@/components/grid'
+import { Grid, Margins } from '@/components/grid'
 import { useCursorStore } from '@/lib/cursor-store'
 import { useDocumentStore, useRowsStore } from '@/lib/document-store'
 import { usePieceTableStore } from '@/lib/piece-table-store'
@@ -78,8 +78,6 @@ function App() {
         <Margins />
         {/* Content */}
         <Grid />
-
-        <Cursor />
       </div>
     </div>
   )

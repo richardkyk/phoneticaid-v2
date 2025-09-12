@@ -46,8 +46,12 @@ export function getText(pt: PieceTable): string {
     .join('')
 }
 
-export function getCursorPosition(pieceIndex: number, charIndex: number) {
-  const pos = useMapStore.getState().pieceMap.get(`${pieceIndex}:${charIndex}`)
+export function getCursorPosition(
+  pieceIndex: number,
+  charIndex: number,
+  pieceMap = useMapStore.getState().pieceMap,
+) {
+  const pos = pieceMap.get(`${pieceIndex}:${charIndex}`)
   if (pos) {
     const [row, col] = pos.split(':')
     return { row: parseInt(row), col: parseInt(col) }
@@ -59,6 +63,7 @@ export function getCursorPosition(pieceIndex: number, charIndex: number) {
 export function resolveCharPosition(
   row: number,
   col: number,
+  skipNewLines = false,
 ): {
   isNewLine: boolean
   offset: number
@@ -68,25 +73,33 @@ export function resolveCharPosition(
   let _row = row
   let _col = col
   let offset = 0
-  while (_row >= 0 && _col >= 0) {
-    const pos = useMapStore.getState().gridMap.get(`${_row}:${_col}`)
-    if (pos) {
-      const [pieceIndex, charIndex, newLine, _offset] = pos.split(':')
-      const isNewLine = newLine === '1'
 
-      return {
-        isNewLine,
-        offset: isNewLine ? parseInt(_offset) : offset,
-        pieceIndex: parseInt(pieceIndex),
-        charIndex: parseInt(charIndex),
-      }
-    }
+  const prevCell = () => {
     _col--
     if (_col < 0) {
       _row--
       _col = useDocumentStore.getState().columns - 1
     }
     offset++
+  }
+
+  while (_row >= 0 && _col >= 0) {
+    const pos = useMapStore.getState().gridMap.get(`${_row}:${_col}`)
+    if (pos) {
+      const [pieceIndex, charIndex, newLine] = pos.split(':')
+      const isNewLine = newLine === '1'
+
+      if (!(skipNewLines && isNewLine)) {
+        return {
+          isNewLine,
+          offset,
+          pieceIndex: parseInt(pieceIndex),
+          charIndex: parseInt(charIndex),
+        }
+      }
+    }
+
+    prevCell()
   }
 
   throw new Error('Could not resolve char position')
@@ -125,7 +138,7 @@ export function insertText(
   console.log('after', JSON.stringify(pt, null, 2))
 
   return {
-    pieceIndex: pieceIndex + (left ? 1 : 0),
+    pieceIndex: pieceIndex + (left.length ? 1 : 0),
     charIndex: newPiece.length - 1,
     offset: 1,
   }
