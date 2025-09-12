@@ -1,5 +1,5 @@
 import { useMapStore } from './cursor-store'
-import { DocumentState, useDocumentStore } from './document-store'
+import { useDocumentStore } from './document-store'
 
 type BufferType = 'original' | 'add'
 
@@ -102,7 +102,12 @@ export function resolveCharPosition(
     prevCell()
   }
 
-  throw new Error('Could not resolve char position')
+  return {
+    isNewLine: false,
+    pieceIndex: 0,
+    charIndex: 0,
+    offset,
+  }
 }
 
 export function insertText(
@@ -116,8 +121,10 @@ export function insertText(
 
   const addStart = pt.add.length
   if (offset > 0) {
+    // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
     pt.add += ' '.repeat(offset - 1)
-    charIndex++
+    // special case where we are trying to insert at the beginning of the document
+    if (!(pieceIndex === 0 && charIndex === 0)) charIndex++
   }
   pt.add += text
   const newPiece: Piece = {
@@ -126,12 +133,23 @@ export function insertText(
     length: pt.add.length - addStart,
   }
 
+  if (pt.pieces.length === 0) {
+    pt.pieces.push(newPiece)
+    return {
+      pieceIndex: 0,
+      charIndex: newPiece.length - 1,
+      offset: 1,
+    }
+  }
+
   const [left, right] = splitPiece(pt.pieces[pieceIndex], charIndex)
 
   const piecesToInsert: Piece[] = []
   if (left.length) piecesToInsert.push(left)
   piecesToInsert.push(newPiece)
   if (right.length) piecesToInsert.push(right)
+  console.log('left', JSON.stringify(left, null, 2))
+  console.log('right', JSON.stringify(right, null, 2))
 
   // Replace the original piece with new pieces
   pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)

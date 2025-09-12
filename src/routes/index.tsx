@@ -42,6 +42,7 @@ function App() {
       col * (document.fontSize + document.gapX) * mmX +
       (document.fontSize / 2) * mmX
     const isCharRightSide = x > middleOfX
+    console.log(row, col)
     cursor.setCursorByRowCol(row, isCharRightSide ? col + 1 : col)
   }
 

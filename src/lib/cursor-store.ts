@@ -91,6 +91,7 @@ export const useCursorStore = create<CursorState>((set, get) => ({
       col,
       true,
     )
+    console.log('setCursorByRowCol', pieceIndex, charIndex, offset)
     set({ pieceIndex, charIndex, offset })
   },
 }))

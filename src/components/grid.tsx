@@ -98,16 +98,20 @@ export const Cursor = (props: CursorProps) => {
   let offset = useCursorStore((state) => state.offset)
 
   let { row, col } = getCursorPosition(pieceIndex, charIndex, pieceMap)
-  if (
-    pieceIndex === 0 &&
-    charIndex === 0 &&
-    offset === 0 &&
-    col === document.columns
-  ) {
-    // special case where the row is empty with a newline
-    row = 0
-    col = 0
+  if (pieceIndex === 0 && charIndex === 0) {
+    // special case where the first row is empty
+    if (col >= document.columns) {
+      // case when there is just a newline character at the end, don't want the cursor to jump to it
+      row = 0
+      col = 0
+    }
+    if (offset > 1) {
+      // since there is no anchor cell, the offset is 1 unit too high
+      offset -= 1
+    }
   }
+
+  console.log('cursor', row, col, offset)
 
   const cursorX =
     document.marginX + (col + offset) * (document.gapX + document.fontSize)
