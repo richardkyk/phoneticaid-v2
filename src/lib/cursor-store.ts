@@ -45,29 +45,39 @@ export const useCursorStore = create<CursorState>((set, get) => ({
     const offset = get().offset
     const { row, col } = getCursorPosition(pieceIndex, charIndex)
 
-    let newRow = 0
-    let newCol = 0
+    let newRow = row
+    let newCol = col + offset
+
+    if (newCol > document.columns) {
+      newRow += 1
+      newCol = newCol % (document.columns + 1)
+    }
 
     switch (key) {
       case 'ArrowUp':
-        newRow = row - 1
-        newCol = col + offset
+        newRow -= 1
         if (newRow < 0) return
         break
       case 'ArrowDown':
-        newRow = row + 1
-        newCol = col + offset
+        newRow += 1
         if (newRow >= useRowsStore.getState().rows) return
         break
       case 'ArrowLeft':
-        newRow = row
-        newCol = col + offset - 1
-        if (newCol < 0) return
+        newCol -= 1
+        if (newCol < 0) {
+          newCol = document.columns
+          newRow -= 1
+          if (newRow < 0) return
+        }
         break
       case 'ArrowRight':
-        newRow = row
-        newCol = col + offset + 1
-        if (newCol > document.columns) return // allow to go beyond the last column so that we can 'delete' the last character
+        newCol += 1
+        if (newCol > document.columns) {
+          // allow to go beyond the last column so that we can 'delete' the last character
+          newCol = 0
+          newRow += 1
+          if (newRow >= useRowsStore.getState().rows) return
+        }
         break
     }
 
@@ -86,12 +96,8 @@ export const useCursorStore = create<CursorState>((set, get) => ({
     set({ pieceIndex, charIndex, offset })
   },
   setCursorByRowCol: (row: number, col: number) => {
-    const { pieceIndex, charIndex, offset } = resolveCharPosition(
-      row,
-      col,
-      true,
-    )
-    console.log('setCursorByRowCol', pieceIndex, charIndex, offset)
+    const { pieceIndex, charIndex, offset } = resolveCharPosition(row, col)
+    console.log(`setCursorByRowCol: [${pieceIndex}][${charIndex}]`, offset)
     set({ pieceIndex, charIndex, offset })
   },
 }))
