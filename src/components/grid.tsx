@@ -109,9 +109,13 @@ export const Cursor = (props: CursorProps) => {
       // since there is no anchor cell, the offset is 1 unit too high
       offset -= 1
     }
+  } else {
+    if (col >= document.columns) {
+      row++
+      col = 0
+      offset -= 1
+    }
   }
-
-  console.log('cursor', row, col, offset)
 
   const cursorX =
     document.marginX + (col + offset) * (document.gapX + document.fontSize)
