@@ -190,17 +190,13 @@ export function deleteRange(
     const newPieces: Piece[] = []
     if (left.length) newPieces.push(left)
     if (right.length) newPieces.push(right)
-    console.log('left', JSON.stringify(left, null, 2))
-    console.log('right', JSON.stringify(right, null, 2))
 
     pt.pieces.splice(start.pieceIndex, 1, ...newPieces)
-    console.log('pieces', JSON.stringify(pt.pieces, null, 2))
-    console.log('###########################################')
 
     if (newPieces.length === 0) {
       // if no new pieces were added, move the cursor to the end of the previous piece
       const _pieceIndex = start.pieceIndex - 1
-      if (_pieceIndex < 0) return { pieceIndex: 0, charIndex: 0, offset: 0 }
+      if (_pieceIndex < 0) return { pieceIndex: -1, charIndex: 0, offset: 0 }
       const _charIndex = pt.pieces[_pieceIndex].length - 1
       return {
         pieceIndex: _pieceIndex,
@@ -278,15 +274,11 @@ export function deleteBackwards(
     startCharIndex = pt.pieces[startPieceIndex].length - 1
   }
 
-  console.log('begin', JSON.stringify(pt, null, 2))
-
   const start: RangePosition = {
     pieceIndex: startPieceIndex,
     charIndex: startCharIndex,
   }
   const end: RangePosition = { pieceIndex, charIndex }
-  console.log('start', start)
-  console.log('end', end)
 
   return deleteRange(pt, start, end)
 }

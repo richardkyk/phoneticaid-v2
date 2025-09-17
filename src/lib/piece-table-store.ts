@@ -40,7 +40,10 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
   },
   deleteAtCursor: () => {
     const cursor = useCursorStore.getState()
-    if (cursor.offset > 1) {
+    if (cursor.pieceIndex <= 0 && cursor.charIndex === 0 && cursor.offset === 0)
+      return
+    if (cursor.offset > 1 || cursor.pieceIndex === -1) {
+      // if pieceIndex is -1, it means we are at the start of the document so there's nothing to delete
       useCursorStore
         .getState()
         .setCursorByPiece(
@@ -50,12 +53,6 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
         )
       return
     }
-    if (
-      cursor.pieceIndex === 0 &&
-      cursor.charIndex === 0 &&
-      cursor.offset === 0
-    )
-      return
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
       const newCursor = deleteBackwards(
