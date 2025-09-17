@@ -114,6 +114,11 @@ export const Cursor = (props: CursorProps) => {
 
   return (
     <Fragment>
+      {document.debug && (
+        <div className="absolute top-0 left-0">
+          {`(${row},${col}) -> [${pieceIndex}][${charIndex}]+${offset}_${isNewLine}`}
+        </div>
+      )}
       {visible && (
         <div
           key={`${cursorX}-${cursorY}-${document.gapX}`}

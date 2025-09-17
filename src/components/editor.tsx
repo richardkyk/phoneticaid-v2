@@ -124,7 +124,7 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     <Fragment>
       <div
         ref={editorRef}
-        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none caret-transparent"
+        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none caret-transparent"
         onMouseDown={handleMouseDown}
         onClick={handleClick}
       >
