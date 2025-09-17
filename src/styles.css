@@ -6,9 +6,6 @@
 
 body {
   @apply m-0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -139,9 +136,10 @@ code {
 
 @font-face {
   font-family: 'KaiTi2';
-  src: url('/fonts/KaiTi2.ttf') format('ttf');
+  src: url('/fonts/KaiTi2.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 body {

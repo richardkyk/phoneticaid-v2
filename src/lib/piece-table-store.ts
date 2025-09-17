@@ -11,16 +11,14 @@ export interface PieceTableState {
 export const usePieceTableStore = create<PieceTableState>((set) => ({
   pt: {
     original: '\n',
-    add: '',
+    add: '你好世界',
     pieces: [
       { buffer: 'original', start: 0, length: 1 },
-      // { buffer: 'add', start: 0, length: 5 },
-      // { buffer: 'add', start: 5, length: 1 },
+      { buffer: 'add', start: 0, length: 4 },
     ],
   },
   insertAtCursor: (text: string) => {
     const cursor = useCursorStore.getState()
-    console.log('insert', cursor)
     set((state) => {
       const pt = { ...state.pt, pieces: [...state.pt.pieces] }
       const newCursor = insertText(
@@ -30,7 +28,6 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
         cursor.offset,
         text,
       )
-      console.log('newCursor', newCursor)
       useCursorStore
         .getState()
         .setCursorByPiece(
@@ -67,7 +64,6 @@ export const usePieceTableStore = create<PieceTableState>((set) => ({
         cursor.charIndex,
         cursor.offset,
       )
-      console.log('newCursor', newCursor)
       useCursorStore
         .getState()
         .setCursorByPiece(
