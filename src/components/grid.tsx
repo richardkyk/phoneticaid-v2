@@ -48,7 +48,7 @@ export const Grid = () => {
                   ({i},{j})
                 </div>
                 <div className="absolute text-[10px] left-0 bottom-0 select-none">
-                  {cell.offset !== 0 && `+${cell.offset}`}
+                  {cell.pieceIndex === -1 && `+${cell.offset}`}
                   {cell.pieceIndex !== -1 &&
                     `[${cell.pieceIndex}][${cell.charIndex}]`}
                 </div>
@@ -97,28 +97,19 @@ export const Cursor = (props: CursorProps) => {
   let charIndex = useCursorStore((state) => state.charIndex)
   let offset = useCursorStore((state) => state.offset)
 
-  let { row, col } = getCursorPosition(pieceIndex, charIndex, pieceMap)
-  if (pieceIndex === 0 && charIndex === 0) {
-    // special case where the first row is empty
-    if (col >= document.columns) {
-      // case when there is just a newline character at the end, don't want the cursor to jump to it
-      row = 0
-      col = 0
-    }
-    if (offset > 1) {
-      // since there is no anchor cell, the offset is 1 unit too high
-      offset -= 1
-    }
+  let { row, col, isNewLine } = getCursorPosition(
+    pieceIndex,
+    charIndex,
+    pieceMap,
+  )
+  if (isNewLine) {
+    row++
+    col = offset - 1
   } else {
-    if (col >= document.columns) {
-      row++
-      col = 0
-      offset -= 1
-    }
+    col += offset
   }
 
-  const cursorX =
-    document.marginX + (col + offset) * (document.gapX + document.fontSize)
+  const cursorX = document.marginX + col * (document.gapX + document.fontSize)
   const cursorY = document.marginY + row * (document.gapY + document.fontSize)
 
   return (

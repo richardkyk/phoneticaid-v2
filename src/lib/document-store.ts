@@ -31,7 +31,7 @@ export interface DocumentState {
   setMarginY: (marginY: number) => void
 }
 
-export const useDocumentStore = create<DocumentState>((set) => ({
+export const useDocumentStore = create<DocumentState>((set, get) => ({
   fontSize: 20,
   columns: 9,
   gapX: 0,
@@ -42,17 +42,36 @@ export const useDocumentStore = create<DocumentState>((set) => ({
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setColumns: (columns: number) => {
-    set({ columns })
+    const increasing = get().columns < columns
     const cursor = useCursorStore.getState()
-    if (cursor.offset <= 1) return
+    if (cursor.offset <= 1 || increasing) {
+      set({ columns })
+      return
+    }
 
-    let { row, col } = getCursorPosition(cursor.pieceIndex, cursor.charIndex)
-    col += cursor.offset
+    // if we are decreasing the columns, we may need to cap the column
+    const { row, col, isNewLine } = getCursorPosition(
+      cursor.pieceIndex,
+      cursor.charIndex,
+    )
 
-    if (col > columns) col = columns
+    let newRow = row
+    let newCol = col + cursor.offset
 
-    const newPos = resolveCharPosition(row, col, true)
+    if (isNewLine) {
+      newRow += 1
+      // we need to readjust the column since it will be calculating against the old column value
+      // ie. the column count will decrease, but the offset will remain the same, this results with the cursor drifitng to the right
+      newCol = cursor.offset - (get().columns - columns)
+    }
+
+    if (newCol > columns) {
+      newCol = columns
+    }
+
+    const newPos = resolveCharPosition(newRow, newCol)
     cursor.setCursorByPiece(newPos.pieceIndex, newPos.charIndex, newPos.offset)
+    set({ columns })
   },
   setGapX: (gapX: number) => set({ gapX }),
   setGapY: (gapY: number) => set({ gapY }),

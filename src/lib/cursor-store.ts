@@ -33,7 +33,7 @@ interface CursorState {
 }
 
 export const useCursorStore = create<CursorState>((set, get) => ({
-  pieceIndex: 0,
+  pieceIndex: -1,
   charIndex: 0,
   offset: 0,
   visible: true,
@@ -60,7 +60,7 @@ export const useCursorStore = create<CursorState>((set, get) => ({
         break
       case 'ArrowDown':
         newRow += 1
-        if (newRow >= useRowsStore.getState().rows) return
+        if (newRow > useRowsStore.getState().rows) return
         break
       case 'ArrowLeft':
         newCol -= 1
@@ -96,8 +96,14 @@ export const useCursorStore = create<CursorState>((set, get) => ({
     set({ pieceIndex, charIndex, offset })
   },
   setCursorByRowCol: (row: number, col: number) => {
-    const { pieceIndex, charIndex, offset } = resolveCharPosition(row, col)
-    console.log(`setCursorByRowCol: [${pieceIndex}][${charIndex}]`, offset)
+    const { pieceIndex, charIndex, offset, isNewLine } = resolveCharPosition(
+      row,
+      col,
+    )
+    console.log(
+      `setCursorByRowCol: (${row},${col}) -> [${pieceIndex}][${charIndex}]+${offset}`,
+      isNewLine,
+    )
     set({ pieceIndex, charIndex, offset })
   },
 }))

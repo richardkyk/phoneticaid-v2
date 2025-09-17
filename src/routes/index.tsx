@@ -35,14 +35,13 @@ function App() {
     if (isUnderChar) return
 
     if (col < 0 || col >= document.columns) return
-    if (row < 0 || row >= rowsCount) return
+    if (row < 0 || row > rowsCount) return
 
     // place the cursor at the end of the character if the user clicks on the right side of the character
     const middleOfX =
       col * (document.fontSize + document.gapX) * mmX +
       (document.fontSize / 2) * mmX
     const isCharRightSide = x > middleOfX
-    console.log(row, col)
     cursor.setCursorByRowCol(row, isCharRightSide ? col + 1 : col)
   }
 

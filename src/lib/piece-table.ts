@@ -53,17 +53,20 @@ export function getCursorPosition(
 ) {
   const pos = pieceMap.get(`${pieceIndex}:${charIndex}`)
   if (pos) {
-    const [row, col] = pos.split(':')
-    return { row: parseInt(row), col: parseInt(col) }
+    const [row, col, newLine] = pos.split(':')
+    return {
+      row: parseInt(row),
+      col: parseInt(col),
+      isNewLine: newLine === '1',
+    }
   }
-  return { row: 0, col: 0 }
+  return { row: 0, col: 0, isNewLine: false }
 }
 
 // Walk the pieces to find the corresponding character position
 export function resolveCharPosition(
   row: number,
   col: number,
-  skipNewLines = false,
 ): {
   isNewLine: boolean
   offset: number
@@ -71,14 +74,14 @@ export function resolveCharPosition(
   charIndex: number
 } {
   let _row = row
-  let _col = col
-  let offset = 0
+  let _col = col === useDocumentStore.getState().columns ? col - 1 : col
+  let offset = col === useDocumentStore.getState().columns ? 1 : 0
 
   const prevCell = () => {
     _col--
     if (_col < 0) {
       _row--
-      _col = useDocumentStore.getState().columns - 1
+      _col = useDocumentStore.getState().columns
     }
     offset++
   }
@@ -89,13 +92,11 @@ export function resolveCharPosition(
       const [pieceIndex, charIndex, newLine] = pos.split(':')
       const isNewLine = newLine === '1'
 
-      if (!(skipNewLines && isNewLine)) {
-        return {
-          isNewLine,
-          offset,
-          pieceIndex: parseInt(pieceIndex),
-          charIndex: parseInt(charIndex),
-        }
+      return {
+        isNewLine,
+        pieceIndex: parseInt(pieceIndex),
+        charIndex: parseInt(charIndex),
+        offset,
       }
     }
 
@@ -104,9 +105,9 @@ export function resolveCharPosition(
 
   return {
     isNewLine: false,
-    pieceIndex: 0,
+    pieceIndex: -1,
     charIndex: 0,
-    offset,
+    offset: offset - 1,
   }
 }
 
@@ -122,10 +123,16 @@ export function insertText(
   const addStart = pt.add.length
   if (offset > 0) {
     // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
-    pt.add += ' '.repeat(offset - 1)
+    pt.add += ' '.repeat(offset - (pieceIndex === -1 ? 0 : 1))
     // special case where we are trying to insert at the beginning of the document
-    if (!(pieceIndex === 0 && charIndex === 0)) charIndex++
+    charIndex++
   }
+
+  if (pieceIndex === -1) {
+    pieceIndex = 0
+    charIndex = 0
+  }
+
   pt.add += text
   const newPiece: Piece = {
     buffer: 'add',
