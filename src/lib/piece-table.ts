@@ -123,7 +123,9 @@ export function insertText(
   const addStart = pt.add.length
   if (offset > 0) {
     // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
-    pt.add += ' '.repeat(offset - (pieceIndex === -1 ? 0 : 1))
+    if (text !== '\n') {
+      pt.add += ' '.repeat(offset - (pieceIndex === -1 ? 0 : 1))
+    }
     // special case where we are trying to insert at the beginning of the document
     charIndex++
   }
