@@ -8,7 +8,7 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className="container mx-auto p-6 flex items-center justify-center">
+    <div className="relative container mx-auto p-6 flex items-center justify-center">
       <Editor>
         <Margins />
         <Grid />

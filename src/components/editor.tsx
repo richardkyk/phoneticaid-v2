@@ -40,6 +40,29 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     cursor.setCursorByRowCol(row, isCharRightSide ? col + 1 : col)
   }
 
+  const handleClick = () => {
+    inputRef.current?.focus()
+  }
+
+  return (
+    <Fragment>
+      <div
+        ref={editorRef}
+        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none"
+        onMouseDown={handleMouseDown}
+        onClick={handleClick}
+      >
+        {props.children}
+      </div>
+      <HiddenInput ref={inputRef} />
+    </Fragment>
+  )
+}
+
+interface HiddenInputProps {
+  ref: React.RefObject<HTMLInputElement | null>
+}
+const HiddenInput = (props: HiddenInputProps) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const cursor = useCursorStore.getState()
     const pieceTable = usePieceTableStore.getState()
@@ -82,13 +105,6 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     }
   }
 
-  const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
-    const ev = e.nativeEvent as InputEvent
-    if (ev.inputType === 'insertText' && ev.data) {
-      e.preventDefault()
-      usePieceTableStore.getState().insertAtCursor(ev.data)
-    }
-  }
   // const handleCopy =
   //   (e: React.ClipboardEvent<HTMLDivElement>) => {
   //     const text = props.onCopySelection()
@@ -104,41 +120,36 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   //     e.preventDefault()
   // }
   //
+
+  const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
+    const ev = e.nativeEvent as InputEvent
+    if (ev.inputType === 'insertText' && ev.data) {
+      e.preventDefault()
+      usePieceTableStore.getState().insertAtCursor(ev.data)
+      if (props.ref.current) props.ref.current.value = ''
+    }
+  }
+
   const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault()
     const text = e.clipboardData.getData('text/plain')
     usePieceTableStore.getState().insertAtCursor(text)
-    e.preventDefault()
   }
 
   const handleCompositionEnd = (e: React.CompositionEvent<HTMLDivElement>) => {
+    e.preventDefault()
     const text = e.data
     usePieceTableStore.getState().insertAtCursor(text)
-    e.preventDefault()
+    if (props.ref.current) props.ref.current.value = ''
   }
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    inputRef.current?.focus()
-  }
-
   return (
-    <Fragment>
-      <div
-        ref={editorRef}
-        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none caret-transparent"
-        onMouseDown={handleMouseDown}
-        onClick={handleClick}
-      >
-        {props.children}
-      </div>
-      <input
-        ref={inputRef}
-        className="absolute left-5 top-50 w-50 border pointer-events-none focus:outline-amber-200"
-        onMouseDown={handleMouseDown}
-        onKeyDown={handleKeyDown}
-        onInput={handleInput}
-        onPaste={handlePaste}
-        onCompositionEnd={handleCompositionEnd}
-      />
-    </Fragment>
+    <input
+      ref={props.ref}
+      className="absolute -top-1 w-[210mm] opacity-100 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
+      onKeyDown={handleKeyDown}
+      onInput={handleInput}
+      onPaste={handlePaste}
+      onCompositionEnd={handleCompositionEnd}
+    />
   )
 }
