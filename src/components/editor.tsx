@@ -2,9 +2,10 @@ import { useCursorStore } from '@/lib/cursor-store'
 import { useDocumentStore, useRowsStore } from '@/lib/document-store'
 import { usePieceTableStore } from '@/lib/piece-table-store'
 import { getMmToPx } from '@/lib/utils'
-import React, { useRef } from 'react'
+import React, { Fragment, useRef } from 'react'
 
 export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
+  const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -42,7 +43,6 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const cursor = useCursorStore.getState()
     const pieceTable = usePieceTableStore.getState()
-    console.log(e.key)
     switch (e.key) {
       case 'ArrowLeft':
       case 'ArrowRight':
@@ -53,22 +53,25 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
         e.preventDefault()
         cursor.moveCursor(e.key)
         break
-      // case 'Backspace':
-      //   e.preventDefault()
-      //   pieceTable.deleteAtCursor(1)
-      //   props.onBackspace()
-      //   break
-      case 'Delete':
+      case 'Tab':
         e.preventDefault()
+        if (e.shiftKey) {
+          cursor.moveCursor('ArrowLeft')
+        } else {
+          cursor.moveCursor('ArrowRight')
+        }
         break
+      case 'Backspace':
+        e.preventDefault()
+        pieceTable.deleteAtCursor(1)
+        break
+      // case 'Delete':
+      //   e.preventDefault()
+      //   break
       case 'Enter':
         e.preventDefault()
         pieceTable.insertAtCursor('\n')
         break
-      // case 'Tab':
-      //   e.preventDefault()
-      //   props.onInsertText('\t')
-      //   break
       // case 'z':
       // case 'Z':
       //   if (e.metaKey || e.ctrlKey) {
@@ -79,14 +82,13 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     }
   }
 
-  const handleBeforeInput = (e: React.FormEvent<HTMLDivElement>) => {
+  const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     const ev = e.nativeEvent as InputEvent
-    if (ev.inputType === 'insertText') {
+    if (ev.inputType === 'insertText' && ev.data) {
       e.preventDefault()
-      usePieceTableStore.getState().insertAtCursor(ev.data ?? '')
+      usePieceTableStore.getState().insertAtCursor(ev.data)
     }
   }
-
   // const handleCopy =
   //   (e: React.ClipboardEvent<HTMLDivElement>) => {
   //     const text = props.onCopySelection()
@@ -108,20 +110,35 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     e.preventDefault()
   }
 
+  const handleCompositionEnd = (e: React.CompositionEvent<HTMLDivElement>) => {
+    const text = e.data
+    usePieceTableStore.getState().insertAtCursor(text)
+    e.preventDefault()
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    inputRef.current?.focus()
+  }
+
   return (
-    <div
-      tabIndex={0}
-      ref={editorRef}
-      className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none"
-      suppressContentEditableWarning
-      onMouseDown={handleMouseDown}
-      onKeyDown={handleKeyDown}
-      onBeforeInput={handleBeforeInput}
-      // onCopy={handleCopy}
-      // onCut={handleCut}
-      onPaste={handlePaste}
-    >
-      {props.children}
-    </div>
+    <Fragment>
+      <div
+        ref={editorRef}
+        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none caret-transparent"
+        onMouseDown={handleMouseDown}
+        onClick={handleClick}
+      >
+        {props.children}
+      </div>
+      <input
+        ref={inputRef}
+        className="absolute left-5 top-50 w-50 border pointer-events-none focus:outline-amber-200"
+        onMouseDown={handleMouseDown}
+        onKeyDown={handleKeyDown}
+        onInput={handleInput}
+        onPaste={handlePaste}
+        onCompositionEnd={handleCompositionEnd}
+      />
+    </Fragment>
   )
 }

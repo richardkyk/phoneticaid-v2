@@ -157,12 +157,9 @@ export function insertText(
   if (left.length) piecesToInsert.push(left)
   piecesToInsert.push(newPiece)
   if (right.length) piecesToInsert.push(right)
-  console.log('left', JSON.stringify(left, null, 2))
-  console.log('right', JSON.stringify(right, null, 2))
 
   // Replace the original piece with new pieces
   pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)
-  console.log('after', JSON.stringify(pt, null, 2))
 
   return {
     pieceIndex: pieceIndex + (left.length ? 1 : 0),
