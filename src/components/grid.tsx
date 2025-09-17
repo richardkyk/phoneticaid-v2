@@ -28,9 +28,10 @@ export const Grid = () => {
         row.map((cell, j) => (
           <div
             key={`${i}-${j}`}
+            data-debug={document.debug ? '' : undefined}
             data-last={cell.col === document.columns ? '' : undefined}
             className={cn(
-              'absolute overflow-hidden flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+              'absolute overflow-hidden data-[last]:opacity-0 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
               'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
             )}
             style={{
@@ -38,7 +39,6 @@ export const Grid = () => {
               left: `${cell.x}mm`,
               width: `${cell.width}mm`,
               height: `${cell.height}mm`,
-              opacity: document.debug ? 1 : 0,
             }}
           >
             <span style={{ fontSize: `${cell.height}mm` }}>{cell.content}</span>
