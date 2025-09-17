@@ -52,8 +52,13 @@ export const useCursorStore = create<CursorState>((set, get) => ({
       newRow += 1
       newCol = newCol % (document.columns + 1)
     }
-
     switch (key) {
+      case 'Home':
+        newCol = 0
+        break
+      case 'End':
+        newCol = document.columns
+        break
       case 'ArrowUp':
         newRow -= 1
         if (newRow < 0) return

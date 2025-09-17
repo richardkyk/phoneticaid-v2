@@ -1,126 +1,127 @@
-import React, { useCallback } from 'react'
+import { useCursorStore } from '@/lib/cursor-store'
+import { useDocumentStore, useRowsStore } from '@/lib/document-store'
+import { usePieceTableStore } from '@/lib/piece-table-store'
+import { getMmToPx } from '@/lib/utils'
+import React, { useRef } from 'react'
 
-type EditorProps = {
-  onInsertText: (text: string) => void
-  onEnter: () => void
-  onBackspace: () => void
-  onDelete: () => void
-  onArrow: (dir: 'left' | 'right' | 'up' | 'down') => void
-  onHome: () => void
-  onEnd: () => void
-  onUndo: () => void
-  onRedo: () => void
-  onCopySelection: () => string // return selected text
-  onDeleteSelection: () => void // delete selection when cutting
-  onPasteText: (text: string) => void
-}
+export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
+  const editorRef = useRef<HTMLDivElement>(null)
 
-export const Editor: React.FC<EditorProps> = (props) => {
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      switch (e.key) {
-        case 'ArrowLeft':
-          e.preventDefault()
-          props.onArrow('left')
-          break
-        case 'ArrowRight':
-          e.preventDefault()
-          props.onArrow('right')
-          break
-        case 'ArrowUp':
-          e.preventDefault()
-          props.onArrow('up')
-          break
-        case 'ArrowDown':
-          e.preventDefault()
-          props.onArrow('down')
-          break
-        case 'Home':
-          e.preventDefault()
-          props.onHome()
-          break
-        case 'End':
-          e.preventDefault()
-          props.onEnd()
-          break
-        case 'Backspace':
-          e.preventDefault()
-          props.onBackspace()
-          break
-        case 'Delete':
-          e.preventDefault()
-          props.onDelete()
-          break
-        case 'Enter':
-          e.preventDefault()
-          props.onEnter()
-          break
-        case 'Tab':
-          e.preventDefault()
-          props.onInsertText('\t')
-          break
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!editorRef.current) return
 
-        case 'z':
-        case 'Z':
-          if (e.metaKey || e.ctrlKey) {
-            e.preventDefault()
-            e.shiftKey ? props.onRedo() : props.onUndo()
-          }
-          break
-      }
-    },
-    [props],
-  )
+    const document = useDocumentStore.getState()
+    const cursor = useCursorStore.getState()
+    const rowsCount = useRowsStore.getState().rows
 
-  const handleBeforeInput = useCallback(
-    (e: React.FormEvent<HTMLDivElement>) => {
-      const ev = e.nativeEvent as InputEvent
-      if (ev.inputType === 'insertText') {
+    const { mmX, mmY } = getMmToPx()
+
+    const rect = editorRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left - document.marginX * mmX
+    const y = e.clientY - rect.top - document.marginY * mmY
+    const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
+    const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
+
+    // if the user clicks in the gap between two rows, don't move the cursor
+    const middleOfY =
+      row * (document.fontSize + document.gapY) * mmY + document.fontSize * mmY
+    const isUnderChar = y > middleOfY
+    if (isUnderChar) return
+
+    if (col < 0 || col >= document.columns) return
+    if (row < 0 || row > rowsCount) return
+
+    // place the cursor at the end of the character if the user clicks on the right side of the character
+    const middleOfX =
+      col * (document.fontSize + document.gapX) * mmX +
+      (document.fontSize / 2) * mmX
+    const isCharRightSide = x > middleOfX
+    cursor.setCursorByRowCol(row, isCharRightSide ? col + 1 : col)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const cursor = useCursorStore.getState()
+    const pieceTable = usePieceTableStore.getState()
+    console.log(e.key)
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+      case 'ArrowUp':
+      case 'ArrowDown':
+      case 'Home':
+      case 'End':
         e.preventDefault()
-        props.onInsertText(ev.data ?? '')
-      }
-    },
-    [props],
-  )
+        cursor.moveCursor(e.key)
+        break
+      // case 'Backspace':
+      //   e.preventDefault()
+      //   pieceTable.deleteAtCursor(1)
+      //   props.onBackspace()
+      //   break
+      case 'Delete':
+        e.preventDefault()
+        break
+      case 'Enter':
+        e.preventDefault()
+        pieceTable.insertAtCursor('\n')
+        break
+      // case 'Tab':
+      //   e.preventDefault()
+      //   props.onInsertText('\t')
+      //   break
+      // case 'z':
+      // case 'Z':
+      //   if (e.metaKey || e.ctrlKey) {
+      //     e.preventDefault()
+      //     e.shiftKey ? props.onRedo() : props.onUndo()
+      //   }
+      //   break
+    }
+  }
 
-  const handleCopy = useCallback(
-    (e: React.ClipboardEvent<HTMLDivElement>) => {
-      const text = props.onCopySelection()
-      e.clipboardData.setData('text/plain', text)
+  const handleBeforeInput = (e: React.FormEvent<HTMLDivElement>) => {
+    const ev = e.nativeEvent as InputEvent
+    if (ev.inputType === 'insertText') {
       e.preventDefault()
-    },
-    [props],
-  )
+      usePieceTableStore.getState().insertAtCursor(ev.data ?? '')
+    }
+  }
 
-  const handleCut = useCallback(
-    (e: React.ClipboardEvent<HTMLDivElement>) => {
-      const text = props.onCopySelection()
-      e.clipboardData.setData('text/plain', text)
-      props.onDeleteSelection()
-      e.preventDefault()
-    },
-    [props],
-  )
-
-  const handlePaste = useCallback(
-    (e: React.ClipboardEvent<HTMLDivElement>) => {
-      const text = e.clipboardData.getData('text/plain')
-      props.onPasteText(text)
-      e.preventDefault()
-    },
-    [props],
-  )
+  // const handleCopy =
+  //   (e: React.ClipboardEvent<HTMLDivElement>) => {
+  //     const text = props.onCopySelection()
+  //     e.clipboardData.setData('text/plain', text)
+  //     e.preventDefault()
+  //   }
+  //
+  // const handleCut =
+  //   (e: React.ClipboardEvent<HTMLDivElement>) => {
+  //     const text = props.onCopySelection()
+  //     e.clipboardData.setData('text/plain', text)
+  //     props.onDeleteSelection()
+  //     e.preventDefault()
+  // }
+  //
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    const text = e.clipboardData.getData('text/plain')
+    usePieceTableStore.getState().insertAtCursor(text)
+    e.preventDefault()
+  }
 
   return (
     <div
-      contentEditable
+      tabIndex={0}
+      ref={editorRef}
+      className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none"
       suppressContentEditableWarning
-      className="editor"
+      onMouseDown={handleMouseDown}
       onKeyDown={handleKeyDown}
       onBeforeInput={handleBeforeInput}
-      onCopy={handleCopy}
-      onCut={handleCut}
+      // onCopy={handleCopy}
+      // onCut={handleCut}
       onPaste={handlePaste}
-    />
+    >
+      {props.children}
+    </div>
   )
 }
