@@ -30,8 +30,14 @@ export const Grid = () => {
             key={`${i}-${j}`}
             data-debug={document.debug ? '' : undefined}
             data-last={cell.col === document.columns ? '' : undefined}
+            data-odd={
+              document.debug && cell.pieceIndex % 2 === 0 ? '' : undefined
+            }
+            data-even={
+              document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
+            }
             className={cn(
-              'absolute overflow-hidden data-[last]:opacity-0 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+              'absolute overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
               'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
             )}
             style={{
