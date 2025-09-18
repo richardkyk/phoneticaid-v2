@@ -136,19 +136,44 @@ const HiddenInput = (props: HiddenInputProps) => {
     usePieceTableStore.getState().insertAtCursor(text)
   }
 
+  const handleCompositionStart = (
+    e: React.CompositionEvent<HTMLDivElement>,
+  ) => {
+    e.preventDefault()
+    const cursorEl = document.getElementById('cursor')
+    const inputEl = props.ref.current
+
+    if (cursorEl && inputEl) {
+      inputEl.focus()
+      const rect = cursorEl.getBoundingClientRect()
+      const height = 20
+      inputEl.style.left = `${rect.left}px`
+      inputEl.style.top = `${rect.bottom - height}px`
+      inputEl.style.width = `${rect.height}px`
+      inputEl.style.height = `${height}px`
+      inputEl.style.opacity = '1'
+    }
+  }
+
   const handleCompositionEnd = (e: React.CompositionEvent<HTMLDivElement>) => {
     e.preventDefault()
     const text = e.data
     usePieceTableStore.getState().insertAtCursor(text)
-    if (props.ref.current) props.ref.current.value = ''
+    const inputEl = props.ref.current
+    if (inputEl) {
+      inputEl.value = ''
+      inputEl.style.opacity = '0'
+    }
   }
+
   return (
     <input
       ref={props.ref}
-      className="absolute -top-1 w-[210mm] opacity-100 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
+      className="fixed bg-white text-xl w-[100px] opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
       onKeyDown={handleKeyDown}
       onInput={handleInput}
       onPaste={handlePaste}
+      onCompositionStart={handleCompositionStart}
       onCompositionEnd={handleCompositionEnd}
     />
   )

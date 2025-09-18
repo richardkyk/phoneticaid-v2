@@ -127,6 +127,7 @@ export const Cursor = (props: CursorProps) => {
       )}
       {visible && (
         <div
+          id="cursor"
           key={`${cursorX}-${cursorY}-${document.gapX}`}
           className="absolute bg-black opacity-100 animate-caret-blink"
           style={{
