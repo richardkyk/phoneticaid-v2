@@ -6,7 +6,7 @@ import {
   useDocumentStore,
   useRowsStore,
 } from '@/lib/document-store'
-import { cn, getMmToPx } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Fragment } from 'react/jsx-runtime'
 import { useLayoutEffect } from '@tanstack/react-router'
 import { getCursorPosition } from '@/lib/piece-table'
@@ -190,11 +190,10 @@ export const Highlight = () => {
     document.columns,
   )
 
-  const { mmX, mmY } = getMmToPx()
-  const rowHeight = (document.fontSize + document.gapY) * mmY
-  const colWidth = (document.fontSize + document.gapX) * mmX
-  const marginX = document.marginX * mmX
-  const marginY = document.marginY * mmY
+  const rowHeight = (document.fontSize + document.gapY) * document.mmY
+  const colWidth = (document.fontSize + document.gapX) * document.mmX
+  const marginX = document.marginX * document.mmX
+  const marginY = document.marginY * document.mmY
 
   return (
     <>
@@ -206,7 +205,7 @@ export const Highlight = () => {
             top: marginY + span.row * rowHeight,
             left: marginX + span.startCol * colWidth,
             width: (span.endCol - span.startCol + 1) * colWidth,
-            height: document.fontSize * mmY,
+            height: document.fontSize * document.mmY,
           }}
         />
       ))}

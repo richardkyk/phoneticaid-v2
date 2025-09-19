@@ -1,23 +1,25 @@
 import { useCursorStore } from '@/lib/cursor-store'
 import { useDocumentStore, useRowsStore } from '@/lib/document-store'
 import { usePieceTableStore } from '@/lib/piece-table-store'
-import { getMmToPx } from '@/lib/utils'
 import React, { Fragment, useRef } from 'react'
 
 const getRowColFromMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
   const document = useDocumentStore.getState()
   const rowsCount = useRowsStore.getState().rows
 
-  const { mmX, mmY } = getMmToPx()
-
   const rect = e.currentTarget.getBoundingClientRect()
-  const x = e.clientX - rect.left - document.marginX * mmX
-  const y = e.clientY - rect.top - document.marginY * mmY
-  const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
-  const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
+  const x = e.clientX - rect.left - document.marginX * document.mmX
+  const y = e.clientY - rect.top - document.marginY * document.mmY
+  const row = Math.floor(
+    y / ((document.fontSize + document.gapY) * document.mmY),
+  )
+  const col = Math.floor(
+    x / ((document.fontSize + document.gapX) * document.mmX),
+  )
 
   const middleOfY =
-    row * (document.fontSize + document.gapY) * mmY + document.fontSize * mmY
+    row * (document.fontSize + document.gapY) * document.mmY +
+    document.fontSize * document.mmY
   const isUnderChar = y > middleOfY
   if (isUnderChar) return
 
@@ -25,8 +27,8 @@ const getRowColFromMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
   if (row < 0 || row >= rowsCount) return
 
   const middleOfX =
-    col * (document.fontSize + document.gapX) * mmX +
-    (document.fontSize / 2) * mmX
+    col * (document.fontSize + document.gapX) * document.mmX +
+    (document.fontSize / 2) * document.mmX
   const isCharRightSide = x > middleOfX
   return { row, col: isCharRightSide ? col + 1 : col }
 }

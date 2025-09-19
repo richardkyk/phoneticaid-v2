@@ -21,6 +21,8 @@ export interface DocumentState {
   gapY: number
   marginX: number
   marginY: number
+  mmX: number
+  mmY: number
   debug: boolean
 
   setFontSize: (fontSize: number) => void
@@ -29,6 +31,9 @@ export interface DocumentState {
   setGapY: (gapY: number) => void
   setMarginX: (marginX: number) => void
   setMarginY: (marginY: number) => void
+  toggleDebug: () => void
+  setMmX: (mmX: number) => void
+  setMmY: (mmY: number) => void
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
@@ -38,6 +43,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   gapY: 0,
   marginX: 15,
   marginY: 15,
+  mmX: 0,
+  mmY: 0,
   debug: true,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
@@ -78,4 +85,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   setGapY: (gapY: number) => set({ gapY }),
   setMarginX: (marginX: number) => set({ marginX }),
   setMarginY: (marginY: number) => set({ marginY }),
+  toggleDebug: () => set((state) => ({ debug: !state.debug })),
+  setMmX: (mmX: number) => set({ mmX }),
+  setMmY: (mmY: number) => set({ mmY }),
 }))
