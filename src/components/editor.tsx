@@ -59,8 +59,12 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     useCursorStore.getState().setSelection(row, col, false)
   }
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
     isSelectingRef.current = false
+    const pos = getRowColFromMouseEvent(e)
+    if (!pos) return
+    const { row, col } = pos
+    useCursorStore.getState().setCursorByRowCol(row, col)
   }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
