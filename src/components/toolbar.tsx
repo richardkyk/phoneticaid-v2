@@ -1,5 +1,6 @@
 import { useDocumentStore } from '@/lib/document-store'
 import { Slider } from './ui/slider'
+import { Switch } from './ui/switch'
 
 export default function Toolbar() {
   const {
@@ -9,12 +10,14 @@ export default function Toolbar() {
     gapY,
     marginX,
     marginY,
+    debug,
     setFontSize,
     setColumns,
     setGapX,
     setGapY,
     setMarginX,
     setMarginY,
+    toggleDebug,
   } = useDocumentStore()
 
   return (
@@ -74,6 +77,15 @@ export default function Toolbar() {
           onValueChange={([value]) => setMarginY(value)}
           max={100}
           step={5}
+        />
+      </div>
+
+      <div className="ml-auto">
+        Debug:
+        <Switch
+          className="block"
+          checked={debug}
+          onCheckedChange={() => toggleDebug()}
         />
       </div>
     </div>
