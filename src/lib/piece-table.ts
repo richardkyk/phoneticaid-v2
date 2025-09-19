@@ -34,6 +34,18 @@ function splitPiece(piece: Piece, index: number): [Piece, Piece] {
   return [left, right]
 }
 
+const normaliseRange = (pos1: RangePosition, pos2: RangePosition) => {
+  let s = pos1
+  let e = pos2
+  if (
+    e.pieceIndex < s.pieceIndex ||
+    (e.pieceIndex === s.pieceIndex && e.charIndex < s.charIndex)
+  ) {
+    ;[s, e] = [e, s]
+  }
+  return [s, e]
+}
+
 export function getText(
   pt: PieceTable,
   start: { pieceIndex: number; charIndex: number } = {
@@ -45,15 +57,7 @@ export function getText(
     charIndex: pt.pieces[pt.pieces.length - 1].length - 1,
   },
 ): string {
-  // normalize: ensure (start <= end) in piece/char order
-  let s = start
-  let e = end
-  if (
-    e.pieceIndex < s.pieceIndex ||
-    (e.pieceIndex === s.pieceIndex && e.charIndex < s.charIndex)
-  ) {
-    ;[s, e] = [e, s]
-  }
+  const [s, e] = normaliseRange(start, end)
 
   let result = ''
 
@@ -205,86 +209,95 @@ export function deleteRange(
   start: RangePosition,
   end: RangePosition,
 ) {
+  const newPieces: Piece[] = []
+  let left: Piece = { buffer: 'original', start: 0, length: 0 }
+  let right: Piece = { buffer: 'original', start: 0, length: 0 }
+
   if (start.pieceIndex === end.pieceIndex) {
     // Single-piece deletion
     const piece = pt.pieces[start.pieceIndex]
-    const [left, rest] = splitPiece(piece, start.charIndex)
-    const [_, right] = splitPiece(
+    const [_left, rest] = splitPiece(piece, start.charIndex)
+    const [_, _right] = splitPiece(
       rest,
       end.charIndex === start.charIndex ? 1 : end.charIndex - start.charIndex,
     )
 
-    const newPieces: Piece[] = []
-    if (left.length) newPieces.push(left)
-    if (right.length) newPieces.push(right)
+    if (_left.length) {
+      newPieces.push(_left)
+      left = _left
+    }
+    if (_right.length) {
+      newPieces.push(_right)
+      right = _right
+    }
 
     pt.pieces.splice(start.pieceIndex, 1, ...newPieces)
+  } else {
+    // Multi-piece deletion
+    const startPiece = pt.pieces[start.pieceIndex]
+    const endPiece = pt.pieces[end.pieceIndex]
 
-    if (newPieces.length === 0) {
-      // if no new pieces were added, move the cursor to the end of the previous piece
-      const _pieceIndex = start.pieceIndex - 1
-      if (_pieceIndex < 0) return { pieceIndex: -1, charIndex: 0, offset: 0 }
-      const _charIndex = pt.pieces[_pieceIndex].length - 1
-      return {
-        pieceIndex: _pieceIndex,
-        charIndex: _charIndex,
-        offset: 1,
-      }
+    const [_left] = splitPiece(startPiece, start.charIndex)
+    const [, _right] = splitPiece(endPiece, end.charIndex)
+
+    if (_left.length) {
+      newPieces.push(_left)
+      left = _left
+    }
+    if (_right.length) {
+      newPieces.push(_right)
+      right = _right
     }
 
-    if (right.length) {
-      // if there is a right piece, move the cursor to the beginning of it
-      const _piece = pt.pieces[start.pieceIndex + (left.length ? 1 : 0)]
-      const buffer = _piece.buffer === 'original' ? pt.original : pt.add
-      const ch = buffer[_piece.start]
-      if (ch !== '\n') {
-        return {
-          pieceIndex: start.pieceIndex + (left.length ? 1 : 0),
-          charIndex: 0,
-          offset: 0,
-        }
-      }
-    }
+    pt.pieces.splice(
+      start.pieceIndex,
+      end.pieceIndex - start.pieceIndex + 1,
+      ...newPieces,
+    )
+  }
 
-    if (left.length) {
-      // if there is a left piece, move the cursor to the end of it
-      return {
-        pieceIndex: start.pieceIndex,
-        charIndex: left.length - 1,
-        offset: 1,
-      }
-    }
-
+  if (newPieces.length === 0) {
+    // if no new pieces were added, move the cursor to the end of the previous piece
+    const _pieceIndex = start.pieceIndex - 1
+    if (_pieceIndex < 0) return { pieceIndex: -1, charIndex: 0, offset: 0 }
+    const _charIndex = pt.pieces[_pieceIndex].length - 1
     return {
-      pieceIndex: 0,
-      charIndex: 0,
-      offset: 0,
+      pieceIndex: _pieceIndex,
+      charIndex: _charIndex,
+      offset: 1,
     }
   }
 
-  // Multi-piece deletion
-  const newPieces: Piece[] = []
-  const startPiece = pt.pieces[start.pieceIndex]
-  const endPiece = pt.pieces[end.pieceIndex]
+  if (right.length) {
+    // if there is a right piece, move the cursor to the beginning of it
+    const _piece = pt.pieces[start.pieceIndex + (left.length ? 1 : 0)]
+    const buffer = _piece.buffer === 'original' ? pt.original : pt.add
+    const ch = buffer[_piece.start]
+    if (ch !== '\n') {
+      return {
+        pieceIndex: start.pieceIndex + (left.length ? 1 : 0),
+        charIndex: 0,
+        offset: 0,
+      }
+    }
+  }
 
-  const [left] = splitPiece(startPiece, start.charIndex)
-  const [, right] = splitPiece(endPiece, end.charIndex)
-
-  if (left.length) newPieces.push(left)
-  if (right.length) newPieces.push(right)
-
-  pt.pieces.splice(
-    start.pieceIndex,
-    end.pieceIndex - start.pieceIndex + 1,
-    ...newPieces,
-  )
+  if (left.length) {
+    // if there is a left piece, move the cursor to the end of it
+    return {
+      pieceIndex: start.pieceIndex,
+      charIndex: left.length - 1,
+      offset: 1,
+    }
+  }
 
   return {
-    pieceIndex: start.pieceIndex + newPieces.length - 1,
+    pieceIndex: 0,
     charIndex: 0,
     offset: 0,
   }
 }
+
 export function deleteBackwards(
   pt: PieceTable,
   pieceIndex: number,
@@ -308,4 +321,15 @@ export function deleteBackwards(
   const end: RangePosition = { pieceIndex, charIndex }
 
   return deleteRange(pt, start, end)
+}
+
+export function deleteSelection(
+  pt: PieceTable,
+  start: RangePosition,
+  end: RangePosition,
+) {
+  const [s, e] = normaliseRange(start, end)
+  console.log('deleteSelection', s, e)
+
+  return deleteRange(pt, s, e)
 }
