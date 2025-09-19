@@ -84,8 +84,8 @@ describe('getPieceIndex', () => {
     setupMaps(pt, document)
     const res = resolveCharPosition(0, 3)
     expect(res.pieceIndex).toBe(0)
-    expect(res.charIndex).toBe(3)
-    expect(res.isNewLine).toBe(true)
+    expect(res.charIndex).toBe(2)
+    expect(res.isNewLine).toBe(false)
   })
 
   it('handles word wrapping correctly 3', () => {
@@ -240,8 +240,32 @@ describe('PieceTable insert', () => {
 
     const res = resolveCharPosition(0, 5)
     expect(res.pieceIndex).toBe(0)
-    expect(res.charIndex).toBe(5)
-    expect(res.isNewLine).toBe(true)
+    expect(res.charIndex).toBe(4)
+    expect(res.isNewLine).toBe(false)
+    expect(res.offset).toBe(1)
+
+    const cursor = insertText(
+      pt,
+      res.pieceIndex,
+      res.charIndex,
+      res.offset,
+      'XX',
+    )
+    expect(pt.add).toBe('XX')
+    expect(pt.pieces.length).toBe(3)
+    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 1, offset: 1 })
+  })
+
+  it('inserts text at start of a row', () => {
+    // hello
+    // XXwor
+    // ld
+    setupMaps(pt, document)
+
+    const res = resolveCharPosition(1, 0)
+    expect(res.pieceIndex).toBe(0)
+    expect(res.charIndex).toBe(6)
+    expect(res.isNewLine).toBe(false)
     expect(res.offset).toBe(0)
 
     const cursor = insertText(
