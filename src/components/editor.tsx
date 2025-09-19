@@ -4,43 +4,65 @@ import { usePieceTableStore } from '@/lib/piece-table-store'
 import { getMmToPx } from '@/lib/utils'
 import React, { Fragment, useRef } from 'react'
 
+const getRowColFromMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+  const document = useDocumentStore.getState()
+  const rowsCount = useRowsStore.getState().rows
+
+  const { mmX, mmY } = getMmToPx()
+
+  const rect = e.currentTarget.getBoundingClientRect()
+  const x = e.clientX - rect.left - document.marginX * mmX
+  const y = e.clientY - rect.top - document.marginY * mmY
+  const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
+  const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
+
+  const middleOfY =
+    row * (document.fontSize + document.gapY) * mmY + document.fontSize * mmY
+  const isUnderChar = y > middleOfY
+  if (isUnderChar) return
+
+  if (col < 0 || col >= document.columns) return
+  if (row < 0 || row >= rowsCount) return
+
+  const middleOfX =
+    col * (document.fontSize + document.gapX) * mmX +
+    (document.fontSize / 2) * mmX
+  const isCharRightSide = x > middleOfX
+  return { row, col: isCharRightSide ? col + 1 : col }
+}
+
 export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
+  const isSelectingRef = useRef(false)
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!editorRef.current) return
+    isSelectingRef.current = true
+    useCursorStore.getState().resetSelection()
 
-    const document = useDocumentStore.getState()
-    const cursor = useCursorStore.getState()
-    const rowsCount = useRowsStore.getState().rows
-
-    const { mmX, mmY } = getMmToPx()
-
-    const rect = editorRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left - document.marginX * mmX
-    const y = e.clientY - rect.top - document.marginY * mmY
-    const row = Math.floor(y / ((document.fontSize + document.gapY) * mmY))
-    const col = Math.floor(x / ((document.fontSize + document.gapX) * mmX))
-
-    // if the user clicks in the gap between two rows, don't move the cursor
-    const middleOfY =
-      row * (document.fontSize + document.gapY) * mmY + document.fontSize * mmY
-    const isUnderChar = y > middleOfY
-    if (isUnderChar) return
-
-    if (col < 0 || col >= document.columns) return
-    if (row < 0 || row > rowsCount) return
-
-    // place the cursor at the end of the character if the user clicks on the right side of the character
-    const middleOfX =
-      col * (document.fontSize + document.gapX) * mmX +
-      (document.fontSize / 2) * mmX
-    const isCharRightSide = x > middleOfX
-    cursor.setCursorByRowCol(row, isCharRightSide ? col + 1 : col)
+    const pos = getRowColFromMouseEvent(e)
+    if (!pos) return
+    const { row, col } = pos
+    useCursorStore.getState().setCursorByRowCol(row, col)
+    useCursorStore.getState().setSelection(row, col, true)
   }
 
-  const handleClick = () => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isSelectingRef.current || !editorRef.current) return
+
+    const pos = getRowColFromMouseEvent(e)
+    if (!pos) return
+    const { row, col } = pos
+    useCursorStore.getState().setSelection(row, col, false)
+  }
+
+  const handleMouseUp = () => {
+    isSelectingRef.current = false
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault()
     inputRef.current?.focus()
   }
 
@@ -48,8 +70,10 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     <Fragment>
       <div
         ref={editorRef}
-        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] h-[297mm] outline-none"
+        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] select-none h-[297mm] outline-none"
         onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
         onClick={handleClick}
       >
         {props.children}
@@ -123,6 +147,7 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     const ev = e.nativeEvent as InputEvent
+    useCursorStore.getState().resetSelection()
     if (ev.inputType === 'insertText' && ev.data) {
       e.preventDefault()
       usePieceTableStore.getState().insertAtCursor(ev.data)

@@ -23,6 +23,9 @@ interface CursorState {
   offset: number
   visible: boolean
 
+  selectionStart: { row: number; col: number } | null
+  selectionEnd: { row: number; col: number } | null
+
   moveCursor: (key: string) => void
   setCursorByPiece: (
     pieceIndex: number,
@@ -30,6 +33,8 @@ interface CursorState {
     offset: number,
   ) => void
   setCursorByRowCol: (row: number, col: number) => void
+  setSelection: (row: number, col: number, isStart: boolean) => void
+  resetSelection: () => void
 }
 
 export const useCursorStore = create<CursorState>((set, get) => ({
@@ -37,6 +42,9 @@ export const useCursorStore = create<CursorState>((set, get) => ({
   charIndex: 0,
   offset: 0,
   visible: true,
+
+  selectionStart: null,
+  selectionEnd: null,
 
   moveCursor: (key: string) => {
     const document = useDocumentStore.getState()
@@ -110,5 +118,20 @@ export const useCursorStore = create<CursorState>((set, get) => ({
       isNewLine,
     )
     set({ pieceIndex, charIndex, offset })
+  },
+  setSelection: (row: number, col: number, isStart: boolean) => {
+    const pos = { row, col }
+    if (isStart) {
+      const prevPos = get().selectionStart
+      if (prevPos && prevPos.row === row && prevPos.col === col) return
+      set({ selectionStart: pos })
+    } else {
+      const prevPos = get().selectionEnd
+      if (prevPos && prevPos.row === row && prevPos.col === col) return
+      set({ selectionEnd: pos })
+    }
+  },
+  resetSelection: () => {
+    set({ selectionStart: null, selectionEnd: null })
   },
 }))

@@ -44,6 +44,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   setColumns: (columns: number) => {
     const increasing = get().columns < columns
     const cursor = useCursorStore.getState()
+    cursor.resetSelection()
     if (cursor.offset <= 1 || increasing) {
       set({ columns })
       return
