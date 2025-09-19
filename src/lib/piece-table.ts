@@ -34,16 +34,43 @@ function splitPiece(piece: Piece, index: number): [Piece, Piece] {
   return [left, right]
 }
 
-// Get text back out (for debugging / rendering)
-export function getText(pt: PieceTable): string {
-  return pt.pieces
-    .map((p) =>
-      (p.buffer === 'original' ? pt.original : pt.add).slice(
-        p.start,
-        p.start + p.length,
-      ),
-    )
-    .join('')
+export function getText(
+  pt: PieceTable,
+  start: { pieceIndex: number; charIndex: number } = {
+    pieceIndex: 0,
+    charIndex: 0,
+  },
+  end: { pieceIndex: number; charIndex: number } = {
+    pieceIndex: pt.pieces.length - 1,
+    charIndex: pt.pieces[pt.pieces.length - 1].length - 1,
+  },
+): string {
+  // normalize: ensure (start <= end) in piece/char order
+  let s = start
+  let e = end
+  if (
+    e.pieceIndex < s.pieceIndex ||
+    (e.pieceIndex === s.pieceIndex && e.charIndex < s.charIndex)
+  ) {
+    ;[s, e] = [e, s]
+  }
+
+  let result = ''
+
+  for (let i = s.pieceIndex; i <= e.pieceIndex; i++) {
+    const p = pt.pieces[i]
+    const buf = p.buffer === 'original' ? pt.original : pt.add
+
+    const pieceStart = i === s.pieceIndex ? p.start + s.charIndex : p.start
+    const pieceEnd =
+      i === e.pieceIndex ? p.start + e.charIndex : p.start + p.length
+
+    if (pieceStart < pieceEnd) {
+      result += buf.slice(pieceStart, pieceEnd)
+    }
+  }
+
+  return result
 }
 
 export function getCursorPosition(

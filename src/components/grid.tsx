@@ -190,8 +190,6 @@ export const Highlight = () => {
     document.columns,
   )
 
-  console.log(spans)
-
   const { mmX, mmY } = getMmToPx()
   const rowHeight = (document.fontSize + document.gapY) * mmY
   const colWidth = (document.fontSize + document.gapX) * mmX
