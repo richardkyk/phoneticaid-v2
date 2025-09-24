@@ -1,4 +1,4 @@
-import { useMapStore } from './cursor-store'
+import { GridPosition, useMapStore } from './cursor-store'
 import { useDocumentStore } from './document-store'
 
 type BufferType = 'original' | 'add'
@@ -34,13 +34,28 @@ function splitPiece(piece: Piece, index: number): [Piece, Piece] {
   return [left, right]
 }
 
-const normaliseRange = (pos1: RangePosition, pos2: RangePosition) => {
+export const normalisePieceTablePosition = (
+  pos1: RangePosition,
+  pos2: RangePosition,
+) => {
   let s = pos1
   let e = pos2
   if (
     e.pieceIndex < s.pieceIndex ||
     (e.pieceIndex === s.pieceIndex && e.charIndex < s.charIndex)
   ) {
+    ;[s, e] = [e, s]
+  }
+  return [s, e]
+}
+
+export const normaliseGridPosition = (
+  pos1: GridPosition,
+  pos2: GridPosition,
+) => {
+  let s = pos1
+  let e = pos2
+  if (e.row < s.row || (e.row === s.row && e.col < s.col)) {
     ;[s, e] = [e, s]
   }
   return [s, e]
@@ -57,7 +72,7 @@ export function getText(
     charIndex: pt.pieces[pt.pieces.length - 1].length - 1,
   },
 ): string {
-  const [s, e] = normaliseRange(start, end)
+  const [s, e] = normalisePieceTablePosition(start, end)
 
   let result = ''
 
@@ -328,7 +343,7 @@ export function deleteSelection(
   start: RangePosition,
   end: RangePosition,
 ) {
-  const [s, e] = normaliseRange(start, end)
+  const [s, e] = normalisePieceTablePosition(start, end)
   console.log('deleteSelection', s, e)
 
   return deleteRange(pt, s, e)

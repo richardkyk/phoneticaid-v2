@@ -1,6 +1,10 @@
 import { create } from 'zustand'
 import { useDocumentStore, useRowsStore } from './document-store'
-import { getCursorPosition, resolveCharPosition } from './piece-table'
+import {
+  getCursorPosition,
+  normaliseGridPosition,
+  resolveCharPosition,
+} from './piece-table'
 
 interface MapStore {
   gridMap: Map<string, string>
@@ -17,27 +21,36 @@ export const useMapStore = create<MapStore>((set) => ({
   setPieceMap: (pieceMap: Map<string, string>) => set({ pieceMap }),
 }))
 
-interface CursorState {
+export interface GridPosition {
+  row: number
+  col: number
+}
+export interface PieceTablePosition {
   pieceIndex: number
   charIndex: number
   offset: number
-  visible: boolean
-
-  selectionStart: { row: number; col: number } | null
-  selectionEnd: { row: number; col: number } | null
-
+}
+interface CursorStoreActions {
   moveCursor: (key: string) => void
   setCursorByPiece: (
     pieceIndex: number,
     charIndex: number,
     offset: number,
   ) => void
+  getSelection: () => { start: GridPosition; end: GridPosition } | null
   setCursorByRowCol: (row: number, col: number) => void
   setSelection: (row: number, col: number, isStart: boolean) => void
   resetSelection: () => void
 }
 
-export const useCursorStore = create<CursorState>((set, get) => ({
+type CursorStoreState = PieceTablePosition &
+  CursorStoreActions & {
+    visible: boolean
+    selectionStart: { row: number; col: number } | null
+    selectionEnd: { row: number; col: number } | null
+  }
+
+export const useCursorStore = create<CursorStoreState>((set, get) => ({
   pieceIndex: -1,
   charIndex: 0,
   offset: 0,
@@ -73,7 +86,7 @@ export const useCursorStore = create<CursorState>((set, get) => ({
         break
       case 'ArrowDown':
         newRow += 1
-        if (newRow > useRowsStore.getState().rows) return
+        if (newRow >= useRowsStore.getState().rows) return
         break
       case 'ArrowLeft':
         newCol -= 1
@@ -104,6 +117,13 @@ export const useCursorStore = create<CursorState>((set, get) => ({
       charIndex: newCharIndex,
       offset: newOffset,
     })
+  },
+  getSelection: () => {
+    const start = get().selectionStart
+    const end = get().selectionEnd
+    if (!start || !end) return null
+    const [s, e] = normaliseGridPosition(start, end)
+    return { start: s, end: e }
   },
   setCursorByPiece: (pieceIndex: number, charIndex: number, offset: number) => {
     set({ pieceIndex, charIndex, offset })

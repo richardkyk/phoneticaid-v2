@@ -147,7 +147,6 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     const ev = e.nativeEvent as InputEvent
-    useCursorStore.getState().resetSelection()
     if (ev.inputType === 'insertText' && ev.data) {
       e.preventDefault()
       usePieceTableStore.getState().insertAtCursor(ev.data)
