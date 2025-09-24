@@ -12,7 +12,11 @@ import { PieceTablePosition, useCursorStore } from './cursor-store'
 export interface PieceTableState {
   pt: PieceTable
   extractSelection: () => string
-  deleteSelection: () => void
+  deleteSelection: () => {
+    pieceIndex: number
+    charIndex: number
+    offset: number
+  } | null
   insertAtCursor: (substr: string) => void
   deleteAtCursor: (length: number) => void
 }
@@ -35,32 +39,30 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     ],
   },
   extractSelection: () => {
-    const cursor = useCursorStore.getState()
-    if (!cursor.selectionStart || !cursor.selectionEnd) return ''
+    const selection = useCursorStore.getState().getSelection()
+    if (!selection) return ''
 
-    const _start = resolveCharPosition(
-      cursor.selectionStart.row,
-      cursor.selectionStart.col,
+    const ptStart = resolveCharPosition(
+      selection.start.row,
+      selection.start.col,
     )
-    const _end = resolveCharPosition(
-      cursor.selectionEnd.row,
-      cursor.selectionEnd.col,
-    )
+    const ptEnd = resolveCharPosition(selection.end.row, selection.end.col)
 
-    const start = {
-      pieceIndex: _start.pieceIndex < 0 ? 0 : _start.pieceIndex,
-      charIndex: _start.pieceIndex < 0 ? 0 : _start.charIndex + _start.offset,
+    const extractStart = {
+      pieceIndex: ptStart.pieceIndex < 0 ? 0 : ptStart.pieceIndex,
+      charIndex:
+        ptStart.pieceIndex < 0 ? 0 : ptStart.charIndex + ptStart.offset,
     }
-    const end = {
-      pieceIndex: _end.pieceIndex < 0 ? 0 : _end.pieceIndex,
-      charIndex: _end.pieceIndex < 0 ? 0 : _end.charIndex + _end.offset,
+    const extractEnd = {
+      pieceIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.pieceIndex,
+      charIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.charIndex + ptEnd.offset,
     }
-    return getText(get().pt, start, end)
+    return getText(get().pt, extractStart, extractEnd)
   },
   deleteSelection: () => {
     const selection = useCursorStore.getState().getSelection()
     const cursor = useCursorStore.getState()
-    if (!selection) return
+    if (!selection) return null
 
     const ptStart = resolveCharPosition(
       selection.start.row,
@@ -71,7 +73,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     if (ptStart.pieceIndex === ptEnd.pieceIndex) {
       if (ptStart.pieceIndex === -1) {
         cursor.resetSelection()
-        return
+        return null
       }
 
       if (
@@ -81,7 +83,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       ) {
         // the selection only contains padding since they reference the same piece
         cursor.resetSelection()
-        return
+        return null
       }
     }
 
@@ -102,7 +104,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       charIndex: ptEnd.charIndex + (ptEnd.offset > 0 ? 1 : 0),
     }
     cursor.resetSelection()
-    deleteSelection(get().pt, deleteStart, deleteEnd)
+    return deleteSelection(get().pt, deleteStart, deleteEnd)
   },
   insertAtCursor: (text: string) => {
     const _cursor = useCursorStore.getState()
@@ -137,6 +139,32 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
   },
   deleteAtCursor: () => {
     const cursor = useCursorStore.getState()
+    const selection = useCursorStore.getState().getSelection()
+    if (selection) {
+      const ptStart = resolveCharPosition(
+        selection.start.row,
+        selection.start.col,
+      )
+      const newCursor = get().deleteSelection() ?? {
+        pieceIndex: ptStart.pieceIndex,
+        charIndex: ptStart.charIndex,
+        offset: ptStart.offset,
+      }
+
+      set((state) => {
+        const pt = { ...state.pt, pieces: [...state.pt.pieces] }
+        useCursorStore
+          .getState()
+          .setCursorByPiece(
+            newCursor.pieceIndex,
+            newCursor.charIndex,
+            newCursor.offset,
+          )
+        return { pt }
+      })
+      return
+    }
+
     if (cursor.pieceIndex <= 0 && cursor.charIndex === 0 && cursor.offset === 0)
       return
     if (cursor.offset > 1 || cursor.pieceIndex === -1) {
