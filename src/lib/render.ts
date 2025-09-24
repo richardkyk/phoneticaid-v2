@@ -18,6 +18,7 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
   const rows: Cell[][] = []
   let row: Cell[] = []
   let last: null | Cell = null
+  let rowCount = 0
 
   const pieceMap = new Map<string, string>()
   const gridMap = new Map<string, string>()
@@ -59,6 +60,8 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
     last = cell
   }
 
+  rowCount = last?.row ?? 1
+
   // flush remaining row
   if (last && row.length > 0) {
     rows.push(padRow(row, last.row, document))
@@ -67,6 +70,7 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
   if (last && last.content === '␍') {
     // special case: document ends with newline → add an empty padded row
     rows.push(padRow([], last.row + 1, document))
+    rowCount++
   }
 
   // special case when the document is empty
@@ -78,7 +82,7 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
     rows,
     pieceMap,
     gridMap,
-    rowCount: last?.row ?? 1,
+    rowCount,
   }
 }
 
