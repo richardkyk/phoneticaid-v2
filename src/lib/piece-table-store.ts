@@ -1,18 +1,18 @@
 import { create } from 'zustand'
 import {
   deleteBackwards,
-  deleteSelection,
   getText,
   insertText,
   PieceTable,
   getPieceTableCursorPosition,
+  deleteRange,
 } from './piece-table'
 import { PieceTableCursor, useCursorStore } from './cursor-store'
 
 export interface PieceTableState {
   pt: PieceTable
   extractSelection: () => string
-  deleteSelection: () => PieceTableCursor | null
+  deleteSelection: (pt: PieceTable) => PieceTableCursor | null
   insertAtCursor: (substr: string) => void
   deleteAtCursor: (length: number) => void
 }
@@ -58,7 +58,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     }
     return getText(get().pt, extractStart, extractEnd)
   },
-  deleteSelection: () => {
+  deleteSelection: (pt: PieceTable) => {
     const selection = useCursorStore.getState().getSelection()
     const cursor = useCursorStore.getState()
     if (!selection) return null
@@ -78,14 +78,19 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
         return null
       }
 
-      if (
-        ptStart.charIndex === ptEnd.charIndex &&
-        ptStart.offset > 0 &&
-        ptEnd.offset > 0
-      ) {
-        // the selection only contains padding since they reference the same piece
-        cursor.resetSelection()
-        return null
+      if (ptStart.charIndex === ptEnd.charIndex) {
+        if (ptStart.offset === ptEnd.offset) {
+          // the selection is referencing the same cursor position
+          // i.e. nothing is actually selected
+          cursor.resetSelection()
+          return null
+        }
+
+        if (ptStart.offset > 0 && ptEnd.offset > 0) {
+          // the selection only contains padding since they reference the same piece
+          cursor.resetSelection()
+          return null
+        }
       }
     }
 
@@ -106,7 +111,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       charIndex: ptEnd.charIndex + (ptEnd.offset > 0 ? 1 : 0),
     }
     cursor.resetSelection()
-    return deleteSelection(get().pt, deleteStart, deleteEnd)
+    return deleteRange(pt, deleteStart, deleteEnd)
   },
   insertAtCursor: (text: string) => {
     const _cursor = useCursorStore.getState()
@@ -114,10 +119,10 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       ..._cursor,
     }
 
-    const pt = { ...get().pt, pieces: [...get().pt.pieces] }
+    const pt = structuredClone(get().pt)
     const selection = useCursorStore.getState().getSelection()
     if (selection) {
-      get().deleteSelection()
+      get().deleteSelection(pt)
       cursor = getPieceTableCursorPosition(
         selection.start.row,
         selection.start.col,
@@ -148,28 +153,25 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
   deleteAtCursor: () => {
     const cursor = useCursorStore.getState()
     const selection = useCursorStore.getState().getSelection()
-    if (selection) {
-      const ptStart = getPieceTableCursorPosition(
-        selection.start.row,
-        selection.start.col,
-      )
-      const newCursor = get().deleteSelection() ?? {
-        pieceIndex: ptStart.pieceIndex,
-        charIndex: ptStart.charIndex,
-        offset: ptStart.offset,
-      }
+    const pt = structuredClone(get().pt)
 
-      set((state) => {
-        const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-        useCursorStore
-          .getState()
-          .setCursorByPiece(
-            newCursor.pieceIndex,
-            newCursor.charIndex,
-            newCursor.offset,
-          )
-        return { pt }
-      })
+    let newCursor = {
+      pieceIndex: cursor.pieceIndex,
+      charIndex: cursor.charIndex,
+      offset: cursor.offset,
+    }
+
+    if (selection) {
+      const _newCursor = get().deleteSelection(pt)
+      if (_newCursor) newCursor = _newCursor
+      useCursorStore
+        .getState()
+        .setCursorByPiece(
+          newCursor.pieceIndex,
+          newCursor.charIndex,
+          newCursor.offset,
+        )
+      set({ pt })
       return
     }
 
@@ -186,22 +188,21 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
         )
       return
     }
-    set((state) => {
-      const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      const newCursor = deleteBackwards(
-        pt,
-        cursor.pieceIndex,
-        cursor.charIndex,
-        cursor.offset,
+
+    newCursor = deleteBackwards(
+      pt,
+      cursor.pieceIndex,
+      cursor.charIndex,
+      cursor.offset,
+    )
+
+    useCursorStore
+      .getState()
+      .setCursorByPiece(
+        newCursor.pieceIndex,
+        newCursor.charIndex,
+        newCursor.offset,
       )
-      useCursorStore
-        .getState()
-        .setCursorByPiece(
-          newCursor.pieceIndex,
-          newCursor.charIndex,
-          newCursor.offset,
-        )
-      return { pt }
-    })
+    set({ pt })
   },
 }))

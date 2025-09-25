@@ -120,11 +120,12 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     })
   },
   getSelection: () => {
-    const start = get().selectionStart
-    const end = get().selectionEnd
-    if (!start || !end) return null
-    const [s, e] = normaliseGridPosition(start, end)
-    return { start: s, end: e }
+    const s = get().selectionStart
+    const e = get().selectionEnd
+    if (!s || !e) return null
+    if (s.row === e.row && s.col === e.col) return null
+    const [start, end] = normaliseGridPosition(s, e)
+    return { start, end }
   },
   setCursorByPiece: (pieceIndex: number, charIndex: number, offset: number) => {
     set({ pieceIndex, charIndex, offset })
