@@ -3,10 +3,10 @@ import {
   insertText,
   PieceTable,
 } from '@/lib/piece-table'
-import { DocumentState, useDocumentStore } from '@/lib/document-store'
+import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { buildRows } from '@/lib/render'
-import { useMapStore } from '@/lib/cursor-store'
+import { useMapStore } from '@/lib/stores/cursor-store'
 
 // Small helper for tests
 function makePT(original: string, add: string): PieceTable {

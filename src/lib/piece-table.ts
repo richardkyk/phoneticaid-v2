@@ -1,5 +1,5 @@
-import { GridPosition, useMapStore } from './cursor-store'
-import { useDocumentStore } from './document-store'
+import { GridPosition, useMapStore } from './stores/cursor-store'
+import { useDocumentStore } from './stores/document-store'
 
 type BufferType = 'original' | 'add'
 

@@ -1,5 +1,5 @@
 import { PieceTable } from './piece-table'
-import { DocumentState } from './document-store'
+import { DocumentState } from './stores/document-store'
 
 interface Cell {
   content: string

@@ -1,4 +1,4 @@
-import { useDocumentStore } from '@/lib/document-store'
+import { useDocumentStore } from '@/lib/stores/document-store'
 import { useLayoutEffect, useRef } from 'react'
 
 export default function DensityCalibration() {

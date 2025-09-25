@@ -1,6 +1,6 @@
-import { useCursorStore } from '@/lib/cursor-store'
-import { useDocumentStore, useRowsStore } from '@/lib/document-store'
-import { usePieceTableStore } from '@/lib/piece-table-store'
+import { useCursorStore } from '@/lib/stores/cursor-store'
+import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
+import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import React, { Fragment, useRef } from 'react'
 
 const getRowColFromMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {

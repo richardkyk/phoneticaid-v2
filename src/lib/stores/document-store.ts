@@ -3,7 +3,7 @@ import { useCursorStore } from './cursor-store'
 import {
   getGridCursorPosition,
   getPieceTableCursorPosition,
-} from './piece-table'
+} from '../piece-table'
 
 export interface RowsState {
   rows: number

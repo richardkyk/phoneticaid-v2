@@ -6,7 +6,7 @@ import {
   PieceTable,
   getPieceTableCursorPosition,
   deleteRange,
-} from './piece-table'
+} from '../piece-table'
 import { PieceTableCursor, useCursorStore } from './cursor-store'
 
 export interface PieceTableState {

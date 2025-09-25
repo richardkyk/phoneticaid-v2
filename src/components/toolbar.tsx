@@ -1,4 +1,4 @@
-import { useDocumentStore } from '@/lib/document-store'
+import { useDocumentStore } from '@/lib/stores/document-store'
 import { Slider } from './ui/slider'
 import { Switch } from './ui/switch'
 

@@ -5,7 +5,7 @@ import {
   normaliseGridPosition,
   PieceTablePosition,
   getPieceTableCursorPosition,
-} from './piece-table'
+} from '../piece-table'
 
 interface MapStore {
   gridMap: Map<string, string>

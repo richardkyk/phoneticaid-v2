@@ -1,11 +1,11 @@
-import { useCursorStore, useMapStore } from '@/lib/cursor-store'
-import { usePieceTableStore } from '@/lib/piece-table-store'
+import { useCursorStore, useMapStore } from '@/lib/stores/cursor-store'
+import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { buildRows } from '@/lib/render'
 import {
   DocumentState,
   useDocumentStore,
   useRowsStore,
-} from '@/lib/document-store'
+} from '@/lib/stores/document-store'
 import { cn } from '@/lib/utils'
 import { Fragment } from 'react/jsx-runtime'
 import { useLayoutEffect } from '@tanstack/react-router'
