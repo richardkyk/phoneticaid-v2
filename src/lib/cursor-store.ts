@@ -1,9 +1,10 @@
 import { create } from 'zustand'
 import { useDocumentStore, useRowsStore } from './document-store'
 import {
-  getCursorPosition,
+  getGridCursorPosition,
   normaliseGridPosition,
-  resolveCharPosition,
+  PieceTablePosition,
+  getPieceTableCursorPosition,
 } from './piece-table'
 
 interface MapStore {
@@ -25,11 +26,11 @@ export interface GridPosition {
   row: number
   col: number
 }
-export interface PieceTablePosition {
-  pieceIndex: number
-  charIndex: number
+
+export type PieceTableCursor = PieceTablePosition & {
   offset: number
 }
+
 interface CursorStoreActions {
   moveCursor: (key: string) => void
   setCursorByPiece: (
@@ -43,7 +44,7 @@ interface CursorStoreActions {
   resetSelection: () => void
 }
 
-type CursorStoreState = PieceTablePosition &
+type CursorStoreState = PieceTableCursor &
   CursorStoreActions & {
     visible: boolean
     selectionStart: { row: number; col: number } | null
@@ -64,7 +65,7 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     const pieceIndex = get().pieceIndex
     const charIndex = get().charIndex
     const offset = get().offset
-    const { row, col } = getCursorPosition(pieceIndex, charIndex)
+    const { row, col } = getGridCursorPosition(pieceIndex, charIndex)
 
     let newRow = row
     let newCol = col + offset
@@ -111,7 +112,7 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
       pieceIndex: newPieceIndex,
       charIndex: newCharIndex,
       offset: newOffset,
-    } = resolveCharPosition(newRow, newCol)
+    } = getPieceTableCursorPosition(newRow, newCol)
     set({
       pieceIndex: newPieceIndex,
       charIndex: newCharIndex,
@@ -129,10 +130,8 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     set({ pieceIndex, charIndex, offset })
   },
   setCursorByRowCol: (row: number, col: number) => {
-    const { pieceIndex, charIndex, offset, isNewLine } = resolveCharPosition(
-      row,
-      col,
-    )
+    const { pieceIndex, charIndex, offset, isNewLine } =
+      getPieceTableCursorPosition(row, col)
     console.log(
       `setCursorByRowCol: (${row},${col}) -> [${pieceIndex}][${charIndex}]+${offset}`,
       isNewLine,

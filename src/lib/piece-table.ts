@@ -15,6 +15,11 @@ export interface PieceTable {
   pieces: Piece[]
 }
 
+export interface PieceTablePosition {
+  pieceIndex: number
+  charIndex: number
+}
+
 // Split a piece at a given index, return [left, right]
 function splitPiece(piece: Piece, index: number): [Piece, Piece] {
   const leftLength = Math.max(0, Math.min(index, piece.length))
@@ -35,9 +40,9 @@ function splitPiece(piece: Piece, index: number): [Piece, Piece] {
 }
 
 export const normalisePieceTablePosition = (
-  pos1: RangePosition,
-  pos2: RangePosition,
-) => {
+  pos1: PieceTablePosition,
+  pos2: PieceTablePosition,
+): [start: PieceTablePosition, end: PieceTablePosition] => {
   let s = pos1
   let e = pos2
   if (
@@ -52,7 +57,7 @@ export const normalisePieceTablePosition = (
 export const normaliseGridPosition = (
   pos1: GridPosition,
   pos2: GridPosition,
-) => {
+): [start: GridPosition, end: GridPosition] => {
   let s = pos1
   let e = pos2
   if (e.row < s.row || (e.row === s.row && e.col < s.col)) {
@@ -92,7 +97,7 @@ export function getText(
   return result
 }
 
-export function getCursorPosition(
+export function getGridCursorPosition(
   pieceIndex: number,
   charIndex: number,
   pieceMap = useMapStore.getState().pieceMap,
@@ -110,7 +115,7 @@ export function getCursorPosition(
 }
 
 // Walk the pieces to find the corresponding character position
-export function resolveCharPosition(
+export function getPieceTableCursorPosition(
   row: number,
   col: number,
 ): {
@@ -214,15 +219,10 @@ export function insertText(
   }
 }
 
-interface RangePosition {
-  pieceIndex: number
-  charIndex: number
-}
-
 export function deleteRange(
   pt: PieceTable,
-  start: RangePosition,
-  end: RangePosition,
+  start: PieceTablePosition,
+  end: PieceTablePosition,
 ) {
   const newPieces: Piece[] = []
   let left: Piece = { buffer: 'original', start: 0, length: 0 }
@@ -329,19 +329,19 @@ export function deleteBackwards(
     startCharIndex = pt.pieces[startPieceIndex].length - 1
   }
 
-  const start: RangePosition = {
+  const start: PieceTablePosition = {
     pieceIndex: startPieceIndex,
     charIndex: startCharIndex,
   }
-  const end: RangePosition = { pieceIndex, charIndex }
+  const end: PieceTablePosition = { pieceIndex, charIndex }
 
   return deleteRange(pt, start, end)
 }
 
 export function deleteSelection(
   pt: PieceTable,
-  start: RangePosition,
-  end: RangePosition,
+  start: PieceTablePosition,
+  end: PieceTablePosition,
 ) {
   const [s, e] = normalisePieceTablePosition(start, end)
   console.log('deleteSelection', s, e)

@@ -5,18 +5,14 @@ import {
   getText,
   insertText,
   PieceTable,
-  resolveCharPosition,
+  getPieceTableCursorPosition,
 } from './piece-table'
-import { PieceTablePosition, useCursorStore } from './cursor-store'
+import { PieceTableCursor, useCursorStore } from './cursor-store'
 
 export interface PieceTableState {
   pt: PieceTable
   extractSelection: () => string
-  deleteSelection: () => {
-    pieceIndex: number
-    charIndex: number
-    offset: number
-  } | null
+  deleteSelection: () => PieceTableCursor | null
   insertAtCursor: (substr: string) => void
   deleteAtCursor: (length: number) => void
 }
@@ -42,11 +38,14 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     const selection = useCursorStore.getState().getSelection()
     if (!selection) return ''
 
-    const ptStart = resolveCharPosition(
+    const ptStart = getPieceTableCursorPosition(
       selection.start.row,
       selection.start.col,
     )
-    const ptEnd = resolveCharPosition(selection.end.row, selection.end.col)
+    const ptEnd = getPieceTableCursorPosition(
+      selection.end.row,
+      selection.end.col,
+    )
 
     const extractStart = {
       pieceIndex: ptStart.pieceIndex < 0 ? 0 : ptStart.pieceIndex,
@@ -64,11 +63,14 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     const cursor = useCursorStore.getState()
     if (!selection) return null
 
-    const ptStart = resolveCharPosition(
+    const ptStart = getPieceTableCursorPosition(
       selection.start.row,
       selection.start.col,
     )
-    const ptEnd = resolveCharPosition(selection.end.row, selection.end.col)
+    const ptEnd = getPieceTableCursorPosition(
+      selection.end.row,
+      selection.end.col,
+    )
 
     if (ptStart.pieceIndex === ptEnd.pieceIndex) {
       if (ptStart.pieceIndex === -1) {
@@ -108,14 +110,17 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
   },
   insertAtCursor: (text: string) => {
     const _cursor = useCursorStore.getState()
-    let cursor: PieceTablePosition = {
+    let cursor: PieceTableCursor = {
       ..._cursor,
     }
 
     const selection = useCursorStore.getState().getSelection()
     if (selection) {
       get().deleteSelection()
-      cursor = resolveCharPosition(selection.start.row, selection.start.col)
+      cursor = getPieceTableCursorPosition(
+        selection.start.row,
+        selection.start.col,
+      )
     }
 
     set((state) => {
@@ -141,7 +146,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     const cursor = useCursorStore.getState()
     const selection = useCursorStore.getState().getSelection()
     if (selection) {
-      const ptStart = resolveCharPosition(
+      const ptStart = getPieceTableCursorPosition(
         selection.start.row,
         selection.start.col,
       )

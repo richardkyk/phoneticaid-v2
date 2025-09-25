@@ -5,7 +5,12 @@ import { createServerFn } from '@tanstack/react-start'
 
 const filePath = 'todos.json'
 
-async function readTodos() {
+interface Todo {
+  id: number
+  name: string
+}
+
+async function readTodos(): Promise<Todo[]> {
   return JSON.parse(
     await fs.promises.readFile(filePath, 'utf-8').catch(() =>
       JSON.stringify(

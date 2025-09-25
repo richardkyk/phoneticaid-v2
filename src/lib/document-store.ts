@@ -1,6 +1,9 @@
 import { create } from 'zustand'
 import { useCursorStore } from './cursor-store'
-import { getCursorPosition, resolveCharPosition } from './piece-table'
+import {
+  getGridCursorPosition,
+  getPieceTableCursorPosition,
+} from './piece-table'
 
 export interface RowsState {
   rows: number
@@ -58,7 +61,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     }
 
     // if we are decreasing the columns, we may need to cap the column
-    const { row, col, isNewLine } = getCursorPosition(
+    const { row, col, isNewLine } = getGridCursorPosition(
       cursor.pieceIndex,
       cursor.charIndex,
     )
@@ -77,7 +80,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       newCol = columns
     }
 
-    const newPos = resolveCharPosition(newRow, newCol)
+    const newPos = getPieceTableCursorPosition(newRow, newCol)
     cursor.setCursorByPiece(newPos.pieceIndex, newPos.charIndex, newPos.offset)
     set({ columns })
   },

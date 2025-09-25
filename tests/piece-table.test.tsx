@@ -1,4 +1,8 @@
-import { resolveCharPosition, insertText, PieceTable } from '@/lib/piece-table'
+import {
+  getPieceTableCursorPosition,
+  insertText,
+  PieceTable,
+} from '@/lib/piece-table'
 import { DocumentState, useDocumentStore } from '@/lib/document-store'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { buildRows } from '@/lib/render'
@@ -34,7 +38,7 @@ describe('getPieceIndex', () => {
     // 1x3
     const pt = makePT('abc', '1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 4)
+    const res = getPieceTableCursorPosition(0, 4)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(1)
   })
@@ -44,7 +48,7 @@ describe('getPieceIndex', () => {
     // 1x3
     const pt = makePT('abc', '\n1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(1, 1)
+    const res = getPieceTableCursorPosition(1, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
   })
@@ -57,7 +61,7 @@ describe('getPieceIndex', () => {
     // 1x3
     const pt = makePT('a\nbc\n', '\n\n1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(4, 1)
+    const res = getPieceTableCursorPosition(4, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(3)
   })
@@ -69,7 +73,7 @@ describe('getPieceIndex', () => {
     // 123
     const pt = makePT('abc\ndef', '123')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 2)
+    const res = getPieceTableCursorPosition(0, 2)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(2)
     expect(res.isNewLine).toBe(false)
@@ -82,7 +86,7 @@ describe('getPieceIndex', () => {
     // 123
     const pt = makePT('abc\ndef', '123')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 3)
+    const res = getPieceTableCursorPosition(0, 3)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(2)
     expect(res.isNewLine).toBe(false)
@@ -95,7 +99,7 @@ describe('getPieceIndex', () => {
     // 123
     const pt = makePT('abc\ndef', '123')
     setupMaps(pt, document)
-    const res = resolveCharPosition(1, 0)
+    const res = getPieceTableCursorPosition(1, 0)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(4)
     expect(res.isNewLine).toBe(false)
@@ -106,7 +110,7 @@ describe('getPieceIndex', () => {
     // def123
     const pt = makePT('abc\ndef', '123')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 5)
+    const res = getPieceTableCursorPosition(0, 5)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(2)
     expect(res.isNewLine).toBe(false)
@@ -116,7 +120,7 @@ describe('getPieceIndex', () => {
   it('handles space correctly', () => {
     const pt = makePT('abc', ' 1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 5)
+    const res = getPieceTableCursorPosition(0, 5)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
   })
@@ -124,7 +128,7 @@ describe('getPieceIndex', () => {
   it('handles multiple spaces correctly', () => {
     const pt = makePT('a bc', '   1 x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 9)
+    const res = getPieceTableCursorPosition(0, 9)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(5)
   })
@@ -133,7 +137,7 @@ describe('getPieceIndex', () => {
     document.columns = 10
     const pt = makePT('abc', '1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(0, 10)
+    const res = getPieceTableCursorPosition(0, 10)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
     expect(res.offset).toBe(5)
@@ -143,7 +147,7 @@ describe('getPieceIndex', () => {
     document.columns = 2
     const pt = makePT('abc', '1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(2, 0)
+    const res = getPieceTableCursorPosition(2, 0)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(1)
   })
@@ -155,7 +159,7 @@ describe('getPieceIndex', () => {
     // \n1x3
     const pt = makePT('ab\nc', '\n1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(2, 1)
+    const res = getPieceTableCursorPosition(2, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(2)
   })
@@ -164,7 +168,7 @@ describe('getPieceIndex', () => {
     document.columns = 2
     const pt = makePT('ab\nc', '\n\n1x3')
     setupMaps(pt, document)
-    const res = resolveCharPosition(3, 1)
+    const res = getPieceTableCursorPosition(3, 1)
     expect(res.pieceIndex).toBe(1)
     expect(res.charIndex).toBe(3)
   })
@@ -188,7 +192,7 @@ describe('PieceTable insert', () => {
     // ld
     setupMaps(pt, document)
 
-    const res = resolveCharPosition(1, 0)
+    const res = getPieceTableCursorPosition(1, 0)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(6)
     expect(res.isNewLine).toBe(false)
@@ -214,7 +218,7 @@ describe('PieceTable insert', () => {
     // world
     setupMaps(pt, document)
 
-    const res = resolveCharPosition(0, 2)
+    const res = getPieceTableCursorPosition(0, 2)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(2)
     expect(res.isNewLine).toBe(false)
@@ -238,7 +242,7 @@ describe('PieceTable insert', () => {
     // world
     setupMaps(pt, document)
 
-    const res = resolveCharPosition(0, 5)
+    const res = getPieceTableCursorPosition(0, 5)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(4)
     expect(res.isNewLine).toBe(false)
@@ -262,7 +266,7 @@ describe('PieceTable insert', () => {
     // ld
     setupMaps(pt, document)
 
-    const res = resolveCharPosition(1, 0)
+    const res = getPieceTableCursorPosition(1, 0)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(6)
     expect(res.isNewLine).toBe(false)
@@ -286,7 +290,7 @@ describe('PieceTable insert', () => {
     document.columns = 17
     setupMaps(pt, document)
 
-    const res = resolveCharPosition(0, 7)
+    const res = getPieceTableCursorPosition(0, 7)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(4)
     expect(res.offset).toBe(3)
@@ -309,7 +313,7 @@ describe('PieceTable insert', () => {
     document.columns = 17
     setupMaps(pt, document)
 
-    const res = resolveCharPosition(1, 7)
+    const res = getPieceTableCursorPosition(1, 7)
     expect(res.pieceIndex).toBe(0)
     expect(res.charIndex).toBe(10)
     expect(res.offset).toBe(3)

@@ -9,7 +9,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Fragment } from 'react/jsx-runtime'
 import { useLayoutEffect } from '@tanstack/react-router'
-import { getCursorPosition } from '@/lib/piece-table'
+import { getGridCursorPosition } from '@/lib/piece-table'
 
 export const Grid = () => {
   const document = useDocumentStore()
@@ -104,7 +104,7 @@ export const Cursor = (props: CursorProps) => {
   let charIndex = useCursorStore((state) => state.charIndex)
   let offset = useCursorStore((state) => state.offset)
 
-  let { row, col, isNewLine } = getCursorPosition(
+  let { row, col, isNewLine } = getGridCursorPosition(
     pieceIndex,
     charIndex,
     pieceMap,
