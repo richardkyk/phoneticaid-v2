@@ -296,7 +296,7 @@ export function deleteRange(
   }
 
   return {
-    pieceIndex: 0,
+    pieceIndex: -1,
     charIndex: 0,
     offset: 0,
   }
@@ -324,17 +324,7 @@ export function deleteBackwards(
   }
   const end: PieceTablePosition = { pieceIndex, charIndex }
 
+  console.log(start, end)
+
   return deleteRange(pt, start, end)
-}
-
-export function deleteSelection(
-  pt: PieceTable,
-  start: PieceTablePosition,
-  end: PieceTablePosition,
-) {
-  const [s, e] = normalisePieceTablePosition(start, end)
-  if (s.pieceIndex === e.pieceIndex && s.charIndex === e.charIndex) return null
-  console.log('deleteSelection', s, e)
-
-  return deleteRange(pt, s, e)
 }

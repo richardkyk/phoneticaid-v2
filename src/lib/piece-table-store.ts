@@ -150,7 +150,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       .setCursorByPiece(newCursor.pieceIndex, newCursor.charIndex, 1)
     set({ pt })
   },
-  deleteAtCursor: () => {
+  deleteAtCursor: (length: number) => {
     const cursor = useCursorStore.getState()
     const selection = useCursorStore.getState().getSelection()
     const pt = structuredClone(get().pt)
@@ -175,6 +175,8 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       return
     }
 
+    if (length === 0) return
+
     if (cursor.pieceIndex <= 0 && cursor.charIndex === 0 && cursor.offset === 0)
       return
     if (cursor.offset > 1 || cursor.pieceIndex === -1) {
@@ -195,6 +197,9 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       cursor.charIndex,
       cursor.offset,
     )
+
+    console.log('old', JSON.stringify(cursor, null, 2))
+    console.log('new', JSON.stringify(newCursor, null, 2))
 
     useCursorStore
       .getState()

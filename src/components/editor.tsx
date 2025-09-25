@@ -135,15 +135,12 @@ const HiddenInput = (props: HiddenInputProps) => {
     }
   }
 
-  //
-  // const handleCut =
-  //   (e: React.ClipboardEvent<HTMLDivElement>) => {
-  //     const text = props.onCopySelection()
-  //     e.clipboardData.setData('text/plain', text)
-  //     props.onDeleteSelection()
-  //     e.preventDefault()
-  // }
-  //
+  const handleCut = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const text = usePieceTableStore.getState().extractSelection()
+    e.clipboardData.setData('text/plain', text)
+    usePieceTableStore.getState().deleteAtCursor(0)
+  }
 
   const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
     const ev = e.nativeEvent as InputEvent
@@ -156,8 +153,6 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   const handleCopy = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault()
-    const cursor = useCursorStore.getState()
-    if (!cursor.selectionStart || !cursor.selectionEnd) return
     const text = usePieceTableStore.getState().extractSelection()
     e.clipboardData.setData('text/plain', text)
   }
@@ -206,6 +201,7 @@ const HiddenInput = (props: HiddenInputProps) => {
       onInput={handleInput}
       onCopy={handleCopy}
       onPaste={handlePaste}
+      onCut={handleCut}
       onCompositionStart={handleCompositionStart}
       onCompositionEnd={handleCompositionEnd}
     />
