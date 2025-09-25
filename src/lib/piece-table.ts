@@ -68,11 +68,11 @@ export const normaliseGridPosition = (
 
 export function getText(
   pt: PieceTable,
-  start: { pieceIndex: number; charIndex: number } = {
+  start: PieceTablePosition = {
     pieceIndex: 0,
     charIndex: 0,
   },
-  end: { pieceIndex: number; charIndex: number } = {
+  end: PieceTablePosition = {
     pieceIndex: pt.pieces.length - 1,
     charIndex: pt.pieces[pt.pieces.length - 1].length - 1,
   },
@@ -166,20 +166,11 @@ export function insertText(
   pt: PieceTable,
   pieceIndex: number,
   charIndex: number,
-  offset: number,
   text: string,
-) {
-  if (text.length === 0) return { pieceIndex, charIndex, offset }
+): PieceTablePosition {
+  if (text.length === 0) return { pieceIndex, charIndex }
 
   const addStart = pt.add.length
-  if (offset > 0) {
-    // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
-    if (text !== '\n') {
-      pt.add += ' '.repeat(offset - (pieceIndex === -1 ? 0 : 1))
-    }
-    // special case where we are trying to insert at the beginning of the document
-    charIndex++
-  }
 
   if (pieceIndex === -1) {
     pieceIndex = 0
@@ -198,7 +189,6 @@ export function insertText(
     return {
       pieceIndex: 0,
       charIndex: newPiece.length - 1,
-      offset: 1,
     }
   }
 
@@ -215,7 +205,6 @@ export function insertText(
   return {
     pieceIndex: pieceIndex + (left.length ? 1 : 0),
     charIndex: newPiece.length - 1,
-    offset: 1,
   }
 }
 

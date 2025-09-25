@@ -198,18 +198,10 @@ describe('PieceTable insert', () => {
     expect(res.isNewLine).toBe(false)
     expect(res.offset).toBe(0)
 
-    const cursor = insertText(
-      pt,
-      res.pieceIndex,
-      res.charIndex,
-      res.offset,
-      'XX',
-    )
+    const ptPos = insertText(pt, res.pieceIndex, res.charIndex + 1, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
-    // function returns the index of the new piece, but in the case of an insert, we add one to the index
-    // since we expect the cursor to end up in col 2, we expect the function to return col 1
-    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 1, offset: 1 })
+    expect(ptPos).toEqual({ pieceIndex: 1, charIndex: 1 })
   })
 
   it('inserts text in the middle of a piece', () => {
@@ -224,16 +216,10 @@ describe('PieceTable insert', () => {
     expect(res.isNewLine).toBe(false)
     expect(res.offset).toBe(0)
 
-    const cursor = insertText(
-      pt,
-      res.pieceIndex,
-      res.charIndex,
-      res.offset,
-      'XX',
-    )
+    const ptPos = insertText(pt, res.pieceIndex, res.charIndex + 1, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
-    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 1, offset: 1 })
+    expect(ptPos).toEqual({ pieceIndex: 1, charIndex: 1 })
   })
 
   it('inserts text at the end of a row', () => {
@@ -248,16 +234,10 @@ describe('PieceTable insert', () => {
     expect(res.isNewLine).toBe(false)
     expect(res.offset).toBe(1)
 
-    const cursor = insertText(
-      pt,
-      res.pieceIndex,
-      res.charIndex,
-      res.offset,
-      'XX',
-    )
+    const ptPos = insertText(pt, res.pieceIndex, res.charIndex + 1, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
-    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 1, offset: 1 })
+    expect(ptPos).toEqual({ pieceIndex: 1, charIndex: 1 })
   })
 
   it('inserts text at start of a row', () => {
@@ -272,16 +252,10 @@ describe('PieceTable insert', () => {
     expect(res.isNewLine).toBe(false)
     expect(res.offset).toBe(0)
 
-    const cursor = insertText(
-      pt,
-      res.pieceIndex,
-      res.charIndex,
-      res.offset,
-      'XX',
-    )
+    const ptPos = insertText(pt, res.pieceIndex, res.charIndex + 1, 'XX')
     expect(pt.add).toBe('XX')
     expect(pt.pieces.length).toBe(3)
-    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 1, offset: 1 })
+    expect(ptPos).toEqual({ pieceIndex: 1, charIndex: 1 })
   })
 
   it('inserts text in virtual cell', () => {
@@ -295,16 +269,10 @@ describe('PieceTable insert', () => {
     expect(res.charIndex).toBe(4)
     expect(res.offset).toBe(3)
 
-    const cursor = insertText(
-      pt,
-      res.pieceIndex,
-      res.charIndex,
-      res.offset,
-      'XX',
-    )
+    const ptPos = insertText(pt, res.pieceIndex, res.charIndex + 1, '  XX')
     expect(pt.add).toBe('  XX')
     expect(pt.pieces.length).toBe(3)
-    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 3, offset: 1 })
+    expect(ptPos).toEqual({ pieceIndex: 1, charIndex: 3 })
   })
 
   it('inserts text in virtual cell in last row', () => {
@@ -318,15 +286,10 @@ describe('PieceTable insert', () => {
     expect(res.charIndex).toBe(10)
     expect(res.offset).toBe(3)
 
-    const cursor = insertText(
-      pt,
-      res.pieceIndex,
-      res.charIndex,
-      res.offset,
-      'XX',
-    )
+    const ptPos = insertText(pt, res.pieceIndex, res.charIndex + 1, '  XX')
     expect(pt.add).toBe('  XX')
+    console.log(JSON.stringify(pt.pieces, null, 2))
     expect(pt.pieces.length).toBe(2)
-    expect(cursor).toEqual({ pieceIndex: 1, charIndex: 3, offset: 1 })
+    expect(ptPos).toEqual({ pieceIndex: 1, charIndex: 3 })
   })
 })

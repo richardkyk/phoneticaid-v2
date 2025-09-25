@@ -114,6 +114,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       ..._cursor,
     }
 
+    const pt = { ...get().pt, pieces: [...get().pt.pieces] }
     const selection = useCursorStore.getState().getSelection()
     if (selection) {
       get().deleteSelection()
@@ -123,24 +124,26 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       )
     }
 
-    set((state) => {
-      const pt = { ...state.pt, pieces: [...state.pt.pieces] }
-      const newCursor = insertText(
-        pt,
-        cursor.pieceIndex,
-        cursor.charIndex,
-        cursor.offset,
-        text,
-      )
-      useCursorStore
-        .getState()
-        .setCursorByPiece(
-          newCursor.pieceIndex,
-          newCursor.charIndex,
-          newCursor.offset,
-        )
-      return { pt }
-    })
+    let newText = ''
+    if (cursor.offset > 0) {
+      if (text !== '\n') {
+        newText = ' '.repeat(cursor.offset - (cursor.pieceIndex === -1 ? 0 : 1))
+      }
+      // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
+      cursor.charIndex++
+    }
+    newText += text
+
+    const newCursor = insertText(
+      pt,
+      cursor.pieceIndex,
+      cursor.charIndex,
+      newText,
+    )
+    useCursorStore
+      .getState()
+      .setCursorByPiece(newCursor.pieceIndex, newCursor.charIndex, 1)
+    set({ pt })
   },
   deleteAtCursor: () => {
     const cursor = useCursorStore.getState()
