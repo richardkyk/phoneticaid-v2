@@ -34,7 +34,7 @@ const getRowColFromMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
 }
 
 export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
   const editorRef = useRef<HTMLDivElement>(null)
   const isSelectingRef = useRef(false)
 
@@ -69,6 +69,7 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
+    moveIMEInputToCursor(inputRef)
     inputRef.current?.focus()
   }
 
@@ -89,11 +90,28 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   )
 }
 
+const moveIMEInputToCursor = (
+  inputEl: React.RefObject<HTMLTextAreaElement | null>,
+) => {
+  requestAnimationFrame(() => {
+    const cursorEl = document.getElementById('cursor')
+    if (cursorEl && inputEl.current) {
+      const rect = cursorEl.getBoundingClientRect()
+      const height = 20
+      inputEl.current.style.left = `${rect.left}px`
+      inputEl.current.style.top = `${rect.bottom - height}px`
+      inputEl.current.style.width = `100px`
+      inputEl.current.style.height = `${height}px`
+    }
+  })
+}
+
 interface HiddenInputProps {
-  ref: React.RefObject<HTMLInputElement | null>
+  ref: React.RefObject<HTMLTextAreaElement | null>
 }
 const HiddenInput = (props: HiddenInputProps) => {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    moveIMEInputToCursor(props.ref)
     const cursor = useCursorStore.getState()
     const pieceTable = usePieceTableStore.getState()
     switch (e.key) {
@@ -135,14 +153,7 @@ const HiddenInput = (props: HiddenInputProps) => {
     }
   }
 
-  const handleCut = (e: React.ClipboardEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    const text = usePieceTableStore.getState().extractSelection()
-    e.clipboardData.setData('text/plain', text)
-    usePieceTableStore.getState().deleteAtCursor(0)
-  }
-
-  const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
+  const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const ev = e.nativeEvent as InputEvent
     if (ev.inputType === 'insertText' && ev.data) {
       e.preventDefault()
@@ -151,41 +162,44 @@ const HiddenInput = (props: HiddenInputProps) => {
     }
   }
 
-  const handleCopy = (e: React.ClipboardEvent<HTMLDivElement>) => {
+  const handleCopy = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const text = usePieceTableStore.getState().extractSelection()
     e.clipboardData.setData('text/plain', text)
   }
 
-  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
     const text = e.clipboardData.getData('text/plain')
     usePieceTableStore.getState().insertAtCursor(text)
   }
 
+  const handleCut = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+    const text = usePieceTableStore.getState().extractSelection()
+    e.clipboardData.setData('text/plain', text)
+    usePieceTableStore.getState().deleteAtCursor(0)
+  }
+
   const handleCompositionStart = (
-    e: React.CompositionEvent<HTMLDivElement>,
+    e: React.CompositionEvent<HTMLTextAreaElement>,
   ) => {
     e.preventDefault()
-    const cursorEl = document.getElementById('cursor')
     const inputEl = props.ref.current
-
-    if (cursorEl && inputEl) {
-      inputEl.focus()
-      const rect = cursorEl.getBoundingClientRect()
-      const height = 20
-      inputEl.style.left = `${rect.left}px`
-      inputEl.style.top = `${rect.bottom - height}px`
-      inputEl.style.width = `${rect.height}px`
-      inputEl.style.height = `${height}px`
+    if (inputEl) {
       inputEl.style.opacity = '1'
+      inputEl.focus()
     }
   }
 
-  const handleCompositionEnd = (e: React.CompositionEvent<HTMLDivElement>) => {
+  const handleCompositionEnd = (
+    e: React.CompositionEvent<HTMLTextAreaElement>,
+  ) => {
     e.preventDefault()
     const text = e.data
-    usePieceTableStore.getState().insertAtCursor(text)
+    if (text.length !== 0) {
+      usePieceTableStore.getState().insertAtCursor(text)
+    }
     const inputEl = props.ref.current
     if (inputEl) {
       inputEl.value = ''
@@ -194,9 +208,10 @@ const HiddenInput = (props: HiddenInputProps) => {
   }
 
   return (
-    <input
+    <textarea
       ref={props.ref}
-      className="fixed bg-white text-xl w-[100px] opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
+      className="fixed resize-none bg-white text-xl w-[100px] opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
+      rows={1}
       onKeyDown={handleKeyDown}
       onInput={handleInput}
       onCopy={handleCopy}

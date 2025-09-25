@@ -41,7 +41,6 @@ export default function Toolbar() {
           step={1}
         />
       </div>
-
       <div>
         Gap X:
         <Slider
