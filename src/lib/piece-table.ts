@@ -21,7 +21,8 @@ export interface PieceTablePosition {
 }
 
 // Split a piece at a given index, return [left, right]
-function splitPiece(piece: Piece, index: number): [Piece, Piece] {
+function splitPiece(piece: Piece, index: number): [left: Piece, right: Piece] {
+  console.log('splitPiece', JSON.stringify(piece, null, 2), index)
   const leftLength = Math.max(0, Math.min(index, piece.length))
   const rightLength = piece.length - leftLength
 
@@ -184,10 +185,10 @@ export function insertText(
     length: pt.add.length - addStart,
   }
 
-  if (pt.pieces.length === 0) {
+  if (pt.pieces.length === 0 || pt.pieces.length === pieceIndex) {
     pt.pieces.push(newPiece)
     return {
-      pieceIndex: 0,
+      pieceIndex: pt.pieces.length - 1, // need to be -1 since you just inserted a new piece
       charIndex: newPiece.length - 1,
     }
   }
