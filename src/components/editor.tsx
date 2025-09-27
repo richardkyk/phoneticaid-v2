@@ -1,35 +1,37 @@
 import { useCursorStore } from '@/lib/stores/cursor-store'
 import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useCallback, useRef } from 'react'
 
-const getRowColFromMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+const clamp = (val: number, min: number, max: number) =>
+  Math.min(Math.max(val, min), max)
+
+const getRowColFromCoords = (
+  x: number,
+  y: number,
+  rect: DOMRect,
+): { row: number; col: number } => {
   const document = useDocumentStore.getState()
   const rowsCount = useRowsStore.getState().rows
 
-  const rect = e.currentTarget.getBoundingClientRect()
-  const x = e.clientX - rect.left - document.marginX * document.mmX
-  const y = e.clientY - rect.top - document.marginY * document.mmY
-  const row = Math.floor(
-    y / ((document.fontSize + document.gapY) * document.mmY),
+  const relX = x - rect.left - document.marginX * document.mmX
+  const relY = y - rect.top - document.marginY * document.mmY
+
+  let row = Math.floor(
+    relY / ((document.fontSize + document.gapY) * document.mmY),
   )
-  const col = Math.floor(
-    x / ((document.fontSize + document.gapX) * document.mmX),
+  let col = Math.floor(
+    relX / ((document.fontSize + document.gapX) * document.mmX),
   )
 
-  const middleOfY =
-    row * (document.fontSize + document.gapY) * document.mmY +
-    document.fontSize * document.mmY
-  const isUnderChar = y > middleOfY
-  if (isUnderChar) return
-
-  if (col < 0 || col >= document.columns) return
-  if (row < 0 || row >= rowsCount) return
+  row = clamp(row, 0, rowsCount - 1)
+  col = clamp(col, 0, document.columns - 1)
 
   const middleOfX =
     col * (document.fontSize + document.gapX) * document.mmX +
     (document.fontSize / 2) * document.mmX
-  const isCharRightSide = x > middleOfX
+  const isCharRightSide = relX > middleOfX
+
   return { row, col: isCharRightSide ? col + 1 : col }
 }
 
@@ -38,33 +40,43 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   const editorRef = useRef<HTMLDivElement>(null)
   const isSelectingRef = useRef(false)
 
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isSelectingRef.current || !editorRef.current) return
+
+    const rect = editorRef.current.getBoundingClientRect()
+
+    const clampedX = clamp(e.clientX, rect.left, rect.right)
+    const clampedY = clamp(e.clientY, rect.top, rect.bottom)
+
+    const { row, col } = getRowColFromCoords(clampedX, clampedY, rect)
+    useCursorStore.getState().setCursorByRowCol(row, col)
+    useCursorStore.getState().setSelection(row, col, false)
+    moveIMEInputToCursor(inputRef)
+  }, [])
+
+  const handleMouseUp = useCallback(() => {
+    isSelectingRef.current = false
+    inputRef.current?.focus()
+
+    window.removeEventListener('mousemove', handleMouseMove)
+    window.removeEventListener('mouseup', handleMouseUp)
+  }, [handleMouseMove])
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!editorRef.current) return
     isSelectingRef.current = true
     useCursorStore.getState().resetSelection()
 
-    const pos = getRowColFromMouseEvent(e)
-    if (!pos) return
-    const { row, col } = pos
+    const rect = editorRef.current.getBoundingClientRect()
+    const clampedX = clamp(e.clientX, rect.left, rect.right)
+    const clampedY = clamp(e.clientY, rect.top, rect.bottom)
+
+    const { row, col } = getRowColFromCoords(clampedX, clampedY, rect)
     useCursorStore.getState().setCursorByRowCol(row, col)
     useCursorStore.getState().setSelection(row, col, true)
-  }
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isSelectingRef.current || !editorRef.current) return
-
-    const pos = getRowColFromMouseEvent(e)
-    if (!pos) return
-    const { row, col } = pos
-    useCursorStore.getState().setSelection(row, col, false)
-  }
-
-  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
-    isSelectingRef.current = false
-    const pos = getRowColFromMouseEvent(e)
-    if (!pos) return
-    const { row, col } = pos
-    useCursorStore.getState().setCursorByRowCol(row, col)
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
   }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -79,8 +91,6 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
         ref={editorRef}
         className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] select-none h-[297mm] outline-none"
         onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
         onClick={handleClick}
       >
         {props.children}
@@ -209,8 +219,9 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   return (
     <textarea
+      autoFocus
       ref={props.ref}
-      className="fixed resize-none bg-white text-xl w-[100px] opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
+      className="fixed resize-none bg-white text-xl w-[100px] focus:border-red-500 opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
       rows={1}
       onKeyDown={handleKeyDown}
       onInput={handleInput}
