@@ -60,7 +60,7 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
     last = cell
   }
 
-  rowCount = last?.row ?? 1
+  rowCount = last?.row ? last.row + 1 : 1
 
   // flush remaining row
   if (last && row.length > 0) {

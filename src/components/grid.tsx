@@ -17,7 +17,7 @@ export const Grid = () => {
   const data = buildRows(pt, document)
 
   useLayoutEffect(() => {
-    useRowsStore.getState().setRows(data.rowCount + 1)
+    useRowsStore.getState().setRows(data.rowCount)
     useMapStore.getState().setPieceMap(data.pieceMap)
     useMapStore.getState().setGridMap(data.gridMap)
   }, [data])
