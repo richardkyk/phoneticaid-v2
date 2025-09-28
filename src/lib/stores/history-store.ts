@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { useCursorStore } from './cursor-store'
 
 interface UndoAction {
   undo: () => void
@@ -22,12 +23,14 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       future: [],
     })),
   undo: () => {
+    useCursorStore.getState().resetSelection()
     const action = get().past.pop()
     if (!action) return
     action.undo()
     set((state) => ({ future: [action, ...state.future], past: state.past }))
   },
   redo: () => {
+    useCursorStore.getState().resetSelection()
     const action = get().future.shift()
     if (!action) return
     action.redo()

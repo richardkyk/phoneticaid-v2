@@ -23,7 +23,7 @@ export default function Toolbar() {
     toggleDebug,
   } = useDocumentStore()
 
-  const { undo, redo, past, future } = useHistoryStore()
+  const { past, future } = useHistoryStore()
 
   return (
     <div className="border-b p-2 flex gap-4">
@@ -87,10 +87,10 @@ export default function Toolbar() {
       <div>
         Undo:
         <Button
-          onClick={undo}
+          onClick={() => useHistoryStore.getState().undo()}
           className="block h-8"
           variant="outline"
-          disabled={past ? past.length === 0 : true}
+          disabled={past.length === 0}
         >
           <UndoIcon />
         </Button>
@@ -98,10 +98,10 @@ export default function Toolbar() {
       <div>
         Redo:
         <Button
-          onClick={redo}
+          onClick={() => useHistoryStore.getState().redo()}
           className="block h-8"
           variant="outline"
-          disabled={future ? future.length === 0 : true}
+          disabled={future.length === 0}
         >
           <RedoIcon />
         </Button>

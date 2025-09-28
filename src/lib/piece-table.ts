@@ -22,7 +22,6 @@ export interface PieceTablePosition {
 
 // Split a piece at a given index, return [left, right]
 function splitPiece(piece: Piece, index: number): [left: Piece, right: Piece] {
-  console.log('splitPiece', JSON.stringify(piece, null, 2), index)
   const leftLength = Math.max(0, Math.min(index, piece.length))
   const rightLength = piece.length - leftLength
 
@@ -324,8 +323,6 @@ export function deleteBackwards(
     charIndex: startCharIndex,
   }
   const end: PieceTablePosition = { pieceIndex, charIndex }
-
-  console.log(start, end)
 
   return deleteRange(pt, start, end)
 }
