@@ -1,6 +1,9 @@
 import { useDocumentStore } from '@/lib/stores/document-store'
 import { Slider } from './ui/slider'
 import { Switch } from './ui/switch'
+import { Button } from './ui/button'
+import { RedoIcon, UndoIcon } from 'lucide-react'
+import { useHistoryStore } from '@/lib/stores/history-store'
 
 export default function Toolbar() {
   const {
@@ -19,6 +22,8 @@ export default function Toolbar() {
     setMarginY,
     toggleDebug,
   } = useDocumentStore()
+
+  const { undo, redo, past, future } = useHistoryStore()
 
   return (
     <div className="border-b p-2 flex gap-4">
@@ -79,12 +84,35 @@ export default function Toolbar() {
         />
       </div>
 
+      <div>
+        Undo:
+        <Button
+          onClick={undo}
+          className="block h-8"
+          variant="outline"
+          disabled={past ? past.length === 0 : true}
+        >
+          <UndoIcon />
+        </Button>
+      </div>
+      <div>
+        Redo:
+        <Button
+          onClick={redo}
+          className="block h-8"
+          variant="outline"
+          disabled={future ? future.length === 0 : true}
+        >
+          <RedoIcon />
+        </Button>
+      </div>
+
       <div className="ml-auto">
         Debug:
         <Switch
           className="block"
           checked={debug}
-          onCheckedChange={() => toggleDebug()}
+          onCheckedChange={toggleDebug}
         />
       </div>
     </div>

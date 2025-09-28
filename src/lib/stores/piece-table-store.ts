@@ -8,9 +8,11 @@ import {
   deleteRange,
 } from '../piece-table'
 import { PieceTableCursor, useCursorStore } from './cursor-store'
+import { useHistoryStore } from './history-store'
 
 export interface PieceTableState {
   pt: PieceTable
+  setPt: (pt: PieceTable) => void
   extractSelection: () => string
   deleteSelection: (pt: PieceTable) => PieceTableCursor | null
   insertAtCursor: (substr: string) => void
@@ -34,6 +36,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       },
     ],
   },
+  setPt: (pt: PieceTable) => set({ pt }),
   extractSelection: () => {
     const selection = useCursorStore.getState().getSelection()
     if (!selection) return ''
@@ -114,53 +117,76 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     return deleteRange(pt, deleteStart, deleteEnd)
   },
   insertAtCursor: (text: string) => {
-    const _cursor = useCursorStore.getState()
-    let cursor: PieceTableCursor = {
-      ..._cursor,
-    }
-
-    const pt = structuredClone(get().pt)
-    const selection = useCursorStore.getState().getSelection()
-    if (selection) {
-      get().deleteSelection(pt)
-      cursor = getPieceTableCursorPosition(
-        selection.start.row,
-        selection.start.col,
-      )
-    }
-
-    let newText = ''
-    if (cursor.offset > 0) {
-      if (text !== '\n') {
-        newText = ' '.repeat(cursor.offset - (cursor.pieceIndex === -1 ? 0 : 1))
-      }
-      // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
-      cursor.charIndex++
-    }
-    newText += text
-
-    const newCursor = insertText(
-      pt,
-      cursor.pieceIndex,
-      cursor.charIndex,
-      newText,
-    )
-    useCursorStore
-      .getState()
-      .setCursorByPiece(newCursor.pieceIndex, newCursor.charIndex, 1)
-    set({ pt })
-  },
-  deleteAtCursor: (length: number) => {
     const cursor = useCursorStore.getState()
-    const selection = useCursorStore.getState().getSelection()
-    const pt = structuredClone(get().pt)
-
     let newCursor = {
       pieceIndex: cursor.pieceIndex,
       charIndex: cursor.charIndex,
       offset: cursor.offset,
     }
 
+    const originalPt = structuredClone(get().pt)
+    const pt = structuredClone(get().pt)
+    const selection = useCursorStore.getState().getSelection()
+    if (selection) {
+      get().deleteSelection(pt)
+      newCursor = getPieceTableCursorPosition(
+        selection.start.row,
+        selection.start.col,
+      )
+    }
+
+    let newText = ''
+    if (newCursor.offset > 0) {
+      if (text !== '\n') {
+        newText = ' '.repeat(
+          newCursor.offset - (newCursor.pieceIndex === -1 ? 0 : 1),
+        )
+      }
+      // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
+      newCursor.charIndex++
+    }
+    newText += text
+
+    const res = insertText(
+      pt,
+      newCursor.pieceIndex,
+      newCursor.charIndex,
+      newText,
+    )
+    useCursorStore.getState().setCursorByPiece(res.pieceIndex, res.charIndex, 1)
+
+    // pt should now be mutated to its final state
+    const newPt = structuredClone(pt)
+    const history = useHistoryStore.getState()
+    history.push({
+      undo: () => {
+        usePieceTableStore.getState().setPt(originalPt)
+        useCursorStore
+          .getState()
+          .setCursorByPiece(cursor.pieceIndex, cursor.charIndex, cursor.offset)
+      },
+      redo: () => {
+        usePieceTableStore.getState().setPt(newPt)
+        useCursorStore
+          .getState()
+          .setCursorByPiece(res.pieceIndex, res.charIndex, 1)
+      },
+    })
+
+    set({ pt })
+  },
+  deleteAtCursor: (length: number) => {
+    const cursor = useCursorStore.getState()
+    let newCursor = {
+      pieceIndex: cursor.pieceIndex,
+      charIndex: cursor.charIndex,
+      offset: cursor.offset,
+    }
+
+    const history = useHistoryStore.getState()
+    const originalPt = structuredClone(get().pt)
+    const pt = structuredClone(get().pt)
+    const selection = useCursorStore.getState().getSelection()
     if (selection) {
       const _newCursor = get().deleteSelection(pt)
       if (_newCursor) newCursor = _newCursor
@@ -171,6 +197,29 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
           newCursor.charIndex,
           newCursor.offset,
         )
+      history.push({
+        undo: () => {
+          usePieceTableStore.getState().setPt(originalPt)
+          useCursorStore
+            .getState()
+            .setCursorByPiece(
+              cursor.pieceIndex,
+              cursor.charIndex,
+              cursor.offset,
+            )
+        },
+        redo: () => {
+          usePieceTableStore.getState().setPt(pt)
+          useCursorStore
+            .getState()
+            .setCursorByPiece(
+              newCursor.pieceIndex,
+              newCursor.charIndex,
+              newCursor.offset,
+            )
+        },
+      })
+
       set({ pt })
       return
     }
@@ -198,9 +247,6 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       cursor.offset,
     )
 
-    console.log('old', JSON.stringify(cursor, null, 2))
-    console.log('new', JSON.stringify(newCursor, null, 2))
-
     useCursorStore
       .getState()
       .setCursorByPiece(
@@ -208,6 +254,28 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
         newCursor.charIndex,
         newCursor.offset,
       )
+
+    // pt should now be mutated to its final state
+    const newPt = structuredClone(pt)
+    history.push({
+      undo: () => {
+        usePieceTableStore.getState().setPt(originalPt)
+        useCursorStore
+          .getState()
+          .setCursorByPiece(cursor.pieceIndex, cursor.charIndex, cursor.offset)
+      },
+      redo: () => {
+        usePieceTableStore.getState().setPt(newPt)
+        useCursorStore
+          .getState()
+          .setCursorByPiece(
+            newCursor.pieceIndex,
+            newCursor.charIndex,
+            newCursor.offset,
+          )
+      },
+    })
+
     set({ pt })
   },
 }))

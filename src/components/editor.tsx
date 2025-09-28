@@ -1,5 +1,6 @@
 import { useCursorStore } from '@/lib/stores/cursor-store'
 import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
+import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import React, { Fragment, useCallback, useRef } from 'react'
 
@@ -124,6 +125,7 @@ const HiddenInput = (props: HiddenInputProps) => {
     moveIMEInputToCursor(props.ref)
     const cursor = useCursorStore.getState()
     const pieceTable = usePieceTableStore.getState()
+    const history = useHistoryStore.getState()
     switch (e.key) {
       case 'ArrowLeft':
       case 'ArrowRight':
@@ -153,13 +155,13 @@ const HiddenInput = (props: HiddenInputProps) => {
         e.preventDefault()
         pieceTable.insertAtCursor('\n')
         break
-      // case 'z':
-      // case 'Z':
-      //   if (e.metaKey || e.ctrlKey) {
-      //     e.preventDefault()
-      //     e.shiftKey ? props.onRedo() : props.onUndo()
-      //   }
-      //   break
+      case 'z':
+      case 'Z':
+        if (e.metaKey || e.ctrlKey) {
+          e.preventDefault()
+          e.shiftKey ? history.redo() : history.undo()
+        }
+        break
     }
   }
 
