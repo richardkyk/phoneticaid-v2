@@ -131,11 +131,9 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     set({ pieceIndex, charIndex, offset })
   },
   setCursorByRowCol: (row: number, col: number) => {
-    const { pieceIndex, charIndex, offset, isNewLine } =
-      getPieceTableCursorPosition(row, col)
-    console.log(
-      `setCursorByRowCol: (${row},${col}) -> [${pieceIndex}][${charIndex}]+${offset}`,
-      isNewLine,
+    const { pieceIndex, charIndex, offset } = getPieceTableCursorPosition(
+      row,
+      col,
     )
     set({ pieceIndex, charIndex, offset })
   },
