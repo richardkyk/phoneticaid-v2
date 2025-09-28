@@ -162,6 +162,12 @@ const HiddenInput = (props: HiddenInputProps) => {
           e.shiftKey ? history.redo() : history.undo()
         }
         break
+      case 'a':
+        if (e.metaKey || e.ctrlKey) {
+          e.preventDefault()
+          cursor.selectAll()
+        }
+        break
     }
   }
 

@@ -41,6 +41,7 @@ interface CursorStoreActions {
   getSelection: () => { start: GridPosition; end: GridPosition } | null
   setCursorByRowCol: (row: number, col: number) => void
   setSelection: (row: number, col: number, isStart: boolean) => void
+  selectAll: () => void
   resetSelection: () => void
 }
 
@@ -148,6 +149,15 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
       if (prevPos && prevPos.row === row && prevPos.col === col) return
       set({ selectionEnd: pos })
     }
+  },
+  selectAll: () => {
+    set({
+      selectionStart: { row: 0, col: 0 },
+      selectionEnd: {
+        row: useRowsStore.getState().rows - 1,
+        col: useDocumentStore.getState().columns,
+      },
+    })
   },
   resetSelection: () => {
     set({ selectionStart: null, selectionEnd: null })
