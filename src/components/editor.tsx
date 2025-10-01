@@ -11,29 +11,40 @@ const getRowColFromCoords = (
   x: number,
   y: number,
   rect: DOMRect,
-): { row: number; col: number } => {
+): { row: number; col: number; page: number; rowInPage: number } => {
   const document = useDocumentStore.getState()
   const rowsCount = useRowsStore.getState().rows
 
   const relX = x - rect.left - document.marginX * document.mmX
   const relY = y - rect.top - document.marginY * document.mmY
 
-  let row = Math.floor(
-    relY / ((document.fontSize + document.gapY) * document.mmY),
-  )
-  let col = Math.floor(
-    relX / ((document.fontSize + document.gapX) * document.mmX),
-  )
+  const rowHeight = (document.fontSize + document.gapY) * document.mmY
+  const colWidth = (document.fontSize + document.gapX) * document.mmX
+
+  let row = Math.floor(relY / rowHeight)
+  let col = Math.floor(relX / colWidth)
 
   row = clamp(row, 0, rowsCount - 1)
   col = clamp(col, 0, document.columns - 1)
 
-  const middleOfX =
-    col * (document.fontSize + document.gapX) * document.mmX +
-    (document.fontSize / 2) * document.mmX
+  // how many rows fit on a single page
+  const rowsPerPage = Math.floor(
+    (document.pageHeight * document.mmY - document.marginY * 2 * document.mmY) /
+      rowHeight,
+  )
+
+  const page = Math.floor(row / rowsPerPage)
+  const rowInPage = row % rowsPerPage
+
+  const middleOfX = col * colWidth + (document.fontSize / 2) * document.mmX
   const isCharRightSide = relX > middleOfX
 
-  return { row, col: isCharRightSide ? col + 1 : col }
+  return {
+    row, // absolute row across the document
+    col: isCharRightSide ? col + 1 : col,
+    page,
+    rowInPage,
+  }
 }
 
 export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
@@ -90,7 +101,7 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     <Fragment>
       <div
         ref={editorRef}
-        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] w-[210mm] select-none h-[297mm] outline-none"
+        className="shrink-0 flex flex-col gap-6 select-none outline-none"
         onMouseDown={handleMouseDown}
         onClick={handleClick}
       >

@@ -1,30 +1,23 @@
-import { useCursorStore, useMapStore } from '@/lib/stores/cursor-store'
-import { usePieceTableStore } from '@/lib/stores/piece-table-store'
-import { buildRows } from '@/lib/render'
-import {
-  DocumentState,
-  useDocumentStore,
-  useRowsStore,
-} from '@/lib/stores/document-store'
-import { cn } from '@/lib/utils'
+import { useCursorStore } from '@/lib/stores/cursor-store'
+import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
-import { useLayoutEffect } from '@tanstack/react-router'
 import { getGridCursorPosition } from '@/lib/piece-table'
+import { Cell } from '@/lib/render'
+import { cn } from '@/lib/utils'
 
-export const Grid = () => {
+interface GridProps {
+  pageIndex: number
+  pageRows: Cell[][]
+  rowsPerPage: number
+}
+export const Grid = (props: GridProps) => {
   const document = useDocumentStore()
-  const pt = usePieceTableStore((state) => state.pt)
-  const data = buildRows(pt, document)
-
-  useLayoutEffect(() => {
-    useRowsStore.getState().setRows(data.rowCount)
-    useMapStore.getState().setPieceMap(data.pieceMap)
-    useMapStore.getState().setGridMap(data.gridMap)
-  }, [data])
+  const offset =
+    props.pageIndex * (props.rowsPerPage * (document.gapY + document.fontSize))
 
   return (
     <Fragment>
-      {data.rows.map((row, i) =>
+      {props.pageRows.map((row, i) =>
         row.map((cell, j) => (
           <div
             key={`${i}-${j}`}
@@ -41,7 +34,7 @@ export const Grid = () => {
               'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
             )}
             style={{
-              top: `${cell.y}mm`,
+              top: `${cell.y - offset}mm`,
               left: `${cell.x}mm`,
               width: `${cell.width}mm`,
               height: `${cell.height}mm`,
@@ -63,31 +56,6 @@ export const Grid = () => {
           </div>
         )),
       )}
-      <Highlight />
-      <Cursor document={document} pieceMap={data.pieceMap} />
-    </Fragment>
-  )
-}
-
-export const Margins = () => {
-  const marginX = useDocumentStore((state) => state.marginX)
-  const marginY = useDocumentStore((state) => state.marginY)
-
-  return (
-    <Fragment>
-      {/* Margins */}
-      <div
-        className="border-x border-dashed absolute inset-y-0"
-        style={{
-          insetInline: `${marginX}mm`,
-        }}
-      ></div>
-      <div
-        className="border-y border-dashed absolute inset-x-0"
-        style={{
-          insetBlock: `${marginY}mm`,
-        }}
-      ></div>
     </Fragment>
   )
 }
@@ -95,6 +63,8 @@ export const Margins = () => {
 interface CursorProps {
   document: DocumentState
   pieceMap: Map<string, string>
+  pageIndex: number
+  rowsPerPage: number
 }
 export const Cursor = (props: CursorProps) => {
   const { document, pieceMap } = props
@@ -115,6 +85,11 @@ export const Cursor = (props: CursorProps) => {
   } else {
     col += offset
   }
+
+  const minRow = props.pageIndex * props.rowsPerPage
+  const maxRow = minRow + props.rowsPerPage
+
+  if (row > maxRow || row < minRow) return null
 
   const cursorX = document.marginX + col * (document.gapX + document.fontSize)
   const cursorY = document.marginY + row * (document.gapY + document.fontSize)

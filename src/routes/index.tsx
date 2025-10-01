@@ -1,6 +1,5 @@
 import DensityCalibration from '@/components/density-calibration'
-import { Editor } from '@/components/editor'
-import { Grid, Margins } from '@/components/grid'
+import { Document } from '@/components/document'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
@@ -9,12 +8,9 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className="relative container mx-auto p-6 flex items-center justify-center">
+    <div className="container mx-auto p-6 flex items-center justify-center">
       <DensityCalibration />
-      <Editor>
-        <Margins />
-        <Grid />
-      </Editor>
+      <Document />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { PieceTable } from './piece-table'
 import { DocumentState } from './stores/document-store'
 
-interface Cell {
+export interface Cell {
   content: string
   row: number
   col: number
