@@ -157,16 +157,25 @@ function getHighlightSpans(
   return spans
 }
 
-export const Highlight = () => {
+interface HighlightProps {
+  pageIndex: number
+  rowsPerPage: number
+}
+export const Highlight = (props: HighlightProps) => {
   const document = useDocumentStore()
   const selectionStart = useCursorStore((s) => s.selectionStart)
   const selectionEnd = useCursorStore((s) => s.selectionEnd)
+
+  const minRow = props.pageIndex * props.rowsPerPage
+  const maxRow = minRow + props.rowsPerPage
+
+  if (!selectionStart || !selectionEnd) return null
 
   const spans = getHighlightSpans(
     selectionStart,
     selectionEnd,
     document.columns,
-  )
+  ).filter((x) => x.row >= minRow && x.row < maxRow)
 
   const rowHeight = (document.fontSize + document.gapY) * document.mmY
   const colWidth = (document.fontSize + document.gapX) * document.mmX
@@ -180,7 +189,7 @@ export const Highlight = () => {
           key={`${span.row}-${span.startCol}-${span.endCol}`}
           className="absolute bg-yellow-200 opacity-40 pointer-events-none"
           style={{
-            top: marginY + span.row * rowHeight,
+            top: marginY + (span.row % props.rowsPerPage) * rowHeight,
             left: marginX + span.startCol * colWidth,
             width: (span.endCol - span.startCol + 1) * colWidth,
             height: document.fontSize * document.mmY,

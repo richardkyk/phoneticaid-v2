@@ -1,7 +1,7 @@
 import { useDocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { Cell } from '@/lib/render'
-import { Cursor, Grid } from './grid'
+import { Cursor, Grid, Highlight } from './grid'
 
 interface PageProps {
   pageIndex: number
@@ -33,6 +33,7 @@ export const Page = (props: PageProps) => {
         rowsPerPage={props.rowsPerPage}
         pageIndex={props.pageIndex}
       />
+      <Highlight rowsPerPage={props.rowsPerPage} pageIndex={props.pageIndex} />
     </div>
   )
 }

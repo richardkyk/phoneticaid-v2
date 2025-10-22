@@ -143,10 +143,12 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     if (isStart) {
       const prevPos = get().selectionStart
       if (prevPos && prevPos.row === row && prevPos.col === col) return
+      console.log(pos)
       set({ selectionStart: pos })
     } else {
       const prevPos = get().selectionEnd
       if (prevPos && prevPos.row === row && prevPos.col === col) return
+      console.log(pos)
       set({ selectionEnd: pos })
     }
   },
