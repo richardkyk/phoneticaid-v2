@@ -18,6 +18,8 @@ export const useRowsStore = create<RowsState>((set) => ({
 }))
 
 export interface DocumentState {
+  pageWidth: number
+  pageHeight: number
   fontSize: number
   columns: number
   gapX: number
@@ -40,15 +42,17 @@ export interface DocumentState {
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
-  fontSize: 20,
-  columns: 9,
-  gapX: 0,
+  pageWidth: 210, // 210mm
+  pageHeight: 297, // 297mm
+  fontSize: 10,
+  columns: 16,
+  gapX: 1.25,
   gapY: 0,
   marginX: 15,
   marginY: 15,
   mmX: 0,
   mmY: 0,
-  debug: true,
+  debug: false,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setColumns: (columns: number) => {

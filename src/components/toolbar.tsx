@@ -26,7 +26,7 @@ export default function Toolbar() {
   const { past, future } = useHistoryStore()
 
   return (
-    <div className="border-b p-2 flex gap-4">
+    <div className="p-2 flex gap-4">
       <div>
         Font size:
         <Slider

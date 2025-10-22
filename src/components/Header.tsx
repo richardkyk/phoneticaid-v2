@@ -3,7 +3,7 @@ import Toolbar from './toolbar'
 
 export default function Header() {
   return (
-    <header className="p-2 sticky top-0 gap-2 z-10 bg-white text-black justify-between">
+    <header className="gap-2 z-10 p-2 border-b text-black justify-between h-[100px]">
       <nav className="flex flex-row">
         <div className="px-2 font-bold">
           <Link to="/">Home</Link>

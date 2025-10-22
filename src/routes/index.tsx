@@ -1,6 +1,7 @@
 import DensityCalibration from '@/components/density-calibration'
 import { Document } from '@/components/document'
 import { createFileRoute } from '@tanstack/react-router'
+import { Fragment } from 'react/jsx-runtime'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -8,9 +9,9 @@ export const Route = createFileRoute('/')({
 
 function App() {
   return (
-    <div className="container mx-auto p-6 flex items-center justify-center">
+    <Fragment>
       <DensityCalibration />
       <Document />
-    </div>
+    </Fragment>
   )
 }

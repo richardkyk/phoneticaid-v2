@@ -14,6 +14,7 @@ export const Page = (props: PageProps) => {
 
   return (
     <div
+      data-page={props.pageIndex}
       className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
       style={{
         height: `${document.pageHeight}mm`,

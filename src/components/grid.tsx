@@ -89,10 +89,13 @@ export const Cursor = (props: CursorProps) => {
   const minRow = props.pageIndex * props.rowsPerPage
   const maxRow = minRow + props.rowsPerPage
 
-  if (row > maxRow || row < minRow) return null
+  if (row >= maxRow || row < minRow) return null
 
   const cursorX = document.marginX + col * (document.gapX + document.fontSize)
-  const cursorY = document.marginY + row * (document.gapY + document.fontSize)
+  const cursorY =
+    document.marginY +
+    (row - props.pageIndex * props.rowsPerPage) *
+      (document.gapY + document.fontSize)
 
   return (
     <Fragment>

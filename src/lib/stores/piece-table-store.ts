@@ -10,6 +10,64 @@ import {
 import { PieceTableCursor, useCursorStore } from './cursor-store'
 import { useHistoryStore } from './history-store'
 
+const original = `　　　　　半天班(閉班)
+
+1.謝恩禮
+謝謝明明上帝　　　　　　　十叩首
+謝謝諸天神聖　　　　　　　五叩首
+謝謝彌勒祖師　　　　　　　五叩首
+謝謝南海古佛　　　　　　　三叩首
+謝謝活佛師尊　　　　　　　三叩首
+謝謝月慧菩薩　　　　　　　三叩首
+謝謝各位法律主　　　　　　三叩首
+謝謝灶君　　　　　　　　　一叩首
+謝謝師尊　　　　　　　　　一叩首
+謝謝師母　　　　　　　　　一叩首
+謝謝鎮殿元帥　　　　　　　一叩首
+謝謝鎮殿將軍　　　　　　　一叩首
+謝謝教化菩薩　　　　　　　一叩首
+謝謝各位大仙　　　　　　　一叩首
+謝謝老前人　　　　　　　　一叩首
+謝謝前人　　　　　　　　　一叩首
+謝謝點傳師　　　　　　　　一叩首
+謝謝引保師　　　　　　　　一叩首
+謝謝前賢大眾　　　　　　　一叩首
+謝謝自己祖先　　　　　　　一叩首
+謝謝金公祖師　　　　　　　五叩首
+謝謝天然古佛　　　　　　　五叩首
+謝謝中華聖母　　　　　　　五叩首
+謝謝鑒班院長　　　　　　　三叩首
+謝謝護壇大仙　　　　　　　三叩首
+謝謝白水聖帝　　　　　　　三叩首
+謝謝德慧菩薩　　　　　　　三叩首
+謝謝白陽仙真　　　　　　　三叩首
+起　作揖　跪
+謝謝點傳師　　　　　　　　一叩首
+謝謝前賢大眾　　　　　　　一叩首
+起　作揖　跪
+
+2.送佛駕禮
+明明上帝　　　　　　　　　十叩首
+諸天神聖　　　　　　　　　五叩首
+起　作揖　跪
+
+3.辭駕禮
+明明上帝　　　　　　　　　五叩首
+諸天神聖　　　　　　　　　三叩首
+彌勒祖師　　　　　　　　　三叩首
+南海古佛　　　　　　　　　一叩首
+活佛師尊　　　　　　　　　一叩首
+月慧菩薩　　　　　　　　　一叩首
+師尊　　　　　　　　　　　一叩首
+師母　　　　　　　　　　　一叩首
+點傳師　　　　　　　　　　一叩首
+引保師　　　　　　　　　　一叩首
+前賢大眾　　　　　　　　　一叩首
+起　作揖　跪
+向點傳師辭駕　　　　　　　一叩首
+起　作揖　　　　叩頭禮畢垂手鞠躬
+`
+
 export interface PieceTableState {
   pt: PieceTable
   setPt: (pt: PieceTable) => void
@@ -21,18 +79,13 @@ export interface PieceTableState {
 
 export const usePieceTableStore = create<PieceTableState>((set, get) => ({
   pt: {
-    original: 'hello\n',
-    add: '    nihao',
+    original: original,
+    add: '',
     pieces: [
       {
         buffer: 'original',
         start: 0,
-        length: 6,
-      },
-      {
-        buffer: 'add',
-        start: 0,
-        length: 9,
+        length: original.length,
       },
     ],
   },

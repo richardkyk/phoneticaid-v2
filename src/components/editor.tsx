@@ -10,31 +10,37 @@ const clamp = (val: number, min: number, max: number) =>
 const getRowColFromCoords = (
   x: number,
   y: number,
-  rect: DOMRect,
-): { row: number; col: number; page: number; rowInPage: number } => {
+  pageIndex: number,
+  pageRect: DOMRect,
+): { row: number; col: number } => {
   const document = useDocumentStore.getState()
   const rowsCount = useRowsStore.getState().rows
 
-  const relX = x - rect.left - document.marginX * document.mmX
-  const relY = y - rect.top - document.marginY * document.mmY
+  const relX = x - pageRect.left - document.marginX * document.mmX
+  const relY = y - pageRect.top - document.marginY * document.mmY
 
   const rowHeight = (document.fontSize + document.gapY) * document.mmY
   const colWidth = (document.fontSize + document.gapX) * document.mmX
 
-  let row = Math.floor(relY / rowHeight)
-  let col = Math.floor(relX / colWidth)
-
-  row = clamp(row, 0, rowsCount - 1)
-  col = clamp(col, 0, document.columns - 1)
-
-  // how many rows fit on a single page
   const rowsPerPage = Math.floor(
     (document.pageHeight * document.mmY - document.marginY * 2 * document.mmY) /
       rowHeight,
   )
 
-  const page = Math.floor(row / rowsPerPage)
-  const rowInPage = row % rowsPerPage
+  const rowInPage = Math.floor(relY / rowHeight)
+  const colInPage = Math.floor(relX / colWidth)
+
+  let row = rowInPage + pageIndex * rowsPerPage
+  let col = colInPage
+
+  if (rowInPage >= rowsPerPage) {
+    row = rowsPerPage - 1
+  } else if (rowInPage <= 0) {
+    row = pageIndex * rowsPerPage
+  }
+
+  row = clamp(row, 0, rowsCount - 1)
+  col = clamp(col, 0, document.columns - 1)
 
   const middleOfX = col * colWidth + (document.fontSize / 2) * document.mmX
   const isCharRightSide = relX > middleOfX
@@ -42,8 +48,6 @@ const getRowColFromCoords = (
   return {
     row, // absolute row across the document
     col: isCharRightSide ? col + 1 : col,
-    page,
-    rowInPage,
   }
 }
 
@@ -54,13 +58,19 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isSelectingRef.current || !editorRef.current) return
+    const pageEl = (e.target as HTMLElement).closest(
+      '[data-page]',
+    ) as HTMLDivElement | null
+    if (!pageEl) return // clicked outside a page
 
-    const rect = editorRef.current.getBoundingClientRect()
-
-    const clampedX = clamp(e.clientX, rect.left, rect.right)
-    const clampedY = clamp(e.clientY, rect.top, rect.bottom)
-
-    const { row, col } = getRowColFromCoords(clampedX, clampedY, rect)
+    const pageRect = pageEl.getBoundingClientRect()
+    const pageIndex = parseInt(pageEl.dataset.page ?? '0', 10)
+    const { row, col } = getRowColFromCoords(
+      e.clientX,
+      e.clientY,
+      pageIndex,
+      pageRect,
+    )
     useCursorStore.getState().setCursorByRowCol(row, col)
     useCursorStore.getState().setSelection(row, col, false)
     moveIMEInputToCursor(inputRef)
@@ -76,14 +86,22 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!editorRef.current) return
+    const pageEl = (e.target as HTMLElement).closest(
+      '[data-page]',
+    ) as HTMLDivElement | null
+    if (!pageEl) return // clicked outside a page
+
     isSelectingRef.current = true
     useCursorStore.getState().resetSelection()
 
-    const rect = editorRef.current.getBoundingClientRect()
-    const clampedX = clamp(e.clientX, rect.left, rect.right)
-    const clampedY = clamp(e.clientY, rect.top, rect.bottom)
-
-    const { row, col } = getRowColFromCoords(clampedX, clampedY, rect)
+    const pageRect = pageEl.getBoundingClientRect()
+    const pageIndex = parseInt(pageEl.dataset.page ?? '0', 10)
+    const { row, col } = getRowColFromCoords(
+      e.clientX,
+      e.clientY,
+      pageIndex,
+      pageRect,
+    )
     useCursorStore.getState().setCursorByRowCol(row, col)
     useCursorStore.getState().setSelection(row, col, true)
 
@@ -101,11 +119,13 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     <Fragment>
       <div
         ref={editorRef}
-        className="shrink-0 flex flex-col gap-6 select-none outline-none"
+        className="outline-none h-[calc(100vh-100px)] overflow-y-auto"
         onMouseDown={handleMouseDown}
         onClick={handleClick}
       >
-        {props.children}
+        <div className="flex mx-auto container py-6 items-center flex-col gap-6 select-none">
+          {props.children}
+        </div>
       </div>
       <HiddenInput ref={inputRef} />
     </Fragment>
