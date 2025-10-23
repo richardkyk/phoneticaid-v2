@@ -26,9 +26,14 @@ export const Grid = (props: GridProps) => {
       {props.pageRows.map((row, i) => {
         const content = row.map((cell) => cell.content).join('')
 
-        const py = pinyin(content.replace(/[^\u4e00-\u9fff]/g, ' '), {
-          segment: true,
-        })
+        const py = pinyin(
+          content
+            .replace(/[\ue0000]/g, '\u6bcd')
+            .replace(/[^\u4e00-\u9fff]/g, ' '),
+          {
+            segment: true,
+          },
+        )
         const result = py.flatMap(([s]) => {
           // check for Latin or accented letters (for pinyin)
           const hasPinyin = /[a-zA-Z\u00C0-\u017F]/.test(s)
