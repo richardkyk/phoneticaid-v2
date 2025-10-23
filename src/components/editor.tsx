@@ -122,8 +122,9 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   return (
     <Fragment>
       <div
+        id="editor"
         ref={editorRef}
-        className="outline-none h-[calc(100vh-100px)] overflow-y-auto"
+        className="outline-none h-[calc(100vh-100px)] overflow-y-scroll"
         onMouseDown={handleMouseDown}
         onClick={handleClick}
       >

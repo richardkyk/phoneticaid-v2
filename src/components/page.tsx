@@ -23,7 +23,7 @@ export const Page = (props: PageProps) => {
     >
       <div
         data-grid
-        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
+        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
         style={{
           height: `${document.pageHeight}mm`,
           width: `${document.pageWidth}mm`,

@@ -108,7 +108,7 @@ export const Cursor = (props: CursorProps) => {
         <div
           id="cursor"
           key={`${cursorX}-${cursorY}-${document.gapX}`}
-          className="absolute bg-black opacity-100 animate-caret-blink"
+          className="absolute bg-black opacity-100 animate-caret-blink scroll-mb-[100px] scroll-mt-[100px]"
           style={{
             top: `${cursorY}mm`,
             left: `${cursorX}mm`,

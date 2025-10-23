@@ -43,6 +43,7 @@ interface CursorStoreActions {
   setSelection: (row: number, col: number, isStart: boolean) => void
   selectAll: () => void
   resetSelection: () => void
+  focus: () => void
 }
 
 type CursorStoreState = PieceTableCursor &
@@ -119,6 +120,16 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
       charIndex: newCharIndex,
       offset: newOffset,
     })
+
+    // need to wait for next frame incase the cursor jumps to the next page
+    setTimeout(() => {
+      get().focus()
+    }, 0)
+  },
+  focus: () => {
+    const el = document.getElementById('cursor')
+    if (!el) return
+    el.scrollIntoView({ block: 'nearest' })
   },
   getSelection: () => {
     const s = get().selectionStart
@@ -130,6 +141,9 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
   },
   setCursorByPiece: (pieceIndex: number, charIndex: number, offset: number) => {
     set({ pieceIndex, charIndex, offset })
+    setTimeout(() => {
+      get().focus()
+    }, 0)
   },
   setCursorByRowCol: (row: number, col: number) => {
     const { pieceIndex, charIndex, offset } = getPieceTableCursorPosition(
@@ -137,6 +151,9 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
       col,
     )
     set({ pieceIndex, charIndex, offset })
+    setTimeout(() => {
+      get().focus()
+    }, 0)
   },
   setSelection: (row: number, col: number, isStart: boolean) => {
     const pos = { row, col }
