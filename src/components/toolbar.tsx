@@ -90,7 +90,7 @@ export default function Toolbar() {
           onClick={() => useHistoryStore.getState().undo()}
           className="block h-8"
           variant="outline"
-          disabled={past.length === 0}
+          disabled={past ? past.length === 0 : true}
         >
           <UndoIcon />
         </Button>
@@ -101,7 +101,7 @@ export default function Toolbar() {
           onClick={() => useHistoryStore.getState().redo()}
           className="block h-8"
           variant="outline"
-          disabled={future.length === 0}
+          disabled={future ? future.length === 0 : true}
         >
           <RedoIcon />
         </Button>
