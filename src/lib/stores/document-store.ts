@@ -50,8 +50,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   gapY: 0,
   marginX: 15,
   marginY: 15,
-  mmX: 0,
-  mmY: 0,
+  mmX: 1,
+  mmY: 1,
   debug: false,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
