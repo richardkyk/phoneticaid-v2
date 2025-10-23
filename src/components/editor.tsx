@@ -34,7 +34,7 @@ const getRowColFromCoords = (
   let col = colInPage
 
   if (rowInPage >= rowsPerPage) {
-    row = rowsPerPage - 1
+    row = (pageIndex + 1) * rowsPerPage - 1
   } else if (rowInPage <= 0) {
     row = pageIndex * rowsPerPage
   }
@@ -62,14 +62,16 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
       '[data-page]',
     ) as HTMLDivElement | null
     if (!pageEl) return // clicked outside a page
+    const gridEl = pageEl.querySelector('[data-grid]')
+    if (!gridEl) return // clicked outside a page
 
-    const pageRect = pageEl.getBoundingClientRect()
+    const gridRect = gridEl.getBoundingClientRect()
     const pageIndex = parseInt(pageEl.dataset.page ?? '0', 10)
     const { row, col } = getRowColFromCoords(
       e.clientX,
       e.clientY,
       pageIndex,
-      pageRect,
+      gridRect,
     )
     useCursorStore.getState().setCursorByRowCol(row, col)
     useCursorStore.getState().setSelection(row, col, false)
@@ -90,17 +92,19 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
       '[data-page]',
     ) as HTMLDivElement | null
     if (!pageEl) return // clicked outside a page
+    const gridEl = pageEl.querySelector('[data-grid]')
+    if (!gridEl) return // clicked outside a page
 
     isSelectingRef.current = true
     useCursorStore.getState().resetSelection()
 
-    const pageRect = pageEl.getBoundingClientRect()
+    const gridRect = gridEl.getBoundingClientRect()
     const pageIndex = parseInt(pageEl.dataset.page ?? '0', 10)
     const { row, col } = getRowColFromCoords(
       e.clientX,
       e.clientY,
       pageIndex,
-      pageRect,
+      gridRect,
     )
     useCursorStore.getState().setCursorByRowCol(row, col)
     useCursorStore.getState().setSelection(row, col, true)
@@ -123,9 +127,7 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
         onMouseDown={handleMouseDown}
         onClick={handleClick}
       >
-        <div className="flex mx-auto container py-6 items-center flex-col gap-6 select-none">
-          {props.children}
-        </div>
+        {props.children}
       </div>
       <HiddenInput ref={inputRef} />
     </Fragment>

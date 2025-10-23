@@ -2,6 +2,7 @@ import { useDocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { Cell } from '@/lib/render'
 import { Cursor, Grid, Highlight } from './grid'
+import { cn } from '@/lib/utils'
 
 interface PageProps {
   pageIndex: number
@@ -15,25 +16,36 @@ export const Page = (props: PageProps) => {
   return (
     <div
       data-page={props.pageIndex}
-      className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
-      style={{
-        height: `${document.pageHeight}mm`,
-        width: `${document.pageWidth}mm`,
-      }}
+      className={cn(
+        'flex justify-center w-full py-4',
+        props.pageIndex === 0 && 'pt-8',
+      )}
     >
-      <Margins />
-      <Grid
-        pageIndex={props.pageIndex}
-        pageRows={props.pageRows}
-        rowsPerPage={props.rowsPerPage}
-      />
-      <Cursor
-        document={document}
-        pieceMap={props.pieceMap}
-        rowsPerPage={props.rowsPerPage}
-        pageIndex={props.pageIndex}
-      />
-      <Highlight rowsPerPage={props.rowsPerPage} pageIndex={props.pageIndex} />
+      <div
+        data-grid
+        className="relative shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
+        style={{
+          height: `${document.pageHeight}mm`,
+          width: `${document.pageWidth}mm`,
+        }}
+      >
+        <Margins />
+        <Grid
+          pageIndex={props.pageIndex}
+          pageRows={props.pageRows}
+          rowsPerPage={props.rowsPerPage}
+        />
+        <Cursor
+          document={document}
+          pieceMap={props.pieceMap}
+          rowsPerPage={props.rowsPerPage}
+          pageIndex={props.pageIndex}
+        />
+        <Highlight
+          rowsPerPage={props.rowsPerPage}
+          pageIndex={props.pageIndex}
+        />
+      </div>
     </div>
   )
 }
