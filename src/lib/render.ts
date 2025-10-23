@@ -139,10 +139,7 @@ function makeCell(
     row,
     col,
     x: col * (document.fontSize + document.gapX) + document.marginX,
-    y:
-      document.pinyinPosition === 'top'
-        ? row * (charHeight + pinyinHeight) + document.marginY + pinyinHeight
-        : row * (charHeight + pinyinHeight) + document.marginY,
+    y: row * (charHeight + pinyinHeight) + document.marginY,
     pieceIndex,
     charIndex,
     offset,

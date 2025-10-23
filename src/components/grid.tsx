@@ -43,21 +43,19 @@ export const Grid = (props: GridProps) => {
             style={{
               top: `${cell.y - offset}mm`,
               left: `${cell.x}mm`,
+              height: `${cell.height + document.pinyinSize + document.pinyinOffset}mm`,
             }}
           >
             <div
               className="absolute justify-center flex items-center font-sans inset-x-0"
               style={{
                 fontSize: `${document.pinyinSize}mm`,
-                bottom:
-                  document.pinyinPosition === 'top'
-                    ? `${document.pinyinOffset + cell.height}mm`
-                    : undefined,
                 top:
-                  document.pinyinPosition === 'bottom'
-                    ? `${document.pinyinOffset + cell.height}mm`
-                    : undefined,
+                  document.pinyinPosition === 'top'
+                    ? 0
+                    : `${cell.height + document.pinyinOffset}mm`,
                 height: `${document.pinyinSize}mm`,
+                width: `${cell.width}mm`,
               }}
             >
               {result[j]}
@@ -72,10 +70,14 @@ export const Grid = (props: GridProps) => {
                 document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
               }
               className={cn(
-                'data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+                'absolute data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
                 'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
               )}
               style={{
+                top:
+                  document.pinyinPosition === 'top'
+                    ? `${document.pinyinSize + document.pinyinOffset}mm`
+                    : undefined,
                 width: `${cell.width}mm`,
                 height: `${cell.height}mm`,
               }}

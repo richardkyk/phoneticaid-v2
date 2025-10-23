@@ -35,6 +35,9 @@ export interface DocumentState {
 
   setFontSize: (fontSize: number) => void
   setColumns: (columns: number) => void
+  setPinyinSize: (pinyinSize: number) => void
+  setPinyinOffset: (pinyinOffset: number) => void
+  setPinyinPosition: (pinyinPosition: 'top' | 'bottom') => void
   setGapX: (gapX: number) => void
   setGapY: (gapY: number) => void
   setMarginX: (marginX: number) => void
@@ -48,11 +51,11 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   pageWidth: 210, // 210mm
   pageHeight: 297, // 297mm
   fontSize: 10,
-  pinyinSize: 3,
+  pinyinSize: 4,
   pinyinOffset: 0,
-  pinyinPosition: 'top',
+  pinyinPosition: 'bottom',
   columns: 16,
-  gapX: 1.25,
+  gapX: 1.5,
   gapY: 2.5,
   marginX: 15,
   marginY: 15,
@@ -61,6 +64,10 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   debug: false,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
+  setPinyinSize: (pinyinSize: number) => set({ pinyinSize }),
+  setPinyinOffset: (pinyinOffset: number) => set({ pinyinOffset }),
+  setPinyinPosition: (pinyinPosition: 'top' | 'bottom') =>
+    set({ pinyinPosition }),
   setColumns: (columns: number) => {
     const increasing = get().columns < columns
     const cursor = useCursorStore.getState()

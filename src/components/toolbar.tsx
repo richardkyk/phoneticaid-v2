@@ -8,6 +8,9 @@ import { useHistoryStore } from '@/lib/stores/history-store'
 export default function Toolbar() {
   const {
     fontSize,
+    pinyinSize,
+    pinyinOffset,
+    pinyinPosition,
     columns,
     gapX,
     gapY,
@@ -15,6 +18,9 @@ export default function Toolbar() {
     marginY,
     debug,
     setFontSize,
+    setPinyinSize,
+    setPinyinOffset,
+    setPinyinPosition,
     setColumns,
     setGapX,
     setGapY,
@@ -37,6 +43,34 @@ export default function Toolbar() {
         />
       </div>
       <div>
+        Pinyin size:
+        <Slider
+          defaultValue={[pinyinSize]}
+          onValueChange={([value]) => setPinyinSize(value)}
+          max={20}
+          step={0.1}
+        />
+      </div>
+      <div>
+        Pinyin offset:
+        <Slider
+          defaultValue={[pinyinOffset]}
+          onValueChange={([value]) => setPinyinOffset(value)}
+          max={20}
+          step={0.1}
+        />
+      </div>
+      <div>
+        Pinyin position (Above):
+        <Switch
+          className="block"
+          checked={pinyinPosition === 'top'}
+          onCheckedChange={() =>
+            setPinyinPosition(pinyinPosition === 'top' ? 'bottom' : 'top')
+          }
+        />
+      </div>
+      <div>
         Columns:
         <Slider
           defaultValue={[columns]}
@@ -51,7 +85,7 @@ export default function Toolbar() {
         <Slider
           defaultValue={[gapX]}
           onValueChange={([value]) => setGapX(value)}
-          max={10}
+          max={30}
           step={0.1}
         />
       </div>
@@ -60,7 +94,7 @@ export default function Toolbar() {
         <Slider
           defaultValue={[gapY]}
           onValueChange={([value]) => setGapY(value)}
-          max={10}
+          max={30}
           step={0.1}
         />
       </div>
