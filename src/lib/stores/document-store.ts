@@ -21,6 +21,9 @@ export interface DocumentState {
   pageWidth: number
   pageHeight: number
   fontSize: number
+  pinyinSize: number
+  pinyinOffset: number
+  pinyinPosition: 'top' | 'bottom'
   columns: number
   gapX: number
   gapY: number
@@ -45,9 +48,12 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   pageWidth: 210, // 210mm
   pageHeight: 297, // 297mm
   fontSize: 10,
+  pinyinSize: 3,
+  pinyinOffset: 0,
+  pinyinPosition: 'top',
   columns: 16,
   gapX: 1.25,
-  gapY: 0,
+  gapY: 2.5,
   marginX: 15,
   marginY: 15,
   mmX: 1,

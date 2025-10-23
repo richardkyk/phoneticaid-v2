@@ -131,12 +131,18 @@ function makeCell(
   offset: number,
   document: DocumentState,
 ) {
+  const pinyinHeight = document.pinyinSize + document.pinyinOffset
+  const charHeight = document.fontSize + document.gapY
+
   return {
     content,
     row,
     col,
     x: col * (document.fontSize + document.gapX) + document.marginX,
-    y: row * (document.fontSize + document.gapY) + document.marginY,
+    y:
+      document.pinyinPosition === 'top'
+        ? row * (charHeight + pinyinHeight) + document.marginY + pinyinHeight
+        : row * (charHeight + pinyinHeight) + document.marginY,
     pieceIndex,
     charIndex,
     offset,

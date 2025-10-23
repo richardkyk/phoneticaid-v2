@@ -11,7 +11,12 @@ export const Document = () => {
   const pt = usePieceTableStore((state) => state.pt)
   const data = buildRows(pt, document)
 
-  const rowHeight = (document.fontSize + document.gapY) * document.mmY
+  const rowHeight =
+    (document.fontSize +
+      document.gapY +
+      document.pinyinSize +
+      document.pinyinOffset) *
+    document.mmY
   const pageHeight = document.pageHeight * document.mmY // define in your store
   const rowsPerPage = Math.floor(
     (pageHeight - document.marginY * 2 * document.mmY) / rowHeight,

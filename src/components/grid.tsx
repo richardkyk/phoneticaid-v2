@@ -4,6 +4,7 @@ import { Fragment } from 'react/jsx-runtime'
 import { getGridCursorPosition } from '@/lib/piece-table'
 import { Cell } from '@/lib/render'
 import { cn } from '@/lib/utils'
+import { pinyin } from 'pinyin'
 
 interface GridProps {
   pageIndex: number
@@ -13,49 +14,91 @@ interface GridProps {
 export const Grid = (props: GridProps) => {
   const document = useDocumentStore()
   const offset =
-    props.pageIndex * (props.rowsPerPage * (document.gapY + document.fontSize))
+    props.pageIndex *
+    (props.rowsPerPage *
+      (document.gapY +
+        document.fontSize +
+        document.pinyinSize +
+        document.pinyinOffset))
 
   return (
     <Fragment>
-      {props.pageRows.map((row, i) =>
-        row.map((cell, j) => (
+      {props.pageRows.map((row, i) => {
+        const content = row.map((cell) => cell.content).join('')
+
+        const py = pinyin(content.replace(/[^\u4e00-\u9fff]/g, ' '), {
+          segment: true,
+        })
+        const result = py.flatMap(([s]) => {
+          // check for Latin or accented letters (for pinyin)
+          const hasPinyin = /[a-zA-Z\u00C0-\u017F]/.test(s)
+          if (hasPinyin) return [s]
+          // otherwise split each character into an empty string placeholder
+          return Array.from(s).map(() => '')
+        })
+        return row.map((cell, j) => (
           <div
             key={`${i}-${j}`}
-            data-debug={document.debug ? '' : undefined}
-            data-last={cell.col === document.columns ? '' : undefined}
-            data-odd={
-              document.debug && cell.pieceIndex % 2 === 0 ? '' : undefined
-            }
-            data-even={
-              document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
-            }
-            className={cn(
-              'absolute data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
-              'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
-            )}
+            className="absolute"
             style={{
               top: `${cell.y - offset}mm`,
               left: `${cell.x}mm`,
-              width: `${cell.width}mm`,
-              height: `${cell.height}mm`,
             }}
           >
-            <span style={{ fontSize: `${cell.height}mm` }}>{cell.content}</span>
-            {document.debug && (
-              <Fragment>
-                <div className="absolute text-[10px] left-0 top-0 select-none">
-                  ({i},{j})
-                </div>
-                <div className="absolute text-[10px] left-0 bottom-0 select-none">
-                  {cell.pieceIndex === -1 && `+${cell.offset}`}
-                  {cell.pieceIndex !== -1 &&
-                    `[${cell.pieceIndex}][${cell.charIndex}]`}
-                </div>
-              </Fragment>
-            )}
+            <div
+              className="absolute justify-center flex items-center font-sans inset-x-0"
+              style={{
+                fontSize: `${document.pinyinSize}mm`,
+                bottom:
+                  document.pinyinPosition === 'top'
+                    ? `${document.pinyinOffset + cell.height}mm`
+                    : undefined,
+                top:
+                  document.pinyinPosition === 'bottom'
+                    ? `${document.pinyinOffset + cell.height}mm`
+                    : undefined,
+                height: `${document.pinyinSize}mm`,
+              }}
+            >
+              {result[j]}
+            </div>
+            <div
+              data-debug={document.debug ? '' : undefined}
+              data-last={cell.col === document.columns ? '' : undefined}
+              data-odd={
+                document.debug && cell.pieceIndex % 2 === 0 ? '' : undefined
+              }
+              data-even={
+                document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
+              }
+              className={cn(
+                'data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+                'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
+              )}
+              style={{
+                width: `${cell.width}mm`,
+                height: `${cell.height}mm`,
+              }}
+            >
+              <span style={{ fontSize: `${cell.height}mm` }}>
+                {cell.content}
+              </span>
+              {document.debug && (
+                <Fragment>
+                  <div className="absolute text-[10px] left-0 top-0 select-none">
+                    ({i},{j})
+                  </div>
+                  <div className="absolute text-[10px] left-0 bottom-0 select-none">
+                    {cell.pieceIndex === -1 && `+${cell.offset}`}
+                    {cell.pieceIndex !== -1 &&
+                      `[${cell.pieceIndex}][${cell.charIndex}]`}
+                  </div>
+                </Fragment>
+              )}
+            </div>
           </div>
-        )),
-      )}
+        ))
+      })}
     </Fragment>
   )
 }
@@ -91,11 +134,13 @@ export const Cursor = (props: CursorProps) => {
 
   if (row >= maxRow || row < minRow) return null
 
+  const pinyinHeight = document.pinyinSize + document.pinyinOffset
   const cursorX = document.marginX + col * (document.gapX + document.fontSize)
   const cursorY =
-    document.marginY +
     (row - props.pageIndex * props.rowsPerPage) *
-      (document.gapY + document.fontSize)
+      (document.fontSize + document.gapY + pinyinHeight) +
+    document.marginY +
+    (document.pinyinPosition === 'top' ? pinyinHeight : 0)
 
   return (
     <Fragment>
@@ -177,7 +222,9 @@ export const Highlight = (props: HighlightProps) => {
     document.columns,
   ).filter((x) => x.row >= minRow && x.row < maxRow)
 
-  const rowHeight = (document.fontSize + document.gapY) * document.mmY
+  const pinyinHeight = document.pinyinSize + document.pinyinOffset
+  const charHeight = document.fontSize + document.gapY
+  const rowHeight = (charHeight + pinyinHeight) * document.mmY
   const colWidth = (document.fontSize + document.gapX) * document.mmX
   const marginX = document.marginX * document.mmX
   const marginY = document.marginY * document.mmY
@@ -189,7 +236,12 @@ export const Highlight = (props: HighlightProps) => {
           key={`${span.row}-${span.startCol}-${span.endCol}`}
           className="absolute bg-yellow-200 opacity-40 pointer-events-none"
           style={{
-            top: marginY + (span.row % props.rowsPerPage) * rowHeight,
+            top:
+              marginY +
+              (span.row % props.rowsPerPage) * rowHeight +
+              (document.pinyinPosition === 'top'
+                ? pinyinHeight * document.mmY
+                : 0),
             left: marginX + span.startCol * colWidth,
             width: (span.endCol - span.startCol + 1) * colWidth,
             height: document.fontSize * document.mmY,
