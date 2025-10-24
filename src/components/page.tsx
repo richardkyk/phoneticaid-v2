@@ -2,7 +2,6 @@ import { useDocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { Cell } from '@/lib/render'
 import { Cursor, Grid, Highlight } from './grid'
-import { cn } from '@/lib/utils'
 
 interface PageProps {
   pageIndex: number
@@ -14,13 +13,7 @@ export const Page = (props: PageProps) => {
   const document = useDocumentStore()
 
   return (
-    <div
-      data-page={props.pageIndex}
-      className={cn(
-        'flex justify-center w-full py-4',
-        props.pageIndex === 0 && 'pt-8',
-      )}
-    >
+    <div data-page={props.pageIndex} className="flex justify-center w-full">
       <div
         data-grid
         className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"

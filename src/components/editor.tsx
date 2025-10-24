@@ -53,13 +53,16 @@ const getRowColFromCoords = (
   }
 }
 
-export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
+interface EditorProps {
+  children: React.ReactNode
+  scrollRef: React.RefObject<HTMLDivElement | null>
+}
+export const Editor: React.FC<EditorProps> = (props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const editorRef = useRef<HTMLDivElement>(null)
   const isSelectingRef = useRef(false)
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isSelectingRef.current || !editorRef.current) return
+    if (!isSelectingRef.current || !props.scrollRef.current) return
     const pageEl = (e.target as HTMLElement).closest(
       '[data-page]',
     ) as HTMLDivElement | null
@@ -89,7 +92,7 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
   }, [handleMouseMove])
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!editorRef.current) return
+    if (!props.scrollRef.current) return
     const pageEl = (e.target as HTMLElement).closest(
       '[data-page]',
     ) as HTMLDivElement | null
@@ -125,7 +128,7 @@ export const Editor: React.FC<{ children: React.ReactNode }> = (props) => {
     <Fragment>
       <div
         id="editor"
-        ref={editorRef}
+        ref={props.scrollRef}
         className="outline-none h-[calc(100vh-100px)] overflow-y-scroll"
         onMouseDown={handleMouseDown}
         onClick={handleClick}

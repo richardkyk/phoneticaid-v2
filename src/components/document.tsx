@@ -5,6 +5,8 @@ import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
 import { useLayoutEffect } from '@tanstack/react-router'
 import { Page } from './page'
 import { Editor } from './editor'
+import { useVirtualizer } from '@tanstack/react-virtual'
+import { useRef } from 'react'
 
 export const Document = () => {
   const document = useDocumentStore()
@@ -17,7 +19,7 @@ export const Document = () => {
       document.pinyinSize +
       document.pinyinOffset) *
     document.mmY
-  const pageHeight = document.pageHeight * document.mmY // define in your store
+  const pageHeight = document.pageHeight * document.mmY
   const rowsPerPage = Math.floor(
     (pageHeight - document.marginY * 2 * document.mmY) / rowHeight,
   )
@@ -28,23 +30,52 @@ export const Document = () => {
     useMapStore.getState().setGridMap(data.gridMap)
   }, [data])
 
-  // chunk rows into pages
   const pages: (typeof data.rows)[] = []
   for (let i = 0; i < data.rows.length; i += rowsPerPage) {
     pages.push(data.rows.slice(i, i + rowsPerPage))
   }
 
+  const parentRef = useRef<HTMLDivElement>(null)
+
+  const virtualizer = useVirtualizer({
+    count: pages.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => pageHeight,
+    overscan: 1,
+  })
+
   return (
-    <Editor>
-      {pages.map((pageRows, pageIndex) => (
-        <Page
-          key={`${pageIndex}`}
-          pageIndex={pageIndex}
-          pageRows={pageRows}
-          rowsPerPage={rowsPerPage}
-          pieceMap={data.pieceMap}
-        />
-      ))}
+    <Editor scrollRef={parentRef}>
+      <div
+        style={{
+          height: virtualizer.getTotalSize(),
+          position: 'relative',
+        }}
+      >
+        {virtualizer.getVirtualItems().map((virtualPage) => {
+          const pageIndex = virtualPage.index
+          const pageRows = pages[pageIndex]
+          return (
+            <div
+              key={pageIndex}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                transform: `translateY(${virtualPage.start}px)`,
+                width: '100%',
+              }}
+            >
+              <Page
+                pageIndex={pageIndex}
+                pageRows={pageRows}
+                rowsPerPage={rowsPerPage}
+                pieceMap={data.pieceMap}
+              />
+            </div>
+          )
+        })}
+      </div>
     </Editor>
   )
 }

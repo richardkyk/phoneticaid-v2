@@ -4,6 +4,7 @@ import {
   getGridCursorPosition,
   getPieceTableCursorPosition,
 } from '../piece-table'
+import { measureMM } from '@/lib/utils'
 
 export interface RowsState {
   rows: number
@@ -59,8 +60,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   gapY: 2.5,
   marginX: 15,
   marginY: 15,
-  mmX: 1,
-  mmY: 1,
+  mmX: measureMM().mmX,
+  mmY: measureMM().mmY,
   debug: false,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
