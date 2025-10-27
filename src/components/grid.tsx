@@ -75,7 +75,7 @@ export const Grid = (props: GridProps) => {
                 document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
               }
               className={cn(
-                'absolute data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+                'absolute data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center print:shadow-none shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
                 'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
               )}
               style={{
@@ -160,7 +160,7 @@ export const Cursor = (props: CursorProps) => {
         <div
           id="cursor"
           key={`${cursorX}-${cursorY}-${document.gapX}`}
-          className="absolute bg-black opacity-100 animate-caret-blink scroll-mb-[100px] scroll-mt-[100px]"
+          className="absolute bg-black opacity-100 animate-caret-blink scroll-mb-[100px] print:hidden scroll-mt-[100px]"
           style={{
             top: `${cursorY}mm`,
             left: `${cursorX}mm`,
@@ -241,7 +241,7 @@ export const Highlight = (props: HighlightProps) => {
       {spans.map((span) => (
         <div
           key={`${span.row}-${span.startCol}-${span.endCol}`}
-          className="absolute bg-yellow-200 opacity-40 pointer-events-none"
+          className="absolute bg-yellow-200 opacity-40 pointer-events-none print:hidden"
           style={{
             top:
               marginY +

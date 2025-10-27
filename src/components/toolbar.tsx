@@ -24,7 +24,7 @@ import { cn } from '@/lib/utils'
 export default function Toolbar() {
   return (
     <ClientOnly>
-      <div className="p-2 flex h-full font-sans items-center">
+      <div className="p-2 flex h-full font-sans items-center print:hidden">
         <EditPopover />
         <PrintButton />
         <Separator

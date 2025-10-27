@@ -129,7 +129,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
       <div
         id="editor"
         ref={props.scrollRef}
-        className="outline-none h-[calc(100vh-100px)] overflow-y-scroll"
+        className="outline-none h-[calc(100vh-var(--header-height))] print:h-screen overflow-y-scroll"
         onMouseDown={handleMouseDown}
         onClick={handleClick}
       >

@@ -51,13 +51,13 @@ export const Margins = () => {
     <Fragment>
       {/* Margins */}
       <div
-        className="border-x border-dashed absolute inset-y-0"
+        className="border-x border-dashed absolute inset-y-0 print:hidden"
         style={{
           insetInline: `${marginX}mm`,
         }}
       ></div>
       <div
-        className="border-y border-dashed absolute inset-x-0"
+        className="border-y border-dashed absolute inset-x-0 print:hidden"
         style={{
           insetBlock: `${marginY}mm`,
         }}
