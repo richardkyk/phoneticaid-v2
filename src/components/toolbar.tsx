@@ -9,6 +9,7 @@ import {
   MinusIcon,
   MoveIcon,
   PlusIcon,
+  PrinterIcon,
   RedoIcon,
   Type,
   UndoIcon,
@@ -23,11 +24,12 @@ import { cn } from '@/lib/utils'
 export default function Toolbar() {
   return (
     <ClientOnly>
-      <div className="p-2 flex gap-4 h-full font-sans items-center">
+      <div className="p-2 flex h-full font-sans items-center">
         <EditPopover />
+        <PrintButton />
         <Separator
           orientation="vertical"
-          className="data-[orientation=vertical]:h-[20px]"
+          className="data-[orientation=vertical]:h-[30px]"
         />
         <LayoutPopover />
         <MarginPopover />
@@ -94,6 +96,14 @@ function NumberControl({
   )
 }
 
+function PrintButton() {
+  return (
+    <Button variant="ghost" onClick={() => window.print()} size="icon">
+      <PrinterIcon className="size-4" />
+    </Button>
+  )
+}
+
 interface DebugProps {
   className?: string
 }
@@ -150,11 +160,11 @@ function TextPopover() {
   } = useDocumentStore()
   return (
     <Popover>
-      <PopoverTrigger>
-        <div className="flex items-center gap-1">
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="sm">
           <Type className="size-4" />
           <ChevronDown className="size-4" />
-        </div>
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <div className="space-y-3 font-sans">
@@ -208,11 +218,11 @@ function LayoutPopover() {
   const { columns, setColumns } = useDocumentStore()
   return (
     <Popover>
-      <PopoverTrigger>
-        <div className="flex items-center gap-1">
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="sm">
           <LayoutIcon className="size-4" />
           <ChevronDown className="size-4" />
-        </div>
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <div className="space-y-3 font-sans">
@@ -234,11 +244,11 @@ function GapPopover() {
   const { gapX, gapY, setGapX, setGapY } = useDocumentStore()
   return (
     <Popover>
-      <PopoverTrigger>
-        <div className="flex items-center gap-1">
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="sm">
           <MoveIcon className="size-4" />
           <ChevronDown className="size-4" />
-        </div>
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <div className="space-y-3 font-sans">
@@ -270,11 +280,11 @@ function MarginPopover() {
   const { marginX, marginY, setMarginX, setMarginY } = useDocumentStore()
   return (
     <Popover>
-      <PopoverTrigger>
-        <div className="flex items-center gap-1">
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="sm">
           <Maximize2Icon className="size-4" />
           <ChevronDown className="size-4" />
-        </div>
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <div className="space-y-3 font-sans">
