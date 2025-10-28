@@ -13,7 +13,7 @@ export const Document = () => {
   const pt = usePieceTableStore((state) => state.pt)
   const data = buildRows(pt, document)
 
-  const pageHeight = document.pageHeight * document.mmY
+  const pageHeight = document.pageHeight() * document.mmY
   const rowsPerPage = document.rowsPerPage()
 
   useLayoutEffect(() => {

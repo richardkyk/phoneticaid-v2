@@ -18,8 +18,8 @@ export const Page = (props: PageProps) => {
         data-grid
         className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
         style={{
-          height: `${document.pageHeight}mm`,
-          width: `${document.pageWidth}mm`,
+          height: `${document.pageHeight()}mm`,
+          width: `${document.pageWidth()}mm`,
         }}
       >
         <Margins document={document} />

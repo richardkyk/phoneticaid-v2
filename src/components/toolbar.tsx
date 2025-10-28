@@ -24,6 +24,8 @@ import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { buildRows } from '@/lib/render'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Label } from './ui/label'
 
 export default function Toolbar() {
   return (
@@ -67,7 +69,7 @@ function NumberControl({
 
   return (
     <div className="flex items-center justify-between">
-      <label className="text-xs text-gray-600">{label}</label>
+      <Label className="text-xs text-gray-600">{label}</Label>
       <ButtonGroup>
         <Button
           className="shadow-none"
@@ -265,9 +267,9 @@ function TextPopover() {
           />
 
           <div className="flex items-center justify-between h-8">
-            <label className="text-xs text-gray-600">
+            <Label className="text-xs text-gray-600">
               Pinyin Position (Above)
-            </label>
+            </Label>
             <Switch
               className="block"
               checked={pinyinPosition === 'top'}
@@ -283,7 +285,7 @@ function TextPopover() {
 }
 
 function LayoutPopover() {
-  const { columns, setColumns } = useDocumentStore()
+  const { columns, layout, setColumns, setLayout } = useDocumentStore()
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -302,6 +304,20 @@ function LayoutPopover() {
             max={30}
             step={1}
           />
+          <Separator />
+          <div className="flex items-start justify-between">
+            <Label className="text-xs text-gray-600">Layout</Label>
+            <RadioGroup defaultValue={layout} onValueChange={setLayout}>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="portrait" id="r1" />
+                <Label htmlFor="r1">Portrait</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="landscape" id="r2" />
+                <Label htmlFor="r2">Landscape</Label>
+              </div>
+            </RadioGroup>
+          </div>
         </div>
       </PopoverContent>
     </Popover>

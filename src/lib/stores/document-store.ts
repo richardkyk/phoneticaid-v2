@@ -19,8 +19,8 @@ export const useRowsStore = create<RowsState>((set) => ({
 }))
 
 export interface DocumentState {
-  pageWidth: number
-  pageHeight: number
+  pageWidth: () => number
+  pageHeight: () => number
   fontSize: number
   pinyinSize: number
   pinyinOffset: number
@@ -33,6 +33,7 @@ export interface DocumentState {
   mmX: number
   mmY: number
   debug: boolean
+  layout: 'portrait' | 'landscape'
 
   setFontSize: (fontSize: number) => void
   setColumns: (columns: number) => void
@@ -46,13 +47,14 @@ export interface DocumentState {
   toggleDebug: () => void
   setMmX: (mmX: number) => void
   setMmY: (mmY: number) => void
+  setLayout: (layout: 'portrait' | 'landscape') => void
   rowHeight: () => number
   rowsPerPage: () => number
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
-  pageWidth: 210, // 210mm
-  pageHeight: 297, // 297mm
+  pageWidth: () => (get().layout === 'portrait' ? 210 : 297),
+  pageHeight: () => (get().layout === 'portrait' ? 297 : 210),
   fontSize: 10,
   pinyinSize: 4,
   pinyinOffset: 0,
@@ -65,6 +67,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   mmX: measureMM().mmX,
   mmY: measureMM().mmY,
   debug: false,
+  layout: 'portrait',
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setPinyinSize: (pinyinSize: number) => set({ pinyinSize }),
@@ -111,8 +114,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
   setMmX: (mmX: number) => set({ mmX }),
   setMmY: (mmY: number) => set({ mmY }),
+  setLayout: (layout: 'portrait' | 'landscape') => set({ layout }),
   rowHeight: () =>
     get().fontSize + get().gapY + get().pinyinSize + get().pinyinOffset,
   rowsPerPage: () =>
-    Math.floor((get().pageHeight - get().marginY * 2) / get().rowHeight()),
+    Math.floor((get().pageHeight() - get().marginY * 2) / get().rowHeight()),
 }))
