@@ -46,6 +46,8 @@ export interface DocumentState {
   toggleDebug: () => void
   setMmX: (mmX: number) => void
   setMmY: (mmY: number) => void
+  rowHeight: () => number
+  rowsPerPage: () => number
 }
 
 export const useDocumentStore = create<DocumentState>((set, get) => ({
@@ -109,4 +111,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
   setMmX: (mmX: number) => set({ mmX }),
   setMmY: (mmY: number) => set({ mmY }),
+  rowHeight: () =>
+    get().fontSize + get().gapY + get().pinyinSize + get().pinyinOffset,
+  rowsPerPage: () =>
+    Math.floor((get().pageHeight - get().marginY * 2) / get().rowHeight()),
 }))

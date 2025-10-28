@@ -1,4 +1,4 @@
-import { useDocumentStore } from '@/lib/stores/document-store'
+import { DocumentState } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { Cell } from '@/lib/render'
 import { Cursor, Grid, Highlight } from './grid'
@@ -6,11 +6,11 @@ import { Cursor, Grid, Highlight } from './grid'
 interface PageProps {
   pageIndex: number
   pageRows: Cell[][]
-  rowsPerPage: number
   pieceMap: Map<string, string>
+  document: DocumentState
 }
 export const Page = (props: PageProps) => {
-  const document = useDocumentStore()
+  const document = props.document
 
   return (
     <div data-page={props.pageIndex} className="flex justify-center w-full">
@@ -22,30 +22,29 @@ export const Page = (props: PageProps) => {
           width: `${document.pageWidth}mm`,
         }}
       >
-        <Margins />
+        <Margins document={document} />
         <Grid
+          document={document}
           pageIndex={props.pageIndex}
           pageRows={props.pageRows}
-          rowsPerPage={props.rowsPerPage}
         />
         <Cursor
           document={document}
+          pageIndex={props.pageIndex}
           pieceMap={props.pieceMap}
-          rowsPerPage={props.rowsPerPage}
-          pageIndex={props.pageIndex}
         />
-        <Highlight
-          rowsPerPage={props.rowsPerPage}
-          pageIndex={props.pageIndex}
-        />
+        <Highlight document={document} pageIndex={props.pageIndex} />
       </div>
     </div>
   )
 }
 
-export const Margins = () => {
-  const marginX = useDocumentStore((state) => state.marginX)
-  const marginY = useDocumentStore((state) => state.marginY)
+interface MarginsProps {
+  document: DocumentState
+}
+export const Margins = (props: MarginsProps) => {
+  const marginX = props.document.marginX
+  const marginY = props.document.marginY
 
   return (
     <Fragment>

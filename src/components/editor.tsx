@@ -19,15 +19,10 @@ const getRowColFromCoords = (
   const relX = x - pageRect.left - document.marginX * document.mmX
   const relY = y - pageRect.top - document.marginY * document.mmY
 
-  const pinyinHeight = document.pinyinSize + document.pinyinOffset
-  const rowHeight =
-    (document.fontSize + document.gapY + pinyinHeight) * document.mmY
+  const rowHeight = document.rowHeight() * document.mmY
   const colWidth = (document.fontSize + document.gapX) * document.mmX
 
-  const rowsPerPage = Math.floor(
-    (document.pageHeight * document.mmY - document.marginY * 2 * document.mmY) /
-      rowHeight,
-  )
+  const rowsPerPage = document.rowsPerPage()
 
   const rowInPage = Math.floor(relY / rowHeight)
   const colInPage = Math.floor(relX / colWidth)

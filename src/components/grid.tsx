@@ -1,5 +1,5 @@
 import { useCursorStore } from '@/lib/stores/cursor-store'
-import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
+import { DocumentState } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { getGridCursorPosition } from '@/lib/piece-table'
 import { Cell } from '@/lib/render'
@@ -9,13 +9,13 @@ import { pinyin } from 'pinyin'
 interface GridProps {
   pageIndex: number
   pageRows: Cell[][]
-  rowsPerPage: number
+  document: DocumentState
 }
 export const Grid = (props: GridProps) => {
-  const document = useDocumentStore()
+  const document = props.document
   const offset =
     props.pageIndex *
-    (props.rowsPerPage *
+    (document.rowsPerPage() *
       (document.gapY +
         document.fontSize +
         document.pinyinSize +
@@ -114,7 +114,6 @@ interface CursorProps {
   document: DocumentState
   pieceMap: Map<string, string>
   pageIndex: number
-  rowsPerPage: number
 }
 export const Cursor = (props: CursorProps) => {
   const { document, pieceMap } = props
@@ -136,15 +135,15 @@ export const Cursor = (props: CursorProps) => {
     col += offset
   }
 
-  const minRow = props.pageIndex * props.rowsPerPage
-  const maxRow = minRow + props.rowsPerPage
+  const minRow = props.pageIndex * document.rowsPerPage()
+  const maxRow = minRow + document.rowsPerPage()
 
   if (row >= maxRow || row < minRow) return null
 
   const pinyinHeight = document.pinyinSize + document.pinyinOffset
   const cursorX = document.marginX + col * (document.gapX + document.fontSize)
   const cursorY =
-    (row - props.pageIndex * props.rowsPerPage) *
+    (row - props.pageIndex * document.rowsPerPage()) *
       (document.fontSize + document.gapY + pinyinHeight) +
     document.marginY +
     (document.pinyinPosition === 'top' ? pinyinHeight : 0)
@@ -211,15 +210,15 @@ function getHighlightSpans(
 
 interface HighlightProps {
   pageIndex: number
-  rowsPerPage: number
+  document: DocumentState
 }
 export const Highlight = (props: HighlightProps) => {
-  const document = useDocumentStore()
+  const document = props.document
   const selectionStart = useCursorStore((s) => s.selectionStart)
   const selectionEnd = useCursorStore((s) => s.selectionEnd)
 
-  const minRow = props.pageIndex * props.rowsPerPage
-  const maxRow = minRow + props.rowsPerPage
+  const minRow = props.pageIndex * document.rowsPerPage()
+  const maxRow = minRow + document.rowsPerPage()
 
   if (!selectionStart || !selectionEnd) return null
 
@@ -230,8 +229,7 @@ export const Highlight = (props: HighlightProps) => {
   ).filter((x) => x.row >= minRow && x.row < maxRow)
 
   const pinyinHeight = document.pinyinSize + document.pinyinOffset
-  const charHeight = document.fontSize + document.gapY
-  const rowHeight = (charHeight + pinyinHeight) * document.mmY
+  const rowHeight = document.rowHeight() * document.mmY
   const colWidth = (document.fontSize + document.gapX) * document.mmX
   const marginX = document.marginX * document.mmX
   const marginY = document.marginY * document.mmY
@@ -245,7 +243,7 @@ export const Highlight = (props: HighlightProps) => {
           style={{
             top:
               marginY +
-              (span.row % props.rowsPerPage) * rowHeight +
+              (span.row % document.rowsPerPage()) * rowHeight +
               (document.pinyinPosition === 'top'
                 ? pinyinHeight * document.mmY
                 : 0),
