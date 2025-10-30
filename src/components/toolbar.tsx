@@ -1,4 +1,4 @@
-import { useDocumentStore } from '@/lib/stores/document-store'
+import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Switch } from './ui/switch'
 import { Button } from './ui/button'
 import {
@@ -26,6 +26,7 @@ import { Page } from './page'
 import { createRoot } from 'react-dom/client'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
+import { HoldButton } from './hold-button'
 
 export default function Toolbar() {
   return (
@@ -47,9 +48,13 @@ export default function Toolbar() {
   )
 }
 
+type NumberKeys<T> = {
+  [K in keyof T]: T[K] extends number ? K : never
+}[keyof T]
 interface NumberControlProps {
   label: string
   value: number
+  valueKey: NumberKeys<DocumentState>
   setValue: (value: number) => void
   min: number
   max: number
@@ -59,6 +64,7 @@ interface NumberControlProps {
 function NumberControl({
   label,
   value,
+  valueKey,
   setValue,
   min,
   max,
@@ -71,15 +77,18 @@ function NumberControl({
     <div className="flex items-center justify-between">
       <Label className="text-xs text-gray-600">{label}</Label>
       <ButtonGroup>
-        <Button
+        <HoldButton
           className="shadow-none"
           variant="outline"
           size="icon-sm"
-          onClick={() => setValue(clamp(value - step))}
+          onClick={() => {
+            const v = useDocumentStore.getState()[valueKey]
+            setValue(clamp(v - step))
+          }}
           disabled={value <= min}
         >
           <MinusIcon />
-        </Button>
+        </HoldButton>
 
         <input
           type="number"
@@ -88,15 +97,18 @@ function NumberControl({
           className="border text-center w-12 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
 
-        <Button
+        <HoldButton
           className="shadow-none"
           variant="outline"
           size="icon-sm"
-          onClick={() => setValue(clamp(value + step))}
+          onClick={() => {
+            const v = useDocumentStore.getState()[valueKey]
+            setValue(clamp(v + step))
+          }}
           disabled={value >= max}
         >
           <PlusIcon />
-        </Button>
+        </HoldButton>
       </ButtonGroup>
     </div>
   )
@@ -241,6 +253,7 @@ function TextPopover() {
           <NumberControl
             label="Font Size"
             value={fontSize}
+            valueKey="fontSize"
             setValue={setFontSize}
             min={1}
             max={100}
@@ -250,6 +263,7 @@ function TextPopover() {
           <NumberControl
             label="Pinyin Size"
             value={pinyinSize}
+            valueKey="pinyinSize"
             setValue={setPinyinSize}
             min={0}
             max={20}
@@ -259,6 +273,7 @@ function TextPopover() {
           <NumberControl
             label="Pinyin Offset"
             value={pinyinOffset}
+            valueKey="pinyinOffset"
             setValue={setPinyinOffset}
             min={0}
             max={20}
@@ -299,6 +314,7 @@ function LayoutPopover() {
           <NumberControl
             label="Columns"
             value={columns}
+            valueKey="columns"
             setValue={setColumns}
             min={1}
             max={30}
@@ -339,6 +355,7 @@ function GapPopover() {
           <NumberControl
             label="Gap X"
             value={gapX}
+            valueKey="gapX"
             setValue={setGapX}
             min={0}
             max={30}
@@ -348,6 +365,7 @@ function GapPopover() {
           <NumberControl
             label="Gap Y"
             value={gapY}
+            valueKey="gapY"
             setValue={setGapY}
             min={0}
             max={30}
@@ -375,6 +393,7 @@ function MarginPopover() {
           <NumberControl
             label="Margin X"
             value={marginX}
+            valueKey="marginX"
             setValue={setMarginX}
             min={0}
             max={100}
@@ -383,6 +402,7 @@ function MarginPopover() {
           <NumberControl
             label="Margin Y"
             value={marginY}
+            valueKey="marginY"
             setValue={setMarginY}
             min={0}
             max={100}
