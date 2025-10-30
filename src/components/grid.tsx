@@ -75,7 +75,7 @@ export const Grid = (props: GridProps) => {
                 document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
               }
               className={cn(
-                'absolute data-[highlight]:bg-yellow-100 overflow-hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center print:shadow-none shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+                'absolute data-[highlight]:bg-yellow-100 overflow-hidden print:[[data-debug][data-last]]:hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center print:shadow-none shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
                 'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
               )}
               style={{
@@ -92,10 +92,10 @@ export const Grid = (props: GridProps) => {
               </span>
               {document.debug && (
                 <Fragment>
-                  <div className="absolute text-[10px] left-0 top-0 select-none">
+                  <div className="absolute print:hidden text-[10px] left-0 top-0 select-none">
                     ({i},{j})
                   </div>
-                  <div className="absolute text-[10px] left-0 bottom-0 select-none">
+                  <div className="absolute print:hidden text-[10px] left-0 bottom-0 select-none">
                     {cell.pieceIndex === -1 && `+${cell.offset}`}
                     {cell.pieceIndex !== -1 &&
                       `[${cell.pieceIndex}][${cell.charIndex}]`}
@@ -151,7 +151,7 @@ export const Cursor = (props: CursorProps) => {
   return (
     <Fragment>
       {document.debug && (
-        <div className="absolute top-0 left-0">
+        <div className="absolute top-0 left-0 print:hidden">
           {`(${row},${col}) -> [${pieceIndex}][${charIndex}]+${offset}_${isNewLine}`}
         </div>
       )}
