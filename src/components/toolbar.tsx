@@ -32,12 +32,12 @@ import { HoldButton } from './hold-button'
 export default function Toolbar() {
   return (
     <ClientOnly>
-      <div className="p-2 flex h-full font-sans items-center print:hidden">
+      <div className="p-2 container mx-auto flex h-full font-sans items-center print:hidden">
         <EditPopover />
         <PrintButton />
         <Separator
           orientation="vertical"
-          className="data-[orientation=vertical]:h-[30px]"
+          className="data-[orientation=vertical]:h-[30px] mx-1"
         />
         <LayoutPopover />
         <MarginPopover />
@@ -195,13 +195,16 @@ function DebugButton(props: DebugProps) {
   const { debug, toggleDebug } = useDocumentStore()
   return (
     <Button
-      className={cn(props.className)}
+      className={cn(
+        props.className,
+        'shadow-none',
+        !debug && 'border-transparent',
+      )}
       onClick={() => toggleDebug()}
-      variant="ghost"
+      variant="outline"
+      size="icon-sm"
     >
-      <BugIcon
-        className={cn('size-4', debug ? 'text-primary' : 'text-gray-400')}
-      />
+      <BugIcon className="size-4" />
     </Button>
   )
 }
@@ -423,13 +426,16 @@ function TranslateButton(props: TranslateProps) {
   const { translate, toggleTranslate } = useDocumentStore()
   return (
     <Button
-      className={cn(props.className)}
+      className={cn(
+        props.className,
+        'shadow-none',
+        !translate && 'border-transparent',
+      )}
       onClick={() => toggleTranslate()}
-      variant="ghost"
+      size="icon-sm"
+      variant="outline"
     >
-      <LanguagesIcon
-        className={cn('size-4', translate ? 'text-primary' : 'text-gray-400')}
-      />
+      <LanguagesIcon className="size-4" />
     </Button>
   )
 }

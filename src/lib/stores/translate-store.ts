@@ -46,40 +46,76 @@ interface TranslateState {
   isThinking: boolean
   translations: { original: string; translation: string }[]
   translateSelection: () => void
+  test: () => void
 }
 
-export const useTranslateStore = create<TranslateState>((set, get) => ({
-  isThinking: false,
-  translations: [],
-  translateSelection: async () => {
-    if (!useDocumentStore.getState().translate) return
+export const useTranslateStore = create<TranslateState>((set, get) => {
+  let currentAbortController: AbortController | null = null
 
-    const selection = usePieceTableStore.getState().extractSelection()
-    if (selection.length === 0) return
+  return {
+    isThinking: false,
+    translations: [],
+    test: () => {
+      const interval = setInterval(() => {
+        const arr = get().translations
+        arr.push({ original: '世', translation: 'v1.2.0-beta.1' })
+        set({ translations: [...arr] })
+      }, 250)
+      return () => clearInterval(interval)
+    },
+    translateSelection: async () => {
+      if (!useDocumentStore.getState().translate) return
 
-    set({
-      isThinking: true,
-      translations: [
-        ...get().translations,
-        { original: selection, translation: '' },
-      ],
-    })
+      const selection = usePieceTableStore.getState().extractSelection()
+      if (selection.length === 0) return
 
-    const res = await translate({ data: { text: selection } })
+      // Cancel previous translation if it's running
+      if (currentAbortController) {
+        currentAbortController.abort()
+      }
 
-    const reader = res.body!.getReader()
-    const decoder = new TextDecoder()
-    const newArr = get().translations
-    let partial = ''
+      const abortController = new AbortController()
+      currentAbortController = abortController
 
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-      partial += decoder.decode(value)
-      const payload = { original: selection, translation: partial }
-      newArr.splice(get().translations.length - 1, 1, payload)
-      set({ translations: [...newArr], isThinking: false })
-    }
-    set({ isThinking: false })
-  },
-}))
+      set({
+        isThinking: true,
+        translations: [
+          ...get().translations,
+          { original: selection, translation: '' },
+        ],
+      })
+
+      try {
+        const res = await translate({
+          data: { text: selection },
+          signal: abortController.signal,
+        })
+
+        const reader = res.body!.getReader()
+        const decoder = new TextDecoder()
+        const newArr = get().translations
+        let partial = ''
+
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          partial += decoder.decode(value)
+          const payload = { original: selection, translation: partial }
+          newArr.splice(get().translations.length - 1, 1, payload)
+          set({ translations: [...newArr], isThinking: false })
+        }
+      } catch (err: any) {
+        if (err.name === 'AbortError') {
+          console.log('Previous translation canceled')
+        } else {
+          console.error(err)
+        }
+      } finally {
+        set({ isThinking: false })
+        if (currentAbortController === abortController) {
+          currentAbortController = null
+        }
+      }
+    },
+  }
+})
