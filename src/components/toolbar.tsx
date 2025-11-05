@@ -133,7 +133,6 @@ function PrintButton() {
       <html>
         <head>
           <title>Print Document</title>
-          <link rel="stylesheet" href="${window.location.origin}/src/styles.css" />
           <style>
             body { margin: 0; }
             .page {
@@ -146,6 +145,11 @@ function PrintButton() {
       </html>
     `)
     doc.close()
+
+    const head = doc.head
+    document.querySelectorAll('link[rel="stylesheet"], style').forEach((el) => {
+      head.appendChild(el.cloneNode(true))
+    })
 
     const documentStore = useDocumentStore.getState()
     const pt = usePieceTableStore.getState().pt
