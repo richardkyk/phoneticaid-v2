@@ -138,16 +138,17 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       selection.end.col,
     )
 
-    if (ptStart.offset !== 0) return ''
-
     const extractStart = {
       pieceIndex: ptStart.pieceIndex < 0 ? 0 : ptStart.pieceIndex,
       charIndex:
-        ptStart.pieceIndex < 0 ? 0 : ptStart.charIndex + ptStart.offset,
+        ptStart.pieceIndex < 0
+          ? 0
+          : ptStart.charIndex + (ptStart.offset > 0 ? 1 : 0),
     }
     const extractEnd = {
       pieceIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.pieceIndex,
-      charIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.charIndex + 1,
+      charIndex:
+        ptEnd.pieceIndex < 0 ? 0 : ptEnd.charIndex + (ptEnd.offset > 0 ? 1 : 0),
     }
     return getText(get().pt, extractStart, extractEnd)
   },
