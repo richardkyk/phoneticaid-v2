@@ -3,12 +3,15 @@ import { usePieceTableStore } from './piece-table-store'
 import z from 'zod'
 import { createServerFn } from '@tanstack/react-start'
 import { streamText } from 'ai'
-import { openai } from '@ai-sdk/openai'
 import { useDocumentStore } from './document-store'
+import { env } from '@/env'
+import { createOpenAI } from '@ai-sdk/openai'
 
 const TranslateSchema = z.object({
   text: z.string(),
 })
+
+const openai = createOpenAI({ apiKey: env.OPENAI_API_KEY })
 
 const translate = createServerFn({ method: 'POST' })
   .inputValidator(TranslateSchema)
