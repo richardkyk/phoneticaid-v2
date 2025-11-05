@@ -124,67 +124,113 @@ function PrintButton() {
     iframe.style.width = '0'
     iframe.style.height = '0'
     iframe.style.border = 'none'
+    // Use a different approach for hiding to avoid potential issues with print behavior in some browsers
+    iframe.style.visibility = 'hidden'
     document.body.appendChild(iframe)
 
-    const doc = iframe.contentDocument
-    if (!doc) return
-    doc.open()
-    doc.write(`
-      <html>
-        <head>
-          <title>Print Document</title>
-          <style>
-            body { margin: 0; }
-            .page {
-              page-break-after: always;
-              box-sizing: border-box;
-            }
-          </style>
-        </head>
-        <body></body>
-      </html>
-    `)
-    doc.close()
+    // Function to wait for all stylesheets to load
+    const waitForStylesheets = async (doc: Document) => {
+      const stylePromises: Promise<void>[] = []
 
-    const head = doc.head
-    document.querySelectorAll('link[rel="stylesheet"], style').forEach((el) => {
-      head.appendChild(el.cloneNode(true))
-    })
+      // Iterate over existing link and style elements in the main document
+      // QuerySelectorAll returns a NodeListOf<Element> which is fine
+      document
+        .querySelectorAll('link[rel="stylesheet"], style')
+        .forEach((el) => {
+          // Ensure we are working with an actual Element type
+          if (!(el instanceof Element)) return
 
-    const documentStore = useDocumentStore.getState()
-    const pt = usePieceTableStore.getState().pt
-    const data = buildRows(pt, documentStore)
+          const clonedEl = el.cloneNode(true) as Element
+          doc.head.appendChild(clonedEl)
 
-    const rowsPerPage = documentStore.rowsPerPage()
+          // Check if it's a LINK tag and has a rel="stylesheet"
+          // tagName check implicitly works here because we know it's an Element
+          if (
+            clonedEl.tagName === 'LINK' &&
+            (el as HTMLLinkElement).rel === 'stylesheet'
+          ) {
+            // We can be sure it's a HTMLLinkElement now, so we assert
+            const linkElement = clonedEl as HTMLLinkElement
 
-    const pages: (typeof data.rows)[] = []
-    for (let i = 0; i < data.rows.length; i += rowsPerPage) {
-      pages.push(data.rows.slice(i, i + rowsPerPage))
+            stylePromises.push(
+              new Promise((resolve, reject) => {
+                linkElement.onload = () => resolve()
+                linkElement.onerror = (err) => reject(err)
+              }),
+            )
+          }
+        })
+      return Promise.all(stylePromises).then(() => {}) // Return a Promise<void>
     }
 
-    // Render React components into iframe body
-    const root = createRoot(doc.body)
-    root.render(
-      <>
-        {pages.map((p, i) => (
-          <Page
-            key={i}
-            document={documentStore}
-            pageIndex={i}
-            pageRows={p}
-            pieceMap={data.pieceMap}
-          />
-        ))}
-      </>,
-    )
+    iframe.onload = async function () {
+      // Use async function here
+      const doc = iframe.contentDocument
+      if (!doc) return
 
-    // Wait for React to finish rendering, then print
-    setTimeout(() => {
-      iframe.contentWindow?.focus()
-      iframe.contentWindow?.print()
-      document.body.removeChild(iframe)
-    }, 100)
+      // Now populate the document's structure using innerHTML on the root element
+      doc.documentElement.innerHTML = `
+       <head>
+        <title>Print Document</title>
+        <style>
+            body { margin: 0; }
+            .page {
+                page-break-after: always;
+                box-sizing: border-box;
+            }
+        </style>
+       </head>
+       <body></body>
+       `
+
+      // Wait for all the cloned stylesheets to load
+      try {
+        await waitForStylesheets(doc)
+
+        // Stylesheets are loaded, now render React components
+        const documentStore = useDocumentStore.getState()
+        const pt = usePieceTableStore.getState().pt
+        const data = buildRows(pt, documentStore)
+        const rowsPerPage = documentStore.rowsPerPage()
+        const pages = []
+
+        for (let i = 0; i < data.rows.length; i += rowsPerPage) {
+          pages.push(data.rows.slice(i, i + rowsPerPage))
+        }
+
+        // Render React components into iframe body
+        const root = createRoot(doc.body)
+        root.render(
+          <>
+            {pages.map((p, i) => (
+              <Page
+                key={i}
+                document={documentStore}
+                pageIndex={i}
+                pageRows={p}
+                pieceMap={data.pieceMap}
+              />
+            ))}
+          </>,
+        )
+
+        // Wait for React to finish rendering (this part is still a slight hack, but better than before)
+        // A small timeout might still be needed if React rendering takes time.
+        setTimeout(() => {
+          iframe.contentWindow?.focus()
+          iframe.contentWindow?.print()
+          // document.body.removeChild(iframe)
+        }, 100)
+      } catch (error) {
+        console.error('Error loading stylesheets for printing:', error)
+        document.body.removeChild(iframe)
+      }
+    }
+
+    // Note: The iframe needs to be appended to the DOM before its `onload` event can reliably fire across browsers.
+    // The previous code already does this.
   }
+
   return (
     <Button variant="ghost" onClick={() => handlePrint()} size="icon">
       <PrinterIcon className="size-4" />
