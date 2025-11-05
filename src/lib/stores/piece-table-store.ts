@@ -138,6 +138,8 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
       selection.end.col,
     )
 
+    if (ptStart.offset !== 0) return ''
+
     const extractStart = {
       pieceIndex: ptStart.pieceIndex < 0 ? 0 : ptStart.pieceIndex,
       charIndex:
@@ -145,7 +147,7 @@ export const usePieceTableStore = create<PieceTableState>((set, get) => ({
     }
     const extractEnd = {
       pieceIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.pieceIndex,
-      charIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.charIndex + ptEnd.offset,
+      charIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.charIndex + 1,
     }
     return getText(get().pt, extractStart, extractEnd)
   },
