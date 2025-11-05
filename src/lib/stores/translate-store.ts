@@ -46,7 +46,6 @@ interface TranslateState {
   isThinking: boolean
   translations: { original: string; translation: string }[]
   translateSelection: () => void
-  test: () => void
 }
 
 export const useTranslateStore = create<TranslateState>((set, get) => {
@@ -55,14 +54,6 @@ export const useTranslateStore = create<TranslateState>((set, get) => {
   return {
     isThinking: false,
     translations: [],
-    test: () => {
-      const interval = setInterval(() => {
-        const arr = get().translations
-        arr.push({ original: '世', translation: 'v1.2.0-beta.1' })
-        set({ translations: [...arr] })
-      }, 250)
-      return () => clearInterval(interval)
-    },
     translateSelection: async () => {
       if (!useDocumentStore.getState().translate) return
 

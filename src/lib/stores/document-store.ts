@@ -5,6 +5,7 @@ import {
   getPieceTableCursorPosition,
 } from '../piece-table'
 import { measureMM } from '@/lib/utils'
+import { useTranslateStore } from './translate-store'
 
 export interface RowsState {
   rows: number
@@ -115,7 +116,12 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   setMarginX: (marginX: number) => set({ marginX }),
   setMarginY: (marginY: number) => set({ marginY }),
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
-  toggleTranslate: () => set((state) => ({ translate: !state.translate })),
+  toggleTranslate: () => {
+    const isCurrentlyOn = get().translate
+    set((state) => ({ translate: !state.translate }))
+    if (isCurrentlyOn) return
+    useTranslateStore.getState().translateSelection()
+  },
   setMmX: (mmX: number) => set({ mmX }),
   setMmY: (mmY: number) => set({ mmY }),
   setLayout: (layout: 'portrait' | 'landscape') => set({ layout }),
