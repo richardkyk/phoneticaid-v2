@@ -34,6 +34,7 @@ export interface DocumentState {
   mmY: number
   debug: boolean
   layout: 'portrait' | 'landscape'
+  translate: boolean
 
   setFontSize: (fontSize: number) => void
   setColumns: (columns: number) => void
@@ -45,6 +46,7 @@ export interface DocumentState {
   setMarginX: (marginX: number) => void
   setMarginY: (marginY: number) => void
   toggleDebug: () => void
+  toggleTranslate: () => void
   setMmX: (mmX: number) => void
   setMmY: (mmY: number) => void
   setLayout: (layout: 'portrait' | 'landscape') => void
@@ -68,6 +70,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   mmY: measureMM().mmY,
   debug: false,
   layout: 'landscape',
+  translate: false,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setPinyinSize: (pinyinSize: number) => set({ pinyinSize }),
@@ -112,6 +115,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   setMarginX: (marginX: number) => set({ marginX }),
   setMarginY: (marginY: number) => set({ marginY }),
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
+  toggleTranslate: () => set((state) => ({ translate: !state.translate })),
   setMmX: (mmX: number) => set({ mmX }),
   setMmY: (mmY: number) => set({ mmY }),
   setLayout: (layout: 'portrait' | 'landscape') => set({ layout }),

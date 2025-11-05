@@ -2,6 +2,7 @@ import { useCursorStore } from '@/lib/stores/cursor-store'
 import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
+import { useTranslateStore } from '@/lib/stores/translate-store'
 import React, { Fragment, useCallback, useRef } from 'react'
 
 const clamp = (val: number, min: number, max: number) =>
@@ -81,6 +82,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const handleMouseUp = useCallback(() => {
     isSelectingRef.current = false
     inputRef.current?.focus()
+    useTranslateStore.getState().translateSelection()
 
     window.removeEventListener('mousemove', handleMouseMove)
     window.removeEventListener('mouseup', handleMouseUp)

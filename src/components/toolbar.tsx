@@ -4,6 +4,7 @@ import { Button } from './ui/button'
 import {
   BugIcon,
   ChevronDown,
+  LanguagesIcon,
   LayoutIcon,
   Maximize2Icon,
   MinusIcon,
@@ -42,6 +43,7 @@ export default function Toolbar() {
         <MarginPopover />
         <GapPopover />
         <TextPopover />
+        <TranslateButton />
         <DebugButton className="ml-auto" />
       </div>
     </ClientOnly>
@@ -411,5 +413,23 @@ function MarginPopover() {
         </div>
       </PopoverContent>
     </Popover>
+  )
+}
+
+interface TranslateProps {
+  className?: string
+}
+function TranslateButton(props: TranslateProps) {
+  const { translate, toggleTranslate } = useDocumentStore()
+  return (
+    <Button
+      className={cn(props.className)}
+      onClick={() => toggleTranslate()}
+      variant="ghost"
+    >
+      <LanguagesIcon
+        className={cn('size-4', translate ? 'text-primary' : 'text-gray-400')}
+      />
+    </Button>
   )
 }
