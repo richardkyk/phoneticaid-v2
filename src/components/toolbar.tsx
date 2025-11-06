@@ -195,6 +195,7 @@ function PrintButton() {
       // Wait for all the cloned stylesheets to load
       try {
         await waitForStylesheets(doc)
+        await doc.fonts.ready
 
         // Stylesheets are loaded, now render React components
         const documentStore = useDocumentStore.getState()
