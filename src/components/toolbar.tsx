@@ -137,6 +137,16 @@ function PrintButton() {
       document.body.removeChild(el)
     }
 
+    const forceFont = (doc: Document, fontFamily: string) => {
+      const span = doc.createElement('span')
+      span.style.fontFamily = fontFamily
+      span.style.position = 'absolute'
+      span.style.visibility = 'hidden'
+      span.textContent = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      doc.body.appendChild(span)
+      return span
+    }
+
     // Function to wait for all stylesheets to load
     const waitForStylesheets = async (doc: Document) => {
       const stylePromises: Promise<void>[] = []
@@ -195,7 +205,9 @@ function PrintButton() {
       // Wait for all the cloned stylesheets to load
       try {
         await waitForStylesheets(doc)
+        const span = forceFont(doc, 'KaiTi2')
         await doc.fonts.ready
+        span.remove()
 
         // Stylesheets are loaded, now render React components
         const documentStore = useDocumentStore.getState()
@@ -231,7 +243,7 @@ function PrintButton() {
           iframe.contentWindow?.focus()
           iframe.contentWindow?.print()
           cleanup()
-        }, 100)
+        }, 1000)
       } catch (error) {
         console.error('Error loading stylesheets for printing:', error)
         cleanup()
