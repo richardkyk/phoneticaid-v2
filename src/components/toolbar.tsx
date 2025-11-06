@@ -485,7 +485,7 @@ function MarginPopover() {
             valueKey="marginX"
             setValue={setMarginX}
             min={0}
-            max={100}
+            max={80}
             step={5}
           />
           <NumberControl
@@ -494,7 +494,7 @@ function MarginPopover() {
             valueKey="marginY"
             setValue={setMarginY}
             min={0}
-            max={100}
+            max={80}
             step={5}
           />
         </div>
