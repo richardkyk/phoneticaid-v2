@@ -46,21 +46,21 @@ export const Grid = (props: GridProps) => {
             key={`${i}-${j}`}
             className="absolute"
             style={{
-              top: `${cell.y - offset}mm`,
-              left: `${cell.x}mm`,
-              height: `${cell.height + document.pinyinSize + document.pinyinOffset}mm`,
+              top: `${(cell.y - offset) * document.mmY}px`,
+              left: `${cell.x * document.mmX}px`,
+              height: `${(cell.height + document.pinyinSize + document.pinyinOffset) * document.mmY}px`,
             }}
           >
             <div
               className="absolute justify-center flex items-center font-sans inset-x-0"
               style={{
-                fontSize: `${document.pinyinSize}mm`,
+                fontSize: `${document.pinyinSize * document.mmY}px`,
                 top:
                   document.pinyinPosition === 'top'
                     ? 0
-                    : `${cell.height + document.pinyinOffset}mm`,
-                height: `${document.pinyinSize}mm`,
-                width: `${cell.width}mm`,
+                    : `${(cell.height + document.pinyinOffset) * document.mmY}px`,
+                height: `${document.pinyinSize * document.mmY}px`,
+                width: `${cell.width * document.mmX}px`,
               }}
             >
               {result[j]}
@@ -161,10 +161,10 @@ export const Cursor = (props: CursorProps) => {
           key={`${cursorX}-${cursorY}-${document.gapX}`}
           className="absolute bg-black opacity-100 animate-caret-blink scroll-mb-[100px] print:hidden scroll-mt-[100px]"
           style={{
-            top: `${cursorY}mm`,
-            left: `${cursorX}mm`,
-            width: `max(${document.gapX}mm, 2px)`,
-            height: `${document.fontSize}mm`,
+            top: `${cursorY * document.mmY}px`,
+            left: `${cursorX * document.mmX}px`,
+            width: `max(${document.gapX * document.mmX}px, 2px)`,
+            height: `${document.fontSize * document.mmY}px`,
             transform: `translateX(-100%)`,
           }}
         ></div>

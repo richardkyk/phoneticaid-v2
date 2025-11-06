@@ -16,10 +16,10 @@ export const Page = (props: PageProps) => {
     <div data-page={props.pageIndex} className="flex justify-center w-full">
       <div
         data-grid
-        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none"
+        className="relative shrink-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] select-none outline-none print:shadow-none page"
         style={{
-          height: `${document.pageHeight()}mm`,
-          width: `${document.pageWidth()}mm`,
+          height: `${document.pageHeight() * document.mmY}px`,
+          width: `${document.pageWidth() * document.mmX}px`,
         }}
       >
         <Margins document={document} />
@@ -52,13 +52,13 @@ export const Margins = (props: MarginsProps) => {
       <div
         className="border-x border-dashed absolute inset-y-0 print:hidden"
         style={{
-          insetInline: `${marginX}mm`,
+          insetInline: `${marginX * props.document.mmX}px`,
         }}
       ></div>
       <div
         className="border-y border-dashed absolute inset-x-0 print:hidden"
         style={{
-          insetBlock: `${marginY}mm`,
+          insetBlock: `${marginY * props.document.mmY}px`,
         }}
       ></div>
     </Fragment>
