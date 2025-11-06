@@ -28,6 +28,7 @@ import { createRoot } from 'react-dom/client'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
+import { toast } from 'sonner'
 
 export default function Toolbar() {
   return (
@@ -118,15 +119,23 @@ function NumberControl({
 
 function PrintButton() {
   const handlePrint = () => {
+    const id = toast.loading('Generating...')
     // Create a hidden iframe
     const iframe = document.createElement('iframe')
+    iframe.id = 'iframedownload'
     iframe.style.position = 'fixed'
     iframe.style.width = '0'
     iframe.style.height = '0'
     iframe.style.border = 'none'
-    // Use a different approach for hiding to avoid potential issues with print behavior in some browsers
     iframe.style.visibility = 'hidden'
     document.body.appendChild(iframe)
+
+    const cleanup = () => {
+      toast.dismiss(id)
+      const el = document.getElementById('iframedownload')
+      if (!el) return
+      document.body.removeChild(el)
+    }
 
     // Function to wait for all stylesheets to load
     const waitForStylesheets = async (doc: Document) => {
@@ -163,7 +172,7 @@ function PrintButton() {
       return Promise.all(stylePromises).then(() => {}) // Return a Promise<void>
     }
 
-    iframe.onload = async function () {
+    const handlePrint = async function () {
       // Use async function here
       const doc = iframe.contentDocument
       if (!doc) return
@@ -217,18 +226,43 @@ function PrintButton() {
         // Wait for React to finish rendering (this part is still a slight hack, but better than before)
         // A small timeout might still be needed if React rendering takes time.
         setTimeout(() => {
+          toast.dismiss(id)
           iframe.contentWindow?.focus()
           iframe.contentWindow?.print()
-          // document.body.removeChild(iframe)
+          cleanup()
         }, 100)
       } catch (error) {
         console.error('Error loading stylesheets for printing:', error)
-        document.body.removeChild(iframe)
+        cleanup()
+        toast.error('Something went wrong')
       }
     }
 
-    // Note: The iframe needs to be appended to the DOM before its `onload` event can reliably fire across browsers.
-    // The previous code already does this.
+    const timer = setInterval(async function () {
+      const _iframe = document.getElementById(
+        'iframedownload',
+      ) as HTMLIFrameElement
+      if (!_iframe) return
+      const iframeDoc =
+        _iframe.contentDocument || _iframe.contentWindow?.document
+      // Check if loading is complete
+      if (
+        iframeDoc?.readyState == 'complete' ||
+        iframeDoc?.readyState == 'interactive'
+      ) {
+        await handlePrint()
+
+        clearInterval(timer)
+        toast.dismiss(id)
+        return
+      }
+    }, 1000)
+
+    setTimeout(() => {
+      // Cleanup after 10 seconds
+      clearInterval(timer)
+      cleanup()
+    }, 10000)
   }
 
   return (
