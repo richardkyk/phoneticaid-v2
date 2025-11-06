@@ -3,27 +3,33 @@ import { Button } from './ui/button'
 
 interface HoldButtonProps extends React.ComponentProps<typeof Button> {
   onClick: () => void
-  interval?: number // ms between repeated clicks
+  interval?: number
   children: React.ReactNode
 }
 
 export const HoldButton: React.FC<HoldButtonProps> = ({
   onClick,
-  interval = 100, // default: 100ms
+  interval = 100,
   children,
   ...props
 }) => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const touchActiveRef = useRef(false)
 
   const handleMouseDown = () => {
-    // Call once immediately
+    if (touchActiveRef.current) return
     onClick()
+    intervalRef.current = setInterval(onClick, interval)
+  }
 
-    // Start repeating
+  const handleTouchStart = () => {
+    touchActiveRef.current = true
+    onClick()
     intervalRef.current = setInterval(onClick, interval)
   }
 
   const clear = () => {
+    touchActiveRef.current = false
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
       intervalRef.current = null
@@ -34,8 +40,8 @@ export const HoldButton: React.FC<HoldButtonProps> = ({
     <Button
       onMouseDown={handleMouseDown}
       onMouseUp={clear}
-      onMouseLeave={clear} // stop if mouse leaves button
-      onTouchStart={handleMouseDown}
+      onMouseLeave={clear}
+      onTouchStart={handleTouchStart}
       onTouchEnd={clear}
       onTouchCancel={clear}
       {...props}
