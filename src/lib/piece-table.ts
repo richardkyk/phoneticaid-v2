@@ -68,16 +68,19 @@ export const normaliseGridPosition = (
 
 export function getText(
   pt: PieceTable,
-  start: PieceTablePosition = {
-    pieceIndex: 0,
-    charIndex: 0,
-  },
+  start: PieceTablePosition = { pieceIndex: 0, charIndex: 0 },
   end: PieceTablePosition = {
-    pieceIndex: pt.pieces.length - 1,
-    charIndex: pt.pieces[pt.pieces.length - 1].length - 1,
+    pieceIndex: pt.pieces.length > 0 ? pt.pieces.length - 1 : 0,
+    charIndex:
+      pt.pieces.length > 0 ? pt.pieces[pt.pieces.length - 1].length : 0,
   },
 ): string {
   const [s, e] = normalisePieceTablePosition(start, end)
+
+  // Early exit if start == end after normalization
+  if (s.pieceIndex === e.pieceIndex && s.charIndex === e.charIndex) {
+    return ''
+  }
 
   let result = ''
 
@@ -85,6 +88,7 @@ export function getText(
     const p = pt.pieces[i]
     const buf = p.buffer === 'original' ? pt.original : pt.add
 
+    // Calculate slice bounds relative to the piece
     const pieceStart = i === s.pieceIndex ? p.start + s.charIndex : p.start
     const pieceEnd =
       i === e.pieceIndex ? p.start + e.charIndex : p.start + p.length
