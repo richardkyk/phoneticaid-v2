@@ -71,7 +71,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   mmY: measureMM().mmY,
   debug: false,
   layout: 'landscape',
-  translate: false,
+  translate: true,
 
   setFontSize: (fontSize: number) => set({ fontSize }),
   setPinyinSize: (pinyinSize: number) => set({ pinyinSize }),
