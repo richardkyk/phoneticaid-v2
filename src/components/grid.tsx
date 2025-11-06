@@ -28,7 +28,7 @@ export const Grid = (props: GridProps) => {
 
         const py = pinyin(
           content
-            .replace(/[\ue0000]/g, '\u6bcd')
+            .replace(/\u{E0000}/gu, '\u6bcd')
             .replace(/[^\u4e00-\u9fff]/g, ' '),
           {
             segment: true,
