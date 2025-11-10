@@ -24,7 +24,7 @@ export function Translator() {
   if (!enableTranslate) return null
 
   return (
-    <div className="font-sans w-[400px] p-4 z-10 absolute h-[calc(100vh-var(--header-height))] top-[var(--header-height)] right-0">
+    <div className="font-sans w-[400px] p-4 z-10 absolute top-2 h-[calc(50vh)] right-0">
       <ScrollArea className="h-full w-full border bg-white rounded-md shadow-sm">
         <div className="sticky top-0 bg-white z-10 py-2 px-4 flex items-center justify-between border-b mb-2">
           <h4 className="leading-none font-bold">Translations</h4>

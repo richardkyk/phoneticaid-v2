@@ -36,13 +36,13 @@ function App() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>老天爺照顧好人</BreadcrumbPage>
+                  <BreadcrumbPage></BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col p-2 pt-0">
+        <div className="flex flex-1 flex-col pb-2 pt-0">
           <Translator />
           <Document />
           <Toaster position="top-right" />

@@ -2,23 +2,19 @@ import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Button } from './ui/button'
 import {
   BugIcon,
-  ChevronDown,
+  FileIcon,
   LanguagesIcon,
   LayoutIcon,
-  Maximize2Icon,
   MinusIcon,
   MoveIcon,
   PlusIcon,
   PrinterIcon,
   RedoIcon,
-  Type,
+  TypeIcon,
   UndoIcon,
 } from 'lucide-react'
 import { useHistoryStore } from '@/lib/stores/history-store'
-import { ClientOnly } from '@tanstack/react-router'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { ButtonGroup } from './ui/button-group'
-import { Separator } from './ui/separator'
 import { cn } from '@/lib/utils'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { buildRows } from '@/lib/render'
@@ -28,27 +24,7 @@ import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
 import { toast } from 'sonner'
-
-export default function Toolbar() {
-  return (
-    <ClientOnly>
-      <div className="p-2 container mx-auto flex h-full font-sans items-center print:hidden">
-        <EditPopover />
-        <PrintButton />
-        <Separator
-          orientation="vertical"
-          className="data-[orientation=vertical]:h-[30px] mx-1"
-        />
-        <LayoutPopover />
-        <MarginPopover />
-        <GapPopover />
-        <TextPopover />
-        <TranslateButton />
-        <DebugButton className="ml-auto" />
-      </div>
-    </ClientOnly>
-  )
-}
+import { CollapsibleToolbar } from './collapsible-toolbar'
 
 type NumberKeys<T> = {
   [K in keyof T]: T[K] extends number ? K : never
@@ -116,7 +92,10 @@ function NumberControl({
   )
 }
 
-function PrintButton() {
+interface PrintButtonProps {
+  className?: string
+}
+function PrintButton(props: PrintButtonProps) {
   const handlePrint = () => {
     const id = toast.loading('Generating...')
     // Create a hidden iframe
@@ -278,243 +257,14 @@ function PrintButton() {
   }
 
   return (
-    <Button variant="ghost" onClick={() => handlePrint()} size="icon">
+    <Button
+      variant="ghost"
+      onClick={() => handlePrint()}
+      size="icon"
+      className={props.className}
+    >
       <PrinterIcon className="size-4" />
     </Button>
-  )
-}
-
-interface DebugProps {
-  className?: string
-}
-function DebugButton(props: DebugProps) {
-  const { debug, toggleDebug } = useDocumentStore()
-  return (
-    <Button
-      className={cn(
-        props.className,
-        'shadow-none',
-        !debug && 'border-transparent',
-      )}
-      onClick={() => toggleDebug()}
-      variant="outline"
-      size="icon-sm"
-    >
-      <BugIcon className="size-4" />
-    </Button>
-  )
-}
-
-function EditPopover() {
-  const { past, future } = useHistoryStore()
-
-  return (
-    <div className="flex items-center">
-      <Button
-        onClick={() => useHistoryStore.getState().undo()}
-        size="icon-sm"
-        variant="ghost"
-        disabled={past.length === 0}
-      >
-        <UndoIcon />
-      </Button>
-      <Button
-        onClick={() => useHistoryStore.getState().redo()}
-        size="icon-sm"
-        variant="ghost"
-        disabled={future.length === 0}
-      >
-        <RedoIcon />
-      </Button>
-    </div>
-  )
-}
-
-function TextPopover() {
-  const {
-    fontSize,
-    pinyinSize,
-    pinyinOffset,
-    pinyinPosition,
-    setFontSize,
-    setPinyinSize,
-    setPinyinOffset,
-    setPinyinPosition,
-  } = useDocumentStore()
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <Type className="size-4" />
-          <ChevronDown className="size-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div className="space-y-3 font-sans">
-          <NumberControl
-            label="Font Size"
-            value={fontSize}
-            valueKey="fontSize"
-            setValue={setFontSize}
-            min={1}
-            max={100}
-            step={1}
-          />
-          <Separator />
-          <NumberControl
-            label="Pinyin Size"
-            value={pinyinSize}
-            valueKey="pinyinSize"
-            setValue={setPinyinSize}
-            min={0}
-            max={20}
-            step={0.1}
-            decimalPoints={1}
-          />
-          <NumberControl
-            label="Pinyin Offset"
-            value={pinyinOffset}
-            valueKey="pinyinOffset"
-            setValue={setPinyinOffset}
-            min={0}
-            max={20}
-            step={0.1}
-            decimalPoints={1}
-          />
-          <div className="flex items-start mt-5 justify-between">
-            <Label className="text-xs text-gray-600">Pinyin Position</Label>
-            <RadioGroup
-              defaultValue={pinyinPosition}
-              onValueChange={setPinyinPosition}
-            >
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="top" id="r1" />
-                <Label htmlFor="r1">Above</Label>
-              </div>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="bottom" id="r2" />
-                <Label htmlFor="r2">Below</Label>
-              </div>
-            </RadioGroup>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-  )
-}
-
-function LayoutPopover() {
-  const { columns, layout, setColumns, setLayout } = useDocumentStore()
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <LayoutIcon className="size-4" />
-          <ChevronDown className="size-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div className="space-y-3 font-sans">
-          <NumberControl
-            label="Columns"
-            value={columns}
-            valueKey="columns"
-            setValue={setColumns}
-            min={1}
-            max={50}
-            step={1}
-          />
-          <Separator />
-          <div className="flex items-start justify-between mt-5">
-            <Label className="text-xs text-gray-600">Layout</Label>
-            <RadioGroup defaultValue={layout} onValueChange={setLayout}>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="portrait" id="r1" />
-                <Label htmlFor="r1">Portrait</Label>
-              </div>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="landscape" id="r2" />
-                <Label htmlFor="r2">Landscape</Label>
-              </div>
-            </RadioGroup>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-  )
-}
-
-function GapPopover() {
-  const { gapX, gapY, setGapX, setGapY } = useDocumentStore()
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <MoveIcon className="size-4" />
-          <ChevronDown className="size-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div className="space-y-3 font-sans">
-          <NumberControl
-            label="Gap X"
-            value={gapX}
-            valueKey="gapX"
-            setValue={setGapX}
-            min={0}
-            max={30}
-            step={0.1}
-            decimalPoints={1}
-          />
-          <NumberControl
-            label="Gap Y"
-            value={gapY}
-            valueKey="gapY"
-            setValue={setGapY}
-            min={0}
-            max={30}
-            step={0.1}
-            decimalPoints={1}
-          />
-        </div>
-      </PopoverContent>
-    </Popover>
-  )
-}
-
-function MarginPopover() {
-  const { marginX, marginY, setMarginX, setMarginY } = useDocumentStore()
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="sm">
-          <Maximize2Icon className="size-4" />
-          <ChevronDown className="size-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div className="space-y-3 font-sans">
-          <NumberControl
-            label="Margin X"
-            value={marginX}
-            valueKey="marginX"
-            setValue={setMarginX}
-            min={0}
-            max={80}
-            step={5}
-          />
-          <NumberControl
-            label="Margin Y"
-            value={marginY}
-            valueKey="marginY"
-            setValue={setMarginY}
-            min={0}
-            max={80}
-            step={5}
-          />
-        </div>
-      </PopoverContent>
-    </Popover>
   )
 }
 
@@ -532,9 +282,224 @@ function TranslateButton(props: TranslateProps) {
       )}
       onClick={() => toggleTranslate()}
       size="icon-sm"
-      variant="outline"
+      variant={translate ? 'default' : 'ghost'}
     >
       <LanguagesIcon className="size-4" />
     </Button>
+  )
+}
+
+interface DebugProps {
+  className?: string
+}
+function DebugButton(props: DebugProps) {
+  const { debug, toggleDebug } = useDocumentStore()
+  return (
+    <Button
+      className={cn(
+        props.className,
+        'shadow-none',
+        !debug && 'border-transparent',
+      )}
+      onClick={() => toggleDebug()}
+      variant={debug ? 'default' : 'ghost'}
+      size="icon-sm"
+    >
+      <BugIcon className="size-4" />
+    </Button>
+  )
+}
+
+export function DocumentToolbar() {
+  const { past, future } = useHistoryStore()
+
+  return (
+    <CollapsibleToolbar name="Document" icon={<FileIcon className="size-4" />}>
+      <div className="flex items-center">
+        <Button
+          onClick={() => useHistoryStore.getState().undo()}
+          size="icon-sm"
+          variant="ghost"
+          disabled={past.length === 0}
+        >
+          <UndoIcon />
+        </Button>
+        <Button
+          onClick={() => useHistoryStore.getState().redo()}
+          size="icon-sm"
+          variant="ghost"
+          disabled={future.length === 0}
+        >
+          <RedoIcon />
+        </Button>
+        <PrintButton className="ml-auto" />
+        <TranslateButton />
+        <DebugButton />
+      </div>
+    </CollapsibleToolbar>
+  )
+}
+
+export function TextToolbar() {
+  const {
+    fontSize,
+    pinyinSize,
+    pinyinOffset,
+    pinyinPosition,
+    setFontSize,
+    setPinyinSize,
+    setPinyinOffset,
+    setPinyinPosition,
+  } = useDocumentStore()
+
+  return (
+    <CollapsibleToolbar name="Text" icon={<TypeIcon className="size-4" />}>
+      <div className="space-y-3 font-sans">
+        <NumberControl
+          label="Font Size"
+          value={fontSize}
+          valueKey="fontSize"
+          setValue={setFontSize}
+          min={1}
+          max={100}
+          step={1}
+        />
+        <NumberControl
+          label="Pinyin Size"
+          value={pinyinSize}
+          valueKey="pinyinSize"
+          setValue={setPinyinSize}
+          min={0}
+          max={20}
+          step={0.1}
+          decimalPoints={1}
+        />
+        <NumberControl
+          label="Pinyin Offset"
+          value={pinyinOffset}
+          valueKey="pinyinOffset"
+          setValue={setPinyinOffset}
+          min={0}
+          max={20}
+          step={0.1}
+          decimalPoints={1}
+        />
+        <div className="flex items-start mt-5 justify-between">
+          <Label className="text-xs text-gray-600">Pinyin Position</Label>
+          <RadioGroup
+            defaultValue={pinyinPosition}
+            onValueChange={setPinyinPosition}
+          >
+            <div className="flex items-center gap-3">
+              <RadioGroupItem value="top" id="r1" />
+              <Label htmlFor="r1" className="text-xs">
+                Above
+              </Label>
+            </div>
+            <div className="flex items-center gap-3">
+              <RadioGroupItem value="bottom" id="r2" />
+              <Label htmlFor="r2" className="text-xs">
+                Below
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+      </div>
+    </CollapsibleToolbar>
+  )
+}
+
+export function LayoutToolbar() {
+  const { columns, layout, setColumns, setLayout } = useDocumentStore()
+
+  return (
+    <CollapsibleToolbar name="Layout" icon={<LayoutIcon className="size-4" />}>
+      <div className="space-y-3">
+        <NumberControl
+          label="Columns"
+          value={columns}
+          valueKey="columns"
+          setValue={setColumns}
+          min={1}
+          max={50}
+          step={1}
+        />
+        <div className="flex items-start justify-between mt-5">
+          <Label className="text-xs text-gray-600">Orientation</Label>
+          <RadioGroup defaultValue={layout} onValueChange={setLayout}>
+            <div className="flex items-center gap-3">
+              <RadioGroupItem value="portrait" id="r1" />
+              <Label htmlFor="r1" className="text-xs">
+                Portrait
+              </Label>
+            </div>
+            <div className="flex items-center gap-3">
+              <RadioGroupItem value="landscape" id="r2" />
+              <Label htmlFor="r2" className="text-xs">
+                Landscape
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+      </div>
+    </CollapsibleToolbar>
+  )
+}
+
+export function SpacingToolbar() {
+  const {
+    gapX,
+    gapY,
+    marginX,
+    marginY,
+    setGapX,
+    setGapY,
+    setMarginX,
+    setMarginY,
+  } = useDocumentStore()
+
+  return (
+    <CollapsibleToolbar name="Spacing" icon={<MoveIcon className="size-4" />}>
+      <div className="space-y-3">
+        <NumberControl
+          label="Margin X"
+          value={marginX}
+          valueKey="marginX"
+          setValue={setMarginX}
+          min={0}
+          max={80}
+          step={5}
+        />
+        <NumberControl
+          label="Margin Y"
+          value={marginY}
+          valueKey="marginY"
+          setValue={setMarginY}
+          min={0}
+          max={80}
+          step={5}
+        />
+        <NumberControl
+          label="Gap X"
+          value={gapX}
+          valueKey="gapX"
+          setValue={setGapX}
+          min={0}
+          max={30}
+          step={0.1}
+          decimalPoints={1}
+        />
+        <NumberControl
+          label="Gap Y"
+          value={gapY}
+          valueKey="gapY"
+          setValue={setGapY}
+          min={0}
+          max={30}
+          step={0.1}
+          decimalPoints={1}
+        />
+      </div>
+    </CollapsibleToolbar>
   )
 }
