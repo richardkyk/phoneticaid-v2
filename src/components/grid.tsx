@@ -41,70 +41,85 @@ export const Grid = (props: GridProps) => {
           // otherwise split each character into an empty string placeholder
           return Array.from(s).map(() => '')
         })
-        return row.map((cell, j) => (
-          <div
-            key={`${i}-${j}`}
-            className="absolute"
-            style={{
-              top: `${(cell.y - offset) * document.mmY}px`,
-              left: `${cell.x * document.mmX}px`,
-              height: `${(cell.height + document.pinyinSize + document.pinyinOffset) * document.mmY}px`,
-            }}
-          >
+
+        return row.map((cell, j) => {
+          const x =
+            cell.col * (document.fontSize + document.gapX) + document.marginX
+          const y =
+            cell.row *
+              (document.fontSize +
+                document.gapY +
+                document.pinyinSize +
+                document.pinyinOffset) +
+            document.marginY
+
+          return (
             <div
-              className="absolute justify-center flex items-center font-sans inset-x-0"
+              key={`${i}-${j}`}
+              className="absolute"
               style={{
-                fontSize: `${document.pinyinSize * document.mmY}px`,
-                top:
-                  document.pinyinPosition === 'top'
-                    ? 0
-                    : `${(cell.height + document.pinyinOffset) * document.mmY}px`,
-                height: `${document.pinyinSize * document.mmY}px`,
-                width: `${cell.width * document.mmX}px`,
+                top: `${(y - offset) * document.mmY}px`,
+                left: `${x * document.mmX}px`,
+                height: `${(document.fontSize + document.pinyinSize + document.pinyinOffset) * document.mmY}px`,
               }}
             >
-              {result[j]}
+              <div
+                className="absolute justify-center flex items-center font-sans inset-x-0"
+                style={{
+                  fontSize: `${document.pinyinSize * document.mmY}px`,
+                  top:
+                    document.pinyinPosition === 'top'
+                      ? 0
+                      : `${(document.fontSize + document.pinyinOffset) * document.mmY}px`,
+                  height: `${document.pinyinSize * document.mmY}px`,
+                  width: `${document.fontSize * document.mmX}px`,
+                }}
+              >
+                {result[j]}
+              </div>
+              <div
+                data-debug={document.debug ? '' : undefined}
+                data-last={cell.col === document.columns ? '' : undefined}
+                data-odd={
+                  document.debug && cell.pieceIndex % 2 === 0 ? '' : undefined
+                }
+                data-even={
+                  document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
+                }
+                className={cn(
+                  'absolute data-[highlight]:bg-yellow-100 overflow-hidden print:[[data-debug][data-last]]:hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center print:shadow-none shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
+                  'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
+                )}
+                style={{
+                  top:
+                    document.pinyinPosition === 'top'
+                      ? `${(document.pinyinSize + document.pinyinOffset) * document.mmY}px`
+                      : undefined,
+                  width: `${document.fontSize * document.mmY}px`,
+                  height: `${document.fontSize * document.mmY}px`,
+                }}
+              >
+                <span
+                  style={{ fontSize: `${document.fontSize * document.mmY}px` }}
+                >
+                  {cell.content}
+                </span>
+                {document.debug && (
+                  <Fragment>
+                    <div className="absolute print:hidden text-[10px] left-0 top-0 select-none">
+                      ({i},{j})
+                    </div>
+                    <div className="absolute print:hidden text-[10px] left-0 bottom-0 select-none">
+                      {cell.pieceIndex === -1 && `+${cell.offset}`}
+                      {cell.pieceIndex !== -1 &&
+                        `[${cell.pieceIndex}][${cell.charIndex}]`}
+                    </div>
+                  </Fragment>
+                )}
+              </div>
             </div>
-            <div
-              data-debug={document.debug ? '' : undefined}
-              data-last={cell.col === document.columns ? '' : undefined}
-              data-odd={
-                document.debug && cell.pieceIndex % 2 === 0 ? '' : undefined
-              }
-              data-even={
-                document.debug && cell.pieceIndex % 2 === 1 ? '' : undefined
-              }
-              className={cn(
-                'absolute data-[highlight]:bg-yellow-100 overflow-hidden print:[[data-debug][data-last]]:hidden data-[last]:opacity-0 data-[odd]:bg-blue-100 data-[even]:bg-red-100 [[data-debug][data-last]]:opacity-100 flex items-center justify-center print:shadow-none shadow-[0_0_0_1px_rgba(0,0,0,0.05)] text-gray-600 cursor-text',
-                'data-[last]:bg-[repeating-linear-gradient(135deg,theme(colors.gray.200),theme(colors.gray.200)_5px,transparent_5px,transparent_10px)]',
-              )}
-              style={{
-                top:
-                  document.pinyinPosition === 'top'
-                    ? `${document.pinyinSize + document.pinyinOffset}mm`
-                    : undefined,
-                width: `${cell.width}mm`,
-                height: `${cell.height}mm`,
-              }}
-            >
-              <span style={{ fontSize: `${cell.height}mm` }}>
-                {cell.content}
-              </span>
-              {document.debug && (
-                <Fragment>
-                  <div className="absolute print:hidden text-[10px] left-0 top-0 select-none">
-                    ({i},{j})
-                  </div>
-                  <div className="absolute print:hidden text-[10px] left-0 bottom-0 select-none">
-                    {cell.pieceIndex === -1 && `+${cell.offset}`}
-                    {cell.pieceIndex !== -1 &&
-                      `[${cell.pieceIndex}][${cell.charIndex}]`}
-                  </div>
-                </Fragment>
-              )}
-            </div>
-          </div>
-        ))
+          )
+        })
       })}
     </Fragment>
   )

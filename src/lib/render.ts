@@ -5,12 +5,8 @@ export interface Cell {
   content: string
   row: number
   col: number
-  x: number
-  y: number
   pieceIndex: number
   charIndex: number
-  width: number
-  height: number
   offset: number
 }
 
@@ -46,7 +42,6 @@ export function buildRows(pt: PieceTable, document: DocumentState) {
       pieceIndex,
       charIndex,
       isNewLine && last ? document.columns - last.col : 0,
-      document,
     )
 
     if (isNewLine) {
@@ -129,29 +124,21 @@ function makeCell(
   pieceIndex: number,
   charIndex: number,
   offset: number,
-  document: DocumentState,
 ) {
-  const pinyinHeight = document.pinyinSize + document.pinyinOffset
-  const charHeight = document.fontSize + document.gapY
-
   return {
     content,
     row,
     col,
-    x: col * (document.fontSize + document.gapX) + document.marginX,
-    y: row * (charHeight + pinyinHeight) + document.marginY,
     pieceIndex,
     charIndex,
     offset,
-    width: document.fontSize,
-    height: document.fontSize,
   }
 }
 
 function padRow(row: Cell[], line: number, document: DocumentState) {
   let offset = 1
   while (row.length <= document.columns) {
-    const cell = makeCell(line, row.length, '', -1, -1, offset, document)
+    const cell = makeCell(line, row.length, '', -1, -1, offset)
     row.push(cell)
     offset++
   }
