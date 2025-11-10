@@ -382,18 +382,21 @@ function TextPopover() {
             step={0.1}
             decimalPoints={1}
           />
-
-          <div className="flex items-center justify-between h-8">
-            <Label className="text-xs text-gray-600">
-              Pinyin Position (Above)
-            </Label>
-            <Switch
-              className="block"
-              checked={pinyinPosition === 'top'}
-              onCheckedChange={() =>
-                setPinyinPosition(pinyinPosition === 'top' ? 'bottom' : 'top')
-              }
-            />
+          <div className="flex items-start mt-5 justify-between">
+            <Label className="text-xs text-gray-600">Pinyin Position</Label>
+            <RadioGroup
+              defaultValue={pinyinPosition}
+              onValueChange={setPinyinPosition}
+            >
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="top" id="r1" />
+                <Label htmlFor="r1">Above</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="bottom" id="r2" />
+                <Label htmlFor="r2">Below</Label>
+              </div>
+            </RadioGroup>
           </div>
         </div>
       </PopoverContent>
@@ -423,7 +426,7 @@ function LayoutPopover() {
             step={1}
           />
           <Separator />
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between mt-5">
             <Label className="text-xs text-gray-600">Layout</Label>
             <RadioGroup defaultValue={layout} onValueChange={setLayout}>
               <div className="flex items-center gap-3">
