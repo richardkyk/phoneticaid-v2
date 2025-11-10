@@ -125,12 +125,12 @@ export const Editor: React.FC<EditorProps> = (props) => {
   return (
     <Fragment>
       <ScrollArea
-        className="w-full h-[calc(100vh-var(--header-height))]"
+        className="w-full h-[calc(100vh-40px-32px+8px)]" // header-height and 2x margin and 8px for padding at top
         ref={props.scrollRef}
       >
         <div
           id="editor"
-          className="outline-none print:h-screen"
+          className="outline-none print:h-screen my-2"
           onMouseDown={handleMouseDown}
           onClick={handleClick}
         >

@@ -100,6 +100,7 @@ export const Grid = (props: GridProps) => {
                 }}
               >
                 <span
+                  className="font-chinese"
                   style={{ fontSize: `${document.fontSize * document.mmY}px` }}
                 >
                   {cell.content}

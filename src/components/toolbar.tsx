@@ -1,5 +1,4 @@
 import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
-import { Switch } from './ui/switch'
 import { Button } from './ui/button'
 import {
   BugIcon,
