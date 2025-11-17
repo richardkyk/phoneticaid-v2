@@ -39,8 +39,9 @@ export const Document = () => {
   return (
     <Editor scrollRef={parentRef}>
       <div
-        className="ml-6 mt-4 mb-6"
+        className="mt-4 mb-6 mx-auto"
         style={{
+          maxWidth: `${document.pageWidth() * document.mmX}px`,
           height: virtualizer.getTotalSize(),
           position: 'relative',
         }}
