@@ -45,8 +45,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroupLabel>Config</SidebarGroupLabel>
-        <SidebarSeparator className="mx-0" />
         <DocumentToolbar />
+        <SidebarSeparator className="mx-0" />
         <TextToolbar />
         <LayoutToolbar />
         <SpacingToolbar />

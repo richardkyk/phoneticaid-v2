@@ -314,29 +314,27 @@ export function DocumentToolbar() {
   const { past, future } = useHistoryStore()
 
   return (
-    <CollapsibleToolbar name="Document" icon={<FileIcon className="size-4" />}>
-      <div className="flex items-center">
-        <Button
-          onClick={() => useHistoryStore.getState().undo()}
-          size="icon-sm"
-          variant="ghost"
-          disabled={past.length === 0}
-        >
-          <UndoIcon />
-        </Button>
-        <Button
-          onClick={() => useHistoryStore.getState().redo()}
-          size="icon-sm"
-          variant="ghost"
-          disabled={future.length === 0}
-        >
-          <RedoIcon />
-        </Button>
-        <PrintButton className="ml-auto" />
-        <TranslateButton />
-        <DebugButton />
-      </div>
-    </CollapsibleToolbar>
+    <div className="flex items-center">
+      <Button
+        onClick={() => useHistoryStore.getState().undo()}
+        size="icon-sm"
+        variant="ghost"
+        disabled={past.length === 0}
+      >
+        <UndoIcon />
+      </Button>
+      <Button
+        onClick={() => useHistoryStore.getState().redo()}
+        size="icon-sm"
+        variant="ghost"
+        disabled={future.length === 0}
+      >
+        <RedoIcon />
+      </Button>
+      <PrintButton className="ml-auto" />
+      <TranslateButton />
+      <DebugButton />
+    </div>
   )
 }
 
