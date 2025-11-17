@@ -8,7 +8,6 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
 } from '@/components/ui/sidebar'
@@ -25,21 +24,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="sm" asChild>
-              <div>
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <img
-                    src="/favicon.ico"
-                    alt="PhoneticAid"
-                    width={32}
-                    height={32}
-                  />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">PhoneticAid</span>
-                </div>
+            <div className="flex items-center gap-2">
+              <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                <img
+                  src="/favicon.ico"
+                  alt="PhoneticAid"
+                  width={32}
+                  height={32}
+                />
               </div>
-            </SidebarMenuButton>
+              <div className="text-sm leading-tight">
+                <span className="truncate font-medium">PhoneticAid</span>
+              </div>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
