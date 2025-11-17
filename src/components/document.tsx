@@ -38,37 +38,39 @@ export const Document = () => {
 
   return (
     <Editor scrollRef={parentRef}>
-      <div
-        className="mt-4 mb-6 mx-auto"
-        style={{
-          maxWidth: `${document.pageWidth() * document.mmX}px`,
-          height: virtualizer.getTotalSize(),
-          position: 'relative',
-        }}
-      >
-        {virtualizer.getVirtualItems().map((virtualPage) => {
-          const pageIndex = virtualPage.index
-          const pageRows = pages[pageIndex]
-          return (
-            <div
-              key={pageIndex}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                transform: `translateY(${virtualPage.start}px)`,
-                width: `${document.pageWidth() * document.mmX}px`,
-              }}
-            >
-              <Page
-                document={document}
-                pageIndex={pageIndex}
-                pageRows={pageRows}
-                pieceMap={data.pieceMap}
-              />
-            </div>
-          )
-        })}
+      <div className="py-6">
+        <div
+          className="mx-auto"
+          style={{
+            maxWidth: `${document.pageWidth() * document.mmX}px`,
+            height: virtualizer.getTotalSize(),
+            position: 'relative',
+          }}
+        >
+          {virtualizer.getVirtualItems().map((virtualPage) => {
+            const pageIndex = virtualPage.index
+            const pageRows = pages[pageIndex]
+            return (
+              <div
+                key={pageIndex}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  transform: `translateY(${virtualPage.start}px)`,
+                  width: `${document.pageWidth() * document.mmX + 48}px`,
+                }}
+              >
+                <Page
+                  document={document}
+                  pageIndex={pageIndex}
+                  pageRows={pageRows}
+                  pieceMap={data.pieceMap}
+                />
+              </div>
+            )
+          })}
+        </div>
       </div>
     </Editor>
   )

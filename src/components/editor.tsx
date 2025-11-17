@@ -130,7 +130,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
       >
         <div
           id="editor"
-          className="outline-none print:h-screen mb-2 pl-6"
+          className="outline-none print:h-screen"
           onMouseDown={handleMouseDown}
           onClick={handleClick}
         >
