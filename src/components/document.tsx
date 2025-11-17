@@ -39,6 +39,7 @@ export const Document = () => {
   return (
     <Editor scrollRef={parentRef}>
       <div
+        className="ml-6 mt-4 mb-6"
         style={{
           height: virtualizer.getTotalSize(),
           position: 'relative',
@@ -55,7 +56,7 @@ export const Document = () => {
                 top: 0,
                 left: 0,
                 transform: `translateY(${virtualPage.start}px)`,
-                width: '100%',
+                width: `${document.pageWidth() * document.mmX}px`,
               }}
             >
               <Page

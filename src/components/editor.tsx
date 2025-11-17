@@ -4,7 +4,7 @@ import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import React, { Fragment, useCallback, useRef } from 'react'
-import { ScrollArea } from './ui/scroll-area'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
 const clamp = (val: number, min: number, max: number) =>
   Math.min(Math.max(val, min), max)
@@ -125,17 +125,18 @@ export const Editor: React.FC<EditorProps> = (props) => {
   return (
     <Fragment>
       <ScrollArea
-        className="w-full h-[calc(100vh-40px-32px+8px)]" // header-height and 2x margin and 8px for padding at top
+        className="w-full h-[calc(100vh-40px-32px+16px)]" // header-height and 2x margin
         ref={props.scrollRef}
       >
         <div
           id="editor"
-          className="outline-none print:h-screen my-2"
+          className="outline-none print:h-screen mb-2"
           onMouseDown={handleMouseDown}
           onClick={handleClick}
         >
           {props.children}
         </div>
+        <ScrollBar orientation="horizontal" />
       </ScrollArea>
       <HiddenInput ref={inputRef} />
     </Fragment>

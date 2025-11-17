@@ -42,7 +42,7 @@ function App() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col pb-2 pt-0">
+        <div className="flex flex-1 flex-col">
           <Translator />
           <Document />
           <Toaster position="top-right" />
