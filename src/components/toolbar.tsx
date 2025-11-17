@@ -2,7 +2,6 @@ import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Button } from './ui/button'
 import {
   BugIcon,
-  FileIcon,
   LanguagesIcon,
   LayoutIcon,
   MinusIcon,
@@ -426,14 +425,14 @@ export function LayoutToolbar() {
           <Label className="text-xs text-gray-600">Orientation</Label>
           <RadioGroup defaultValue={layout} onValueChange={setLayout}>
             <div className="flex items-center gap-3">
-              <RadioGroupItem value="portrait" id="r1" />
-              <Label htmlFor="r1" className="text-xs">
+              <RadioGroupItem value="portrait" id="r3" />
+              <Label htmlFor="r3" className="text-xs">
                 Portrait
               </Label>
             </div>
             <div className="flex items-center gap-3">
-              <RadioGroupItem value="landscape" id="r2" />
-              <Label htmlFor="r2" className="text-xs">
+              <RadioGroupItem value="landscape" id="r4" />
+              <Label htmlFor="r4" className="text-xs">
                 Landscape
               </Label>
             </div>
