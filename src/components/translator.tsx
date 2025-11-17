@@ -1,12 +1,13 @@
 import { useDocumentStore } from '@/lib/stores/document-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
-import { Loader, MinusIcon } from 'lucide-react'
+import { Loader, MoveIcon, XIcon } from 'lucide-react'
 import { ScrollArea } from './ui/scroll-area'
 import { Fragment } from 'react/jsx-runtime'
 import { Separator } from './ui/separator'
 import { useEffect, useRef } from 'react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
+import { useDraggableOverlay } from '@/lib/hooks/use-draggable-overlay'
 
 export function Translator() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -16,6 +17,8 @@ export function Translator() {
   const isTranslating = useTranslateStore((state) => state.isThinking)
   const toggleTranslate = useDocumentStore((state) => state.toggleTranslate)
 
+  const { overlayRef, handleMouseDown } = useDraggableOverlay()
+
   useEffect(() => {
     if (!scrollRef.current) return
     scrollRef.current.scrollIntoView({ behavior: 'smooth' }) //Use scrollIntoView to automatically scroll to my ref
@@ -24,16 +27,23 @@ export function Translator() {
   if (!enableTranslate) return null
 
   return (
-    <div className="font-sans w-[400px] p-4 z-10 absolute top-2 h-[calc(50vh)] right-0">
+    <div
+      ref={overlayRef}
+      className={cn('font-sans w-[400px] p-2 z-10 absolute h-[calc(50vh)]')}
+    >
       <ScrollArea className="h-full w-full border bg-white rounded-md shadow-sm">
-        <div className="sticky top-0 bg-white z-10 py-2 px-4 flex items-center justify-between border-b mb-2">
+        <div className="sticky top-0 bg-white z-10 py-2 px-2 flex items-center border-b mb-2">
+          <Button variant="ghost" size="icon-sm" onMouseDown={handleMouseDown}>
+            <MoveIcon className="size-4" />
+          </Button>
           <h4 className="leading-none font-bold">Translations</h4>
           <Button
+            className="ml-auto"
             variant="ghost"
             size="icon-sm"
             onClick={() => toggleTranslate()}
           >
-            <MinusIcon className="size-4" />
+            <XIcon className="size-4" />
           </Button>
         </div>
 

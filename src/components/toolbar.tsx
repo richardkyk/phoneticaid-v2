@@ -5,7 +5,7 @@ import {
   LanguagesIcon,
   LayoutIcon,
   MinusIcon,
-  MoveIcon,
+  PanelLeftDashedIcon,
   PlusIcon,
   PrinterIcon,
   RedoIcon,
@@ -456,7 +456,10 @@ export function SpacingToolbar() {
   } = useDocumentStore()
 
   return (
-    <CollapsibleToolbar name="Spacing" icon={<MoveIcon className="size-4" />}>
+    <CollapsibleToolbar
+      name="Spacing"
+      icon={<PanelLeftDashedIcon className="size-4" />}
+    >
       <div className="space-y-3">
         <NumberControl
           label="Margin X"
