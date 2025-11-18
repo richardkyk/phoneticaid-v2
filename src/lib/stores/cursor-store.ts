@@ -130,7 +130,6 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
   focus: () => {
     const el = document.getElementById('cursor')
     if (!el) return
-    console.log('focusing')
     el.scrollIntoView({ block: 'nearest' })
   },
   getSelection: () => {

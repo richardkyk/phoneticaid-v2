@@ -362,7 +362,6 @@ export const usePieceTableStore = create<MultiProjectState>()(
         // pt should now be mutated to its final state
         const newPt = structuredClone(pt)
         history.push({
-          projectId: get().activeId,
           undo: () => {
             usePieceTableStore.getState().setActivePt(originalPt)
             useCursorStore

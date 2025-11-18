@@ -47,7 +47,7 @@ export function NavProjects() {
               onClick={() => setActiveProject(item.id)}
               asChild
             >
-              <div>
+              <div className="select-none">
                 <FileIcon />
                 <span>{item.title}</span>
               </div>
