@@ -382,7 +382,7 @@ export function TextToolbar() {
         <div className="flex items-start mt-5 justify-between">
           <Label className="text-xs text-gray-600">Pinyin Position</Label>
           <RadioGroup
-            defaultValue={pinyinPosition}
+            value={pinyinPosition}
             onValueChange={(v) =>
               setDocumentAttribute({ pinyinPosition: v as 'top' | 'bottom' })
             }
@@ -425,7 +425,7 @@ export function LayoutToolbar() {
         <div className="flex items-start justify-between mt-5">
           <Label className="text-xs text-gray-600">Orientation</Label>
           <RadioGroup
-            defaultValue={layout}
+            value={layout}
             onValueChange={(v) =>
               setDocumentAttribute({ layout: v as 'portrait' | 'landscape' })
             }
