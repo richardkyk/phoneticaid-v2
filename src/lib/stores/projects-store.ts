@@ -72,15 +72,15 @@ export const useProjectsStore = create<MultiProjectState>()(
         const nextProjectCount = get().projectCount + 1
         const newProject = {
           id: String(nextProjectCount),
-          title: 'Untitled',
+          title: `Untitled #${nextProjectCount}`,
           pt: blankPieceTable(),
           lastUpdated: Date.now(),
         }
         set({
           projects: [...get().projects, newProject],
           projectCount: nextProjectCount,
-          activeId: newProject.id,
         })
+        get().setActiveProject(newProject.id)
         return newProject
       },
       deleteProject: (id) => {
