@@ -6,10 +6,10 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useState } from 'react'
 import { Button } from './ui/button'
 import { PencilIcon } from 'lucide-react'
+import { useProjectsStore } from '@/lib/stores/projects-store'
 
 export function AppHeader() {
   return (
@@ -37,20 +37,19 @@ export function AppHeader() {
 function EditableTitle() {
   const [isEditing, setIsEditing] = useState(false)
 
-  const activeProject = usePieceTableStore((state) => state.getActiveProject())
-  const setActiveTitle = usePieceTableStore((state) => state.setActiveTitle)
+  const activeProject = useProjectsStore((state) => state.getActiveProject())
+  const setActiveProjectAttribute = useProjectsStore(
+    (state) => state.setActiveProjectAttribute,
+  )
 
   return isEditing ? (
     <input
       type="text"
       autoFocus
       value={activeProject.title}
-      onChange={(e) => setActiveTitle(e.target.value)}
+      onChange={(e) => setActiveProjectAttribute({ title: e.target.value })}
       className="border px-2 w-[180px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-      onBlur={(e) => {
-        setActiveTitle(e.target.value)
-        setIsEditing(false)
-      }}
+      onBlur={() => setIsEditing(false)}
     />
   ) : (
     <Button

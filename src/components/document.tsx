@@ -1,5 +1,4 @@
 import { useMapStore } from '@/lib/stores/cursor-store'
-import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { buildRows } from '@/lib/render'
 import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
 import { useLayoutEffect } from '@tanstack/react-router'
@@ -7,10 +6,11 @@ import { Page } from './page'
 import { Editor } from './editor'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useRef } from 'react'
+import { useProjectsStore } from '@/lib/stores/projects-store'
 
 export const Document = () => {
   const document = useDocumentStore()
-  const project = usePieceTableStore((state) => state.getActiveProject())
+  const project = useProjectsStore((state) => state.getActiveProject())
   const data = buildRows(project.pt, document)
 
   const pageHeight = document.pageHeight() * document.mmY

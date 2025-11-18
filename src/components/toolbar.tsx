@@ -15,7 +15,6 @@ import {
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { ButtonGroup } from './ui/button-group'
 import { cn } from '@/lib/utils'
-import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { buildRows } from '@/lib/render'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
@@ -24,6 +23,7 @@ import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
 import { toast } from 'sonner'
 import { CollapsibleToolbar } from './collapsible-toolbar'
+import { useProjectsStore } from '@/lib/stores/projects-store'
 
 type NumberKeys<T> = {
   [K in keyof T]: T[K] extends number ? K : never
@@ -188,7 +188,7 @@ function PrintButton(props: PrintButtonProps) {
 
         // Stylesheets are loaded, now render React components
         const documentStore = useDocumentStore.getState()
-        const pt = usePieceTableStore.getState().getActiveProject().pt
+        const pt = useProjectsStore.getState().getActiveProject().pt
         const data = buildRows(pt, documentStore)
         const rowsPerPage = documentStore.rowsPerPage()
         const pages = []

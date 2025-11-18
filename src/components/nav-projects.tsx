@@ -17,16 +17,17 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { usePieceTableStore } from '@/lib/stores/piece-table-store'
+import { useProjectsStore } from '@/lib/stores/projects-store'
 
 export function NavProjects() {
   const { isMobile } = useSidebar()
 
-  const activeId = usePieceTableStore((state) => state.activeId)
-  const projects = usePieceTableStore((state) => state.projects)
-  const addProject = usePieceTableStore((state) => state.addProject)
-  const setActiveProject = usePieceTableStore((state) => state.setActiveProject)
-  const deleteProject = usePieceTableStore((state) => state.deleteProject)
+  const projects = useProjectsStore((state) => state.projects)
+  const activeId = useProjectsStore((state) => state.activeId)
+
+  const addProject = useProjectsStore((state) => state.addProject)
+  const setActiveProject = useProjectsStore((state) => state.setActiveProject)
+  const deleteProject = useProjectsStore((state) => state.deleteProject)
 
   const sortedProjects = projects.sort((a, b) => b.lastUpdated - a.lastUpdated)
 
