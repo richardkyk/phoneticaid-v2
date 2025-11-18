@@ -13,7 +13,6 @@ export const Document = () => {
   const project = useProjectsStore((state) => state.getActiveProject())
   const data = buildRows(project.pt, document)
 
-  const pageHeight = document.pageHeight() * document.mmY
   const rowsPerPage = document.rowsPerPage()
 
   useLayoutEffect(() => {
@@ -32,19 +31,24 @@ export const Document = () => {
   const virtualizer = useVirtualizer({
     count: pages.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => pageHeight,
+    estimateSize: () => document.pageHeight() * document.mmY,
     overscan: 1,
+    gap: 24,
   })
+
+  useLayoutEffect(() => {
+    // need to remeasure the virtualizer when the layout changes
+    virtualizer.measure()
+  }, [document.layout])
 
   return (
     <Editor scrollRef={parentRef}>
       <div className="py-6">
         <div
-          className="mx-auto"
+          className="mx-auto relative"
           style={{
             maxWidth: `${document.pageWidth() * document.mmX}px`,
-            height: virtualizer.getTotalSize(),
-            position: 'relative',
+            height: `${virtualizer.getTotalSize()}px`,
           }}
         >
           {virtualizer.getVirtualItems().map((virtualPage) => {
@@ -58,7 +62,7 @@ export const Document = () => {
                   top: 0,
                   left: 0,
                   transform: `translateY(${virtualPage.start}px)`,
-                  width: `${document.pageWidth() * document.mmX + 48}px`,
+                  width: `${document.pageWidth() * document.mmX + 48}px`, // add 48px for padding
                 }}
               >
                 <Page
