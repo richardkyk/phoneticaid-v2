@@ -29,9 +29,9 @@ export function Translator() {
   return (
     <div
       ref={overlayRef}
-      className={cn('font-sans w-[400px] p-2 z-10 absolute h-[calc(50vh)]')}
+      className={cn('font-sans w-[400px] p-2 z-10 fixed h-[calc(50vh)]')}
     >
-      <ScrollArea className="h-full w-full border bg-white rounded-md shadow-sm">
+      <ScrollArea className="h-full w-full border bg-white rounded-xl shadow-lg">
         <div className="sticky top-0 bg-white z-10 py-2 px-2 flex items-center border-b mb-2">
           <Button variant="ghost" size="icon-sm" onMouseDown={handleMouseDown}>
             <MoveIcon className="size-4" />
