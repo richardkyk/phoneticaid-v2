@@ -3,7 +3,6 @@ import { usePieceTableStore } from './piece-table-store'
 import z from 'zod'
 import { createServerFn } from '@tanstack/react-start'
 import { streamText } from 'ai'
-import { useDocumentStore } from './document-store'
 import { env } from '@/env'
 import { createOpenAI } from '@ai-sdk/openai'
 
@@ -46,19 +45,22 @@ const translate = createServerFn({ method: 'POST' })
   })
 
 interface TranslateState {
+  translate: boolean
   isThinking: boolean
   translations: { original: string; translation: string }[]
   translateSelection: () => void
+  toggleTranslate: () => void
 }
 
 export const useTranslateStore = create<TranslateState>((set, get) => {
   let currentAbortController: AbortController | null = null
 
   return {
+    translate: true,
     isThinking: false,
     translations: [],
     translateSelection: async () => {
-      if (!useDocumentStore.getState().translate) return
+      if (!get().translate) return
 
       const selection = usePieceTableStore.getState().extractSelection()
       if (selection.length === 0) return
@@ -110,6 +112,12 @@ export const useTranslateStore = create<TranslateState>((set, get) => {
           currentAbortController = null
         }
       }
+    },
+    toggleTranslate: () => {
+      const isCurrentlyOn = get().translate
+      set((state) => ({ translate: !state.translate }))
+      if (isCurrentlyOn) return
+      get().translateSelection()
     },
   }
 })

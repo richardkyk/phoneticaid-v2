@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { useCursorStore } from './cursor-store'
-import { useTranslateStore } from './translate-store'
 import {
   getGridCursorPosition,
   getPieceTableCursorPosition,
@@ -34,7 +33,6 @@ export interface DocumentState {
   mmY: number
   debug: boolean
   layout: 'portrait' | 'landscape'
-  translate: boolean
 
   pageWidth: () => number
   pageHeight: () => number
@@ -48,7 +46,6 @@ export interface DocumentState {
   setMarginX: (marginX: number) => void
   setMarginY: (marginY: number) => void
   toggleDebug: () => void
-  toggleTranslate: () => void
   setMmX: (mmX: number) => void
   setMmY: (mmY: number) => void
   setLayout: (layout: 'portrait' | 'landscape') => void
@@ -71,7 +68,6 @@ export const useDocumentStore = create<DocumentState>()(
       marginY: 15,
       debug: false,
       layout: 'landscape',
-      translate: true,
 
       // --- derived/computed methods (not persisted) ---
       mmX: measureMM().mmX,
@@ -124,12 +120,6 @@ export const useDocumentStore = create<DocumentState>()(
       setMarginX: (marginX: number) => set({ marginX }),
       setMarginY: (marginY: number) => set({ marginY }),
       toggleDebug: () => set((state) => ({ debug: !state.debug })),
-      toggleTranslate: () => {
-        const isCurrentlyOn = get().translate
-        set((state) => ({ translate: !state.translate }))
-        if (isCurrentlyOn) return
-        useTranslateStore.getState().translateSelection()
-      },
       setMmX: (mmX: number) => set({ mmX }),
       setMmY: (mmY: number) => set({ mmY }),
       setLayout: (layout: 'portrait' | 'landscape') => set({ layout }),
@@ -155,7 +145,6 @@ export const useDocumentStore = create<DocumentState>()(
         marginY: state.marginY,
         debug: state.debug,
         layout: state.layout,
-        translate: state.translate,
       }),
     },
   ),

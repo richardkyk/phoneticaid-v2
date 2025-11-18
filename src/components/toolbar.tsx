@@ -24,6 +24,7 @@ import { HoldButton } from './hold-button'
 import { toast } from 'sonner'
 import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
+import { useTranslateStore } from '@/lib/stores/translate-store'
 
 type NumberKeys<T> = {
   [K in keyof T]: T[K] extends number ? K : never
@@ -271,7 +272,7 @@ interface TranslateProps {
   className?: string
 }
 function TranslateButton(props: TranslateProps) {
-  const { translate, toggleTranslate } = useDocumentStore()
+  const { translate, toggleTranslate } = useTranslateStore()
   return (
     <Button
       className={cn(

@@ -1,4 +1,3 @@
-import { useDocumentStore } from '@/lib/stores/document-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import { GripVerticalIcon, Loader, XIcon } from 'lucide-react'
 import { ScrollArea } from './ui/scroll-area'
@@ -12,10 +11,10 @@ import { useDraggableOverlay } from '@/lib/hooks/use-draggable-overlay'
 export function Translator() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  const enableTranslate = useDocumentStore((state) => state.translate)
+  const enableTranslate = useTranslateStore((state) => state.translate)
   const translations = useTranslateStore((state) => state.translations)
   const isTranslating = useTranslateStore((state) => state.isThinking)
-  const toggleTranslate = useDocumentStore((state) => state.toggleTranslate)
+  const toggleTranslate = useTranslateStore((state) => state.toggleTranslate)
 
   const { overlayRef, handleMouseDown, startResize } = useDraggableOverlay()
 
