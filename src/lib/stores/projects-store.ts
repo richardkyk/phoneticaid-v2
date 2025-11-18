@@ -3,7 +3,11 @@ import { persist } from 'zustand/middleware'
 import { getText, PieceTable } from '../piece-table'
 import { useCursorStore } from './cursor-store'
 import { useHistoryStore } from './history-store'
-import { defaultDocumentState, DocumentState } from './document-store'
+import {
+  defaultDocumentState,
+  DocumentState,
+  useDocumentStore,
+} from './document-store'
 
 const blankPieceTable = (text = ''): PieceTable => ({
   original: text,
@@ -57,6 +61,7 @@ export const useProjectsStore = create<MultiProjectState>()(
         set({ activeId: project.id })
         useHistoryStore.getState().reset()
         useCursorStore.getState().reset()
+        useDocumentStore.getState().setDocumentAttribute(project.doc)
       },
       setActiveProjectAttribute: (attr) => {
         const projects = structuredClone(get().projects)
@@ -125,6 +130,15 @@ export const useProjectsStore = create<MultiProjectState>()(
           projects: projects,
           activeId: state.activeId,
         }
+      },
+      onRehydrateStorage: () => (state) => {
+        if (!state) return
+        const activeId = state.activeId
+        if (!activeId) return
+
+        const project = state.projects.find((p) => p.id === activeId)
+        if (!project) return
+        useDocumentStore.getState().setDocumentAttribute(project.doc)
       },
     },
   ),

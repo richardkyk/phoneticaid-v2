@@ -29,8 +29,6 @@ export function NavProjects() {
   const setActiveProject = useProjectsStore((state) => state.setActiveProject)
   const deleteProject = useProjectsStore((state) => state.deleteProject)
 
-  const sortedProjects = projects.sort((a, b) => b.lastUpdated - a.lastUpdated)
-
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
@@ -41,7 +39,7 @@ export function NavProjects() {
             <span>Add</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
-        {sortedProjects.map((item) => (
+        {projects.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton
               isActive={item.id === activeId}

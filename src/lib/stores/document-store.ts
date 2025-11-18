@@ -5,6 +5,7 @@ import {
   getPieceTableCursorPosition,
 } from '../piece-table'
 import { measureMM } from '@/lib/utils'
+import { useProjectsStore } from './projects-store'
 
 export interface RowsState {
   rows: number
@@ -25,9 +26,8 @@ export interface DocumentActions {
     attrs: Pick<DocumentState, K>,
   ) => void
   setColumns: (columns: number) => void
+  getSettings: () => DocumentState
   toggleDebug: () => void
-  setMmX: (mmX: number) => void
-  setMmY: (mmY: number) => void
   rowHeight: () => number
   rowsPerPage: () => number
 }
@@ -71,18 +71,40 @@ export const useDocumentStore = create<DocumentStore>()((set, get) => ({
   mmY: measureMM().mmY,
   pageWidth: () => (get().layout === 'portrait' ? 210 : 297),
   pageHeight: () => (get().layout === 'portrait' ? 297 : 210),
-
+  getSettings: () => {
+    const settings = {
+      fontSize: get().fontSize,
+      pinyinSize: get().pinyinSize,
+      pinyinOffset: get().pinyinOffset,
+      pinyinPosition: get().pinyinPosition,
+      columns: get().columns,
+      gapX: get().gapX,
+      gapY: get().gapY,
+      marginX: get().marginX,
+      marginY: get().marginY,
+      layout: get().layout,
+    }
+    return settings
+  },
   setDocumentAttribute: (attr) => {
     set(attr)
-  },
+    const settings = get().getSettings()
 
+    useProjectsStore
+      .getState()
+      .setActiveProjectAttribute({ doc: { ...settings, ...attr } })
+  },
   setColumns: (columns: number) => {
     const increasing = get().columns < columns
     const cursor = useCursorStore.getState()
     cursor.resetSelection()
+    const settings = get().getSettings()
 
     if (cursor.offset <= 1 || increasing) {
       set({ columns })
+      useProjectsStore
+        .getState()
+        .setActiveProjectAttribute({ doc: { ...settings, columns } })
       return
     }
 
@@ -104,12 +126,11 @@ export const useDocumentStore = create<DocumentStore>()((set, get) => ({
     const newPos = getPieceTableCursorPosition(newRow, newCol)
     cursor.setCursorByPiece(newPos.pieceIndex, newPos.charIndex, newPos.offset)
     set({ columns })
+    useProjectsStore
+      .getState()
+      .setActiveProjectAttribute({ doc: { ...settings, columns } })
   },
-
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
-  setMmX: (mmX: number) => set({ mmX }),
-  setMmY: (mmY: number) => set({ mmY }),
-
   rowHeight: () =>
     get().fontSize + get().gapY + get().pinyinSize + get().pinyinOffset,
   rowsPerPage: () =>
