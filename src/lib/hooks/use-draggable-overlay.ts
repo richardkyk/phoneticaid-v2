@@ -1,47 +1,96 @@
 import { useRef } from 'react'
 
+const PADDING = 8
+
 export function useDraggableOverlay() {
   const overlayRef = useRef<HTMLDivElement>(null)
 
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    e.stopPropagation() // prevent clicks bubbling
+    e.stopPropagation()
 
     const overlay = overlayRef.current
     if (!overlay) return
 
-    // Get overlay rect and compute cursor offset
     const rect = overlay.getBoundingClientRect()
-    const offset = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+    const offsetX = e.clientX - rect.left
+    const offsetY = e.clientY - rect.top
 
-    // Move overlay with cursor
-    const handleMouseMove = (moveEvent: MouseEvent) => {
+    const handleMove = (moveEvent: MouseEvent) => {
       if (!overlay) return
 
-      const viewportWidth = window.innerWidth
-      const viewportHeight = window.innerHeight
+      const vw = window.innerWidth
+      const vh = window.innerHeight
 
-      // calculate new left/top
-      let newLeft = moveEvent.clientX - offset.x
-      let newTop = moveEvent.clientY - offset.y
+      let newLeft = moveEvent.clientX - offsetX - PADDING
+      let newTop = moveEvent.clientY - offsetY - PADDING
 
-      // clamp left/top so overlay stays in viewport
-      newLeft = Math.max(0, Math.min(newLeft, viewportWidth - rect.width))
-      newTop = Math.max(0, Math.min(newTop, viewportHeight - rect.height))
+      newLeft = Math.max(PADDING, Math.min(newLeft, vw - rect.width - PADDING))
+      newTop = Math.max(PADDING, Math.min(newTop, vh - rect.height - PADDING))
 
       overlay.style.left = `${newLeft}px`
       overlay.style.top = `${newTop}px`
     }
 
-    const handleMouseUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove)
-      document.removeEventListener('mouseup', handleMouseUp)
-      // no snapping, just leave overlay where it is
+    const handleUp = () => {
+      document.removeEventListener('mousemove', handleMove)
+      document.removeEventListener('mouseup', handleUp)
     }
 
-    document.addEventListener('mousemove', handleMouseMove)
-    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('mousemove', handleMove)
+    document.addEventListener('mouseup', handleUp)
   }
 
-  return { overlayRef, handleMouseDown }
+  const startResize = (
+    e: React.MouseEvent,
+    direction: 'right' | 'bottom' | 'corner',
+  ) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const overlay = overlayRef.current
+    if (!overlay) return
+
+    const startX = e.clientX
+    const startY = e.clientY
+
+    const startWidth = overlay.offsetWidth
+    const startHeight = overlay.offsetHeight
+
+    const handleResizeMove = (ev: MouseEvent) => {
+      const rect = overlay.getBoundingClientRect()
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+
+      let newWidth = startWidth
+      let newHeight = startHeight
+
+      if (direction === 'right' || direction === 'corner') {
+        newWidth = Math.min(
+          Math.max(200, startWidth + (ev.clientX - startX)),
+          vw - rect.left - 8,
+        )
+      }
+
+      if (direction === 'bottom' || direction === 'corner') {
+        newHeight = Math.min(
+          Math.max(150, startHeight + (ev.clientY - startY)),
+          vh - rect.top - 8,
+        )
+      }
+
+      overlay.style.width = `${newWidth}px`
+      overlay.style.height = `${newHeight}px`
+    }
+
+    const handleResizeUp = () => {
+      document.removeEventListener('mousemove', handleResizeMove)
+      document.removeEventListener('mouseup', handleResizeUp)
+    }
+
+    document.addEventListener('mousemove', handleResizeMove)
+    document.addEventListener('mouseup', handleResizeUp)
+  }
+
+  return { overlayRef, handleMouseDown, startResize }
 }
