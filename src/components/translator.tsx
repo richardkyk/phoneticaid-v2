@@ -28,9 +28,7 @@ export function Translator() {
   return (
     <div
       ref={overlayRef}
-      className={cn(
-        'font-sans bg-white flex flex-col rounded-xl shadow-lg border w-[400px] z-10 fixed h-[calc(50vh)]',
-      )}
+      className="font-sans bg-white flex flex-col rounded-xl shadow-lg border w-[400px] z-10 fixed h-[calc(50vh)] top-4 right-4"
     >
       <div className="p-2 flex items-center border-b">
         <Button variant="ghost" size="icon-sm" onMouseDown={handleMouseDown}>
