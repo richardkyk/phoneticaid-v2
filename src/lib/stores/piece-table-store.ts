@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import {
   deleteBackwards,
   getText,
@@ -7,37 +8,119 @@ import {
   getPieceTableCursorPosition,
   deleteRange,
 } from '../piece-table'
-import { PieceTableCursor, useCursorStore } from './cursor-store'
+import { useCursorStore, PieceTableCursor } from './cursor-store'
 import { useHistoryStore } from './history-store'
-import { persist } from 'zustand/middleware'
 
-const original = `你好，歡迎來到我的網站！`
+const blankPieceTable = (text = ''): PieceTable => ({
+  original: text,
+  add: '',
+  pieces: text.length
+    ? [{ buffer: 'original', start: 0, length: text.length }]
+    : [],
+})
 
-export interface PieceTableState {
+export interface Project {
+  id: string
+  title: string
   pt: PieceTable
-  setPt: (pt: PieceTable) => void
+  lastUpdated: number
+}
+
+export interface MultiProjectState {
+  projectCount: number
+  projects: Project[]
+  activeId: string
+
+  getActiveProject: () => Project
+  setActiveProject: (id: string) => void
+  setActivePt: (pt: PieceTable) => void
+  setActiveTitle: (title: string) => void
+  addProject: () => Project
+  deleteProject: (id: string) => void
+
   extractSelection: () => string
   deleteSelection: (pt: PieceTable) => PieceTableCursor | null
-  insertAtCursor: (substr: string) => void
+  insertAtCursor: (text: string) => void
   deleteAtCursor: (length: number) => void
 }
 
-export const usePieceTableStore = create<PieceTableState>()(
+export const usePieceTableStore = create<MultiProjectState>()(
   persist(
     (set, get) => ({
-      pt: {
-        original: original,
-        add: '',
-        pieces: [
-          {
-            buffer: 'original',
-            start: 0,
-            length: original.length,
-          },
-        ],
+      projectCount: 0,
+      projects: [],
+      activeId: '',
+
+      // --- Project Management ---
+      getActiveProject: () => {
+        const activeId = get().activeId
+        if (!activeId) return get().addProject()
+
+        const project = get().projects.find((p) => p.id === activeId)
+        if (!project) return get().addProject()
+
+        return project
       },
-      setPt: (pt: PieceTable) => set({ pt }),
+      setActiveProject: (id) => {
+        const project = get().projects.find((p) => p.id === id)
+        if (!project) return
+        set({ activeId: project.id })
+        useHistoryStore.getState().reset()
+        useCursorStore.getState().reset()
+      },
+      setActivePt: (pt: PieceTable) => {
+        const projects = structuredClone(get().projects)
+        const projectIndex = projects.findIndex((p) => p.id === get().activeId)
+        if (projectIndex === -1) return
+
+        projects.splice(projectIndex, 1, {
+          ...projects[projectIndex],
+          pt,
+          lastUpdated: Date.now(),
+        })
+        set({ projects: projects })
+      },
+      setActiveTitle: (title: string) => {
+        const projects = structuredClone(get().projects)
+        const projectIndex = projects.findIndex((p) => p.id === get().activeId)
+        if (projectIndex === -1) return
+
+        projects.splice(projectIndex, 1, {
+          ...projects[projectIndex],
+          title,
+          lastUpdated: Date.now(),
+        })
+        set({ projects: projects })
+      },
+      addProject: () => {
+        const nextProjectCount = get().projectCount + 1
+        const newProject = {
+          id: String(nextProjectCount),
+          title: 'Untitled',
+          pt: blankPieceTable(),
+          lastUpdated: Date.now(),
+        }
+        set({
+          projects: [...get().projects, newProject],
+          projectCount: nextProjectCount,
+          activeId: newProject.id,
+        })
+        return newProject
+      },
+      deleteProject: (id) => {
+        const projects = get().projects.filter((p) => p.id !== id)
+        const lastActiveProject = projects.sort(
+          (a, b) => b.lastUpdated - a.lastUpdated,
+        )
+        set({
+          projects,
+          activeId: lastActiveProject.length > 0 ? lastActiveProject[0].id : '',
+        })
+      },
+
+      // --- PieceTable Operations (act on active project) ---
       extractSelection: () => {
+        const project = get().getActiveProject()
         const selection = useCursorStore.getState().getSelection()
         if (!selection) return ''
 
@@ -64,8 +147,10 @@ export const usePieceTableStore = create<PieceTableState>()(
               ? 0
               : ptEnd.charIndex + (ptEnd.offset > 0 ? 1 : 0),
         }
-        return getText(get().pt, extractStart, extractEnd)
+
+        return getText(project.pt, extractStart, extractEnd)
       },
+
       deleteSelection: (pt: PieceTable) => {
         const selection = useCursorStore.getState().getSelection()
         const cursor = useCursorStore.getState()
@@ -121,6 +206,7 @@ export const usePieceTableStore = create<PieceTableState>()(
         cursor.resetSelection()
         return deleteRange(pt, deleteStart, deleteEnd)
       },
+
       insertAtCursor: (text: string) => {
         const cursor = useCursorStore.getState()
         let newCursor = {
@@ -129,8 +215,9 @@ export const usePieceTableStore = create<PieceTableState>()(
           offset: cursor.offset,
         }
 
-        const originalPt = structuredClone(get().pt)
-        const pt = structuredClone(get().pt)
+        const originalProject = get().getActiveProject()
+        const originalPt = structuredClone(originalProject.pt)
+        const pt = structuredClone(originalProject.pt)
         const selection = useCursorStore.getState().getSelection()
         if (selection) {
           get().deleteSelection(pt)
@@ -167,7 +254,7 @@ export const usePieceTableStore = create<PieceTableState>()(
         const history = useHistoryStore.getState()
         history.push({
           undo: () => {
-            usePieceTableStore.getState().setPt(originalPt)
+            usePieceTableStore.getState().setActivePt(originalPt)
             useCursorStore
               .getState()
               .setCursorByPiece(
@@ -177,15 +264,16 @@ export const usePieceTableStore = create<PieceTableState>()(
               )
           },
           redo: () => {
-            usePieceTableStore.getState().setPt(newPt)
+            usePieceTableStore.getState().setActivePt(newPt)
             useCursorStore
               .getState()
               .setCursorByPiece(res.pieceIndex, res.charIndex, 1)
           },
         })
 
-        set({ pt })
+        get().setActivePt(pt)
       },
+
       deleteAtCursor: (length: number) => {
         const cursor = useCursorStore.getState()
         let newCursor = {
@@ -195,8 +283,9 @@ export const usePieceTableStore = create<PieceTableState>()(
         }
 
         const history = useHistoryStore.getState()
-        const originalPt = structuredClone(get().pt)
-        const pt = structuredClone(get().pt)
+        const originalProject = get().getActiveProject()
+        const originalPt = structuredClone(originalProject.pt)
+        const pt = structuredClone(originalProject.pt)
         const selection = useCursorStore.getState().getSelection()
         if (selection) {
           const _newCursor = get().deleteSelection(pt)
@@ -210,7 +299,7 @@ export const usePieceTableStore = create<PieceTableState>()(
             )
           history.push({
             undo: () => {
-              usePieceTableStore.getState().setPt(originalPt)
+              usePieceTableStore.getState().setActivePt(originalPt)
               useCursorStore
                 .getState()
                 .setCursorByPiece(
@@ -220,7 +309,7 @@ export const usePieceTableStore = create<PieceTableState>()(
                 )
             },
             redo: () => {
-              usePieceTableStore.getState().setPt(pt)
+              usePieceTableStore.getState().setActivePt(pt)
               useCursorStore
                 .getState()
                 .setCursorByPiece(
@@ -231,7 +320,7 @@ export const usePieceTableStore = create<PieceTableState>()(
             },
           })
 
-          set({ pt })
+          get().setActivePt(pt)
           return
         }
 
@@ -273,8 +362,9 @@ export const usePieceTableStore = create<PieceTableState>()(
         // pt should now be mutated to its final state
         const newPt = structuredClone(pt)
         history.push({
+          projectId: get().activeId,
           undo: () => {
-            usePieceTableStore.getState().setPt(originalPt)
+            usePieceTableStore.getState().setActivePt(originalPt)
             useCursorStore
               .getState()
               .setCursorByPiece(
@@ -284,7 +374,7 @@ export const usePieceTableStore = create<PieceTableState>()(
               )
           },
           redo: () => {
-            usePieceTableStore.getState().setPt(newPt)
+            usePieceTableStore.getState().setActivePt(newPt)
             useCursorStore
               .getState()
               .setCursorByPiece(
@@ -295,36 +385,36 @@ export const usePieceTableStore = create<PieceTableState>()(
           },
         })
 
-        set({ pt })
+        get().setActivePt(pt)
       },
     }),
     {
-      name: 'piece-table',
+      name: 'multi-project-piece-table',
       partialize: (state) => {
-        const original = getText(state.pt)
+        const projects = structuredClone(state.projects)
+        const activeProjectId = projects.findIndex(
+          (p) => p.id === state.activeId,
+        )
+        if (activeProjectId >= 0) {
+          const activeProject = projects[activeProjectId]
+          const text = getText(activeProject.pt) // flatten piece table to string
 
-        if (original) {
-          return {
+          projects.splice(activeProjectId, 1, {
+            ...activeProject,
             pt: {
-              original,
+              original: text,
               add: '',
-              pieces: [
-                {
-                  buffer: 'original',
-                  start: 0,
-                  length: original.length,
-                },
-              ],
+              pieces: text.length
+                ? [{ buffer: 'original', start: 0, length: text.length }]
+                : [],
             },
-          }
-        } else {
-          return {
-            pt: {
-              original,
-              add: '',
-              pieces: [],
-            },
-          }
+          })
+        }
+
+        return {
+          projectCount: state.projectCount,
+          projects: projects,
+          activeId: state.activeId,
         }
       },
     },

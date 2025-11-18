@@ -43,6 +43,7 @@ interface CursorStoreActions {
   setSelection: (row: number, col: number, isStart: boolean) => void
   selectAll: () => void
   resetSelection: () => void
+  reset: () => void
   focus: () => void
 }
 
@@ -175,6 +176,16 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
         row: useRowsStore.getState().rows - 1,
         col: useDocumentStore.getState().columns,
       },
+    })
+  },
+  reset: () => {
+    set({
+      visible: true,
+      selectionStart: null,
+      selectionEnd: null,
+      pieceIndex: -1,
+      charIndex: 0,
+      offset: 0,
     })
   },
   resetSelection: () => {

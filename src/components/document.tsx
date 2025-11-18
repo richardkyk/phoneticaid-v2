@@ -10,8 +10,8 @@ import { useRef } from 'react'
 
 export const Document = () => {
   const document = useDocumentStore()
-  const pt = usePieceTableStore((state) => state.pt)
-  const data = buildRows(pt, document)
+  const project = usePieceTableStore((state) => state.getActiveProject())
+  const data = buildRows(project.pt, document)
 
   const pageHeight = document.pageHeight() * document.mmY
   const rowsPerPage = document.rowsPerPage()

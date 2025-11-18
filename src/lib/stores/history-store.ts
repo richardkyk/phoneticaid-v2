@@ -12,6 +12,7 @@ interface HistoryState {
   push: (action: UndoAction) => void
   undo: () => void
   redo: () => void
+  reset: () => void
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
@@ -35,5 +36,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     if (!action) return
     action.redo()
     set((state) => ({ past: [...state.past, action], future: state.future }))
+  },
+  reset: () => {
+    set({
+      past: [],
+      future: [],
+    })
   },
 }))

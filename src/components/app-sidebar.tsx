@@ -17,6 +17,7 @@ import {
   SpacingToolbar,
   TextToolbar,
 } from './toolbar.tsx'
+import { NavProjects } from './nav-projects.tsx'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -47,7 +48,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TextToolbar />
         <LayoutToolbar />
         <SpacingToolbar />
-        {/* <NavProjects projects={data.projects} /> */}
+        <NavProjects />
       </SidebarContent>
     </Sidebar>
   )

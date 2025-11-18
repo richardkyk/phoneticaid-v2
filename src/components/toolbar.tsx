@@ -188,7 +188,7 @@ function PrintButton(props: PrintButtonProps) {
 
         // Stylesheets are loaded, now render React components
         const documentStore = useDocumentStore.getState()
-        const pt = usePieceTableStore.getState().pt
+        const pt = usePieceTableStore.getState().getActiveProject().pt
         const data = buildRows(pt, documentStore)
         const rowsPerPage = documentStore.rowsPerPage()
         const pages = []

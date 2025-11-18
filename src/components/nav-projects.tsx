@@ -1,19 +1,11 @@
 'use client'
 
-import {
-  FileIcon,
-  Folder,
-  MoreHorizontal,
-  PlusIcon,
-  Share,
-  Trash2,
-} from 'lucide-react'
+import { FileIcon, MoreHorizontal, PlusIcon, Trash2 } from 'lucide-react'
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
@@ -25,28 +17,40 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 
-export function NavProjects({
-  projects,
-}: {
-  projects: {
-    name: string
-    url: string
-  }[]
-}) {
+export function NavProjects() {
   const { isMobile } = useSidebar()
+
+  const activeId = usePieceTableStore((state) => state.activeId)
+  const projects = usePieceTableStore((state) => state.projects)
+  const addProject = usePieceTableStore((state) => state.addProject)
+  const setActiveProject = usePieceTableStore((state) => state.setActiveProject)
+  const deleteProject = usePieceTableStore((state) => state.deleteProject)
+
+  const sortedProjects = projects.sort((a, b) => b.lastUpdated - a.lastUpdated)
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
+        <SidebarMenuItem>
+          <SidebarMenuButton onClick={() => addProject()}>
+            <PlusIcon />
+            <span>Add</span>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        {sortedProjects.map((item) => (
+          <SidebarMenuItem key={item.id}>
+            <SidebarMenuButton
+              isActive={item.id === activeId}
+              onClick={() => setActiveProject(item.id)}
+              asChild
+            >
+              <div>
                 <FileIcon />
-                <span>{item.name}</span>
-              </a>
+                <span>{item.title}</span>
+              </div>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -56,20 +60,11 @@ export function NavProjects({
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
-                className="w-48"
+                className="w-36"
                 side={isMobile ? 'bottom' : 'right'}
                 align={isMobile ? 'end' : 'start'}
               >
-                <DropdownMenuItem>
-                  <Folder className="text-muted-foreground" />
-                  <span>View Project</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Share className="text-muted-foreground" />
-                  <span>Share Project</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => deleteProject(item.id)}>
                   <Trash2 className="text-muted-foreground" />
                   <span>Delete Project</span>
                 </DropdownMenuItem>
@@ -77,12 +72,6 @@ export function NavProjects({
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton>
-            <PlusIcon />
-            <span>Add</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   )
