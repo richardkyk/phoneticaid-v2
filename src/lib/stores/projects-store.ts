@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 import { getText, PieceTable } from '../piece-table'
 import { useCursorStore } from './cursor-store'
 import { useHistoryStore } from './history-store'
+import { defaultDocumentState, DocumentState } from './document-store'
 
 const blankPieceTable = (text = ''): PieceTable => ({
   original: text,
@@ -16,6 +17,7 @@ export interface Project {
   id: string
   title: string
   pt: PieceTable
+  doc: DocumentState
   lastUpdated: number
 }
 
@@ -74,6 +76,7 @@ export const useProjectsStore = create<MultiProjectState>()(
           id: String(nextProjectCount),
           title: `Untitled #${nextProjectCount}`,
           pt: blankPieceTable(),
+          doc: defaultDocumentState(),
           lastUpdated: Date.now(),
         }
         set({

@@ -1,4 +1,4 @@
-import { DocumentState } from '@/lib/stores/document-store'
+import { DocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { Cell } from '@/lib/render'
 import { Cursor, Grid, Highlight } from './grid'
@@ -7,7 +7,7 @@ interface PageProps {
   pageIndex: number
   pageRows: Cell[][]
   pieceMap: Map<string, string>
-  document: DocumentState
+  document: DocumentStore
 }
 export const Page = (props: PageProps) => {
   const document = props.document
@@ -40,7 +40,7 @@ export const Page = (props: PageProps) => {
 }
 
 interface MarginsProps {
-  document: DocumentState
+  document: DocumentStore
 }
 export const Margins = (props: MarginsProps) => {
   const marginX = props.document.marginX

@@ -1,5 +1,5 @@
 import { useCursorStore } from '@/lib/stores/cursor-store'
-import { DocumentState } from '@/lib/stores/document-store'
+import { DocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { getGridCursorPosition } from '@/lib/piece-table'
 import { Cell } from '@/lib/render'
@@ -9,7 +9,7 @@ import { pinyin } from 'pinyin'
 interface GridProps {
   pageIndex: number
   pageRows: Cell[][]
-  document: DocumentState
+  document: DocumentStore
 }
 export const Grid = (props: GridProps) => {
   const document = props.document
@@ -127,7 +127,7 @@ export const Grid = (props: GridProps) => {
 }
 
 interface CursorProps {
-  document: DocumentState
+  document: DocumentStore
   pieceMap: Map<string, string>
   pageIndex: number
 }
@@ -226,7 +226,7 @@ function getHighlightSpans(
 
 interface HighlightProps {
   pageIndex: number
-  document: DocumentState
+  document: DocumentStore
 }
 export const Highlight = (props: HighlightProps) => {
   const document = props.document

@@ -344,10 +344,7 @@ export function TextToolbar() {
     pinyinSize,
     pinyinOffset,
     pinyinPosition,
-    setFontSize,
-    setPinyinSize,
-    setPinyinOffset,
-    setPinyinPosition,
+    setDocumentAttribute,
   } = useDocumentStore()
 
   return (
@@ -357,7 +354,7 @@ export function TextToolbar() {
           label="Font Size"
           value={fontSize}
           valueKey="fontSize"
-          setValue={setFontSize}
+          setValue={(v) => setDocumentAttribute({ fontSize: v })}
           min={1}
           max={100}
           step={1}
@@ -366,7 +363,7 @@ export function TextToolbar() {
           label="Pinyin Size"
           value={pinyinSize}
           valueKey="pinyinSize"
-          setValue={setPinyinSize}
+          setValue={(v) => setDocumentAttribute({ pinyinSize: v })}
           min={0}
           max={20}
           step={0.1}
@@ -376,7 +373,7 @@ export function TextToolbar() {
           label="Pinyin Offset"
           value={pinyinOffset}
           valueKey="pinyinOffset"
-          setValue={setPinyinOffset}
+          setValue={(v) => setDocumentAttribute({ pinyinOffset: v })}
           min={0}
           max={20}
           step={0.1}
@@ -386,7 +383,9 @@ export function TextToolbar() {
           <Label className="text-xs text-gray-600">Pinyin Position</Label>
           <RadioGroup
             defaultValue={pinyinPosition}
-            onValueChange={setPinyinPosition}
+            onValueChange={(v) =>
+              setDocumentAttribute({ pinyinPosition: v as 'top' | 'bottom' })
+            }
           >
             <div className="flex items-center gap-3">
               <RadioGroupItem value="top" id="r1" />
@@ -408,7 +407,8 @@ export function TextToolbar() {
 }
 
 export function LayoutToolbar() {
-  const { columns, layout, setColumns, setLayout } = useDocumentStore()
+  const { columns, layout, setColumns, setDocumentAttribute } =
+    useDocumentStore()
 
   return (
     <CollapsibleToolbar name="Layout" icon={<LayoutIcon className="size-4" />}>
@@ -424,7 +424,12 @@ export function LayoutToolbar() {
         />
         <div className="flex items-start justify-between mt-5">
           <Label className="text-xs text-gray-600">Orientation</Label>
-          <RadioGroup defaultValue={layout} onValueChange={setLayout}>
+          <RadioGroup
+            defaultValue={layout}
+            onValueChange={(v) =>
+              setDocumentAttribute({ layout: v as 'portrait' | 'landscape' })
+            }
+          >
             <div className="flex items-center gap-3">
               <RadioGroupItem value="portrait" id="r3" />
               <Label htmlFor="r3" className="text-xs">
@@ -445,16 +450,8 @@ export function LayoutToolbar() {
 }
 
 export function SpacingToolbar() {
-  const {
-    gapX,
-    gapY,
-    marginX,
-    marginY,
-    setGapX,
-    setGapY,
-    setMarginX,
-    setMarginY,
-  } = useDocumentStore()
+  const { gapX, gapY, marginX, marginY, setDocumentAttribute } =
+    useDocumentStore()
 
   return (
     <CollapsibleToolbar
@@ -466,7 +463,7 @@ export function SpacingToolbar() {
           label="Margin X"
           value={marginX}
           valueKey="marginX"
-          setValue={setMarginX}
+          setValue={(v) => setDocumentAttribute({ marginX: v })}
           min={0}
           max={80}
           step={5}
@@ -475,7 +472,7 @@ export function SpacingToolbar() {
           label="Margin Y"
           value={marginY}
           valueKey="marginY"
-          setValue={setMarginY}
+          setValue={(v) => setDocumentAttribute({ marginY: v })}
           min={0}
           max={80}
           step={5}
@@ -484,7 +481,7 @@ export function SpacingToolbar() {
           label="Gap X"
           value={gapX}
           valueKey="gapX"
-          setValue={setGapX}
+          setValue={(v) => setDocumentAttribute({ gapX: v })}
           min={0}
           max={30}
           step={0.1}
@@ -494,7 +491,7 @@ export function SpacingToolbar() {
           label="Gap Y"
           value={gapY}
           valueKey="gapY"
-          setValue={setGapY}
+          setValue={(v) => setDocumentAttribute({ gapY: v })}
           min={0}
           max={30}
           step={0.1}
