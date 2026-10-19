@@ -1,5 +1,5 @@
 import { useTranslateStore } from '@/lib/stores/translate-store'
-import { GripVerticalIcon, Loader, XIcon } from 'lucide-react'
+import { ChevronDownIcon, GripVerticalIcon, Loader, XIcon } from 'lucide-react'
 import { ScrollArea } from './ui/scroll-area'
 import { Fragment } from 'react/jsx-runtime'
 import { Separator } from './ui/separator'
@@ -7,6 +7,17 @@ import { useEffect, useRef } from 'react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import { useDraggableOverlay } from '@/lib/hooks/use-draggable-overlay'
+import { providerLabel, providers } from '@/lib/translate/providers'
+import type { ProviderChoice } from '@/lib/translate/providers'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu'
 
 export function Translator() {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -35,8 +46,9 @@ export function Translator() {
           <GripVerticalIcon className="size-4" />
         </Button>
         <h4 className="leading-none font-bold">Translations</h4>
+        <ProviderSelect />
         <Button
-          className="ml-auto"
+          className="ml-1"
           variant="ghost"
           size="icon-sm"
           onClick={() => toggleTranslate()}
@@ -56,10 +68,20 @@ export function Translator() {
             </div>
             <div className="relative whitespace-pre-line px-4">
               {t.translation}
+              {t.error && (
+                <span className="text-destructive">
+                  Translation failed: {t.error}
+                </span>
+              )}
               {isTranslating && idx === translations.length - 1 && (
                 <Loader className="size-4 mt-2 animate-spin" />
               )}
             </div>
+            {t.provider && (
+              <div className="px-4 text-xs text-muted-foreground">
+                via {providerLabel(t.provider)}
+              </div>
+            )}
           </Fragment>
         ))}
         <div ref={scrollRef} className="mb-4" />
@@ -98,5 +120,63 @@ export function Translator() {
         </svg>
       </div>
     </div>
+  )
+}
+
+function ProviderSelect() {
+  const provider = useTranslateStore((state) => state.provider)
+  const setProvider = useTranslateStore((state) => state.setProvider)
+  const available = useTranslateStore((state) => state.availableProviders)
+  const loadAvailableProviders = useTranslateStore(
+    (state) => state.loadAvailableProviders,
+  )
+
+  useEffect(() => {
+    loadAvailableProviders()
+  }, [loadAvailableProviders])
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="ml-auto text-xs">
+          {provider === 'auto' ? 'Auto' : providerLabel(provider)}
+          <ChevronDownIcon className="size-3" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-60">
+        <DropdownMenuLabel className="text-xs text-muted-foreground">
+          Translation provider
+        </DropdownMenuLabel>
+        <DropdownMenuRadioGroup
+          value={provider}
+          onValueChange={(v) => setProvider(v as ProviderChoice)}
+        >
+          <DropdownMenuRadioItem value="auto">
+            Auto
+            <span className="ml-auto text-xs text-muted-foreground">
+              first available
+            </span>
+          </DropdownMenuRadioItem>
+          <DropdownMenuSeparator />
+          {providers.map((p) => {
+            const configured = available?.includes(p.id) ?? true
+            return (
+              <DropdownMenuRadioItem
+                key={p.id}
+                value={p.id}
+                disabled={!configured}
+              >
+                {p.label}
+                {!configured && (
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    not configured
+                  </span>
+                )}
+              </DropdownMenuRadioItem>
+            )
+          })}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

@@ -4,7 +4,10 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     SERVER_URL: z.string().url().optional(),
-    OPENAI_API_KEY: z.string(),
+    // translation providers, all optional (see src/lib/translate/providers.ts)
+    OPENAI_API_KEY: z.string().optional(),
+    GEMINI_API_KEY: z.string().optional(),
+    DEEPL_API_KEY: z.string().optional(),
   },
 
   /**
