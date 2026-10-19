@@ -10,11 +10,15 @@ import { useState } from 'react'
 import { Button } from './ui/button'
 import { PencilIcon } from 'lucide-react'
 import { useProjectsStore } from '@/lib/stores/projects-store'
+import { useUiStore } from '@/lib/stores/ui-store'
+import { PanelRightIcon } from 'lucide-react'
+import { DocumentToolbar } from './toolbar'
+import { cn } from '@/lib/utils'
 
 export function AppHeader() {
   return (
-    <header className="flex h-10 shrink-0 items-center gap-2">
-      <div className="flex items-center gap-2 px-4">
+    <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
+      <div className="flex items-center gap-2">
         <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
@@ -30,7 +34,32 @@ export function AppHeader() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+      <div className="ml-auto flex items-center gap-1">
+        <DocumentToolbar />
+        <Separator
+          orientation="vertical"
+          className="mx-1 data-[orientation=vertical]:h-4"
+        />
+        <SettingsToggle />
+      </div>
     </header>
+  )
+}
+
+function SettingsToggle() {
+  const settingsOpen = useUiStore((state) => state.settingsOpen)
+  const toggleSettings = useUiStore((state) => state.toggleSettings)
+
+  return (
+    <Button
+      variant={settingsOpen ? 'secondary' : 'ghost'}
+      size="icon-sm"
+      onClick={toggleSettings}
+      title={settingsOpen ? 'Hide settings' : 'Show settings'}
+      className={cn('shadow-none')}
+    >
+      <PanelRightIcon />
+    </Button>
   )
 }
 

@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import { useDraggableOverlay } from '@/lib/hooks/use-draggable-overlay'
+import { useUiStore } from '@/lib/stores/ui-store'
 import { providerLabel, providers } from '@/lib/translate/providers'
 import type { ProviderChoice } from '@/lib/translate/providers'
 import {
@@ -26,6 +27,7 @@ export function Translator() {
   const translations = useTranslateStore((state) => state.translations)
   const isTranslating = useTranslateStore((state) => state.isThinking)
   const toggleTranslate = useTranslateStore((state) => state.toggleTranslate)
+  const settingsOpen = useUiStore((state) => state.settingsOpen)
 
   const { overlayRef, handleMouseDown, startResize } = useDraggableOverlay()
 
@@ -39,7 +41,9 @@ export function Translator() {
   return (
     <div
       ref={overlayRef}
-      className="font-sans bg-white flex flex-col rounded-xl shadow-lg border w-[400px] z-10 fixed h-[calc(50vh)] top-4 right-4"
+      className="font-sans bg-white flex flex-col rounded-xl shadow-lg border w-[400px] z-10 fixed h-[calc(50vh)] top-16"
+      // start beside the settings panel rather than on top of it (until dragged)
+      style={{ right: settingsOpen ? 'calc(16rem + 1.5rem)' : '1.5rem' }}
     >
       <div className="p-2 flex items-center border-b">
         <Button variant="ghost" size="icon-sm" onMouseDown={handleMouseDown}>

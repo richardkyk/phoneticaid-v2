@@ -5,18 +5,10 @@ import * as React from 'react'
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarSeparator,
 } from '@/components/ui/sidebar'
-import {
-  DocumentToolbar,
-  LayoutToolbar,
-  SpacingToolbar,
-  TextToolbar,
-} from './toolbar.tsx'
 import { NavProjects } from './nav-projects.tsx'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -42,12 +34,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroupLabel>Config</SidebarGroupLabel>
-        <DocumentToolbar />
-        <SidebarSeparator className="mx-0" />
-        <TextToolbar />
-        <LayoutToolbar />
-        <SpacingToolbar />
         <NavProjects />
       </SidebarContent>
     </Sidebar>

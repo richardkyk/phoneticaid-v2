@@ -4,6 +4,7 @@ import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import { hitTest, keyToCaretMove } from '@/lib/geometry'
+import { useUiStore } from '@/lib/stores/ui-store'
 import React, { Fragment, useCallback, useEffect, useRef } from 'react'
 import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
@@ -21,11 +22,13 @@ const getRowColFromCoords = (
   const rowsCount = currentLayout().lines.length
   const linesPerPage = document.linesPerPage()
 
+  // px -> mm at the current zoom
+  const zoom = useUiStore.getState().zoom
   const { line, slot } = hitTest(
     document,
     document.columns,
-    (x - pageRect.left) / document.mmX,
-    (y - pageRect.top) / document.mmY,
+    (x - pageRect.left) / (document.mmX * zoom),
+    (y - pageRect.top) / (document.mmY * zoom),
   )
   // points outside the page snap to its first/last line
   const lineInPage = clamp(line, 0, linesPerPage - 1)
@@ -230,10 +233,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
 
   return (
     <Fragment>
-      <ScrollArea
-        className="w-full h-[calc(100vh-40px-32px+16px)]" // header-height and 2x margin
-        ref={props.scrollRef}
-      >
+      <ScrollArea className="size-full" ref={props.scrollRef}>
         <div
           id="editor"
           className="outline-none print:h-screen"

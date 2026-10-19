@@ -316,7 +316,7 @@ export function DocumentToolbar() {
   const { past, future } = useHistoryStore()
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-1">
       <Button
         onClick={() => useHistoryStore.getState().undo()}
         size="icon-sm"
@@ -333,7 +333,7 @@ export function DocumentToolbar() {
       >
         <RedoIcon />
       </Button>
-      <PrintButton className="ml-auto" />
+      <PrintButton />
       <TranslateButton />
       <DebugButton />
     </div>
