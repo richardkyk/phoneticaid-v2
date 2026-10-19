@@ -16,6 +16,8 @@ import { useHistoryStore } from '@/lib/stores/history-store'
 import { ButtonGroup } from './ui/button-group'
 import { cn } from '@/lib/utils'
 import { getLayout } from '@/lib/layout'
+import { isVertical, writingModes } from '@/lib/geometry'
+import type { WritingMode } from '@/lib/geometry'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
@@ -191,11 +193,11 @@ function PrintButton(props: PrintButtonProps) {
         const documentStore = useDocumentStore.getState()
         const pt = useProjectsStore.getState().getActiveProject().pt
         const layout = getLayout(pt, documentStore.columns)
-        const rowsPerPage = documentStore.rowsPerPage()
+        const linesPerPage = documentStore.linesPerPage()
         const pages = []
 
-        for (let i = 0; i < layout.rows.length; i += rowsPerPage) {
-          pages.push(layout.rows.slice(i, i + rowsPerPage))
+        for (let i = 0; i < layout.rows.length; i += linesPerPage) {
+          pages.push(layout.rows.slice(i, i + linesPerPage))
         }
 
         // Render React components into iframe body
@@ -344,6 +346,8 @@ export function TextToolbar() {
     pinyinSize,
     pinyinOffset,
     pinyinPosition,
+    pinyinSide,
+    writingMode,
     setDocumentAttribute,
   } = useDocumentStore()
 
@@ -381,25 +385,47 @@ export function TextToolbar() {
         />
         <div className="flex items-start mt-5 justify-between">
           <Label className="text-xs text-gray-600">Pinyin Position</Label>
-          <RadioGroup
-            value={pinyinPosition}
-            onValueChange={(v) =>
-              setDocumentAttribute({ pinyinPosition: v as 'top' | 'bottom' })
-            }
-          >
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="top" id="r1" />
-              <Label htmlFor="r1" className="text-xs">
-                Above
-              </Label>
-            </div>
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="bottom" id="r2" />
-              <Label htmlFor="r2" className="text-xs">
-                Below
-              </Label>
-            </div>
-          </RadioGroup>
+          {isVertical(writingMode) ? (
+            <RadioGroup
+              value={pinyinSide}
+              onValueChange={(v) =>
+                setDocumentAttribute({ pinyinSide: v as 'left' | 'right' })
+              }
+            >
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="right" id="pinyin-right" />
+                <Label htmlFor="pinyin-right" className="text-xs">
+                  Right
+                </Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="left" id="pinyin-left" />
+                <Label htmlFor="pinyin-left" className="text-xs">
+                  Left
+                </Label>
+              </div>
+            </RadioGroup>
+          ) : (
+            <RadioGroup
+              value={pinyinPosition}
+              onValueChange={(v) =>
+                setDocumentAttribute({ pinyinPosition: v as 'top' | 'bottom' })
+              }
+            >
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="top" id="r1" />
+                <Label htmlFor="r1" className="text-xs">
+                  Above
+                </Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <RadioGroupItem value="bottom" id="r2" />
+                <Label htmlFor="r2" className="text-xs">
+                  Below
+                </Label>
+              </div>
+            </RadioGroup>
+          )}
         </div>
       </div>
     </CollapsibleToolbar>
@@ -407,14 +433,15 @@ export function TextToolbar() {
 }
 
 export function LayoutToolbar() {
-  const { columns, layout, setColumns, setDocumentAttribute } =
+  const { columns, layout, writingMode, setColumns, setDocumentAttribute } =
     useDocumentStore()
 
   return (
     <CollapsibleToolbar name="Layout" icon={<LayoutIcon className="size-4" />}>
       <div className="space-y-3">
         <NumberControl
-          label="Columns"
+          // characters per line, which is a column in vertical modes
+          label={isVertical(writingMode) ? 'Rows' : 'Columns'}
           value={columns}
           valueKey="columns"
           setValue={setColumns}
@@ -442,6 +469,24 @@ export function LayoutToolbar() {
                 Landscape
               </Label>
             </div>
+          </RadioGroup>
+        </div>
+        <div className="flex items-start justify-between mt-5">
+          <Label className="text-xs text-gray-600">Direction</Label>
+          <RadioGroup
+            value={writingMode}
+            onValueChange={(v) =>
+              setDocumentAttribute({ writingMode: v as WritingMode })
+            }
+          >
+            {writingModes.map((mode) => (
+              <div key={mode.value} className="flex items-center gap-3">
+                <RadioGroupItem value={mode.value} id={mode.value} />
+                <Label htmlFor={mode.value} className="text-xs">
+                  {mode.label}
+                </Label>
+              </div>
+            ))}
           </RadioGroup>
         </div>
       </div>

@@ -9,6 +9,7 @@ import {
   Position,
   positionToGrid,
 } from '../layout'
+import type { CaretMove } from '../geometry'
 
 // Layout of the active project using the current document settings
 export const currentLayout = () =>
@@ -28,7 +29,7 @@ interface CursorStoreActions {
   // scroll: whether to scroll the caret into view
   setCursor: (pos: Position, scroll?: boolean) => void
   setCursorByRowCol: (row: number, col: number, scroll?: boolean) => void
-  moveCursor: (key: string) => void
+  moveCursor: (move: CaretMove) => void
   getSelection: () => { start: Position; end: Position } | null
   setSelection: (row: number, col: number, isStart: boolean) => void
   selectAll: () => void
@@ -71,29 +72,29 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
   setCursorByRowCol: (row: number, col: number, scroll = true) => {
     get().setCursor(gridToPosition(currentLayout(), row, col), scroll)
   },
-  moveCursor: (key: string) => {
+  moveCursor: (move: CaretMove) => {
     const layout = currentLayout()
     const { row, col } = positionToGrid(layout, get().getPosition())
     const lastRow = layout.lines.length - 1
 
     let newRow = row
     let newCol = col
-    switch (key) {
-      case 'Home':
+    switch (move) {
+      case 'lineStart':
         newCol = 0
         break
-      case 'End':
+      case 'lineEnd':
         newCol = layout.columns
         break
-      case 'ArrowUp':
+      case 'prevLine':
         newRow -= 1
         if (newRow < 0) return
         break
-      case 'ArrowDown':
+      case 'nextLine':
         newRow += 1
         if (newRow > lastRow) return
         break
-      case 'ArrowLeft':
+      case 'prevChar':
         newCol -= 1
         if (newCol < 0) {
           newCol = layout.columns
@@ -101,7 +102,7 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
           if (newRow < 0) return
         }
         break
-      case 'ArrowRight':
+      case 'nextChar':
         newCol += 1
         if (newCol > layout.columns) {
           // allow to go beyond the last column so that we can 'delete' the last character

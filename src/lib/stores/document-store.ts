@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { measureMM } from '@/lib/utils'
+import { linesPerPage, pageSize } from '@/lib/geometry'
+import type { WritingMode } from '@/lib/geometry'
 import { useProjectsStore } from './projects-store'
 
 export interface DocumentActions {
@@ -11,21 +13,26 @@ export interface DocumentActions {
   setColumns: (columns: number) => void
   getSettings: () => DocumentState
   toggleDebug: () => void
-  rowHeight: () => number
-  rowsPerPage: () => number
+  // lines (rows, or columns in vertical modes) that fit on a page
+  linesPerPage: () => number
 }
 
 export interface DocumentState {
   fontSize: number
   pinyinSize: number
   pinyinOffset: number
+  // pinyin placement in horizontal modes
   pinyinPosition: 'top' | 'bottom'
+  // pinyin placement in vertical modes
+  pinyinSide: 'left' | 'right'
+  // characters per line (per column in vertical modes)
   columns: number
   gapX: number
   gapY: number
   marginX: number
   marginY: number
   layout: 'portrait' | 'landscape'
+  writingMode: WritingMode
 }
 
 export interface DocumentStore extends DocumentState, DocumentActions {
@@ -39,12 +46,14 @@ export const defaultDocumentState: () => DocumentState = () => ({
   pinyinSize: 4,
   pinyinOffset: 0,
   pinyinPosition: 'bottom',
+  pinyinSide: 'right',
   columns: 22,
   gapX: 1.1,
   gapY: 2.2,
   marginX: 15,
   marginY: 15,
   layout: 'landscape',
+  writingMode: 'horizontal-ltr',
 })
 
 export const useDocumentStore = create<DocumentStore>()((set, get) => ({
@@ -52,22 +61,16 @@ export const useDocumentStore = create<DocumentStore>()((set, get) => ({
   debug: false,
   mmX: measureMM().mmX,
   mmY: measureMM().mmY,
-  pageWidth: () => (get().layout === 'portrait' ? 210 : 297),
-  pageHeight: () => (get().layout === 'portrait' ? 297 : 210),
+  pageWidth: () => pageSize(get()).width,
+  pageHeight: () => pageSize(get()).height,
   getSettings: () => {
-    const settings = {
-      fontSize: get().fontSize,
-      pinyinSize: get().pinyinSize,
-      pinyinOffset: get().pinyinOffset,
-      pinyinPosition: get().pinyinPosition,
-      columns: get().columns,
-      gapX: get().gapX,
-      gapY: get().gapY,
-      marginX: get().marginX,
-      marginY: get().marginY,
-      layout: get().layout,
-    }
-    return settings
+    const state = get()
+    return Object.fromEntries(
+      Object.keys(defaultDocumentState()).map((key) => [
+        key,
+        state[key as keyof DocumentState],
+      ]),
+    ) as unknown as DocumentState
   },
   setDocumentAttribute: (attr) => {
     set(attr)
@@ -83,8 +86,5 @@ export const useDocumentStore = create<DocumentStore>()((set, get) => ({
     get().setDocumentAttribute({ columns })
   },
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
-  rowHeight: () =>
-    get().fontSize + get().gapY + get().pinyinSize + get().pinyinOffset,
-  rowsPerPage: () =>
-    Math.floor((get().pageHeight() - get().marginY * 2) / get().rowHeight()),
+  linesPerPage: () => linesPerPage(get()),
 }))

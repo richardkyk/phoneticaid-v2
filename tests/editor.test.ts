@@ -248,34 +248,34 @@ describe('cursor movement', () => {
 
   it('arrow right goes through the newline column onto the next row', () => {
     click(0, 2)
-    cursor().moveCursor('ArrowRight')
+    cursor().moveCursor('nextChar')
     expect(caret()).toEqual({ row: 0, col: 3 })
-    cursor().moveCursor('ArrowRight')
+    cursor().moveCursor('nextChar')
     expect(caret()).toEqual({ row: 1, col: 0 })
   })
 
   it('arrow left goes to the end of the previous row', () => {
     click(2, 0)
-    cursor().moveCursor('ArrowLeft')
+    cursor().moveCursor('prevChar')
     expect(caret()).toEqual({ row: 1, col: 3 })
   })
 
   it('up and down keep the column, including in padding', () => {
     click(0, 3)
-    cursor().moveCursor('ArrowDown')
-    cursor().moveCursor('ArrowDown')
+    cursor().moveCursor('nextLine')
+    cursor().moveCursor('nextLine')
     expect(caret()).toEqual({ row: 2, col: 3 })
-    cursor().moveCursor('ArrowDown')
+    cursor().moveCursor('nextLine')
     expect(caret()).toEqual({ row: 2, col: 3 })
-    cursor().moveCursor('ArrowUp')
+    cursor().moveCursor('prevLine')
     expect(caret()).toEqual({ row: 1, col: 3 })
   })
 
   it('home and end', () => {
     click(1, 1)
-    cursor().moveCursor('End')
+    cursor().moveCursor('lineEnd')
     expect(caret()).toEqual({ row: 1, col: 3 })
-    cursor().moveCursor('Home')
+    cursor().moveCursor('lineStart')
     expect(caret()).toEqual({ row: 1, col: 0 })
   })
 })
@@ -408,5 +408,42 @@ describe('random editing sessions', () => {
       expect(row, ctx).toBeLessThan(currentLayout().lines.length)
       expect(col, ctx).toBeLessThanOrEqual(currentLayout().columns)
     }
+  })
+})
+
+describe('per-project history', () => {
+  it('keeps each project its own undo stack', () => {
+    const projects = () => useProjectsStore.getState()
+    const a = projects().getActiveProject()
+    load('', 5)
+    type('A')
+
+    const b = projects().addProject()
+    type('B')
+    expect(text()).toBe('B')
+
+    projects().setActiveProject(a.id)
+    expect(text()).toBe('A')
+    history().undo()
+    expect(text()).toBe('')
+
+    projects().setActiveProject(b.id)
+    expect(history().past.length).toBe(1)
+    history().undo()
+    expect(text()).toBe('')
+
+    // back on the first project, redo still works
+    projects().setActiveProject(a.id)
+    history().redo()
+    expect(text()).toBe('A')
+  })
+
+  it('deleting another project keeps the active one', () => {
+    const projects = () => useProjectsStore.getState()
+    const a = projects().getActiveProject()
+    const b = projects().addProject()
+    projects().setActiveProject(a.id)
+    projects().deleteProject(b.id)
+    expect(projects().activeId).toBe(a.id)
   })
 })

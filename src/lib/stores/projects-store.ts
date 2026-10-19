@@ -58,10 +58,15 @@ export const useProjectsStore = create<MultiProjectState>()(
       setActiveProject: (id) => {
         const project = get().projects.find((p) => p.id === id)
         if (!project) return
+        const previousId = get().activeId || null
+        if (previousId === project.id) return
         set({ activeId: project.id })
-        useHistoryStore.getState().reset()
+        // each project keeps its own undo/redo history
+        useHistoryStore.getState().switchProject(previousId, project.id)
         useCursorStore.getState().reset()
-        useDocumentStore.getState().setDocumentAttribute(project.doc)
+        useDocumentStore
+          .getState()
+          .setDocumentAttribute({ ...defaultDocumentState(), ...project.doc })
       },
       setActiveProjectAttribute: (attr) => {
         const projects = structuredClone(get().projects)
@@ -93,13 +98,17 @@ export const useProjectsStore = create<MultiProjectState>()(
       },
       deleteProject: (id) => {
         const projects = get().projects.filter((p) => p.id !== id)
-        const lastActiveProject = projects.sort(
+        set({ projects })
+        useHistoryStore.getState().forgetProject(id)
+        if (id !== get().activeId) return
+
+        // the active project was deleted, switch to the most recently updated one
+        const [next] = [...projects].sort(
           (a, b) => b.lastUpdated - a.lastUpdated,
         )
-        set({
-          projects,
-          activeId: lastActiveProject.length > 0 ? lastActiveProject[0].id : '',
-        })
+        useHistoryStore.getState().reset()
+        set({ activeId: '' })
+        if (next) get().setActiveProject(next.id)
       },
     }),
     {
@@ -138,7 +147,9 @@ export const useProjectsStore = create<MultiProjectState>()(
 
         const project = state.projects.find((p) => p.id === activeId)
         if (!project) return
-        useDocumentStore.getState().setDocumentAttribute(project.doc)
+        useDocumentStore
+          .getState()
+          .setDocumentAttribute({ ...defaultDocumentState(), ...project.doc })
       },
     },
   ),

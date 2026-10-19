@@ -12,11 +12,11 @@ export const Document = () => {
   const project = useProjectsStore((state) => state.getActiveProject())
   const layout = getLayout(project.pt, document.columns)
 
-  const rowsPerPage = document.rowsPerPage()
+  const linesPerPage = document.linesPerPage()
 
   const pages: (typeof layout.rows)[] = []
-  for (let i = 0; i < layout.rows.length; i += rowsPerPage) {
-    pages.push(layout.rows.slice(i, i + rowsPerPage))
+  for (let i = 0; i < layout.rows.length; i += linesPerPage) {
+    pages.push(layout.rows.slice(i, i + linesPerPage))
   }
 
   const parentRef = useRef<HTMLDivElement>(null)

@@ -3,12 +3,14 @@ import { useDocumentStore } from '@/lib/stores/document-store'
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
+import { hitTest, keyToCaretMove } from '@/lib/geometry'
 import React, { Fragment, useCallback, useEffect, useRef } from 'react'
 import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
 const clamp = (val: number, min: number, max: number) =>
   Math.min(Math.max(val, min), max)
 
+// The caret position (absolute row and col) for a point on a page's grid
 const getRowColFromCoords = (
   x: number,
   y: number,
@@ -17,36 +19,20 @@ const getRowColFromCoords = (
 ): { row: number; col: number } => {
   const document = useDocumentStore.getState()
   const rowsCount = currentLayout().lines.length
+  const linesPerPage = document.linesPerPage()
 
-  const relX = x - pageRect.left - document.marginX * document.mmX
-  const relY = y - pageRect.top - document.marginY * document.mmY
-
-  const rowHeight = document.rowHeight() * document.mmY
-  const colWidth = (document.fontSize + document.gapX) * document.mmX
-
-  const rowsPerPage = document.rowsPerPage()
-
-  const rowInPage = Math.floor(relY / rowHeight)
-  const colInPage = Math.floor(relX / colWidth)
-
-  let row = rowInPage + pageIndex * rowsPerPage
-  let col = colInPage
-
-  if (rowInPage >= rowsPerPage) {
-    row = (pageIndex + 1) * rowsPerPage - 1
-  } else if (rowInPage <= 0) {
-    row = pageIndex * rowsPerPage
-  }
-
-  row = clamp(row, 0, rowsCount - 1)
-  col = clamp(col, 0, document.columns - 1)
-
-  const middleOfX = col * colWidth + (document.fontSize / 2) * document.mmX
-  const isCharRightSide = relX > middleOfX
+  const { line, slot } = hitTest(
+    document,
+    document.columns,
+    (x - pageRect.left) / document.mmX,
+    (y - pageRect.top) / document.mmY,
+  )
+  // points outside the page snap to its first/last line
+  const lineInPage = clamp(line, 0, linesPerPage - 1)
 
   return {
-    row, // absolute row across the document
-    col: isCharRightSide ? col + 1 : col,
+    row: clamp(pageIndex * linesPerPage + lineInPage, 0, rowsCount - 1),
+    col: slot,
   }
 }
 
@@ -287,23 +273,18 @@ const handleEditorKeyDown = (
   const cursor = useCursorStore.getState()
   const pieceTable = usePieceTableStore.getState()
   const history = useHistoryStore.getState()
+  // arrow keys move visually, so their meaning depends on the writing mode
+  const move = keyToCaretMove(useDocumentStore.getState().writingMode, e.key)
+  if (move) {
+    e.preventDefault()
+    cursor.moveCursor(move)
+    return
+  }
+
   switch (e.key) {
-    case 'ArrowLeft':
-    case 'ArrowRight':
-    case 'ArrowUp':
-    case 'ArrowDown':
-    case 'Home':
-    case 'End':
-      e.preventDefault()
-      cursor.moveCursor(e.key)
-      break
     case 'Tab':
       e.preventDefault()
-      if (e.shiftKey) {
-        cursor.moveCursor('ArrowLeft')
-      } else {
-        cursor.moveCursor('ArrowRight')
-      }
+      cursor.moveCursor(e.shiftKey ? 'prevChar' : 'nextChar')
       break
     case 'Backspace':
       e.preventDefault()

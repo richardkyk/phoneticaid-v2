@@ -6,18 +6,27 @@ interface UndoAction {
   redo: () => void
 }
 
-interface HistoryState {
+interface History {
   past: UndoAction[]
   future: UndoAction[]
+}
+
+interface HistoryState extends History {
+  // histories of the projects that aren't active, kept for this session only
+  inactive: Record<string, History>
   push: (action: UndoAction) => void
   undo: () => void
   redo: () => void
   reset: () => void
+  // parks the active history under `fromId` and restores the one for `toId`
+  switchProject: (fromId: string | null, toId: string) => void
+  forgetProject: (id: string) => void
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
   past: [],
   future: [],
+  inactive: {},
   push: (action) =>
     set((state) => ({
       past: [...state.past, action],
@@ -42,5 +51,19 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       past: [],
       future: [],
     })
+  },
+  switchProject: (fromId, toId) => {
+    if (fromId === toId) return
+    const { past, future, inactive } = get()
+    const { [toId]: next, ...rest } = inactive
+    set({
+      past: next?.past ?? [],
+      future: next?.future ?? [],
+      inactive: fromId ? { ...rest, [fromId]: { past, future } } : rest,
+    })
+  },
+  forgetProject: (id) => {
+    const { [id]: _, ...rest } = get().inactive
+    set({ inactive: rest })
   },
 }))
