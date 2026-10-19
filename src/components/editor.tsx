@@ -3,7 +3,7 @@ import { useDocumentStore } from '@/lib/stores/document-store'
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
-import React, { Fragment, useCallback, useRef } from 'react'
+import React, { Fragment, useCallback, useEffect, useRef } from 'react'
 import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
 const clamp = (val: number, min: number, max: number) =>
@@ -116,6 +116,51 @@ export const Editor: React.FC<EditorProps> = (props) => {
     window.addEventListener('mouseup', handleMouseUp)
   }
 
+  useEffect(() => {
+    const focusInput = () => inputRef.current?.focus({ preventScroll: true })
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || !shouldRedirectKey(e)) return
+      focusInput()
+      if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        // the browser doesn't reliably deliver the typed character to the
+        // newly focused input, so insert it ourselves
+        e.preventDefault()
+        usePieceTableStore.getState().insertAtCursor(e.key)
+        return
+      }
+      // shortcuts are handled here, pastes follow the focus to the input
+      handleEditorKeyDown(e, inputRef)
+    }
+    // pastes that don't land in a text field (e.g. on the page background)
+    const handlePaste = (e: ClipboardEvent) => {
+      const target = e.target as HTMLElement
+      if (
+        e.defaultPrevented ||
+        target.closest('input, textarea, select, [contenteditable]')
+      ) {
+        return
+      }
+      e.preventDefault()
+      focusInput()
+      usePieceTableStore
+        .getState()
+        .insertAtCursor(e.clipboardData?.getData('text/plain') ?? '')
+    }
+    const handleWindowFocus = () => {
+      if (document.activeElement === document.body) focusInput()
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('paste', handlePaste)
+    window.addEventListener('focus', handleWindowFocus)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('paste', handlePaste)
+      window.removeEventListener('focus', handleWindowFocus)
+    }
+  }, [])
+
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     moveIMEInputToCursor(inputRef)
@@ -159,59 +204,92 @@ const moveIMEInputToCursor = (
   })
 }
 
+const handleEditorKeyDown = (
+  e: KeyboardEvent | React.KeyboardEvent,
+  inputRef: React.RefObject<HTMLTextAreaElement | null>,
+) => {
+  moveIMEInputToCursor(inputRef)
+  const cursor = useCursorStore.getState()
+  const pieceTable = usePieceTableStore.getState()
+  const history = useHistoryStore.getState()
+  switch (e.key) {
+    case 'ArrowLeft':
+    case 'ArrowRight':
+    case 'ArrowUp':
+    case 'ArrowDown':
+    case 'Home':
+    case 'End':
+      e.preventDefault()
+      cursor.moveCursor(e.key)
+      break
+    case 'Tab':
+      e.preventDefault()
+      if (e.shiftKey) {
+        cursor.moveCursor('ArrowLeft')
+      } else {
+        cursor.moveCursor('ArrowRight')
+      }
+      break
+    case 'Backspace':
+      e.preventDefault()
+      pieceTable.deleteAtCursor(1)
+      break
+    // case 'Delete':
+    //   e.preventDefault()
+    //   break
+    case 'Enter':
+      e.preventDefault()
+      pieceTable.insertAtCursor('\n')
+      break
+    case 'z':
+    case 'Z':
+      if (e.metaKey || e.ctrlKey) {
+        e.preventDefault()
+        e.shiftKey ? history.redo() : history.undo()
+      }
+      break
+    case 'a':
+      if (e.metaKey || e.ctrlKey) {
+        e.preventDefault()
+        cursor.selectAll()
+      }
+      break
+  }
+}
+
+// Keystrokes on the page background (e.g. right after the page loads) or on a
+// toolbar button are sent to the editor, while keys those buttons use
+// themselves (Enter, Space, arrows) and real inputs are left alone
+const shouldRedirectKey = (e: KeyboardEvent) => {
+  const target = document.activeElement
+  if (!target || target === document.body) return e.key !== 'Tab'
+  if (
+    target instanceof HTMLButtonElement &&
+    !target.closest('[role=menu], [role=dialog], [role=listbox]')
+  ) {
+    return (e.key.length === 1 && e.key !== ' ') || e.key === 'Backspace'
+  }
+  return false
+}
+
 interface HiddenInputProps {
   ref: React.RefObject<HTMLTextAreaElement | null>
 }
 const HiddenInput = (props: HiddenInputProps) => {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const setFocused = useCursorStore((state) => state.setFocused)
+
+  useEffect(() => {
+    // autoFocus may have focused the input before React attached the focus handler
+    setFocused(
+      document.activeElement === props.ref.current && document.hasFocus(),
+    )
+  }, [])
+
+  const handleFocus = () => {
+    setFocused(true)
     moveIMEInputToCursor(props.ref)
-    const cursor = useCursorStore.getState()
-    const pieceTable = usePieceTableStore.getState()
-    const history = useHistoryStore.getState()
-    switch (e.key) {
-      case 'ArrowLeft':
-      case 'ArrowRight':
-      case 'ArrowUp':
-      case 'ArrowDown':
-      case 'Home':
-      case 'End':
-        e.preventDefault()
-        cursor.moveCursor(e.key)
-        break
-      case 'Tab':
-        e.preventDefault()
-        if (e.shiftKey) {
-          cursor.moveCursor('ArrowLeft')
-        } else {
-          cursor.moveCursor('ArrowRight')
-        }
-        break
-      case 'Backspace':
-        e.preventDefault()
-        pieceTable.deleteAtCursor(1)
-        break
-      // case 'Delete':
-      //   e.preventDefault()
-      //   break
-      case 'Enter':
-        e.preventDefault()
-        pieceTable.insertAtCursor('\n')
-        break
-      case 'z':
-      case 'Z':
-        if (e.metaKey || e.ctrlKey) {
-          e.preventDefault()
-          e.shiftKey ? history.redo() : history.undo()
-        }
-        break
-      case 'a':
-        if (e.metaKey || e.ctrlKey) {
-          e.preventDefault()
-          cursor.selectAll()
-        }
-        break
-    }
   }
+  const handleBlur = () => setFocused(false)
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const ev = e.nativeEvent as InputEvent
@@ -273,7 +351,9 @@ const HiddenInput = (props: HiddenInputProps) => {
       ref={props.ref}
       className="fixed resize-none bg-white text-xl w-[100px] focus:border-red-500 opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
       rows={1}
-      onKeyDown={handleKeyDown}
+      onKeyDown={(e) => handleEditorKeyDown(e, props.ref)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       onInput={handleInput}
       onCopy={handleCopy}
       onPaste={handlePaste}

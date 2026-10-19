@@ -34,11 +34,13 @@ interface CursorStoreActions {
   resetSelection: () => void
   reset: () => void
   focus: () => void
+  setFocused: (focused: boolean) => void
 }
 
 type CursorStoreState = Position &
   CursorStoreActions & {
-    visible: boolean
+    // whether the editor has keyboard focus, the caret is only shown when it does
+    focused: boolean
     // selection is stored as document positions (not grid positions) so it
     // survives layout changes
     selectionStart: Position | null
@@ -47,7 +49,7 @@ type CursorStoreState = Position &
 
 export const useCursorStore = create<CursorStoreState>((set, get) => ({
   ...initialPosition(),
-  visible: true,
+  focused: false,
 
   selectionStart: null,
   selectionEnd: null,
@@ -153,11 +155,11 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
   reset: () => {
     set({
       ...initialPosition(),
-      visible: true,
       selectionStart: null,
       selectionEnd: null,
     })
   },
+  setFocused: (focused: boolean) => set({ focused }),
   resetSelection: () => {
     set({ selectionStart: null, selectionEnd: null })
   },

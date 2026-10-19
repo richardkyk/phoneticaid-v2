@@ -133,7 +133,7 @@ interface CursorProps {
 export const Cursor = (props: CursorProps) => {
   const { document, layout } = props
 
-  const visible = useCursorStore((state) => state.visible)
+  const focused = useCursorStore((state) => state.focused)
   const index = useCursorStore((state) => state.index)
   const virtual = useCursorStore((state) => state.virtual)
   const affinity = useCursorStore((state) => state.affinity)
@@ -160,7 +160,7 @@ export const Cursor = (props: CursorProps) => {
           {`(${row},${col}) -> ${index}+${virtual} ${affinity}`}
         </div>
       )}
-      {visible && (
+      {focused && (
         <div
           id="cursor"
           key={`${cursorX}-${cursorY}-${document.gapX}`}
