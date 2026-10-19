@@ -1,291 +1,115 @@
 import { create } from 'zustand'
-import {
-  deleteBackwards,
-  getText,
-  insertText,
-  PieceTable,
-  getPieceTableCursorPosition,
-  deleteRange,
-} from '../piece-table'
-import { useCursorStore, PieceTableCursor } from './cursor-store'
+import { deleteRange, getText, insertText, PieceTable } from '../piece-table'
+import { normalisePosition, Position } from '../layout'
+import { currentLayout, useCursorStore } from './cursor-store'
 import { useHistoryStore } from './history-store'
 import { useProjectsStore } from './projects-store'
 
 export interface PieceTableState {
   extractSelection: () => string
-  deleteSelection: (pt: PieceTable) => PieceTableCursor | null
   insertAtCursor: (text: string) => void
   deleteAtCursor: (length: number) => void
 }
 
-export const usePieceTableStore = create<PieceTableState>()((_set, get) => ({
+// Commits the new piece table and cursor, recording the change in the history
+function commit(
+  originalPt: PieceTable,
+  before: Position,
+  pt: PieceTable,
+  after: Position,
+) {
+  const setActiveProjectAttribute =
+    useProjectsStore.getState().setActiveProjectAttribute
+
+  useHistoryStore.getState().push({
+    undo: () => {
+      setActiveProjectAttribute({ pt: originalPt })
+      useCursorStore.getState().setCursor(before)
+    },
+    redo: () => {
+      setActiveProjectAttribute({ pt })
+      useCursorStore.getState().setCursor(after)
+    },
+  })
+
+  setActiveProjectAttribute({ pt })
+  useCursorStore.getState().resetSelection()
+  useCursorStore.getState().setCursor(after)
+}
+
+export const usePieceTableStore = create<PieceTableState>()(() => ({
   extractSelection: () => {
-    const project = useProjectsStore.getState().getActiveProject()
     const selection = useCursorStore.getState().getSelection()
     if (!selection) return ''
 
-    const ptStart = getPieceTableCursorPosition(
-      selection.start.row,
-      selection.start.col,
-    )
-    const ptEnd = getPieceTableCursorPosition(
-      selection.end.row,
-      selection.end.col,
-    )
-
-    const extractStart = {
-      pieceIndex: ptStart.pieceIndex < 0 ? 0 : ptStart.pieceIndex,
-      charIndex:
-        ptStart.pieceIndex < 0
-          ? 0
-          : ptStart.charIndex + (ptStart.offset > 0 ? 1 : 0),
-    }
-    const extractEnd = {
-      pieceIndex: ptEnd.pieceIndex < 0 ? 0 : ptEnd.pieceIndex,
-      charIndex:
-        ptEnd.pieceIndex < 0 ? 0 : ptEnd.charIndex + (ptEnd.offset > 0 ? 1 : 0),
-    }
-
-    return getText(project.pt, extractStart, extractEnd)
-  },
-
-  deleteSelection: (pt: PieceTable) => {
-    const selection = useCursorStore.getState().getSelection()
-    const cursor = useCursorStore.getState()
-    if (!selection) return null
-
-    const ptStart = getPieceTableCursorPosition(
-      selection.start.row,
-      selection.start.col,
-    )
-    const ptEnd = getPieceTableCursorPosition(
-      selection.end.row,
-      selection.end.col,
-    )
-
-    if (ptStart.pieceIndex === ptEnd.pieceIndex) {
-      if (ptStart.pieceIndex === -1) {
-        cursor.resetSelection()
-        return null
-      }
-
-      if (ptStart.charIndex === ptEnd.charIndex) {
-        if (ptStart.offset === ptEnd.offset) {
-          // the selection is referencing the same cursor position
-          // i.e. nothing is actually selected
-          cursor.resetSelection()
-          return null
-        }
-
-        if (ptStart.offset > 0 && ptEnd.offset > 0) {
-          // the selection only contains padding since they reference the same piece
-          cursor.resetSelection()
-          return null
-        }
-      }
-    }
-
-    let deleteStart = {
-      pieceIndex: ptStart.pieceIndex,
-      charIndex: ptStart.charIndex + (ptStart.offset > 0 ? 1 : 0),
-    }
-
-    if (ptStart.pieceIndex === -1) {
-      // special case where the selection starts in padding (i.e. its reference piece is -1)
-      // so we need to reference the piece at pieceIndex 0 and charIndex 0 so that it can be deleted
-      deleteStart.pieceIndex = 0
-      deleteStart.charIndex = ptStart.charIndex
-    }
-
-    const deleteEnd = {
-      pieceIndex: ptEnd.pieceIndex,
-      charIndex: ptEnd.charIndex + (ptEnd.offset > 0 ? 1 : 0),
-    }
-    cursor.resetSelection()
-    return deleteRange(pt, deleteStart, deleteEnd)
+    const project = useProjectsStore.getState().getActiveProject()
+    return getText(project.pt, selection.start.index, selection.end.index)
   },
 
   insertAtCursor: (text: string) => {
+    text = text.replace(/\r\n?/g, '\n')
+    if (text.length === 0) return
+
     const cursor = useCursorStore.getState()
-    let newCursor = {
-      pieceIndex: cursor.pieceIndex,
-      charIndex: cursor.charIndex,
-      offset: cursor.offset,
-    }
+    const originalPt = useProjectsStore.getState().getActiveProject().pt
+    const pt = structuredClone(originalPt)
+    const before = cursor.getPosition()
 
-    const originalProject = useProjectsStore.getState().getActiveProject()
-    const originalPt = structuredClone(originalProject.pt)
-    const pt = structuredClone(originalProject.pt)
-    const selection = useCursorStore.getState().getSelection()
+    let at = normalisePosition(currentLayout(), before)
+    const selection = cursor.getSelection()
     if (selection) {
-      get().deleteSelection(pt)
-      newCursor = getPieceTableCursorPosition(
-        selection.start.row,
-        selection.start.col,
-      )
+      deleteRange(pt, selection.start.index, selection.end.index)
+      at = selection.start
     }
 
-    let newText = ''
-    if (newCursor.offset > 0) {
-      if (text !== '\n') {
-        newText = ' '.repeat(
-          newCursor.offset - (newCursor.pieceIndex === -1 ? 0 : 1),
-        )
-      }
-      // if there is an offset, it means we need to insert after the specified character (thus we have charIndex++)
-      newCursor.charIndex++
-    }
-    newText += text
+    // typing past the end of a line fills the gap with spaces, a newline
+    // just breaks the line where the text ends
+    const padding = text === '\n' ? '' : ' '.repeat(at.virtual)
+    insertText(pt, at.index, padding + text)
 
-    const res = insertText(
-      pt,
-      newCursor.pieceIndex,
-      newCursor.charIndex,
-      newText,
-    )
-    useCursorStore.getState().setCursorByPiece(res.pieceIndex, res.charIndex, 1)
-
-    // pt should now be mutated to its final state
-    const newPt = structuredClone(pt)
-    const history = useHistoryStore.getState()
-    history.push({
-      undo: () => {
-        useProjectsStore.getState().setActiveProjectAttribute({
-          pt: originalPt,
-        })
-        useCursorStore
-          .getState()
-          .setCursorByPiece(cursor.pieceIndex, cursor.charIndex, cursor.offset)
-      },
-      redo: () => {
-        useProjectsStore.getState().setActiveProjectAttribute({
-          pt: newPt,
-        })
-        useCursorStore
-          .getState()
-          .setCursorByPiece(res.pieceIndex, res.charIndex, 1)
-      },
-    })
-
-    useProjectsStore.getState().setActiveProjectAttribute({
-      pt: newPt,
+    commit(originalPt, before, pt, {
+      index: at.index + padding.length + text.length,
+      virtual: 0,
+      affinity: 'upstream',
     })
   },
 
   deleteAtCursor: (length: number) => {
     const cursor = useCursorStore.getState()
-    let newCursor = {
-      pieceIndex: cursor.pieceIndex,
-      charIndex: cursor.charIndex,
-      offset: cursor.offset,
-    }
+    const originalPt = useProjectsStore.getState().getActiveProject().pt
+    const pt = structuredClone(originalPt)
+    const before = cursor.getPosition()
 
-    const history = useHistoryStore.getState()
-    const originalProject = useProjectsStore.getState().getActiveProject()
-    const originalPt = structuredClone(originalProject.pt)
-    const pt = structuredClone(originalProject.pt)
-    const selection = useCursorStore.getState().getSelection()
+    const selection = cursor.getSelection()
     if (selection) {
-      const _newCursor = get().deleteSelection(pt)
-      if (_newCursor) newCursor = _newCursor
-      useCursorStore
-        .getState()
-        .setCursorByPiece(
-          newCursor.pieceIndex,
-          newCursor.charIndex,
-          newCursor.offset,
-        )
-      history.push({
-        undo: () => {
-          useProjectsStore.getState().setActiveProjectAttribute({
-            pt: originalPt,
-          })
-          useCursorStore
-            .getState()
-            .setCursorByPiece(
-              cursor.pieceIndex,
-              cursor.charIndex,
-              cursor.offset,
-            )
-        },
-        redo: () => {
-          useProjectsStore.getState().setActiveProjectAttribute({
-            pt: pt,
-          })
-          useCursorStore
-            .getState()
-            .setCursorByPiece(
-              newCursor.pieceIndex,
-              newCursor.charIndex,
-              newCursor.offset,
-            )
-        },
-      })
-
-      useProjectsStore.getState().setActiveProjectAttribute({
-        pt: pt,
-      })
+      const { start, end } = selection
+      if (start.index === end.index) {
+        // the selection only covers empty cells, so there is nothing to delete
+        cursor.resetSelection()
+        cursor.setCursor(start)
+        return
+      }
+      deleteRange(pt, start.index, end.index)
+      commit(originalPt, before, pt, { ...start, virtual: 0 })
       return
     }
 
     if (length === 0) return
 
-    if (cursor.pieceIndex <= 0 && cursor.charIndex === 0 && cursor.offset === 0)
-      return
-    if (cursor.offset > 1 || cursor.pieceIndex === -1) {
-      // if pieceIndex is -1, it means we are at the start of the document so there's nothing to delete
-      useCursorStore
-        .getState()
-        .setCursorByPiece(
-          cursor.pieceIndex,
-          cursor.charIndex,
-          cursor.offset - 1,
-        )
+    const pos = normalisePosition(currentLayout(), before)
+    if (pos.virtual > 0) {
+      // in the empty cells past the end of a line, just move back a cell
+      cursor.setCursor({ ...pos, virtual: pos.virtual - 1 })
       return
     }
+    if (pos.index === 0) return
 
-    newCursor = deleteBackwards(
-      pt,
-      cursor.pieceIndex,
-      cursor.charIndex,
-      cursor.offset,
-    )
-
-    useCursorStore
-      .getState()
-      .setCursorByPiece(
-        newCursor.pieceIndex,
-        newCursor.charIndex,
-        newCursor.offset,
-      )
-
-    // pt should now be mutated to its final state
-    const newPt = structuredClone(pt)
-    history.push({
-      undo: () => {
-        useProjectsStore.getState().setActiveProjectAttribute({
-          pt: originalPt,
-        })
-        useCursorStore
-          .getState()
-          .setCursorByPiece(cursor.pieceIndex, cursor.charIndex, cursor.offset)
-      },
-      redo: () => {
-        useProjectsStore.getState().setActiveProjectAttribute({
-          pt: newPt,
-        })
-        useCursorStore
-          .getState()
-          .setCursorByPiece(
-            newCursor.pieceIndex,
-            newCursor.charIndex,
-            newCursor.offset,
-          )
-      },
-    })
-
-    useProjectsStore.getState().setActiveProjectAttribute({
-      pt: pt,
+    const start = Math.max(0, pos.index - length)
+    deleteRange(pt, start, pos.index)
+    commit(originalPt, before, pt, {
+      index: start,
+      virtual: 0,
+      affinity: 'downstream',
     })
   },
 }))

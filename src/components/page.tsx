@@ -1,12 +1,12 @@
 import { DocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
-import { Cell } from '@/lib/render'
+import { Cell, Layout } from '@/lib/layout'
 import { Cursor, Grid, Highlight } from './grid'
 
 interface PageProps {
   pageIndex: number
   pageRows: Cell[][]
-  pieceMap: Map<string, string>
+  layout: Layout
   document: DocumentStore
 }
 export const Page = (props: PageProps) => {
@@ -31,9 +31,13 @@ export const Page = (props: PageProps) => {
         <Cursor
           document={document}
           pageIndex={props.pageIndex}
-          pieceMap={props.pieceMap}
+          layout={props.layout}
         />
-        <Highlight document={document} pageIndex={props.pageIndex} />
+        <Highlight
+          document={document}
+          pageIndex={props.pageIndex}
+          layout={props.layout}
+        />
       </div>
     </div>
   )

@@ -1,6 +1,3 @@
-import { GridPosition, useMapStore } from './stores/cursor-store'
-import { useDocumentStore } from './stores/document-store'
-
 type BufferType = 'original' | 'add'
 
 export interface Piece {
@@ -15,318 +12,83 @@ export interface PieceTable {
   pieces: Piece[]
 }
 
-export interface PieceTablePosition {
-  pieceIndex: number
-  charIndex: number
+export function textLength(pt: PieceTable) {
+  return pt.pieces.reduce((sum, p) => sum + p.length, 0)
 }
 
-// Split a piece at a given index, return [left, right]
-function splitPiece(piece: Piece, index: number): [left: Piece, right: Piece] {
-  const leftLength = Math.max(0, Math.min(index, piece.length))
-  const rightLength = piece.length - leftLength
-
-  const left: Piece = {
-    buffer: piece.buffer,
-    start: piece.start,
-    length: leftLength,
-  }
-  const right: Piece = {
-    buffer: piece.buffer,
-    start: piece.start + leftLength,
-    length: rightLength,
-  }
-
-  return [left, right]
-}
-
-export const normalisePieceTablePosition = (
-  pos1: PieceTablePosition,
-  pos2: PieceTablePosition,
-): [start: PieceTablePosition, end: PieceTablePosition] => {
-  let s = pos1
-  let e = pos2
-  if (
-    e.pieceIndex < s.pieceIndex ||
-    (e.pieceIndex === s.pieceIndex && e.charIndex < s.charIndex)
-  ) {
-    ;[s, e] = [e, s]
-  }
-  return [s, e]
-}
-
-export const normaliseGridPosition = (
-  pos1: GridPosition,
-  pos2: GridPosition,
-): [start: GridPosition, end: GridPosition] => {
-  let s = pos1
-  let e = pos2
-  if (e.row < s.row || (e.row === s.row && e.col < s.col)) {
-    ;[s, e] = [e, s]
-  }
-  return [s, e]
-}
-
+// Returns the text between the absolute offsets [start, end)
 export function getText(
   pt: PieceTable,
-  start: PieceTablePosition = { pieceIndex: 0, charIndex: 0 },
-  end: PieceTablePosition = {
-    pieceIndex: pt.pieces.length > 0 ? pt.pieces.length - 1 : 0,
-    charIndex:
-      pt.pieces.length > 0 ? pt.pieces[pt.pieces.length - 1].length : 0,
-  },
+  start = 0,
+  end = Number.POSITIVE_INFINITY,
 ): string {
-  const [s, e] = normalisePieceTablePosition(start, end)
-
-  // Early exit if start == end after normalization
-  if (s.pieceIndex === e.pieceIndex && s.charIndex === e.charIndex) {
-    return ''
-  }
+  if (end < start) [start, end] = [end, start]
 
   let result = ''
-
-  for (let i = s.pieceIndex; i <= e.pieceIndex; i++) {
-    const p = pt.pieces[i]
-    const buf = p.buffer === 'original' ? pt.original : pt.add
-
-    // Calculate slice bounds relative to the piece
-    const pieceStart = i === s.pieceIndex ? p.start + s.charIndex : p.start
-    const pieceEnd =
-      i === e.pieceIndex ? p.start + e.charIndex : p.start + p.length
-
-    if (pieceStart < pieceEnd) {
-      result += buf.slice(pieceStart, pieceEnd)
+  let pieceStart = 0
+  for (const piece of pt.pieces) {
+    const pieceEnd = pieceStart + piece.length
+    if (pieceEnd > start && pieceStart < end) {
+      const buffer = piece.buffer === 'original' ? pt.original : pt.add
+      const from = Math.max(start, pieceStart) - pieceStart
+      const to = Math.min(end, pieceEnd) - pieceStart
+      result += buffer.slice(piece.start + from, piece.start + to)
     }
+    if (pieceEnd >= end) break
+    pieceStart = pieceEnd
   }
-
   return result
 }
 
-export function getGridCursorPosition(
-  pieceIndex: number,
-  charIndex: number,
-  pieceMap = useMapStore.getState().pieceMap,
-) {
-  const pos = pieceMap.get(`${pieceIndex}:${charIndex}`)
-  if (pos) {
-    const [row, col, newLine] = pos.split(':')
-    return {
-      row: parseInt(row),
-      col: parseInt(col),
-      isNewLine: newLine === '1',
+// Splits pieces so that a piece boundary exists at `index`, and returns the
+// index of the first piece starting at (or after) `index`
+function splitAt(pt: PieceTable, index: number): number {
+  let pieceStart = 0
+  for (let i = 0; i < pt.pieces.length; i++) {
+    const piece = pt.pieces[i]
+    if (index === pieceStart) return i
+    if (index < pieceStart + piece.length) {
+      const leftLength = index - pieceStart
+      pt.pieces.splice(
+        i,
+        1,
+        { buffer: piece.buffer, start: piece.start, length: leftLength },
+        {
+          buffer: piece.buffer,
+          start: piece.start + leftLength,
+          length: piece.length - leftLength,
+        },
+      )
+      return i + 1
     }
+    pieceStart += piece.length
   }
-  return { row: 0, col: 0, isNewLine: false }
+  return pt.pieces.length
 }
 
-// Walk the pieces to find the corresponding character position
-export function getPieceTableCursorPosition(
-  row: number,
-  col: number,
-): {
-  isNewLine: boolean
-  offset: number
-  pieceIndex: number
-  charIndex: number
-} {
-  let _row = row
-  let _col = col === useDocumentStore.getState().columns ? col - 1 : col
-  let offset = col === useDocumentStore.getState().columns ? 1 : 0
+// Mutates the piece table, inserting `text` at the absolute offset `index`
+export function insertText(pt: PieceTable, index: number, text: string) {
+  if (text.length === 0) return
+  index = Math.max(0, Math.min(index, textLength(pt)))
 
-  const prevCell = () => {
-    _col--
-    if (_col < 0) {
-      _row--
-      _col = useDocumentStore.getState().columns
-    }
-    offset++
-  }
-
-  while (_row >= 0 && _col >= 0) {
-    const pos = useMapStore.getState().gridMap.get(`${_row}:${_col}`)
-    if (pos) {
-      const [pieceIndex, charIndex, newLine] = pos.split(':')
-      const isNewLine = newLine === '1'
-
-      return {
-        isNewLine,
-        pieceIndex: parseInt(pieceIndex),
-        charIndex: parseInt(charIndex),
-        offset,
-      }
-    }
-
-    prevCell()
-  }
-
-  return {
-    isNewLine: false,
-    pieceIndex: -1,
-    charIndex: 0,
-    offset: offset - 1,
-  }
-}
-
-export function insertText(
-  pt: PieceTable,
-  pieceIndex: number,
-  charIndex: number,
-  text: string,
-): PieceTablePosition {
-  if (text.length === 0) return { pieceIndex, charIndex }
-
-  const addStart = pt.add.length
-
-  if (pieceIndex === -1) {
-    pieceIndex = 0
-    charIndex = 0
-  }
-
-  pt.add += text
-  const newPiece: Piece = {
+  const piece: Piece = {
     buffer: 'add',
-    start: addStart,
-    length: pt.add.length - addStart,
+    start: pt.add.length,
+    length: text.length,
   }
-
-  if (pt.pieces.length === 0 || pt.pieces.length === pieceIndex) {
-    pt.pieces.push(newPiece)
-    return {
-      pieceIndex: pt.pieces.length - 1, // need to be -1 since you just inserted a new piece
-      charIndex: newPiece.length - 1,
-    }
-  }
-
-  const [left, right] = splitPiece(pt.pieces[pieceIndex], charIndex)
-
-  const piecesToInsert: Piece[] = []
-  if (left.length) piecesToInsert.push(left)
-  piecesToInsert.push(newPiece)
-  if (right.length) piecesToInsert.push(right)
-
-  // Replace the original piece with new pieces
-  pt.pieces.splice(pieceIndex, 1, ...piecesToInsert)
-
-  return {
-    pieceIndex: pieceIndex + (left.length ? 1 : 0),
-    charIndex: newPiece.length - 1,
-  }
+  pt.add += text
+  pt.pieces.splice(splitAt(pt, index), 0, piece)
 }
 
-export function deleteRange(
-  pt: PieceTable,
-  start: PieceTablePosition,
-  end: PieceTablePosition,
-) {
-  const newPieces: Piece[] = []
-  let left: Piece = { buffer: 'original', start: 0, length: 0 }
-  let right: Piece = { buffer: 'original', start: 0, length: 0 }
+// Mutates the piece table, deleting the text between the absolute offsets [start, end)
+export function deleteRange(pt: PieceTable, start: number, end: number) {
+  if (end < start) [start, end] = [end, start]
+  const length = textLength(pt)
+  start = Math.max(0, Math.min(start, length))
+  end = Math.max(0, Math.min(end, length))
+  if (start === end) return
 
-  if (start.pieceIndex === end.pieceIndex) {
-    // Single-piece deletion
-    const piece = pt.pieces[start.pieceIndex]
-    const [_left, rest] = splitPiece(piece, start.charIndex)
-    const [_, _right] = splitPiece(
-      rest,
-      end.charIndex === start.charIndex ? 1 : end.charIndex - start.charIndex,
-    )
-
-    if (_left.length) {
-      newPieces.push(_left)
-      left = _left
-    }
-    if (_right.length) {
-      newPieces.push(_right)
-      right = _right
-    }
-
-    pt.pieces.splice(start.pieceIndex, 1, ...newPieces)
-  } else {
-    // Multi-piece deletion
-    const startPiece = pt.pieces[start.pieceIndex]
-    const endPiece = pt.pieces[end.pieceIndex]
-
-    const [_left] = splitPiece(startPiece, start.charIndex)
-    const [, _right] = splitPiece(endPiece, end.charIndex)
-
-    if (_left.length) {
-      newPieces.push(_left)
-      left = _left
-    }
-    if (_right.length) {
-      newPieces.push(_right)
-      right = _right
-    }
-
-    pt.pieces.splice(
-      start.pieceIndex,
-      end.pieceIndex - start.pieceIndex + 1,
-      ...newPieces,
-    )
-  }
-
-  if (newPieces.length === 0) {
-    // if no new pieces were added, move the cursor to the end of the previous piece
-    const _pieceIndex = start.pieceIndex - 1
-    if (_pieceIndex < 0) return { pieceIndex: -1, charIndex: 0, offset: 0 }
-    const _charIndex = pt.pieces[_pieceIndex].length - 1
-    return {
-      pieceIndex: _pieceIndex,
-      charIndex: _charIndex,
-      offset: 1,
-    }
-  }
-
-  if (right.length) {
-    // if there is a right piece, move the cursor to the beginning of it
-    const _piece = pt.pieces[start.pieceIndex + (left.length ? 1 : 0)]
-    const buffer = _piece.buffer === 'original' ? pt.original : pt.add
-    const ch = buffer[_piece.start]
-    if (ch !== '\n') {
-      return {
-        pieceIndex: start.pieceIndex + (left.length ? 1 : 0),
-        charIndex: 0,
-        offset: 0,
-      }
-    }
-  }
-
-  if (left.length) {
-    // if there is a left piece, move the cursor to the end of it
-    return {
-      pieceIndex: start.pieceIndex,
-      charIndex: left.length - 1,
-      offset: 1,
-    }
-  }
-
-  return {
-    pieceIndex: -1,
-    charIndex: 0,
-    offset: 0,
-  }
-}
-
-export function deleteBackwards(
-  pt: PieceTable,
-  pieceIndex: number,
-  charIndex: number,
-  offset: number,
-) {
-  let startPieceIndex = pieceIndex
-  let startCharIndex = charIndex + offset - 1
-
-  if (startCharIndex < 0) {
-    // Move to previous piece
-    startPieceIndex -= 1
-    if (startPieceIndex < 0) return { pieceIndex, charIndex, offset }
-    startCharIndex = pt.pieces[startPieceIndex].length - 1
-  }
-
-  const start: PieceTablePosition = {
-    pieceIndex: startPieceIndex,
-    charIndex: startCharIndex,
-  }
-  const end: PieceTablePosition = { pieceIndex, charIndex }
-
-  return deleteRange(pt, start, end)
+  const first = splitAt(pt, start)
+  const last = splitAt(pt, end)
+  pt.pieces.splice(first, last - first)
 }

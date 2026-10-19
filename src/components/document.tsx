@@ -1,6 +1,5 @@
-import { useMapStore } from '@/lib/stores/cursor-store'
-import { buildRows } from '@/lib/render'
-import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
+import { getLayout } from '@/lib/layout'
+import { useDocumentStore } from '@/lib/stores/document-store'
 import { useLayoutEffect } from '@tanstack/react-router'
 import { Page } from './page'
 import { Editor } from './editor'
@@ -11,19 +10,13 @@ import { useProjectsStore } from '@/lib/stores/projects-store'
 export const Document = () => {
   const document = useDocumentStore()
   const project = useProjectsStore((state) => state.getActiveProject())
-  const data = buildRows(project.pt, document)
+  const layout = getLayout(project.pt, document.columns)
 
   const rowsPerPage = document.rowsPerPage()
 
-  useLayoutEffect(() => {
-    useRowsStore.getState().setRows(data.rowCount)
-    useMapStore.getState().setPieceMap(data.pieceMap)
-    useMapStore.getState().setGridMap(data.gridMap)
-  }, [data])
-
-  const pages: (typeof data.rows)[] = []
-  for (let i = 0; i < data.rows.length; i += rowsPerPage) {
-    pages.push(data.rows.slice(i, i + rowsPerPage))
+  const pages: (typeof layout.rows)[] = []
+  for (let i = 0; i < layout.rows.length; i += rowsPerPage) {
+    pages.push(layout.rows.slice(i, i + rowsPerPage))
   }
 
   const parentRef = useRef<HTMLDivElement>(null)
@@ -69,7 +62,7 @@ export const Document = () => {
                   document={document}
                   pageIndex={pageIndex}
                   pageRows={pageRows}
-                  pieceMap={data.pieceMap}
+                  layout={layout}
                 />
               </div>
             )

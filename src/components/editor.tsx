@@ -1,5 +1,5 @@
-import { useCursorStore } from '@/lib/stores/cursor-store'
-import { useDocumentStore, useRowsStore } from '@/lib/stores/document-store'
+import { currentLayout, useCursorStore } from '@/lib/stores/cursor-store'
+import { useDocumentStore } from '@/lib/stores/document-store'
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
@@ -16,7 +16,7 @@ const getRowColFromCoords = (
   pageRect: DOMRect,
 ): { row: number; col: number } => {
   const document = useDocumentStore.getState()
-  const rowsCount = useRowsStore.getState().rows
+  const rowsCount = currentLayout().lines.length
 
   const relX = x - pageRect.left - document.marginX * document.mmX
   const relY = y - pageRect.top - document.marginY * document.mmY

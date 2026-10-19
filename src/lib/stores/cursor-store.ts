@@ -1,45 +1,34 @@
 import { create } from 'zustand'
-import { useDocumentStore, useRowsStore } from './document-store'
+import { useDocumentStore } from './document-store'
+import { useProjectsStore } from './projects-store'
 import {
-  getGridCursorPosition,
-  normaliseGridPosition,
-  PieceTablePosition,
-  getPieceTableCursorPosition,
-} from '../piece-table'
+  comparePositions,
+  getLayout,
+  gridToPosition,
+  normalisePosition,
+  Position,
+  positionToGrid,
+} from '../layout'
 
-interface MapStore {
-  gridMap: Map<string, string>
-  pieceMap: Map<string, string>
+// Layout of the active project using the current document settings
+export const currentLayout = () =>
+  getLayout(
+    useProjectsStore.getState().getActiveProject().pt,
+    useDocumentStore.getState().columns,
+  )
 
-  setGridMap: (gridMap: Map<string, string>) => void
-  setPieceMap: (pieceMap: Map<string, string>) => void
-}
-
-export const useMapStore = create<MapStore>((set) => ({
-  gridMap: new Map(),
-  pieceMap: new Map(),
-  setGridMap: (gridMap: Map<string, string>) => set({ gridMap }),
-  setPieceMap: (pieceMap: Map<string, string>) => set({ pieceMap }),
-}))
-
-export interface GridPosition {
-  row: number
-  col: number
-}
-
-export type PieceTableCursor = PieceTablePosition & {
-  offset: number
-}
+const initialPosition = (): Position => ({
+  index: 0,
+  virtual: 0,
+  affinity: 'downstream',
+})
 
 interface CursorStoreActions {
-  moveCursor: (key: string) => void
-  setCursorByPiece: (
-    pieceIndex: number,
-    charIndex: number,
-    offset: number,
-  ) => void
-  getSelection: () => { start: GridPosition; end: GridPosition } | null
+  getPosition: () => Position
+  setCursor: (pos: Position) => void
   setCursorByRowCol: (row: number, col: number) => void
+  moveCursor: (key: string) => void
+  getSelection: () => { start: Position; end: Position } | null
   setSelection: (row: number, col: number, isStart: boolean) => void
   selectAll: () => void
   resetSelection: () => void
@@ -47,42 +36,50 @@ interface CursorStoreActions {
   focus: () => void
 }
 
-type CursorStoreState = PieceTableCursor &
+type CursorStoreState = Position &
   CursorStoreActions & {
     visible: boolean
-    selectionStart: { row: number; col: number } | null
-    selectionEnd: { row: number; col: number } | null
+    // selection is stored as document positions (not grid positions) so it
+    // survives layout changes
+    selectionStart: Position | null
+    selectionEnd: Position | null
   }
 
 export const useCursorStore = create<CursorStoreState>((set, get) => ({
-  pieceIndex: -1,
-  charIndex: 0,
-  offset: 0,
+  ...initialPosition(),
   visible: true,
 
   selectionStart: null,
   selectionEnd: null,
 
+  getPosition: () => ({
+    index: get().index,
+    virtual: get().virtual,
+    affinity: get().affinity,
+  }),
+  setCursor: (pos: Position) => {
+    set({ index: pos.index, virtual: pos.virtual, affinity: pos.affinity })
+    // need to wait for next frame incase the cursor jumps to the next page
+    setTimeout(() => {
+      get().focus()
+    }, 0)
+  },
+  setCursorByRowCol: (row: number, col: number) => {
+    get().setCursor(gridToPosition(currentLayout(), row, col))
+  },
   moveCursor: (key: string) => {
-    const document = useDocumentStore.getState()
-    const pieceIndex = get().pieceIndex
-    const charIndex = get().charIndex
-    const offset = get().offset
-    const { row, col } = getGridCursorPosition(pieceIndex, charIndex)
+    const layout = currentLayout()
+    const { row, col } = positionToGrid(layout, get().getPosition())
+    const lastRow = layout.lines.length - 1
 
     let newRow = row
-    let newCol = col + offset
-
-    if (newCol > document.columns) {
-      newRow += 1
-      newCol = newCol % (document.columns + 1)
-    }
+    let newCol = col
     switch (key) {
       case 'Home':
         newCol = 0
         break
       case 'End':
-        newCol = document.columns
+        newCol = layout.columns
         break
       case 'ArrowUp':
         newRow -= 1
@@ -90,42 +87,28 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
         break
       case 'ArrowDown':
         newRow += 1
-        if (newRow >= useRowsStore.getState().rows) return
+        if (newRow > lastRow) return
         break
       case 'ArrowLeft':
         newCol -= 1
         if (newCol < 0) {
-          newCol = document.columns
+          newCol = layout.columns
           newRow -= 1
           if (newRow < 0) return
         }
         break
       case 'ArrowRight':
         newCol += 1
-        if (newCol > document.columns) {
+        if (newCol > layout.columns) {
           // allow to go beyond the last column so that we can 'delete' the last character
           newCol = 0
           newRow += 1
-          if (newRow >= useRowsStore.getState().rows) return
+          if (newRow > lastRow) return
         }
         break
     }
 
-    const {
-      pieceIndex: newPieceIndex,
-      charIndex: newCharIndex,
-      offset: newOffset,
-    } = getPieceTableCursorPosition(newRow, newCol)
-    set({
-      pieceIndex: newPieceIndex,
-      charIndex: newCharIndex,
-      offset: newOffset,
-    })
-
-    // need to wait for next frame incase the cursor jumps to the next page
-    setTimeout(() => {
-      get().focus()
-    }, 0)
+    get().setCursor(gridToPosition(layout, newRow, newCol))
   },
   focus: () => {
     const el = document.getElementById('cursor')
@@ -136,55 +119,43 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     const s = get().selectionStart
     const e = get().selectionEnd
     if (!s || !e) return null
-    if (s.row === e.row && s.col === e.col) return null
-    const [start, end] = normaliseGridPosition(s, e)
+    const layout = currentLayout()
+    let start = normalisePosition(layout, s)
+    let end = normalisePosition(layout, e)
+    if (comparePositions(start, end) > 0) [start, end] = [end, start]
+    if (comparePositions(start, end) === 0) return null
     return { start, end }
   },
-  setCursorByPiece: (pieceIndex: number, charIndex: number, offset: number) => {
-    set({ pieceIndex, charIndex, offset })
-    setTimeout(() => {
-      get().focus()
-    }, 0)
-  },
-  setCursorByRowCol: (row: number, col: number) => {
-    const { pieceIndex, charIndex, offset } = getPieceTableCursorPosition(
-      row,
-      col,
-    )
-    set({ pieceIndex, charIndex, offset })
-    setTimeout(() => {
-      get().focus()
-    }, 0)
-  },
   setSelection: (row: number, col: number, isStart: boolean) => {
-    const pos = { row, col }
-    if (isStart) {
-      const prevPos = get().selectionStart
-      if (prevPos && prevPos.row === row && prevPos.col === col) return
-      set({ selectionStart: pos })
-    } else {
-      const prevPos = get().selectionEnd
-      if (prevPos && prevPos.row === row && prevPos.col === col) return
-      set({ selectionEnd: pos })
+    const pos = gridToPosition(currentLayout(), row, col)
+    const key = isStart ? 'selectionStart' : 'selectionEnd'
+    const prev = get()[key]
+    if (
+      prev &&
+      comparePositions(prev, pos) === 0 &&
+      prev.affinity === pos.affinity
+    ) {
+      return
     }
+    set({ [key]: pos })
   },
   selectAll: () => {
+    const layout = currentLayout()
     set({
-      selectionStart: { row: 0, col: 0 },
-      selectionEnd: {
-        row: useRowsStore.getState().rows - 1,
-        col: useDocumentStore.getState().columns,
-      },
+      selectionStart: initialPosition(),
+      selectionEnd: gridToPosition(
+        layout,
+        layout.lines.length - 1,
+        layout.columns,
+      ),
     })
   },
   reset: () => {
     set({
+      ...initialPosition(),
       visible: true,
       selectionStart: null,
       selectionEnd: null,
-      pieceIndex: -1,
-      charIndex: 0,
-      offset: 0,
     })
   },
   resetSelection: () => {

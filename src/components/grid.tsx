@@ -1,8 +1,7 @@
 import { useCursorStore } from '@/lib/stores/cursor-store'
 import { DocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
-import { getGridCursorPosition } from '@/lib/piece-table'
-import { Cell } from '@/lib/render'
+import { Cell, GridPoint, Layout, positionToGrid } from '@/lib/layout'
 import { cn } from '@/lib/utils'
 import { pinyin } from 'pinyin'
 
@@ -111,9 +110,9 @@ export const Grid = (props: GridProps) => {
                       ({i},{j})
                     </div>
                     <div className="absolute print:hidden text-[10px] left-0 bottom-0 select-none">
-                      {cell.pieceIndex === -1 && `+${cell.offset}`}
-                      {cell.pieceIndex !== -1 &&
-                        `[${cell.pieceIndex}][${cell.charIndex}]`}
+                      {cell.index === -1 && `+${cell.virtual}`}
+                      {cell.index !== -1 &&
+                        `${cell.index} [${cell.pieceIndex}]`}
                     </div>
                   </Fragment>
                 )}
@@ -128,28 +127,18 @@ export const Grid = (props: GridProps) => {
 
 interface CursorProps {
   document: DocumentStore
-  pieceMap: Map<string, string>
+  layout: Layout
   pageIndex: number
 }
 export const Cursor = (props: CursorProps) => {
-  const { document, pieceMap } = props
+  const { document, layout } = props
 
   const visible = useCursorStore((state) => state.visible)
-  let pieceIndex = useCursorStore((state) => state.pieceIndex)
-  let charIndex = useCursorStore((state) => state.charIndex)
-  let offset = useCursorStore((state) => state.offset)
+  const index = useCursorStore((state) => state.index)
+  const virtual = useCursorStore((state) => state.virtual)
+  const affinity = useCursorStore((state) => state.affinity)
 
-  let { row, col, isNewLine } = getGridCursorPosition(
-    pieceIndex,
-    charIndex,
-    pieceMap,
-  )
-  if (isNewLine) {
-    row++
-    col = offset - 1
-  } else {
-    col += offset
-  }
+  const { row, col } = positionToGrid(layout, { index, virtual, affinity })
 
   const minRow = props.pageIndex * document.rowsPerPage()
   const maxRow = minRow + document.rowsPerPage()
@@ -168,7 +157,7 @@ export const Cursor = (props: CursorProps) => {
     <Fragment>
       {document.debug && (
         <div className="absolute top-0 left-0 print:hidden">
-          {`(${row},${col}) -> [${pieceIndex}][${charIndex}]+${offset}_${isNewLine}`}
+          {`(${row},${col}) -> ${index}+${virtual} ${affinity}`}
         </div>
       )}
       {visible && (
@@ -189,12 +178,11 @@ export const Cursor = (props: CursorProps) => {
   )
 }
 
-type Point = { row: number; col: number }
 type HighlightSpan = { row: number; startCol: number; endCol: number } // inclusive endCol
 
 function getHighlightSpans(
-  start: Point | null,
-  end: Point | null,
+  start: GridPoint | null,
+  end: GridPoint | null,
   maxCols: number,
 ): HighlightSpan[] {
   if (!start || !end) return []
@@ -227,6 +215,7 @@ function getHighlightSpans(
 interface HighlightProps {
   pageIndex: number
   document: DocumentStore
+  layout: Layout
 }
 export const Highlight = (props: HighlightProps) => {
   const document = props.document
@@ -239,8 +228,8 @@ export const Highlight = (props: HighlightProps) => {
   if (!selectionStart || !selectionEnd) return null
 
   const spans = getHighlightSpans(
-    selectionStart,
-    selectionEnd,
+    positionToGrid(props.layout, selectionStart),
+    positionToGrid(props.layout, selectionEnd),
     document.columns,
   ).filter((x) => x.row >= minRow && x.row < maxRow)
 

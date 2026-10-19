@@ -1,23 +1,6 @@
 import { create } from 'zustand'
-import { useCursorStore } from './cursor-store'
-import {
-  getGridCursorPosition,
-  getPieceTableCursorPosition,
-} from '../piece-table'
 import { measureMM } from '@/lib/utils'
 import { useProjectsStore } from './projects-store'
-
-export interface RowsState {
-  rows: number
-  setRows: (rows: number) => void
-}
-
-export const useRowsStore = create<RowsState>((set) => ({
-  rows: 1,
-  setRows: (rows: number) => {
-    set({ rows })
-  },
-}))
 
 export interface DocumentActions {
   pageWidth: () => number
@@ -95,40 +78,9 @@ export const useDocumentStore = create<DocumentStore>()((set, get) => ({
       .setActiveProjectAttribute({ doc: { ...settings, ...attr } })
   },
   setColumns: (columns: number) => {
-    const increasing = get().columns < columns
-    const cursor = useCursorStore.getState()
-    cursor.resetSelection()
-    const settings = get().getSettings()
-
-    if (cursor.offset <= 1 || increasing) {
-      set({ columns })
-      useProjectsStore
-        .getState()
-        .setActiveProjectAttribute({ doc: { ...settings, columns } })
-      return
-    }
-
-    const { row, col, isNewLine } = getGridCursorPosition(
-      cursor.pieceIndex,
-      cursor.charIndex,
-    )
-
-    let newRow = row
-    let newCol = col + cursor.offset
-
-    if (isNewLine) {
-      newRow += 1
-      newCol = cursor.offset - (get().columns - columns)
-    }
-
-    if (newCol > columns) newCol = columns
-
-    const newPos = getPieceTableCursorPosition(newRow, newCol)
-    cursor.setCursorByPiece(newPos.pieceIndex, newPos.charIndex, newPos.offset)
-    set({ columns })
-    useProjectsStore
-      .getState()
-      .setActiveProjectAttribute({ doc: { ...settings, columns } })
+    // the cursor and selection are stored as document positions, so they
+    // stay valid when the layout changes
+    get().setDocumentAttribute({ columns })
   },
   toggleDebug: () => set((state) => ({ debug: !state.debug })),
   rowHeight: () =>

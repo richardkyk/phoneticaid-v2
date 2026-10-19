@@ -15,7 +15,7 @@ import {
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { ButtonGroup } from './ui/button-group'
 import { cn } from '@/lib/utils'
-import { buildRows } from '@/lib/render'
+import { getLayout } from '@/lib/layout'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
@@ -190,12 +190,12 @@ function PrintButton(props: PrintButtonProps) {
         // Stylesheets are loaded, now render React components
         const documentStore = useDocumentStore.getState()
         const pt = useProjectsStore.getState().getActiveProject().pt
-        const data = buildRows(pt, documentStore)
+        const layout = getLayout(pt, documentStore.columns)
         const rowsPerPage = documentStore.rowsPerPage()
         const pages = []
 
-        for (let i = 0; i < data.rows.length; i += rowsPerPage) {
-          pages.push(data.rows.slice(i, i + rowsPerPage))
+        for (let i = 0; i < layout.rows.length; i += rowsPerPage) {
+          pages.push(layout.rows.slice(i, i + rowsPerPage))
         }
 
         // Render React components into iframe body
@@ -208,7 +208,7 @@ function PrintButton(props: PrintButtonProps) {
                 document={documentStore}
                 pageIndex={i}
                 pageRows={p}
-                pieceMap={data.pieceMap}
+                layout={layout}
               />
             ))}
           </>,
