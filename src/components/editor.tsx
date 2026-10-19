@@ -50,6 +50,31 @@ const getRowColFromCoords = (
   }
 }
 
+// The page whose grid is closest to `y` (pages are stacked vertically)
+const findNearestPage = (scrollEl: HTMLElement, y: number) => {
+  let nearest: { pageIndex: number; gridRect: DOMRect } | null = null
+  let nearestDistance = Infinity
+  for (const pageEl of scrollEl.querySelectorAll<HTMLElement>('[data-page]')) {
+    const gridEl = pageEl.querySelector('[data-grid]')
+    if (!gridEl) continue
+    const gridRect = gridEl.getBoundingClientRect()
+    const distance =
+      y < gridRect.top
+        ? gridRect.top - y
+        : y > gridRect.bottom
+          ? y - gridRect.bottom
+          : 0
+    if (distance < nearestDistance) {
+      nearestDistance = distance
+      nearest = {
+        pageIndex: parseInt(pageEl.dataset.page ?? '0', 10),
+        gridRect,
+      }
+    }
+  }
+  return nearest
+}
+
 interface EditorProps {
   children: React.ReactNode
   scrollRef: React.RefObject<HTMLDivElement | null>
@@ -58,30 +83,80 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const isSelectingRef = useRef(false)
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isSelectingRef.current || !props.scrollRef.current) return
-    const pageEl = (e.target as HTMLElement).closest(
-      '[data-page]',
-    ) as HTMLDivElement | null
-    if (!pageEl) return // clicked outside a page
-    const gridEl = pageEl.querySelector('[data-grid]')
-    if (!gridEl) return // clicked outside a page
+  const pointerRef = useRef<{ x: number; y: number } | null>(null)
+  const autoScrollRef = useRef<number | null>(null)
+  const lastScrollTimeRef = useRef<number | null>(null)
 
-    const gridRect = gridEl.getBoundingClientRect()
-    const pageIndex = parseInt(pageEl.dataset.page ?? '0', 10)
+  // extends the selection to the point under the pointer, using the nearest
+  // page so the selection keeps tracking when the pointer leaves the pages
+  const selectToPointer = useCallback(() => {
+    const pointer = pointerRef.current
+    const scrollEl = props.scrollRef.current
+    if (!pointer || !scrollEl) return
+    const page = findNearestPage(scrollEl, pointer.y)
+    if (!page) return
+
     const { row, col } = getRowColFromCoords(
-      e.clientX,
-      e.clientY,
-      pageIndex,
-      gridRect,
+      pointer.x,
+      pointer.y,
+      page.pageIndex,
+      page.gridRect,
     )
-    useCursorStore.getState().setCursorByRowCol(row, col)
+    // the drag controls scrolling, so don't scroll the caret into view
+    useCursorStore.getState().setCursorByRowCol(row, col, false)
     useCursorStore.getState().setSelection(row, col, false)
     moveIMEInputToCursor(inputRef)
   }, [])
 
+  // scrolls while the pointer is dragged above or below the editor, faster
+  // the further away it is
+  const autoScroll = useCallback(
+    (time: number) => {
+      autoScrollRef.current = null
+      const pointer = pointerRef.current
+      const scrollEl = props.scrollRef.current
+      const lastTime = lastScrollTimeRef.current ?? time
+      lastScrollTimeRef.current = null
+      if (!isSelectingRef.current || !pointer || !scrollEl) return
+
+      const rect = scrollEl.getBoundingClientRect()
+      const distance =
+        pointer.y < rect.top
+          ? pointer.y - rect.top
+          : pointer.y > rect.bottom
+            ? pointer.y - rect.bottom
+            : 0
+      if (distance === 0) return
+
+      // px per second, time based so the speed doesn't depend on the frame rate
+      const speed = clamp(distance * 10, -2000, 2000)
+      scrollEl.scrollTop += (speed * Math.min(time - lastTime, 100)) / 1000
+      selectToPointer()
+      lastScrollTimeRef.current = time
+      autoScrollRef.current = requestAnimationFrame(autoScroll)
+    },
+    [selectToPointer],
+  )
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isSelectingRef.current) return
+      pointerRef.current = { x: e.clientX, y: e.clientY }
+      selectToPointer()
+      if (autoScrollRef.current === null) {
+        autoScrollRef.current = requestAnimationFrame(autoScroll)
+      }
+    },
+    [selectToPointer, autoScroll],
+  )
+
   const handleMouseUp = useCallback(() => {
     isSelectingRef.current = false
+    pointerRef.current = null
+    if (autoScrollRef.current !== null) {
+      cancelAnimationFrame(autoScrollRef.current)
+      autoScrollRef.current = null
+    }
     inputRef.current?.focus()
     useTranslateStore.getState().translateSelection()
 

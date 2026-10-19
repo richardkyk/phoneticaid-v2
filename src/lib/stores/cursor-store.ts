@@ -25,8 +25,9 @@ const initialPosition = (): Position => ({
 
 interface CursorStoreActions {
   getPosition: () => Position
-  setCursor: (pos: Position) => void
-  setCursorByRowCol: (row: number, col: number) => void
+  // scroll: whether to scroll the caret into view
+  setCursor: (pos: Position, scroll?: boolean) => void
+  setCursorByRowCol: (row: number, col: number, scroll?: boolean) => void
   moveCursor: (key: string) => void
   getSelection: () => { start: Position; end: Position } | null
   setSelection: (row: number, col: number, isStart: boolean) => void
@@ -59,15 +60,16 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     virtual: get().virtual,
     affinity: get().affinity,
   }),
-  setCursor: (pos: Position) => {
+  setCursor: (pos: Position, scroll = true) => {
     set({ index: pos.index, virtual: pos.virtual, affinity: pos.affinity })
+    if (!scroll) return
     // need to wait for next frame incase the cursor jumps to the next page
     setTimeout(() => {
       get().focus()
     }, 0)
   },
-  setCursorByRowCol: (row: number, col: number) => {
-    get().setCursor(gridToPosition(currentLayout(), row, col))
+  setCursorByRowCol: (row: number, col: number, scroll = true) => {
+    get().setCursor(gridToPosition(currentLayout(), row, col), scroll)
   },
   moveCursor: (key: string) => {
     const layout = currentLayout()
