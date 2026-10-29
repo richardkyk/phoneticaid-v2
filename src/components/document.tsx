@@ -10,6 +10,7 @@ import { useCanvas } from './canvas'
 import { ZoomControls } from './zoom-controls'
 import { getAnalysis } from '@/lib/words'
 import { usePeekKey } from './reading-aids'
+import { TranslationPopover } from './translation-popover'
 import { getDisplayText, useScriptStore } from '@/lib/script'
 
 // pages rendered either side of the ones in view
@@ -103,6 +104,11 @@ export const Document = () => {
           ))}
         </div>
       </Editor>
+      <TranslationPopover
+        document={document}
+        layout={layout}
+        analysis={analysis}
+      />
       <ZoomControls />
     </div>
   )

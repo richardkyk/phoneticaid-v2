@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { analyseText, hiddenPinyin } from '@/lib/words'
+import { analyseText, hiddenPinyin, rangePinyin } from '@/lib/words'
 import { isKnownWord, parseHskLevels } from '@/lib/hsk'
 
 const levels = parseHskLevels(
@@ -93,5 +93,13 @@ describe('hiddenPinyin', () => {
     expect(Array.from(hiddenPinyin(analysis, 'unknown', levels, 3)!)).toEqual([
       1, 1, 1, 1, 1,
     ])
+  })
+})
+
+describe('rangePinyin', () => {
+  it('runs the syllables of a word together', () => {
+    const analysis = analyseText('我喜欢银行。你好')
+    expect(rangePinyin(analysis, 0, 5)).toBe('wǒ xǐhuān yínháng')
+    expect(rangePinyin(analysis, 3, 8)).toBe('yínháng nǐhǎo')
   })
 })

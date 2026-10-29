@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 import { getText, PieceTable } from '../piece-table'
 import { useCursorStore } from './cursor-store'
 import { useHistoryStore } from './history-store'
+import { useTranslateStore } from './translate-store'
 import {
   defaultDocumentState,
   DocumentState,
@@ -100,6 +101,7 @@ export const useProjectsStore = create<MultiProjectState>()(
         const projects = get().projects.filter((p) => p.id !== id)
         set({ projects })
         useHistoryStore.getState().forgetProject(id)
+        useTranslateStore.getState().forgetProject(id)
         if (id !== get().activeId) return
 
         // the active project was deleted, switch to the most recently updated one

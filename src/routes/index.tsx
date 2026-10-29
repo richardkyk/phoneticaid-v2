@@ -2,7 +2,6 @@ import { AppHeader } from '@/components/app-header'
 import { AppSidebar } from '@/components/app-sidebar'
 import { Document } from '@/components/document'
 import { SettingsPanel } from '@/components/settings-panel'
-import { Translator } from '@/components/translator'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { Toaster } from '@/components/ui/sonner'
 import { useUiStore } from '@/lib/stores/ui-store'
@@ -28,7 +27,6 @@ function App() {
           </div>
           {settingsOpen && <SettingsPanel />}
         </div>
-        <Translator />
         <Toaster position="top-right" />
       </SidebarInset>
     </SidebarProvider>

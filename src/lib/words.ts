@@ -136,3 +136,26 @@ export function hiddenPinyin(
   }
   return hidden
 }
+
+// The pinyin of the text from start to end, with the syllables of a word
+// run together and words separated by spaces (e.g. "wǒ xǐhuān yínháng")
+export function rangePinyin(
+  analysis: TextAnalysis,
+  start: number,
+  end: number,
+) {
+  let result = ''
+  let lastWord = -1
+  for (let i = start; i < end; i++) {
+    const py = analysis.pinyin[i]
+    if (!py) {
+      lastWord = -1
+      continue
+    }
+    const word = analysis.wordAt[i]
+    if (result && (word === -1 || word !== lastWord)) result += ' '
+    result += py
+    lastWord = word
+  }
+  return result
+}
