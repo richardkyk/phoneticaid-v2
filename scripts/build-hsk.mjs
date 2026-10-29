@@ -1,9 +1,9 @@
 // Builds the HSK word lists in public/hsk from the complete-hsk-vocabulary
 // dataset (MIT, https://github.com/drkameleon/complete-hsk-vocabulary).
 //
-// Each output file has one line per level (line 1 is level 1), holding that
-// level's words separated by spaces. Traditional forms are included so
-// traditional text is matched too. For HSK 3.0, level 7 covers levels 7-9.
+// The output has one line per level (line 1 is level 1), holding that level's
+// words separated by spaces. Traditional forms are included so traditional
+// text is matched too. Level 7 covers levels 7-9.
 //
 // Usage: node scripts/build-hsk.mjs
 
@@ -13,8 +13,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 const COMMIT = '7ac65bf1a6387d35f1ade478906172a19311c7f9'
 const URL = `https://raw.githubusercontent.com/drkameleon/complete-hsk-vocabulary/${COMMIT}/complete.min.json`
 
-// level tag prefix used by the dataset for each version
-const versions = { '3.0': 'n', '2.0': 'o' }
+// level tag prefix used by the dataset for each version (HSK 2.0 is 'o')
+const versions = { '3.0': 'n' }
 
 const res = await fetch(URL)
 if (!res.ok) throw new Error(`Failed to download ${URL}: ${res.status}`)

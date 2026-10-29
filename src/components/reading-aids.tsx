@@ -22,12 +22,12 @@ export function useHiddenPinyin(
   document: DocumentStore,
   analysis: TextAnalysis,
 ) {
-  const { pinyinMode, hskVersion, hskLevel } = document
-  const levels = useHskStore((state) => state.levels[hskVersion])
+  const { pinyinMode, hskLevel } = document
+  const levels = useHskStore((state) => state.levels)
 
   useEffect(() => {
-    if (pinyinMode === 'unknown') useHskStore.getState().load(hskVersion)
-  }, [pinyinMode, hskVersion])
+    if (pinyinMode === 'unknown') useHskStore.getState().load()
+  }, [pinyinMode])
 
   const args: [TextAnalysis, PinyinMode, HskLevels | undefined, number] = [
     analysis,

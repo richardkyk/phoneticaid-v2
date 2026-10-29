@@ -3,6 +3,7 @@ import { Button } from './ui/button'
 import {
   BookOpenIcon,
   BugIcon,
+  ChevronDownIcon,
   LanguagesIcon,
   LayoutIcon,
   MinusIcon,
@@ -22,7 +23,6 @@ import { isVertical, writingModes } from '@/lib/geometry'
 import type { WritingMode } from '@/lib/geometry'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
-import { Fragment } from 'react'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
@@ -31,8 +31,13 @@ import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import { Switch } from './ui/switch'
-import { hskMaxLevel, hskVersions } from '@/lib/hsk'
-import type { HskVersion } from '@/lib/hsk'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu'
 import type { PinyinMode } from '@/lib/words'
 
 type NumberKeys<T> = {
@@ -556,18 +561,33 @@ export function SpacingToolbar() {
   )
 }
 
-const pinyinModes: Array<{ value: PinyinMode; label: string }> = [
-  { value: 'all', label: 'All' },
-  { value: 'unknown', label: 'Hide known words' },
-  { value: 'none', label: 'None' },
-]
+// HSK levels whose words can have their pinyin hidden
+const HSK_LEVELS = [1, 2, 3, 4, 5, 6]
+
+// the pinyin setting as a single choice: 'all', 'none' or an HSK level
+const pinyinChoice = (mode: PinyinMode, level: number) =>
+  mode === 'unknown' ? String(level) : mode
+
+const pinyinChoiceLabel = (choice: string) => {
+  if (choice === 'all') return 'Show all'
+  if (choice === 'none') return 'Hide all'
+  return choice === '1' ? 'Hide HSK 1' : `Hide HSK 1-${choice}`
+}
 
 // What's shown to help reading. Pages print the way they're shown, while
 // hidden pinyin revealed by hovering, tapping, selecting or holding Alt isn't.
 export function ReadingToolbar() {
-  const { wordGroups, pinyinMode, hskVersion, hskLevel, setDocumentAttribute } =
+  const { wordGroups, pinyinMode, hskLevel, setDocumentAttribute } =
     useDocumentStore()
-  const maxLevel = hskMaxLevel(hskVersion)
+  const choice = pinyinChoice(pinyinMode, hskLevel)
+
+  const setChoice = (value: string) => {
+    if (value === 'all' || value === 'none') {
+      setDocumentAttribute({ pinyinMode: value })
+    } else {
+      setDocumentAttribute({ pinyinMode: 'unknown', hskLevel: Number(value) })
+    }
+  }
 
   return (
     <CollapsibleToolbar
@@ -585,70 +605,30 @@ export function ReadingToolbar() {
             onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
           />
         </div>
-        <div className="flex items-start justify-between mt-5">
+        <div className="flex items-center justify-between">
           <Label className="text-xs text-gray-600">Pinyin</Label>
-          <RadioGroup
-            value={pinyinMode}
-            onValueChange={(v) =>
-              setDocumentAttribute({ pinyinMode: v as PinyinMode })
-            }
-          >
-            {pinyinModes.map((mode) => (
-              <div key={mode.value} className="flex items-center gap-3">
-                <RadioGroupItem
-                  value={mode.value}
-                  id={`pinyin-${mode.value}`}
-                />
-                <Label htmlFor={`pinyin-${mode.value}`} className="text-xs">
-                  {mode.label}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-        {pinyinMode === 'unknown' && (
-          <Fragment>
-            <div className="flex items-start justify-between mt-5">
-              <Label className="text-xs text-gray-600">Word list</Label>
-              <RadioGroup
-                value={hskVersion}
-                onValueChange={(v) => {
-                  const version = v as HskVersion
-                  setDocumentAttribute({
-                    hskVersion: version,
-                    hskLevel: Math.min(hskLevel, hskMaxLevel(version)),
-                  })
-                }}
-              >
-                {hskVersions.map((version) => (
-                  <div key={version.value} className="flex items-center gap-3">
-                    <RadioGroupItem
-                      value={version.value}
-                      id={`hsk-${version.value}`}
-                    />
-                    <Label htmlFor={`hsk-${version.value}`} className="text-xs">
-                      {version.label}
-                    </Label>
-                  </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="text-xs">
+                {pinyinChoiceLabel(choice)}
+                <ChevronDownIcon className="size-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuRadioGroup value={choice} onValueChange={setChoice}>
+                {['all', ...HSK_LEVELS.map(String), 'none'].map((value) => (
+                  <DropdownMenuRadioItem
+                    key={value}
+                    value={value}
+                    className="text-xs"
+                  >
+                    {pinyinChoiceLabel(value)}
+                  </DropdownMenuRadioItem>
                 ))}
-              </RadioGroup>
-            </div>
-            <NumberControl
-              label="Known up to level"
-              value={hskLevel}
-              valueKey="hskLevel"
-              setValue={(v) => setDocumentAttribute({ hskLevel: v })}
-              min={1}
-              max={maxLevel}
-              step={1}
-            />
-            {hskVersion === '3.0' && hskLevel === 7 && (
-              <p className="text-xs text-muted-foreground">
-                Level 7 covers HSK 7-9
-              </p>
-            )}
-          </Fragment>
-        )}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <p className="text-xs text-muted-foreground">
           Hover or tap a word, or hold Alt, to see hidden pinyin
         </p>

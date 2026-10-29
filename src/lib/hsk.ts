@@ -1,22 +1,8 @@
 import { create } from 'zustand'
 
-// HSK word lists, built into public/hsk by scripts/build-hsk.mjs and fetched
-// the first time they're needed (the browser caches them after that)
-
-export type HskVersion = '3.0' | '2.0'
-
-export const hskVersions: Array<{
-  value: HskVersion
-  label: string
-  maxLevel: number
-}> = [
-  // the last HSK 3.0 level covers levels 7-9
-  { value: '3.0', label: 'HSK 3.0', maxLevel: 7 },
-  { value: '2.0', label: 'HSK 2.0', maxLevel: 6 },
-]
-
-export const hskMaxLevel = (version: HskVersion) =>
-  hskVersions.find((v) => v.value === version)?.maxLevel ?? 6
+// The HSK 3.0 word list, built into public/hsk by scripts/build-hsk.mjs and
+// fetched the first time it's needed (the browser caches it after that).
+// Levels 7-9 are combined into level 7.
 
 // word -> the lowest level it appears in
 export type HskLevels = Map<string, number>
@@ -50,26 +36,25 @@ export function isKnownWord(
 }
 
 interface HskState {
-  levels: Partial<Record<HskVersion, HskLevels>>
-  load: (version: HskVersion) => void
+  levels: HskLevels | undefined
+  load: () => void
 }
 
-const loading = new Set<HskVersion>()
+let loading = false
 
 export const useHskStore = create<HskState>()((set, get) => ({
-  levels: {},
-  load: async (version) => {
-    if (get().levels[version] || loading.has(version)) return
-    loading.add(version)
+  levels: undefined,
+  load: async () => {
+    if (get().levels || loading) return
+    loading = true
     try {
-      const res = await fetch(`/hsk/hsk-${version}.txt`)
-      if (!res.ok) throw new Error(`HSK ${version} list: ${res.status}`)
-      const levels = parseHskLevels(await res.text())
-      set({ levels: { ...get().levels, [version]: levels } })
+      const res = await fetch('/hsk/hsk-3.0.txt')
+      if (!res.ok) throw new Error(`HSK word list: ${res.status}`)
+      set({ levels: parseHskLevels(await res.text()) })
     } catch (err) {
       console.error(err)
     } finally {
-      loading.delete(version)
+      loading = false
     }
   },
 }))
