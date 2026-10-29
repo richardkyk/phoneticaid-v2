@@ -1,6 +1,7 @@
 import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Button } from './ui/button'
 import {
+  BookOpenIcon,
   BugIcon,
   LanguagesIcon,
   LayoutIcon,
@@ -16,10 +17,12 @@ import { useHistoryStore } from '@/lib/stores/history-store'
 import { ButtonGroup } from './ui/button-group'
 import { cn } from '@/lib/utils'
 import { getLayout } from '@/lib/layout'
+import { getAnalysis } from '@/lib/words'
 import { isVertical, writingModes } from '@/lib/geometry'
 import type { WritingMode } from '@/lib/geometry'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
+import { Fragment } from 'react'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
@@ -27,6 +30,10 @@ import { toast } from 'sonner'
 import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
+import { Switch } from './ui/switch'
+import { hskMaxLevel, hskVersions } from '@/lib/hsk'
+import type { HskVersion } from '@/lib/hsk'
+import type { PinyinMode } from '@/lib/words'
 
 type NumberKeys<T> = {
   [K in keyof T]: T[K] extends number ? K : never
@@ -193,6 +200,7 @@ function PrintButton(props: PrintButtonProps) {
         const documentStore = useDocumentStore.getState()
         const pt = useProjectsStore.getState().getActiveProject().pt
         const layout = getLayout(pt, documentStore.columns)
+        const analysis = getAnalysis(pt)
         const linesPerPage = documentStore.linesPerPage()
         const pages = []
 
@@ -211,6 +219,7 @@ function PrintButton(props: PrintButtonProps) {
                 pageIndex={i}
                 pageRows={p}
                 layout={layout}
+                analysis={analysis}
               />
             ))}
           </>,
@@ -542,6 +551,107 @@ export function SpacingToolbar() {
           step={0.1}
           decimalPoints={1}
         />
+      </div>
+    </CollapsibleToolbar>
+  )
+}
+
+const pinyinModes: Array<{ value: PinyinMode; label: string }> = [
+  { value: 'all', label: 'All' },
+  { value: 'unknown', label: 'Hide known words' },
+  { value: 'none', label: 'None' },
+]
+
+// What's shown to help reading. Pages print the way they're shown, while
+// hidden pinyin revealed by hovering, tapping, selecting or holding Alt isn't.
+export function ReadingToolbar() {
+  const { wordGroups, pinyinMode, hskVersion, hskLevel, setDocumentAttribute } =
+    useDocumentStore()
+  const maxLevel = hskMaxLevel(hskVersion)
+
+  return (
+    <CollapsibleToolbar
+      name="Reading aids"
+      icon={<BookOpenIcon className="size-4" />}
+    >
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="word-groups" className="text-xs text-gray-600">
+            Group words
+          </Label>
+          <Switch
+            id="word-groups"
+            checked={wordGroups}
+            onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
+          />
+        </div>
+        <div className="flex items-start justify-between mt-5">
+          <Label className="text-xs text-gray-600">Pinyin</Label>
+          <RadioGroup
+            value={pinyinMode}
+            onValueChange={(v) =>
+              setDocumentAttribute({ pinyinMode: v as PinyinMode })
+            }
+          >
+            {pinyinModes.map((mode) => (
+              <div key={mode.value} className="flex items-center gap-3">
+                <RadioGroupItem
+                  value={mode.value}
+                  id={`pinyin-${mode.value}`}
+                />
+                <Label htmlFor={`pinyin-${mode.value}`} className="text-xs">
+                  {mode.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+        {pinyinMode === 'unknown' && (
+          <Fragment>
+            <div className="flex items-start justify-between mt-5">
+              <Label className="text-xs text-gray-600">Word list</Label>
+              <RadioGroup
+                value={hskVersion}
+                onValueChange={(v) => {
+                  const version = v as HskVersion
+                  setDocumentAttribute({
+                    hskVersion: version,
+                    hskLevel: Math.min(hskLevel, hskMaxLevel(version)),
+                  })
+                }}
+              >
+                {hskVersions.map((version) => (
+                  <div key={version.value} className="flex items-center gap-3">
+                    <RadioGroupItem
+                      value={version.value}
+                      id={`hsk-${version.value}`}
+                    />
+                    <Label htmlFor={`hsk-${version.value}`} className="text-xs">
+                      {version.label}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+            <NumberControl
+              label="Known up to level"
+              value={hskLevel}
+              valueKey="hskLevel"
+              setValue={(v) => setDocumentAttribute({ hskLevel: v })}
+              min={1}
+              max={maxLevel}
+              step={1}
+            />
+            {hskVersion === '3.0' && hskLevel === 7 && (
+              <p className="text-xs text-muted-foreground">
+                Level 7 covers HSK 7-9
+              </p>
+            )}
+          </Fragment>
+        )}
+        <p className="text-xs text-muted-foreground">
+          Hover or tap a word, or hold Alt, to see hidden pinyin
+        </p>
       </div>
     </CollapsibleToolbar>
   )

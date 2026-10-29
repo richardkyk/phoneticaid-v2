@@ -3,16 +3,26 @@ import { Fragment } from 'react/jsx-runtime'
 import { Cell, Layout } from '@/lib/layout'
 import { Cursor, Grid, Highlight } from './grid'
 import { memo } from 'react'
+import type { TextAnalysis } from '@/lib/words'
+import {
+  clearHover,
+  RevealedPinyin,
+  trackHover,
+  useHiddenPinyin,
+  WordGroups,
+} from './reading-aids'
 
 interface PageProps {
   pageIndex: number
   pageRows: Cell[][]
   layout: Layout
+  analysis: TextAnalysis
   document: DocumentStore
 }
 // memoised so pages already in view don't re-render as others come into view
 export const Page = memo(function Page(props: PageProps) {
   const document = props.document
+  const hidden = useHiddenPinyin(document, props.analysis)
 
   return (
     <div data-page={props.pageIndex} className="flex justify-center w-full">
@@ -23,12 +33,28 @@ export const Page = memo(function Page(props: PageProps) {
           height: `${document.pageHeight() * document.mmY}px`,
           width: `${document.pageWidth() * document.mmX}px`,
         }}
+        onPointerMove={trackHover}
+        onPointerDown={trackHover}
+        onPointerLeave={clearHover}
       >
         <Margins document={document} />
+        <WordGroups
+          document={document}
+          pageRows={props.pageRows}
+          analysis={props.analysis}
+        />
         <Grid
           document={document}
           pageIndex={props.pageIndex}
           pageRows={props.pageRows}
+          analysis={props.analysis}
+          hidden={hidden}
+        />
+        <RevealedPinyin
+          document={document}
+          pageRows={props.pageRows}
+          analysis={props.analysis}
+          hidden={hidden}
         />
         <Cursor
           document={document}

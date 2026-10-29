@@ -2,6 +2,8 @@ import { create } from 'zustand'
 import { measureMM } from '@/lib/utils'
 import { linesPerPage, pageSize } from '@/lib/geometry'
 import type { WritingMode } from '@/lib/geometry'
+import type { HskVersion } from '@/lib/hsk'
+import type { PinyinMode } from '@/lib/words'
 import { useProjectsStore } from './projects-store'
 
 export interface DocumentActions {
@@ -33,6 +35,13 @@ export interface DocumentState {
   marginY: number
   layout: 'portrait' | 'landscape'
   writingMode: WritingMode
+  // reading aids, which print the way they're shown
+  // faint background behind words of more than one character
+  wordGroups: boolean
+  pinyinMode: PinyinMode
+  // with pinyinMode 'unknown', words up to this level have their pinyin hidden
+  hskVersion: HskVersion
+  hskLevel: number
 }
 
 export interface DocumentStore extends DocumentState, DocumentActions {
@@ -54,6 +63,10 @@ export const defaultDocumentState: () => DocumentState = () => ({
   marginY: 15,
   layout: 'landscape',
   writingMode: 'horizontal-ltr',
+  wordGroups: false,
+  pinyinMode: 'all',
+  hskVersion: '3.0',
+  hskLevel: 1,
 })
 
 export const useDocumentStore = create<DocumentStore>()((set, get) => ({

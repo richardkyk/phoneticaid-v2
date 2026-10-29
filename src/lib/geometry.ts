@@ -244,3 +244,20 @@ export function keyToCaretMove(
   if (key === 'End') return 'lineEnd'
   return arrowMoves[mode][key] ?? null
 }
+
+// background behind the characters in slots startSlot..endSlot (inclusive)
+// and their pinyin, leaving the gaps either side so neighbouring words stay
+// apart
+export const wordRect = (
+  doc: GeometrySettings,
+  line: number,
+  startSlot: number,
+  endSlot: number,
+) =>
+  toPhysical(
+    doc,
+    startSlot * charAdvance(doc),
+    line * linePitch(doc),
+    (endSlot - startSlot) * charAdvance(doc) + doc.fontSize,
+    doc.fontSize + doc.pinyinSize + doc.pinyinOffset,
+  )

@@ -11,73 +11,82 @@ import {
 } from '@/lib/geometry'
 import type { Rect } from '@/lib/geometry'
 import { cn } from '@/lib/utils'
-import { pinyin } from 'pinyin'
-import { useMemo } from 'react'
+import type { TextAnalysis } from '@/lib/words'
 
 // absolute positioning for a rect in mm
-const rectStyle = (rect: Rect, document: DocumentStore) => ({
+export const rectStyle = (rect: Rect, document: DocumentStore) => ({
   left: `${rect.x * document.mmX}px`,
   top: `${rect.y * document.mmY}px`,
   width: `${rect.width * document.mmX}px`,
   height: `${rect.height * document.mmY}px`,
 })
 
-// pinyin for each character of a line, '' for characters without any
-function linePinyin(row: Cell[]) {
-  const content = row.map((cell) => cell.content).join('')
-
-  const py = pinyin(
-    content.replace(/\u{E0000}/gu, '母').replace(/[^一-鿿]/g, ' '),
-    {
-      segment: true,
-    },
+interface PinyinProps {
+  document: DocumentStore
+  line: number
+  col: number
+  index: number
+  className?: string
+  children: string
+}
+// the pinyin for the character in a cell
+export const Pinyin = (props: PinyinProps) => {
+  const { document } = props
+  return (
+    <div
+      data-index={props.index}
+      className={cn(
+        'absolute justify-center flex items-center font-sans whitespace-nowrap',
+        props.className,
+      )}
+      style={{
+        ...rectStyle(pinyinRect(document, props.line, props.col), document),
+        fontSize: `${document.pinyinSize * document.mmY}px`,
+        // pinyin runs down the side of the character in vertical modes
+        writingMode: isVertical(document.writingMode)
+          ? 'vertical-rl'
+          : undefined,
+      }}
+    >
+      {props.children}
+    </div>
   )
-  return py.flatMap(([s]) => {
-    // check for Latin or accented letters (for pinyin)
-    const hasPinyin = /[a-zA-ZÀ-ſ]/.test(s)
-    if (hasPinyin) return [s]
-    // otherwise split each character into an empty string placeholder
-    return Array.from(s).map(() => '')
-  })
 }
 
 interface GridProps {
   pageIndex: number
   pageRows: Cell[][]
   document: DocumentStore
+  analysis: TextAnalysis
+  // characters whose pinyin is hidden (see hiddenPinyin)
+  hidden: Uint8Array | null
 }
 export const Grid = (props: GridProps) => {
-  const document = props.document
+  const { document, analysis, hidden } = props
   const vertical = isVertical(document.writingMode)
-  // segmenting the pinyin is slow, so only redo it when the text changes
-  const pagePinyin = useMemo(
-    () => props.pageRows.map(linePinyin),
-    [props.pageRows],
-  )
 
   return (
     <Fragment>
       {props.pageRows.map((row, i) => {
-        const result = pagePinyin[i]
-
         return row.map((cell, j) => {
           const char = charRect(document, i, cell.col)
-          const py = pinyinRect(document, i, cell.col)
+          const pinyin =
+            cell.index === -1 || hidden?.[cell.index]
+              ? ''
+              : (analysis.pinyin[cell.index] ?? '')
 
           return (
             <Fragment key={`${i}-${j}`}>
-              <div
-                className="absolute justify-center flex items-center font-sans whitespace-nowrap"
-                style={{
-                  ...rectStyle(py, document),
-                  fontSize: `${document.pinyinSize * document.mmY}px`,
-                  // pinyin runs down the side of the character in vertical modes
-                  writingMode: vertical ? 'vertical-rl' : undefined,
-                }}
+              <Pinyin
+                document={document}
+                line={i}
+                col={cell.col}
+                index={cell.index}
               >
-                {result[j]}
-              </div>
+                {pinyin}
+              </Pinyin>
               <div
+                data-index={cell.index}
                 data-debug={document.debug ? '' : undefined}
                 data-last={cell.col === document.columns ? '' : undefined}
                 data-odd={

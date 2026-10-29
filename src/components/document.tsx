@@ -5,13 +5,11 @@ import { Editor } from './editor'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useProjectsStore } from '@/lib/stores/projects-store'
-import {
-  PAGE_GAP,
-  pageTop,
-  useCameraStore,
-} from '@/lib/stores/camera-store'
+import { PAGE_GAP, pageTop, useCameraStore } from '@/lib/stores/camera-store'
 import { useCanvas } from './canvas'
 import { ZoomControls } from './zoom-controls'
+import { getAnalysis } from '@/lib/words'
+import { usePeekKey } from './reading-aids'
 
 // pages rendered either side of the ones in view
 const OVERSCAN = 1
@@ -20,11 +18,12 @@ export const Document = () => {
   const document = useDocumentStore()
   const project = useProjectsStore((state) => state.getActiveProject())
   const layout = getLayout(project.pt, document.columns)
+  const analysis = getAnalysis(project.pt)
+  usePeekKey()
 
   const linesPerPage = document.linesPerPage()
 
-  // memoised so the pages' rows (and the pinyin worked out from them) stay
-  // the same while the pages in view change
+  // memoised so the pages' rows stay the same while the pages in view change
   const pages = useMemo(() => {
     const pages: (typeof layout.rows)[] = []
     for (let i = 0; i < layout.rows.length; i += linesPerPage) {
@@ -90,6 +89,7 @@ export const Document = () => {
                 pageIndex={pageIndex}
                 pageRows={pages[pageIndex]}
                 layout={layout}
+                analysis={analysis}
               />
             </div>
           ))}
