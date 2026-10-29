@@ -21,7 +21,7 @@ interface CollapsibleToolbarProps {
 export function CollapsibleToolbar(props: CollapsibleToolbarProps) {
   return (
     <>
-      <SidebarGroup key={props.name} className="py-0">
+      <SidebarGroup key={props.name} className="py-1.5">
         <Collapsible className="group/collapsible" defaultOpen>
           <SidebarGroupLabel
             asChild

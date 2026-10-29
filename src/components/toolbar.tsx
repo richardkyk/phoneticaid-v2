@@ -3,6 +3,7 @@ import { Button } from './ui/button'
 import {
   BugIcon,
   ChevronDownIcon,
+  InfoIcon,
   LanguagesIcon,
   LayoutIcon,
   MinusIcon,
@@ -67,7 +68,7 @@ function NumberControl({
 
   return (
     <div className="flex items-center justify-between">
-      <Label className="text-xs text-gray-600">{label}</Label>
+      <ControlLabel label={label} />
       <ButtonGroup>
         <HoldButton
           className="shadow-none"
@@ -106,23 +107,57 @@ function NumberControl({
   )
 }
 
+interface ControlLabelProps {
+  label: string
+  // explains the setting, shown when hovering the (i)
+  hint?: string
+  htmlFor?: string
+}
+function ControlLabel({ label, hint, htmlFor }: ControlLabelProps) {
+  return (
+    <div className="flex items-center gap-1">
+      <Label htmlFor={htmlFor} className="text-xs text-gray-600">
+        {label}
+      </Label>
+      {hint && (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              className="text-muted-foreground hover:text-foreground"
+              aria-label={hint}
+            >
+              <InfoIcon className="size-3.5" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="left" className="max-w-56">
+            {hint}
+          </TooltipContent>
+        </Tooltip>
+      )}
+    </div>
+  )
+}
+
 interface SelectControlProps<T extends string> {
   label: string
   value: T
   // shortLabel is shown on the button when the label is too long for it
   options: ReadonlyArray<{ value: T; label: string; shortLabel?: string }>
   onChange: (value: T) => void
+  hint?: string
 }
 function SelectControl<T extends string>({
   label,
   value,
   options,
   onChange,
+  hint,
 }: SelectControlProps<T>) {
   const selected = options.find((o) => o.value === value)
   return (
     <div className="flex items-center justify-between gap-2">
-      <Label className="text-xs text-gray-600">{label}</Label>
+      <ControlLabel label={label} hint={hint} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           {/* as wide as a number control */}
@@ -447,6 +482,7 @@ export function TextToolbar() {
         />
         <SelectControl
           label="Characters"
+          hint="Shows the text in simplified or traditional characters. What you typed is kept, so you can switch back."
           value={script}
           options={scripts}
           onChange={(v) => setDocumentAttribute({ script: v })}
@@ -617,6 +653,7 @@ export function PinyinToolbar() {
       <div className="space-y-3">
         <SelectControl
           label="Position"
+          hint="Off removes the pinyin and the room it takes from each line."
           value={position}
           options={[...positions, { value: 'off', label: 'Off' }]}
           onChange={setPosition}
@@ -644,6 +681,7 @@ export function PinyinToolbar() {
           />
           <SelectControl
             label="HSK level"
+            hint="Pinyin is hidden for words at your HSK level and below. Hover or tap a word, or hold Alt, to see it."
             value={choice}
             options={['all', ...HSK_LEVELS.map(String), 'none'].map(
               (value) => ({ value, label: pinyinChoiceLabel(value) }),
@@ -651,19 +689,17 @@ export function PinyinToolbar() {
             onChange={setChoice}
           />
           <div className="flex items-center justify-between">
-            <Label htmlFor="word-groups" className="text-xs text-gray-600">
-              Group words
-            </Label>
+            <ControlLabel
+              label="Group words"
+              htmlFor="word-groups"
+              hint="A faint background behind each word of more than one character, for words still showing their pinyin."
+            />
             <Switch
               id="word-groups"
               checked={wordGroups}
               onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
             />
           </div>
-          <p className="text-xs text-muted-foreground">
-            Pinyin is hidden for words at your HSK level and below. Hover or tap
-            a word, or hold Alt, to see it. Words with pinyin can be grouped.
-          </p>
         </Disabled>
       </div>
     </CollapsibleToolbar>
