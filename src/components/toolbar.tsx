@@ -1,7 +1,6 @@
 import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Button } from './ui/button'
 import {
-  BookOpenIcon,
   BugIcon,
   ChevronDownIcon,
   LanguagesIcon,
@@ -11,6 +10,7 @@ import {
   PlusIcon,
   PrinterIcon,
   RedoIcon,
+  SpeechIcon,
   TypeIcon,
   UndoIcon,
 } from 'lucide-react'
@@ -30,6 +30,7 @@ import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import { Switch } from './ui/switch'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -108,7 +109,8 @@ function NumberControl({
 interface SelectControlProps<T extends string> {
   label: string
   value: T
-  options: ReadonlyArray<{ value: T; label: string }>
+  // shortLabel is shown on the button when the label is too long for it
+  options: ReadonlyArray<{ value: T; label: string; shortLabel?: string }>
   onChange: (value: T) => void
 }
 function SelectControl<T extends string>({
@@ -117,13 +119,21 @@ function SelectControl<T extends string>({
   options,
   onChange,
 }: SelectControlProps<T>) {
+  const selected = options.find((o) => o.value === value)
   return (
     <div className="flex items-center justify-between gap-2">
       <Label className="text-xs text-gray-600">{label}</Label>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="text-xs shadow-none">
-            {options.find((o) => o.value === value)?.label}
+          {/* as wide as a number control */}
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-28 justify-between text-xs shadow-none"
+          >
+            <span className="truncate">
+              {selected?.shortLabel ?? selected?.label}
+            </span>
             <ChevronDownIcon className="size-3" />
           </Button>
         </DropdownMenuTrigger>
@@ -145,6 +155,28 @@ function SelectControl<T extends string>({
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
+  )
+}
+
+interface DisabledProps {
+  // why the controls can't be used, or undefined when they can
+  reason: string | undefined
+  children: React.ReactNode
+}
+// Greys out controls that have no effect, explaining why on hover
+function Disabled({ reason, children }: DisabledProps) {
+  if (!reason) return children
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="cursor-not-allowed">
+          <div inert className="space-y-3 opacity-50">
+            {children}
+          </div>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent side="left">{reason}</TooltipContent>
+    </Tooltip>
   )
 }
 
@@ -399,16 +431,7 @@ export function DocumentToolbar() {
 }
 
 export function TextToolbar() {
-  const {
-    fontSize,
-    pinyinSize,
-    pinyinOffset,
-    pinyinPosition,
-    pinyinSide,
-    writingMode,
-    script,
-    setDocumentAttribute,
-  } = useDocumentStore()
+  const { fontSize, script, setDocumentAttribute } = useDocumentStore()
 
   return (
     <CollapsibleToolbar name="Text" icon={<TypeIcon className="size-4" />}>
@@ -422,53 +445,12 @@ export function TextToolbar() {
           max={100}
           step={1}
         />
-        <NumberControl
-          label="Pinyin Size"
-          value={pinyinSize}
-          valueKey="pinyinSize"
-          setValue={(v) => setDocumentAttribute({ pinyinSize: v })}
-          min={0}
-          max={20}
-          step={0.1}
-          decimalPoints={1}
-        />
-        <NumberControl
-          label="Pinyin Offset"
-          value={pinyinOffset}
-          valueKey="pinyinOffset"
-          setValue={(v) => setDocumentAttribute({ pinyinOffset: v })}
-          min={0}
-          max={20}
-          step={0.1}
-          decimalPoints={1}
-        />
         <SelectControl
           label="Characters"
           value={script}
           options={scripts}
           onChange={(v) => setDocumentAttribute({ script: v })}
         />
-        {isVertical(writingMode) ? (
-          <SelectControl
-            label="Pinyin Position"
-            value={pinyinSide}
-            options={[
-              { value: 'right', label: 'Right' },
-              { value: 'left', label: 'Left' },
-            ]}
-            onChange={(v) => setDocumentAttribute({ pinyinSide: v })}
-          />
-        ) : (
-          <SelectControl
-            label="Pinyin Position"
-            value={pinyinPosition}
-            options={[
-              { value: 'top', label: 'Above' },
-              { value: 'bottom', label: 'Below' },
-            ]}
-            onChange={(v) => setDocumentAttribute({ pinyinPosition: v })}
-          />
-        )}
       </div>
     </CollapsibleToolbar>
   )
@@ -573,15 +555,27 @@ const pinyinChoice = (mode: PinyinMode, level: number) =>
 
 const pinyinChoiceLabel = (choice: string) => {
   if (choice === 'all') return 'None'
-  if (choice === 'none') return 'Hide all pinyin'
+  if (choice === 'none') return 'All'
   return `HSK ${choice}`
 }
 
-// What's shown to help reading. Pages print the way they're shown, while
-// hidden pinyin revealed by hovering, tapping, selecting or holding Alt isn't.
-export function ReadingToolbar() {
-  const { wordGroups, pinyinMode, hskLevel, setDocumentAttribute } =
-    useDocumentStore()
+// The pinyin and what's shown to help reading. Pages print the way they're
+// shown, while hidden pinyin revealed by hovering, tapping, selecting or
+// holding Alt isn't.
+export function PinyinToolbar() {
+  const {
+    showPinyin,
+    pinyinPosition,
+    pinyinSide,
+    pinyinSize,
+    pinyinOffset,
+    writingMode,
+    wordGroups,
+    pinyinMode,
+    hskLevel,
+    setDocumentAttribute,
+  } = useDocumentStore()
+  const vertical = isVertical(writingMode)
   const choice = pinyinChoice(pinyinMode, hskLevel)
 
   const setChoice = (value: string) => {
@@ -592,35 +586,85 @@ export function ReadingToolbar() {
     }
   }
 
+  // which side of the character, the options depending on the writing mode
+  const position = !showPinyin ? 'off' : vertical ? pinyinSide : pinyinPosition
+  const positions = vertical
+    ? [
+        { value: 'right', label: 'Right' },
+        { value: 'left', label: 'Left' },
+      ]
+    : [
+        { value: 'top', label: 'Above' },
+        { value: 'bottom', label: 'Below' },
+      ]
+  const setPosition = (value: string) => {
+    if (value === 'off') setDocumentAttribute({ showPinyin: false })
+    else if (vertical) {
+      setDocumentAttribute({
+        showPinyin: true,
+        pinyinSide: value as 'left' | 'right',
+      })
+    } else {
+      setDocumentAttribute({
+        showPinyin: true,
+        pinyinPosition: value as 'top' | 'bottom',
+      })
+    }
+  }
+
   return (
-    <CollapsibleToolbar
-      name="Reading aids"
-      icon={<BookOpenIcon className="size-4" />}
-    >
+    <CollapsibleToolbar name="Pinyin" icon={<SpeechIcon className="size-4" />}>
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="word-groups" className="text-xs text-gray-600">
-            Group words
-          </Label>
-          <Switch
-            id="word-groups"
-            checked={wordGroups}
-            onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
-          />
-        </div>
         <SelectControl
-          label="HSK level"
-          value={choice}
-          options={['all', ...HSK_LEVELS.map(String), 'none'].map((value) => ({
-            value,
-            label: pinyinChoiceLabel(value),
-          }))}
-          onChange={setChoice}
+          label="Position"
+          value={position}
+          options={[...positions, { value: 'off', label: 'Off' }]}
+          onChange={setPosition}
         />
-        <p className="text-xs text-muted-foreground">
-          Pinyin is hidden for words at your HSK level and below. Hover or tap a
-          word, or hold Alt, to see it
-        </p>
+        <Disabled reason={showPinyin ? undefined : 'Pinyin is turned off'}>
+          <NumberControl
+            label="Size"
+            value={pinyinSize}
+            valueKey="pinyinSize"
+            setValue={(v) => setDocumentAttribute({ pinyinSize: v })}
+            min={0}
+            max={20}
+            step={0.1}
+            decimalPoints={1}
+          />
+          <NumberControl
+            label="Offset"
+            value={pinyinOffset}
+            valueKey="pinyinOffset"
+            setValue={(v) => setDocumentAttribute({ pinyinOffset: v })}
+            min={0}
+            max={20}
+            step={0.1}
+            decimalPoints={1}
+          />
+          <SelectControl
+            label="HSK level"
+            value={choice}
+            options={['all', ...HSK_LEVELS.map(String), 'none'].map(
+              (value) => ({ value, label: pinyinChoiceLabel(value) }),
+            )}
+            onChange={setChoice}
+          />
+          <div className="flex items-center justify-between">
+            <Label htmlFor="word-groups" className="text-xs text-gray-600">
+              Group words
+            </Label>
+            <Switch
+              id="word-groups"
+              checked={wordGroups}
+              onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
+            />
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Pinyin is hidden for words at your HSK level and below. Hover or tap
+            a word, or hold Alt, to see it. Words with pinyin can be grouped.
+          </p>
+        </Disabled>
       </div>
     </CollapsibleToolbar>
   )

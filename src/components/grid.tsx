@@ -82,14 +82,16 @@ export const Grid = (props: GridProps) => {
 
           return (
             <Fragment key={`${i}-${j}`}>
-              <Pinyin
-                document={document}
-                line={i}
-                col={cell.col}
-                index={cell.index}
-              >
-                {pinyin}
-              </Pinyin>
+              {document.showPinyin && (
+                <Pinyin
+                  document={document}
+                  line={i}
+                  col={cell.col}
+                  index={cell.index}
+                >
+                  {pinyin}
+                </Pinyin>
+              )}
               <div
                 data-index={cell.index}
                 data-debug={document.debug ? '' : undefined}

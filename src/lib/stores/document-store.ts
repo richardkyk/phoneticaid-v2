@@ -23,6 +23,8 @@ export interface DocumentState {
   fontSize: number
   pinyinSize: number
   pinyinOffset: number
+  // pinyin turned off takes no room on the page
+  showPinyin: boolean
   // pinyin placement in horizontal modes
   pinyinPosition: 'top' | 'bottom'
   // pinyin placement in vertical modes
@@ -56,6 +58,7 @@ export const defaultDocumentState: () => DocumentState = () => ({
   fontSize: 10,
   pinyinSize: 4,
   pinyinOffset: 0,
+  showPinyin: true,
   pinyinPosition: 'bottom',
   pinyinSide: 'right',
   columns: 22,

@@ -4,6 +4,7 @@ import {
   charRect,
   hitTest,
   keyToCaretMove,
+  linePitch,
   linesPerPage,
   pinyinRect,
   writingModes,
@@ -168,5 +169,18 @@ describe('keyToCaretMove', () => {
     expect(keyToCaretMove('vertical-lr', 'ArrowRight')).toBe('nextLine')
     expect(keyToCaretMove('vertical-lr', 'Home')).toBe('lineStart')
     expect(keyToCaretMove('horizontal-ltr', 'a')).toBeNull()
+  })
+})
+
+describe('pinyin turned off', () => {
+  it('takes no room across the line', () => {
+    const on = doc({ pinyinPosition: 'top' })
+    const off = doc({ pinyinPosition: 'top', showPinyin: false })
+    expect(linePitch(off)).toBeCloseTo(
+      linePitch(on) - on.pinyinSize - on.pinyinOffset,
+    )
+    // the character is no longer pushed down by the pinyin above it
+    expect(charRect(off, 0, 0).y).toBe(off.marginY)
+    expect(linesPerPage(off)).toBeGreaterThan(linesPerPage(on))
   })
 })

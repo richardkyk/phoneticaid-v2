@@ -3,7 +3,7 @@ import type { PanelTab } from '@/lib/stores/ui-store'
 import { Button } from './ui/button'
 import {
   LayoutToolbar,
-  ReadingToolbar,
+  PinyinToolbar,
   SpacingToolbar,
   TextToolbar,
 } from './toolbar'
@@ -39,7 +39,7 @@ export function SettingsPanel() {
         {tab === 'settings' ? (
           <>
             <TextToolbar />
-            <ReadingToolbar />
+            <PinyinToolbar />
             <LayoutToolbar />
             <SpacingToolbar />
           </>

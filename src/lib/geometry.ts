@@ -10,11 +10,24 @@ import type { DocumentState } from './stores/document-store'
 export type WritingMode =
   'horizontal-ltr' | 'horizontal-rtl' | 'vertical-rl' | 'vertical-lr'
 
-export const writingModes: Array<{ value: WritingMode; label: string }> = [
+export const writingModes: Array<{
+  value: WritingMode
+  label: string
+  // for where there's less room
+  shortLabel?: string
+}> = [
   { value: 'horizontal-ltr', label: 'Left to right' },
   { value: 'horizontal-rtl', label: 'Right to left' },
-  { value: 'vertical-rl', label: 'Vertical, right to left' },
-  { value: 'vertical-lr', label: 'Vertical, left to right' },
+  {
+    value: 'vertical-rl',
+    label: 'Vertical, right to left',
+    shortLabel: 'Vertical (R→L)',
+  },
+  {
+    value: 'vertical-lr',
+    label: 'Vertical, left to right',
+    shortLabel: 'Vertical (L→R)',
+  },
 ]
 
 export type GeometrySettings = Pick<
@@ -22,6 +35,7 @@ export type GeometrySettings = Pick<
   | 'writingMode'
   | 'layout'
   | 'fontSize'
+  | 'showPinyin'
   | 'pinyinSize'
   | 'pinyinOffset'
   | 'pinyinPosition'
@@ -53,11 +67,14 @@ export const pageSize = (doc: Pick<GeometrySettings, 'layout'>) =>
 export const charAdvance = (doc: GeometrySettings) =>
   doc.fontSize + (isVertical(doc.writingMode) ? doc.gapY : doc.gapX)
 
+// room taken across the line by the pinyin, none when it's turned off
+const pinyinBand = (doc: GeometrySettings) =>
+  doc.showPinyin ? doc.pinyinSize + doc.pinyinOffset : 0
+
 // distance from the start of one line to the next
 export const linePitch = (doc: GeometrySettings) =>
   doc.fontSize +
-  doc.pinyinSize +
-  doc.pinyinOffset +
+  pinyinBand(doc) +
   (isVertical(doc.writingMode) ? doc.gapX : doc.gapY)
 
 export const linesPerPage = (doc: GeometrySettings) => {
@@ -130,8 +147,7 @@ function toLogical(doc: GeometrySettings, x: number, y: number) {
 }
 
 const charAcross = (doc: GeometrySettings, line: number) =>
-  line * linePitch(doc) +
-  (pinyinFirst(doc) ? doc.pinyinSize + doc.pinyinOffset : 0)
+  line * linePitch(doc) + (pinyinFirst(doc) ? pinyinBand(doc) : 0)
 
 // the square a character is drawn in
 export const charRect = (doc: GeometrySettings, line: number, slot: number) =>
@@ -259,5 +275,5 @@ export const wordRect = (
     startSlot * charAdvance(doc),
     line * linePitch(doc),
     (endSlot - startSlot) * charAdvance(doc) + doc.fontSize,
-    doc.fontSize + doc.pinyinSize + doc.pinyinOffset,
+    doc.fontSize + pinyinBand(doc),
   )

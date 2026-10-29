@@ -96,7 +96,8 @@ interface WordGroupsProps {
 // words whose pinyin is hidden, which are left to be read unaided
 export const WordGroups = (props: WordGroupsProps) => {
   const { document, analysis, hidden } = props
-  if (!document.wordGroups) return null
+  // only words showing their pinyin are grouped
+  if (!document.wordGroups || !document.showPinyin) return null
 
   return (
     <Fragment>
@@ -136,7 +137,7 @@ export const RevealedPinyin = (props: RevealedPinyinProps) => {
   const selectionStart = useCursorStore((state) => state.selectionStart)
   const selectionEnd = useCursorStore((state) => state.selectionEnd)
 
-  if (!hidden) return null
+  if (!hidden || !document.showPinyin) return null
 
   const ranges: Array<[number, number]> = []
   if (hovered !== null) {
