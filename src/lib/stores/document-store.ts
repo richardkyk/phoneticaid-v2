@@ -23,7 +23,7 @@ export interface DocumentState {
   fontSize: number
   pinyinSize: number
   pinyinOffset: number
-  // pinyin turned off takes no room on the page
+  // pinyin turned off isn't drawn, but its room on the page is kept
   showPinyin: boolean
   // pinyin placement in horizontal modes
   pinyinPosition: 'top' | 'bottom'

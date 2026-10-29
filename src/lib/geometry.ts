@@ -35,7 +35,6 @@ export type GeometrySettings = Pick<
   | 'writingMode'
   | 'layout'
   | 'fontSize'
-  | 'showPinyin'
   | 'pinyinSize'
   | 'pinyinOffset'
   | 'pinyinPosition'
@@ -67,9 +66,9 @@ export const pageSize = (doc: Pick<GeometrySettings, 'layout'>) =>
 export const charAdvance = (doc: GeometrySettings) =>
   doc.fontSize + (isVertical(doc.writingMode) ? doc.gapY : doc.gapX)
 
-// room taken across the line by the pinyin, none when it's turned off
-const pinyinBand = (doc: GeometrySettings) =>
-  doc.showPinyin ? doc.pinyinSize + doc.pinyinOffset : 0
+// room taken across the line by the pinyin, kept when it's turned off (e.g.
+// for writing it in by hand)
+const pinyinBand = (doc: GeometrySettings) => doc.pinyinSize + doc.pinyinOffset
 
 // distance from the start of one line to the next
 export const linePitch = (doc: GeometrySettings) =>

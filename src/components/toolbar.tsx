@@ -194,24 +194,16 @@ function SelectControl<T extends string>({
 }
 
 interface DisabledProps {
-  // why the controls can't be used, or undefined when they can
-  reason: string | undefined
+  disabled: boolean
   children: React.ReactNode
 }
-// Greys out controls that have no effect, explaining why on hover
-function Disabled({ reason, children }: DisabledProps) {
-  if (!reason) return children
+// Greys out controls that have no effect
+function Disabled({ disabled, children }: DisabledProps) {
+  if (!disabled) return children
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <div className="cursor-not-allowed">
-          <div inert className="space-y-3 opacity-50">
-            {children}
-          </div>
-        </div>
-      </TooltipTrigger>
-      <TooltipContent side="left">{reason}</TooltipContent>
-    </Tooltip>
+    <div inert className="space-y-3 opacity-50">
+      {children}
+    </div>
   )
 }
 
@@ -653,32 +645,33 @@ export function PinyinToolbar() {
       <div className="space-y-3">
         <SelectControl
           label="Position"
-          hint="Off removes the pinyin and the room it takes from each line."
+          hint="Off hides the pinyin but keeps its room on each line, e.g. for writing it in by hand."
           value={position}
           options={[...positions, { value: 'off', label: 'Off' }]}
           onChange={setPosition}
         />
-        <Disabled reason={showPinyin ? undefined : 'Pinyin is turned off'}>
-          <NumberControl
-            label="Size"
-            value={pinyinSize}
-            valueKey="pinyinSize"
-            setValue={(v) => setDocumentAttribute({ pinyinSize: v })}
-            min={0}
-            max={20}
-            step={0.1}
-            decimalPoints={1}
-          />
-          <NumberControl
-            label="Offset"
-            value={pinyinOffset}
-            valueKey="pinyinOffset"
-            setValue={(v) => setDocumentAttribute({ pinyinOffset: v })}
-            min={0}
-            max={20}
-            step={0.1}
-            decimalPoints={1}
-          />
+        <NumberControl
+          label="Size"
+          value={pinyinSize}
+          valueKey="pinyinSize"
+          setValue={(v) => setDocumentAttribute({ pinyinSize: v })}
+          min={0}
+          max={20}
+          step={0.1}
+          decimalPoints={1}
+        />
+        <NumberControl
+          label="Offset"
+          value={pinyinOffset}
+          valueKey="pinyinOffset"
+          setValue={(v) => setDocumentAttribute({ pinyinOffset: v })}
+          min={0}
+          max={20}
+          step={0.1}
+          decimalPoints={1}
+        />
+        {/* pinyin that isn't shown can't be hidden or grouped */}
+        <Disabled disabled={!showPinyin}>
           <SelectControl
             label="HSK level"
             hint="Pinyin is hidden for words at your HSK level and below. Hover or tap a word, or hold Alt, to see it."
