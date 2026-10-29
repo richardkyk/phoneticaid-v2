@@ -6,6 +6,7 @@ import { useTranslateStore } from '@/lib/stores/translate-store'
 import { hitTest, keyToCaretMove } from '@/lib/geometry'
 import { useCameraStore } from '@/lib/stores/camera-store'
 import { cn } from '@/lib/utils'
+import { toDisplayScript } from '@/lib/script'
 import React, { Fragment, useCallback, useEffect, useRef } from 'react'
 
 const clamp = (val: number, min: number, max: number) =>
@@ -43,7 +44,9 @@ const getRowColFromCoords = (
 const findNearestPage = (viewportEl: HTMLElement, y: number) => {
   let nearest: { pageIndex: number; gridRect: DOMRect } | null = null
   let nearestDistance = Infinity
-  for (const pageEl of viewportEl.querySelectorAll<HTMLElement>('[data-page]')) {
+  for (const pageEl of viewportEl.querySelectorAll<HTMLElement>(
+    '[data-page]',
+  )) {
     const gridEl = pageEl.querySelector('[data-grid]')
     if (!gridEl) continue
     const gridRect = gridEl.getBoundingClientRect()
@@ -365,7 +368,11 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   const handleCopy = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
-    const text = usePieceTableStore.getState().extractSelection()
+    // copied as it's drawn
+    const text = toDisplayScript(
+      usePieceTableStore.getState().extractSelection(),
+      useDocumentStore.getState().script,
+    )
     e.clipboardData.setData('text/plain', text)
   }
 
@@ -377,7 +384,11 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   const handleCut = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault()
-    const text = usePieceTableStore.getState().extractSelection()
+    // copied as it's drawn
+    const text = toDisplayScript(
+      usePieceTableStore.getState().extractSelection(),
+      useDocumentStore.getState().script,
+    )
     e.clipboardData.setData('text/plain', text)
     usePieceTableStore.getState().deleteAtCursor(0)
   }

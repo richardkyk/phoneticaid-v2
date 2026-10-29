@@ -3,6 +3,7 @@ import { measureMM } from '@/lib/utils'
 import { linesPerPage, pageSize } from '@/lib/geometry'
 import type { WritingMode } from '@/lib/geometry'
 import type { PinyinMode } from '@/lib/words'
+import type { Script } from '@/lib/script'
 import { useProjectsStore } from './projects-store'
 
 export interface DocumentActions {
@@ -34,6 +35,8 @@ export interface DocumentState {
   marginY: number
   layout: 'portrait' | 'landscape'
   writingMode: WritingMode
+  // characters are drawn in this script, whatever they were typed in
+  script: Script
   // reading aids, which print the way they're shown
   // faint background behind words of more than one character
   wordGroups: boolean
@@ -62,6 +65,7 @@ export const defaultDocumentState: () => DocumentState = () => ({
   marginY: 15,
   layout: 'landscape',
   writingMode: 'horizontal-ltr',
+  script: 'original',
   wordGroups: false,
   pinyinMode: 'unknown',
   hskLevel: 3,

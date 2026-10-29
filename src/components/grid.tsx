@@ -60,9 +60,11 @@ interface GridProps {
   analysis: TextAnalysis
   // characters whose pinyin is hidden (see hiddenPinyin)
   hidden: Uint8Array | null
+  // the text in the script it's drawn in, null to draw it as typed
+  display: string | null
 }
 export const Grid = (props: GridProps) => {
-  const { document, analysis, hidden } = props
+  const { document, analysis, hidden, display } = props
   const vertical = isVertical(document.writingMode)
 
   return (
@@ -74,6 +76,9 @@ export const Grid = (props: GridProps) => {
             cell.index === -1 || hidden?.[cell.index]
               ? ''
               : (analysis.pinyin[cell.index] ?? '')
+          // the newline cell keeps its marker
+          const shown = display?.[cell.index]
+          const content = shown && shown !== '\n' ? shown : cell.content
 
           return (
             <Fragment key={`${i}-${j}`}>
@@ -111,7 +116,7 @@ export const Grid = (props: GridProps) => {
                     textOrientation: vertical ? 'upright' : undefined,
                   }}
                 >
-                  {cell.content}
+                  {content}
                 </span>
                 {document.debug && (
                   <Fragment>

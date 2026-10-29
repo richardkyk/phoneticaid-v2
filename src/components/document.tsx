@@ -2,7 +2,7 @@ import { getLayout } from '@/lib/layout'
 import { useDocumentStore } from '@/lib/stores/document-store'
 import { Page } from './page'
 import { Editor } from './editor'
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { PAGE_GAP, pageTop, useCameraStore } from '@/lib/stores/camera-store'
@@ -10,6 +10,7 @@ import { useCanvas } from './canvas'
 import { ZoomControls } from './zoom-controls'
 import { getAnalysis } from '@/lib/words'
 import { usePeekKey } from './reading-aids'
+import { getDisplayText, useScriptStore } from '@/lib/script'
 
 // pages rendered either side of the ones in view
 const OVERSCAN = 1
@@ -19,6 +20,12 @@ export const Document = () => {
   const project = useProjectsStore((state) => state.getActiveProject())
   const layout = getLayout(project.pt, document.columns)
   const analysis = getAnalysis(project.pt)
+  // re-rendered once the converter for the script has loaded
+  useScriptStore((state) => state.converters[document.script])
+  const display = getDisplayText(project.pt, document.script)
+  useEffect(() => {
+    useScriptStore.getState().load(document.script)
+  }, [document.script])
   usePeekKey()
 
   const linesPerPage = document.linesPerPage()
@@ -90,6 +97,7 @@ export const Document = () => {
                 pageRows={pages[pageIndex]}
                 layout={layout}
                 analysis={analysis}
+                display={display}
               />
             </div>
           ))}

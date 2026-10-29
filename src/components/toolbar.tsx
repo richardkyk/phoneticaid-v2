@@ -19,6 +19,8 @@ import { ButtonGroup } from './ui/button-group'
 import { cn } from '@/lib/utils'
 import { getLayout } from '@/lib/layout'
 import { getAnalysis } from '@/lib/words'
+import { getDisplayText, scripts } from '@/lib/script'
+import type { Script } from '@/lib/script'
 import { isVertical, writingModes } from '@/lib/geometry'
 import type { WritingMode } from '@/lib/geometry'
 import { Page } from './page'
@@ -206,6 +208,7 @@ function PrintButton(props: PrintButtonProps) {
         const pt = useProjectsStore.getState().getActiveProject().pt
         const layout = getLayout(pt, documentStore.columns)
         const analysis = getAnalysis(pt)
+        const display = getDisplayText(pt, documentStore.script)
         const linesPerPage = documentStore.linesPerPage()
         const pages = []
 
@@ -225,6 +228,7 @@ function PrintButton(props: PrintButtonProps) {
                 pageRows={p}
                 layout={layout}
                 analysis={analysis}
+                display={display}
               />
             ))}
           </>,
@@ -362,6 +366,7 @@ export function TextToolbar() {
     pinyinPosition,
     pinyinSide,
     writingMode,
+    script,
     setDocumentAttribute,
   } = useDocumentStore()
 
@@ -397,6 +402,22 @@ export function TextToolbar() {
           step={0.1}
           decimalPoints={1}
         />
+        <div className="flex items-start mt-5 justify-between">
+          <Label className="text-xs text-gray-600">Characters</Label>
+          <RadioGroup
+            value={script}
+            onValueChange={(v) => setDocumentAttribute({ script: v as Script })}
+          >
+            {scripts.map((s) => (
+              <div key={s.value} className="flex items-center gap-3">
+                <RadioGroupItem value={s.value} id={`script-${s.value}`} />
+                <Label htmlFor={`script-${s.value}`} className="text-xs">
+                  {s.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
         <div className="flex items-start mt-5 justify-between">
           <Label className="text-xs text-gray-600">Pinyin Position</Label>
           {isVertical(writingMode) ? (

@@ -17,6 +17,8 @@ interface PageProps {
   pageRows: Cell[][]
   layout: Layout
   analysis: TextAnalysis
+  // the text in the script it's drawn in, null to draw it as typed
+  display: string | null
   document: DocumentStore
 }
 // memoised so pages already in view don't re-render as others come into view
@@ -50,6 +52,7 @@ export const Page = memo(function Page(props: PageProps) {
           pageRows={props.pageRows}
           analysis={props.analysis}
           hidden={hidden}
+          display={props.display}
         />
         <RevealedPinyin
           document={document}
