@@ -37,6 +37,8 @@ export interface MultiProjectState {
     attrs: Pick<Project, K>,
   ) => void
   addProject: () => Project
+  // copies a project's text and settings into a new project
+  duplicateProject: (id: string) => Project | undefined
   deleteProject: (id: string) => void
 }
 
@@ -96,6 +98,23 @@ export const useProjectsStore = create<MultiProjectState>()(
         })
         get().setActiveProject(newProject.id)
         return newProject
+      },
+      duplicateProject: (id) => {
+        const project = get().projects.find((p) => p.id === id)
+        if (!project) return
+        const nextProjectCount = get().projectCount + 1
+        const copy = {
+          id: String(nextProjectCount),
+          title: `${project.title} (copy)`,
+          pt: blankPieceTable(getText(project.pt)),
+          doc: structuredClone(project.doc),
+          lastUpdated: Date.now(),
+        }
+        set({
+          projects: [...get().projects, copy],
+          projectCount: nextProjectCount,
+        })
+        return copy
       },
       deleteProject: (id) => {
         const projects = get().projects.filter((p) => p.id !== id)

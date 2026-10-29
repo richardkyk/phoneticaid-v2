@@ -1,5 +1,5 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { MoreHorizontal, PlusIcon, Trash2 } from 'lucide-react'
+import { CopyIcon, MoreHorizontal, PlusIcon, Trash2 } from 'lucide-react'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import type { Project } from '@/lib/stores/projects-store'
 import { getText } from '@/lib/piece-table'
@@ -31,6 +31,9 @@ function timeAgo(time: number, now = Date.now()) {
   }
   return 'just now'
 }
+
+// px, landscape pages are about 180px wide at this height
+const THUMBNAIL_HEIGHT = 128
 
 // Every project, most recently edited first, each opening its workspace
 export function ProjectsOverview() {
@@ -88,10 +91,14 @@ function ProjectCard({ project }: { project: Project }) {
         className="block"
       >
         {/* a thumbnail of the first page */}
-        <div className="flex justify-center bg-muted/60 p-4">
+        <div className="flex items-center justify-center bg-muted/60 py-4">
+          {/* the same height for every page, so the cards line up */}
           <div
-            className="w-full max-w-40 overflow-hidden bg-white p-2 font-chinese text-[10px] leading-relaxed text-gray-600 shadow-sm whitespace-pre-wrap break-all"
-            style={{ aspectRatio: `${page.width} / ${page.height}` }}
+            className="overflow-hidden bg-white p-2 font-chinese text-[8px] leading-relaxed text-gray-600 shadow-sm whitespace-pre-wrap break-all"
+            style={{
+              height: THUMBNAIL_HEIGHT,
+              width: (THUMBNAIL_HEIGHT * page.width) / page.height,
+            }}
           >
             {text}
           </div>
@@ -115,6 +122,14 @@ function ProjectCard({ project }: { project: Project }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
+          <DropdownMenuItem
+            onClick={() =>
+              useProjectsStore.getState().duplicateProject(project.id)
+            }
+          >
+            <CopyIcon className="text-muted-foreground" />
+            Duplicate
+          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
               if (window.confirm(`Delete "${project.title}"?`)) {
