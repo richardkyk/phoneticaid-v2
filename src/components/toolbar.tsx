@@ -569,9 +569,9 @@ const pinyinChoice = (mode: PinyinMode, level: number) =>
   mode === 'unknown' ? String(level) : mode
 
 const pinyinChoiceLabel = (choice: string) => {
-  if (choice === 'all') return 'Show all'
-  if (choice === 'none') return 'Hide all'
-  return choice === '1' ? 'Hide HSK 1' : `Hide HSK 1-${choice}`
+  if (choice === 'all') return 'None'
+  if (choice === 'none') return 'Hide all pinyin'
+  return `HSK ${choice}`
 }
 
 // What's shown to help reading. Pages print the way they're shown, while
@@ -606,7 +606,7 @@ export function ReadingToolbar() {
           />
         </div>
         <div className="flex items-center justify-between">
-          <Label className="text-xs text-gray-600">Pinyin</Label>
+          <Label className="text-xs text-gray-600">HSK level</Label>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="text-xs">
@@ -630,7 +630,8 @@ export function ReadingToolbar() {
           </DropdownMenu>
         </div>
         <p className="text-xs text-muted-foreground">
-          Hover or tap a word, or hold Alt, to see hidden pinyin
+          Pinyin is hidden for words at your HSK level and below. Hover or tap a
+          word, or hold Alt, to see it
         </p>
       </div>
     </CollapsibleToolbar>

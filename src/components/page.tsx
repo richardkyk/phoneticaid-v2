@@ -42,6 +42,7 @@ export const Page = memo(function Page(props: PageProps) {
           document={document}
           pageRows={props.pageRows}
           analysis={props.analysis}
+          hidden={hidden}
         />
         <Grid
           document={document}

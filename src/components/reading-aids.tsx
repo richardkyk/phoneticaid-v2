@@ -90,10 +90,12 @@ interface WordGroupsProps {
   document: DocumentStore
   pageRows: Array<Array<Cell>>
   analysis: TextAnalysis
+  hidden: Uint8Array | null
 }
-// A faint background behind each word of more than one character
+// A faint background behind each word of more than one character, except
+// words whose pinyin is hidden, which are left to be read unaided
 export const WordGroups = (props: WordGroupsProps) => {
-  const { document, analysis } = props
+  const { document, analysis, hidden } = props
   if (!document.wordGroups) return null
 
   return (
@@ -102,7 +104,7 @@ export const WordGroups = (props: WordGroupsProps) => {
         wordRuns(row, analysis)
           .filter(({ word }) => {
             const { start, end } = analysis.words[word]
-            return end - start > 1
+            return end - start > 1 && !hidden?.[start]
           })
           .map(({ startCol, endCol }) => (
             <div
