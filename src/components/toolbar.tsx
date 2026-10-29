@@ -20,12 +20,9 @@ import { cn } from '@/lib/utils'
 import { getLayout } from '@/lib/layout'
 import { getAnalysis } from '@/lib/words'
 import { getDisplayText, scripts } from '@/lib/script'
-import type { Script } from '@/lib/script'
 import { isVertical, writingModes } from '@/lib/geometry'
-import type { WritingMode } from '@/lib/geometry'
 import { Page } from './page'
 import { createRoot } from 'react-dom/client'
-import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
 import { toast } from 'sonner'
@@ -104,6 +101,49 @@ function NumberControl({
           <PlusIcon />
         </HoldButton>
       </ButtonGroup>
+    </div>
+  )
+}
+
+interface SelectControlProps<T extends string> {
+  label: string
+  value: T
+  options: ReadonlyArray<{ value: T; label: string }>
+  onChange: (value: T) => void
+}
+function SelectControl<T extends string>({
+  label,
+  value,
+  options,
+  onChange,
+}: SelectControlProps<T>) {
+  return (
+    <div className="flex items-center justify-between gap-2">
+      <Label className="text-xs text-gray-600">{label}</Label>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm" className="text-xs shadow-none">
+            {options.find((o) => o.value === value)?.label}
+            <ChevronDownIcon className="size-3" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuRadioGroup
+            value={value}
+            onValueChange={(v) => onChange(v as T)}
+          >
+            {options.map((option) => (
+              <DropdownMenuRadioItem
+                key={option.value}
+                value={option.value}
+                className="text-xs"
+              >
+                {option.label}
+              </DropdownMenuRadioItem>
+            ))}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   )
 }
@@ -402,66 +442,33 @@ export function TextToolbar() {
           step={0.1}
           decimalPoints={1}
         />
-        <div className="flex items-start mt-5 justify-between">
-          <Label className="text-xs text-gray-600">Characters</Label>
-          <RadioGroup
-            value={script}
-            onValueChange={(v) => setDocumentAttribute({ script: v as Script })}
-          >
-            {scripts.map((s) => (
-              <div key={s.value} className="flex items-center gap-3">
-                <RadioGroupItem value={s.value} id={`script-${s.value}`} />
-                <Label htmlFor={`script-${s.value}`} className="text-xs">
-                  {s.label}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-        <div className="flex items-start mt-5 justify-between">
-          <Label className="text-xs text-gray-600">Pinyin Position</Label>
-          {isVertical(writingMode) ? (
-            <RadioGroup
-              value={pinyinSide}
-              onValueChange={(v) =>
-                setDocumentAttribute({ pinyinSide: v as 'left' | 'right' })
-              }
-            >
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="right" id="pinyin-right" />
-                <Label htmlFor="pinyin-right" className="text-xs">
-                  Right
-                </Label>
-              </div>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="left" id="pinyin-left" />
-                <Label htmlFor="pinyin-left" className="text-xs">
-                  Left
-                </Label>
-              </div>
-            </RadioGroup>
-          ) : (
-            <RadioGroup
-              value={pinyinPosition}
-              onValueChange={(v) =>
-                setDocumentAttribute({ pinyinPosition: v as 'top' | 'bottom' })
-              }
-            >
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="top" id="r1" />
-                <Label htmlFor="r1" className="text-xs">
-                  Above
-                </Label>
-              </div>
-              <div className="flex items-center gap-3">
-                <RadioGroupItem value="bottom" id="r2" />
-                <Label htmlFor="r2" className="text-xs">
-                  Below
-                </Label>
-              </div>
-            </RadioGroup>
-          )}
-        </div>
+        <SelectControl
+          label="Characters"
+          value={script}
+          options={scripts}
+          onChange={(v) => setDocumentAttribute({ script: v })}
+        />
+        {isVertical(writingMode) ? (
+          <SelectControl
+            label="Pinyin Position"
+            value={pinyinSide}
+            options={[
+              { value: 'right', label: 'Right' },
+              { value: 'left', label: 'Left' },
+            ]}
+            onChange={(v) => setDocumentAttribute({ pinyinSide: v })}
+          />
+        ) : (
+          <SelectControl
+            label="Pinyin Position"
+            value={pinyinPosition}
+            options={[
+              { value: 'top', label: 'Above' },
+              { value: 'bottom', label: 'Below' },
+            ]}
+            onChange={(v) => setDocumentAttribute({ pinyinPosition: v })}
+          />
+        )}
       </div>
     </CollapsibleToolbar>
   )
@@ -484,46 +491,21 @@ export function LayoutToolbar() {
           max={50}
           step={1}
         />
-        <div className="flex items-start justify-between mt-5">
-          <Label className="text-xs text-gray-600">Orientation</Label>
-          <RadioGroup
-            value={layout}
-            onValueChange={(v) =>
-              setDocumentAttribute({ layout: v as 'portrait' | 'landscape' })
-            }
-          >
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="portrait" id="r3" />
-              <Label htmlFor="r3" className="text-xs">
-                Portrait
-              </Label>
-            </div>
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="landscape" id="r4" />
-              <Label htmlFor="r4" className="text-xs">
-                Landscape
-              </Label>
-            </div>
-          </RadioGroup>
-        </div>
-        <div className="flex items-start justify-between mt-5">
-          <Label className="text-xs text-gray-600">Direction</Label>
-          <RadioGroup
-            value={writingMode}
-            onValueChange={(v) =>
-              setDocumentAttribute({ writingMode: v as WritingMode })
-            }
-          >
-            {writingModes.map((mode) => (
-              <div key={mode.value} className="flex items-center gap-3">
-                <RadioGroupItem value={mode.value} id={mode.value} />
-                <Label htmlFor={mode.value} className="text-xs">
-                  {mode.label}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
+        <SelectControl
+          label="Orientation"
+          value={layout}
+          options={[
+            { value: 'portrait', label: 'Portrait' },
+            { value: 'landscape', label: 'Landscape' },
+          ]}
+          onChange={(v) => setDocumentAttribute({ layout: v })}
+        />
+        <SelectControl
+          label="Direction"
+          value={writingMode}
+          options={writingModes}
+          onChange={(v) => setDocumentAttribute({ writingMode: v })}
+        />
       </div>
     </CollapsibleToolbar>
   )
@@ -626,30 +608,15 @@ export function ReadingToolbar() {
             onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
           />
         </div>
-        <div className="flex items-center justify-between">
-          <Label className="text-xs text-gray-600">HSK level</Label>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="text-xs">
-                {pinyinChoiceLabel(choice)}
-                <ChevronDownIcon className="size-3" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuRadioGroup value={choice} onValueChange={setChoice}>
-                {['all', ...HSK_LEVELS.map(String), 'none'].map((value) => (
-                  <DropdownMenuRadioItem
-                    key={value}
-                    value={value}
-                    className="text-xs"
-                  >
-                    {pinyinChoiceLabel(value)}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <SelectControl
+          label="HSK level"
+          value={choice}
+          options={['all', ...HSK_LEVELS.map(String), 'none'].map((value) => ({
+            value,
+            label: pinyinChoiceLabel(value),
+          }))}
+          onChange={setChoice}
+        />
         <p className="text-xs text-muted-foreground">
           Pinyin is hidden for words at your HSK level and below. Hover or tap a
           word, or hold Alt, to see it
