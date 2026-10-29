@@ -9,7 +9,8 @@ import {
   Position,
   positionToGrid,
 } from '../layout'
-import type { CaretMove } from '../geometry'
+import { caretRect, type CaretMove } from '../geometry'
+import { pageTop, useCameraStore } from './camera-store'
 
 // Layout of the active project using the current document settings
 export const currentLayout = () =>
@@ -116,9 +117,19 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
     get().setCursor(gridToPosition(layout, newRow, newCol))
   },
   focus: () => {
-    const el = document.getElementById('cursor')
-    if (!el) return
-    el.scrollIntoView({ block: 'nearest' })
+    // worked out from the layout rather than the caret element, as the page
+    // the caret is on might not be rendered
+    const doc = useDocumentStore.getState()
+    const { row, col } = positionToGrid(currentLayout(), get().getPosition())
+    const linesPerPage = doc.linesPerPage()
+    const pageIndex = Math.floor(row / linesPerPage)
+    const rect = caretRect(doc, row - pageIndex * linesPerPage, col)
+    useCameraStore.getState().reveal({
+      x: rect.x * doc.mmX,
+      y: pageTop(pageIndex, doc.pageHeight() * doc.mmY) + rect.y * doc.mmY,
+      width: rect.width * doc.mmX,
+      height: rect.height * doc.mmY,
+    })
   },
   getSelection: () => {
     const s = get().selectionStart

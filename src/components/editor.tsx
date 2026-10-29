@@ -4,9 +4,9 @@ import { useHistoryStore } from '@/lib/stores/history-store'
 import { usePieceTableStore } from '@/lib/stores/piece-table-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import { hitTest, keyToCaretMove } from '@/lib/geometry'
-import { useUiStore } from '@/lib/stores/ui-store'
+import { useCameraStore } from '@/lib/stores/camera-store'
+import { cn } from '@/lib/utils'
 import React, { Fragment, useCallback, useEffect, useRef } from 'react'
-import { ScrollArea, ScrollBar } from './ui/scroll-area'
 
 const clamp = (val: number, min: number, max: number) =>
   Math.min(Math.max(val, min), max)
@@ -23,7 +23,7 @@ const getRowColFromCoords = (
   const linesPerPage = document.linesPerPage()
 
   // px -> mm at the current zoom
-  const zoom = useUiStore.getState().zoom
+  const zoom = useCameraStore.getState().zoom
   const { line, slot } = hitTest(
     document,
     document.columns,
@@ -40,10 +40,10 @@ const getRowColFromCoords = (
 }
 
 // The page whose grid is closest to `y` (pages are stacked vertically)
-const findNearestPage = (scrollEl: HTMLElement, y: number) => {
+const findNearestPage = (viewportEl: HTMLElement, y: number) => {
   let nearest: { pageIndex: number; gridRect: DOMRect } | null = null
   let nearestDistance = Infinity
-  for (const pageEl of scrollEl.querySelectorAll<HTMLElement>('[data-page]')) {
+  for (const pageEl of viewportEl.querySelectorAll<HTMLElement>('[data-page]')) {
     const gridEl = pageEl.querySelector('[data-grid]')
     if (!gridEl) continue
     const gridRect = gridEl.getBoundingClientRect()
@@ -66,23 +66,25 @@ const findNearestPage = (scrollEl: HTMLElement, y: number) => {
 
 interface EditorProps {
   children: React.ReactNode
-  scrollRef: React.RefObject<HTMLDivElement | null>
+  // the canvas the pages are drawn on
+  viewportRef: React.RefObject<HTMLDivElement | null>
+  className?: string
 }
 export const Editor: React.FC<EditorProps> = (props) => {
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const isSelectingRef = useRef(false)
 
   const pointerRef = useRef<{ x: number; y: number } | null>(null)
-  const autoScrollRef = useRef<number | null>(null)
-  const lastScrollTimeRef = useRef<number | null>(null)
+  const autoPanRef = useRef<number | null>(null)
+  const lastPanTimeRef = useRef<number | null>(null)
 
   // extends the selection to the point under the pointer, using the nearest
   // page so the selection keeps tracking when the pointer leaves the pages
   const selectToPointer = useCallback(() => {
     const pointer = pointerRef.current
-    const scrollEl = props.scrollRef.current
-    if (!pointer || !scrollEl) return
-    const page = findNearestPage(scrollEl, pointer.y)
+    const viewportEl = props.viewportRef.current
+    if (!pointer || !viewportEl) return
+    const page = findNearestPage(viewportEl, pointer.y)
     if (!page) return
 
     const { row, col } = getRowColFromCoords(
@@ -91,38 +93,41 @@ export const Editor: React.FC<EditorProps> = (props) => {
       page.pageIndex,
       page.gridRect,
     )
-    // the drag controls scrolling, so don't scroll the caret into view
+    // the drag controls panning, so don't pan the caret into view
     useCursorStore.getState().setCursorByRowCol(row, col, false)
     useCursorStore.getState().setSelection(row, col, false)
     moveIMEInputToCursor(inputRef)
   }, [])
 
-  // scrolls while the pointer is dragged above or below the editor, faster
-  // the further away it is
-  const autoScroll = useCallback(
+  // pans while the pointer is dragged outside the editor, faster the further
+  // away it is
+  const autoPan = useCallback(
     (time: number) => {
-      autoScrollRef.current = null
+      autoPanRef.current = null
       const pointer = pointerRef.current
-      const scrollEl = props.scrollRef.current
-      const lastTime = lastScrollTimeRef.current ?? time
-      lastScrollTimeRef.current = null
-      if (!isSelectingRef.current || !pointer || !scrollEl) return
+      const viewportEl = props.viewportRef.current
+      const lastTime = lastPanTimeRef.current ?? time
+      lastPanTimeRef.current = null
+      if (!isSelectingRef.current || !pointer || !viewportEl) return
 
-      const rect = scrollEl.getBoundingClientRect()
-      const distance =
-        pointer.y < rect.top
-          ? pointer.y - rect.top
-          : pointer.y > rect.bottom
-            ? pointer.y - rect.bottom
-            : 0
-      if (distance === 0) return
+      const rect = viewportEl.getBoundingClientRect()
+      const distance = (pos: number, start: number, end: number) =>
+        pos < start ? pos - start : pos > end ? pos - end : 0
+      const dx = distance(pointer.x, rect.left, rect.right)
+      const dy = distance(pointer.y, rect.top, rect.bottom)
+      if (dx === 0 && dy === 0) return
 
       // px per second, time based so the speed doesn't depend on the frame rate
-      const speed = clamp(distance * 10, -2000, 2000)
-      scrollEl.scrollTop += (speed * Math.min(time - lastTime, 100)) / 1000
+      const elapsed = Math.min(time - lastTime, 100) / 1000
+      useCameraStore
+        .getState()
+        .panBy(
+          -clamp(dx * 10, -2000, 2000) * elapsed,
+          -clamp(dy * 10, -2000, 2000) * elapsed,
+        )
       selectToPointer()
-      lastScrollTimeRef.current = time
-      autoScrollRef.current = requestAnimationFrame(autoScroll)
+      lastPanTimeRef.current = time
+      autoPanRef.current = requestAnimationFrame(autoPan)
     },
     [selectToPointer],
   )
@@ -132,19 +137,19 @@ export const Editor: React.FC<EditorProps> = (props) => {
       if (!isSelectingRef.current) return
       pointerRef.current = { x: e.clientX, y: e.clientY }
       selectToPointer()
-      if (autoScrollRef.current === null) {
-        autoScrollRef.current = requestAnimationFrame(autoScroll)
+      if (autoPanRef.current === null) {
+        autoPanRef.current = requestAnimationFrame(autoPan)
       }
     },
-    [selectToPointer, autoScroll],
+    [selectToPointer, autoPan],
   )
 
   const handleMouseUp = useCallback(() => {
     isSelectingRef.current = false
     pointerRef.current = null
-    if (autoScrollRef.current !== null) {
-      cancelAnimationFrame(autoScrollRef.current)
-      autoScrollRef.current = null
+    if (autoPanRef.current !== null) {
+      cancelAnimationFrame(autoPanRef.current)
+      autoPanRef.current = null
     }
     inputRef.current?.focus()
     useTranslateStore.getState().translateSelection()
@@ -154,7 +159,8 @@ export const Editor: React.FC<EditorProps> = (props) => {
   }, [handleMouseMove])
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!props.scrollRef.current) return
+    // other buttons (e.g. middle dragging to pan) don't select
+    if (e.button !== 0) return
     const pageEl = (e.target as HTMLElement).closest(
       '[data-page]',
     ) as HTMLDivElement | null
@@ -233,17 +239,18 @@ export const Editor: React.FC<EditorProps> = (props) => {
 
   return (
     <Fragment>
-      <ScrollArea className="size-full" ref={props.scrollRef}>
-        <div
-          id="editor"
-          className="outline-none print:h-screen"
-          onMouseDown={handleMouseDown}
-          onClick={handleClick}
-        >
-          {props.children}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+      <div
+        ref={props.viewportRef}
+        id="editor"
+        className={cn(
+          'relative size-full touch-none overflow-hidden outline-none cursor-grab data-[panning]:cursor-grabbing',
+          props.className,
+        )}
+        onMouseDown={handleMouseDown}
+        onClick={handleClick}
+      >
+        {props.children}
+      </div>
       <HiddenInput ref={inputRef} />
     </Fragment>
   )

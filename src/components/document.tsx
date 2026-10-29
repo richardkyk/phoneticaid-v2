@@ -1,89 +1,101 @@
 import { getLayout } from '@/lib/layout'
 import { useDocumentStore } from '@/lib/stores/document-store'
-import { useLayoutEffect } from '@tanstack/react-router'
 import { Page } from './page'
 import { Editor } from './editor'
-import { useVirtualizer } from '@tanstack/react-virtual'
-import { useMemo, useRef } from 'react'
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 import { useProjectsStore } from '@/lib/stores/projects-store'
-import { useUiStore } from '@/lib/stores/ui-store'
+import {
+  PAGE_GAP,
+  pageTop,
+  useCameraStore,
+} from '@/lib/stores/camera-store'
+import { useCanvas } from './canvas'
 import { ZoomControls } from './zoom-controls'
 
-const PAGE_GAP = 24 // px between pages at 100%
-const PADDING = 24 // px around the pages
+// pages rendered either side of the ones in view
+const OVERSCAN = 1
 
 export const Document = () => {
   const document = useDocumentStore()
-  const zoom = useUiStore((state) => state.zoom)
   const project = useProjectsStore((state) => state.getActiveProject())
   const layout = getLayout(project.pt, document.columns)
 
-  // zooming scales the mm -> px conversion, so everything drawn in mm
-  // (pages, characters, caret, highlights) scales with it
-  const view = useMemo(
-    () => ({ ...document, mmX: document.mmX * zoom, mmY: document.mmY * zoom }),
-    [document, zoom],
-  )
-
   const linesPerPage = document.linesPerPage()
 
-  const pages: (typeof layout.rows)[] = []
-  for (let i = 0; i < layout.rows.length; i += linesPerPage) {
-    pages.push(layout.rows.slice(i, i + linesPerPage))
-  }
+  // memoised so the pages' rows (and the pinyin worked out from them) stay
+  // the same while the pages in view change
+  const pages = useMemo(() => {
+    const pages: (typeof layout.rows)[] = []
+    for (let i = 0; i < layout.rows.length; i += linesPerPage) {
+      pages.push(layout.rows.slice(i, i + linesPerPage))
+    }
+    return pages
+  }, [layout, linesPerPage])
 
-  const parentRef = useRef<HTMLDivElement>(null)
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const worldRef = useRef<HTMLDivElement>(null)
+  useCanvas(viewportRef, worldRef)
 
-  const pageWidth = view.pageWidth() * view.mmX
-  const pageHeight = view.pageHeight() * view.mmY
-
-  const virtualizer = useVirtualizer({
-    count: pages.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => pageHeight,
-    overscan: 1,
-    gap: PAGE_GAP * zoom,
-  })
+  // the pages are laid out once at 100%, zooming only moves the camera
+  const pageWidth = document.pageWidth() * document.mmX
+  const pageHeight = document.pageHeight() * document.mmY
+  const contentHeight = pageTop(pages.length, pageHeight) - PAGE_GAP
 
   useLayoutEffect(() => {
-    // need to remeasure the virtualizer when the page size changes
-    virtualizer.measure()
-  }, [pageHeight, zoom])
+    useCameraStore
+      .getState()
+      .setContent({ width: pageWidth, height: contentHeight })
+  }, [pageWidth, contentHeight])
+
+  // only the pages in view are rendered
+  const [first, last] = useCameraStore(
+    useShallow((camera) => {
+      const top = -camera.y / camera.zoom
+      const bottom = (camera.viewport.height - camera.y) / camera.zoom
+      const toPage = (y: number) =>
+        Math.min(
+          Math.max(Math.floor(y / (pageHeight + PAGE_GAP)), 0),
+          pages.length - 1,
+        )
+      return [
+        Math.max(toPage(top) - OVERSCAN, 0),
+        Math.min(toPage(bottom) + OVERSCAN, pages.length - 1),
+      ]
+    }),
+  )
+
+  const visiblePages: number[] = []
+  for (let i = first; i <= last; i++) visiblePages.push(i)
 
   return (
-    <div className="relative h-full bg-muted/60 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] bg-size-[16px_16px]">
-      <Editor scrollRef={parentRef}>
-        {/* w-max lets the pages scroll sideways when zoomed in, min-w-full centres them otherwise */}
-        <div className="w-max min-w-full" style={{ padding: PADDING }}>
-          <div
-            className="mx-auto relative"
-            style={{
-              width: `${pageWidth}px`,
-              height: `${virtualizer.getTotalSize()}px`,
-            }}
-          >
-            {virtualizer.getVirtualItems().map((virtualPage) => {
-              const pageIndex = virtualPage.index
-              const pageRows = pages[pageIndex]
-              return (
-                <div
-                  key={pageIndex}
-                  className="absolute top-0 left-0 w-full"
-                  style={{ transform: `translateY(${virtualPage.start}px)` }}
-                >
-                  <Page
-                    document={view}
-                    pageIndex={pageIndex}
-                    pageRows={pageRows}
-                    layout={layout}
-                  />
-                </div>
-              )
-            })}
-          </div>
+    <div className="relative h-full">
+      <Editor
+        viewportRef={viewportRef}
+        className="bg-muted/60 bg-[radial-gradient(var(--color-border)_1px,transparent_1px)]"
+      >
+        <div
+          ref={worldRef}
+          className="absolute top-0 left-0 origin-top-left"
+          style={{ width: `${pageWidth}px`, height: `${contentHeight}px` }}
+        >
+          {visiblePages.map((pageIndex) => (
+            <div
+              key={pageIndex}
+              className="absolute left-0 w-full"
+              style={{ top: `${pageTop(pageIndex, pageHeight)}px` }}
+            >
+              <Page
+                document={document}
+                pageIndex={pageIndex}
+                pageRows={pages[pageIndex]}
+                layout={layout}
+              />
+            </div>
+          ))}
         </div>
       </Editor>
-      <ZoomControls scrollRef={parentRef} padding={PADDING} />
+      <ZoomControls />
     </div>
   )
 }

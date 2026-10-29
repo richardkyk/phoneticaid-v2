@@ -2,6 +2,7 @@ import { DocumentStore } from '@/lib/stores/document-store'
 import { Fragment } from 'react/jsx-runtime'
 import { Cell, Layout } from '@/lib/layout'
 import { Cursor, Grid, Highlight } from './grid'
+import { memo } from 'react'
 
 interface PageProps {
   pageIndex: number
@@ -9,14 +10,15 @@ interface PageProps {
   layout: Layout
   document: DocumentStore
 }
-export const Page = (props: PageProps) => {
+// memoised so pages already in view don't re-render as others come into view
+export const Page = memo(function Page(props: PageProps) {
   const document = props.document
 
   return (
     <div data-page={props.pageIndex} className="flex justify-center w-full">
       <div
         data-grid
-        className="relative shrink-0 bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.1)] select-none outline-none print:shadow-none page"
+        className="relative shrink-0 cursor-text bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.1)] select-none outline-none print:shadow-none page"
         style={{
           height: `${document.pageHeight() * document.mmY}px`,
           width: `${document.pageWidth() * document.mmX}px`,
@@ -41,7 +43,7 @@ export const Page = (props: PageProps) => {
       </div>
     </div>
   )
-}
+})
 
 interface MarginsProps {
   document: DocumentStore

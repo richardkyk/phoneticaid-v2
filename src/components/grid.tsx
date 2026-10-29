@@ -12,6 +12,7 @@ import {
 import type { Rect } from '@/lib/geometry'
 import { cn } from '@/lib/utils'
 import { pinyin } from 'pinyin'
+import { useMemo } from 'react'
 
 // absolute positioning for a rect in mm
 const rectStyle = (rect: Rect, document: DocumentStore) => ({
@@ -48,11 +49,16 @@ interface GridProps {
 export const Grid = (props: GridProps) => {
   const document = props.document
   const vertical = isVertical(document.writingMode)
+  // segmenting the pinyin is slow, so only redo it when the text changes
+  const pagePinyin = useMemo(
+    () => props.pageRows.map(linePinyin),
+    [props.pageRows],
+  )
 
   return (
     <Fragment>
       {props.pageRows.map((row, i) => {
-        const result = linePinyin(row)
+        const result = pagePinyin[i]
 
         return row.map((cell, j) => {
           const char = charRect(document, i, cell.col)
