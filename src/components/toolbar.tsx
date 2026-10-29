@@ -681,7 +681,8 @@ export function PinyinToolbar() {
             )}
             onChange={setChoice}
           />
-          <div className="flex items-center justify-between">
+          {/* as tall as the rows with buttons */}
+          <div className="flex h-8 items-center justify-between">
             <ControlLabel
               label="Group words"
               htmlFor="word-groups"
