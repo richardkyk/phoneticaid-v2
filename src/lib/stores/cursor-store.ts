@@ -34,6 +34,9 @@ interface CursorStoreActions {
   getSelection: () => { start: Position; end: Position } | null
   setSelection: (row: number, col: number, isStart: boolean) => void
   selectAll: () => void
+  // selects the characters from start to end (absolute offsets), scrolling
+  // the end into view unless `scroll` is false
+  selectRange: (start: number, end: number, scroll?: boolean) => void
   resetSelection: () => void
   reset: () => void
   focus: () => void
@@ -154,6 +157,18 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
       return
     }
     set({ [key]: pos })
+  },
+  selectRange: (start, end, scroll = true) => {
+    const selectionEnd = {
+      index: end,
+      virtual: 0,
+      affinity: 'upstream' as const,
+    }
+    set({
+      selectionStart: { index: start, virtual: 0, affinity: 'downstream' },
+      selectionEnd,
+    })
+    get().setCursor(selectionEnd, scroll)
   },
   selectAll: () => {
     const layout = currentLayout()

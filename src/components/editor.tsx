@@ -7,7 +7,12 @@ import { hitTest, keyToCaretMove } from '@/lib/geometry'
 import { useCameraStore } from '@/lib/stores/camera-store'
 import { cn } from '@/lib/utils'
 import { toDisplayScript } from '@/lib/script'
-import React, { Fragment, useCallback, useEffect, useRef } from 'react'
+import { useProjectsStore } from '@/lib/stores/projects-store'
+import { useLexiconStore } from '@/lib/hsk'
+import { getText } from '@/lib/piece-table'
+import { sentenceAt } from '@/lib/sentences'
+import { getAnalysis } from '@/lib/words'
+import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 
 const clamp = (val: number, min: number, max: number) =>
   Math.min(Math.max(val, min), max)
@@ -135,9 +140,13 @@ export const Editor: React.FC<EditorProps> = (props) => {
     [selectToPointer],
   )
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!isSelectingRef.current) return
+  // the pointer dragging out a selection (mouse, pen, or touch after a long
+  // press)
+  const selectingPointerRef = useRef<number | null>(null)
+
+  const handleSelectMove = useCallback(
+    (e: PointerEvent) => {
+      if (e.pointerId !== selectingPointerRef.current) return
       pointerRef.current = { x: e.clientX, y: e.clientY }
       selectToPointer()
       if (autoPanRef.current === null) {
@@ -147,21 +156,58 @@ export const Editor: React.FC<EditorProps> = (props) => {
     [selectToPointer, autoPan],
   )
 
-  const handleMouseUp = useCallback(() => {
-    isSelectingRef.current = false
-    pointerRef.current = null
-    if (autoPanRef.current !== null) {
-      cancelAnimationFrame(autoPanRef.current)
-      autoPanRef.current = null
-    }
-    inputRef.current?.focus()
-    useTranslateStore.getState().translateSelection()
+  const handleSelectEnd = useCallback(
+    (e: PointerEvent) => {
+      if (e.pointerId !== selectingPointerRef.current) return
+      selectingPointerRef.current = null
+      isSelectingRef.current = false
+      pointerRef.current = null
+      delete props.viewportRef.current?.dataset.selecting
+      if (autoPanRef.current !== null) {
+        cancelAnimationFrame(autoPanRef.current)
+        autoPanRef.current = null
+      }
+      inputRef.current?.focus()
+      useTranslateStore.getState().translateSelection()
 
-    window.removeEventListener('mousemove', handleMouseMove)
-    window.removeEventListener('mouseup', handleMouseUp)
-  }, [handleMouseMove])
+      window.removeEventListener('pointermove', handleSelectMove)
+      window.removeEventListener('pointerup', handleSelectEnd)
+      window.removeEventListener('pointercancel', handleSelectEnd)
+    },
+    [handleSelectMove],
+  )
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  // the selection follows the pointer until it's lifted
+  const followPointer = (pointerId: number) => {
+    selectingPointerRef.current = pointerId
+    isSelectingRef.current = true
+    // stops a touch from panning the canvas (see canvas.tsx)
+    if (props.viewportRef.current)
+      props.viewportRef.current.dataset.selecting = ''
+    window.addEventListener('pointermove', handleSelectMove)
+    window.addEventListener('pointerup', handleSelectEnd)
+    window.addEventListener('pointercancel', handleSelectEnd)
+  }
+
+  // a tap puts the caret there, like a click
+  const placeCaret = (x: number, y: number) => {
+    const viewportEl = props.viewportRef.current
+    const page = viewportEl && findNearestPage(viewportEl, y)
+    if (!page) return
+    const { row, col } = getRowColFromCoords(
+      x,
+      y,
+      page.pageIndex,
+      page.gridRect,
+    )
+    useCursorStore.getState().resetSelection()
+    useCursorStore.getState().setCursorByRowCol(row, col, false)
+    moveIMEInputToCursor(inputRef)
+  }
+
+  const touch = useTouchGestures({ followPointer, placeCaret })
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     // other buttons (e.g. middle dragging to pan) don't select
     if (e.button !== 0) return
     const pageEl = (e.target as HTMLElement).closest(
@@ -171,9 +217,13 @@ export const Editor: React.FC<EditorProps> = (props) => {
     const gridEl = pageEl.querySelector('[data-grid]')
     if (!gridEl) return // clicked outside a page
 
-    isSelectingRef.current = true
-    useCursorStore.getState().resetSelection()
+    // a finger pans, so selecting takes a long press (or a double tap)
+    if (e.pointerType === 'touch') {
+      touch.handlePointerDown(e)
+      return
+    }
 
+    useCursorStore.getState().resetSelection()
     const gridRect = gridEl.getBoundingClientRect()
     const pageIndex = parseInt(pageEl.dataset.page ?? '0', 10)
     const { row, col } = getRowColFromCoords(
@@ -184,9 +234,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
     )
     useCursorStore.getState().setCursorByRowCol(row, col)
     useCursorStore.getState().setSelection(row, col, true)
-
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseup', handleMouseUp)
+    followPointer(e.pointerId)
   }
 
   useEffect(() => {
@@ -246,10 +294,10 @@ export const Editor: React.FC<EditorProps> = (props) => {
         ref={props.viewportRef}
         id="editor"
         className={cn(
-          'relative size-full touch-none overflow-hidden outline-none cursor-grab data-[panning]:cursor-grabbing',
+          'relative size-full touch-none select-none [-webkit-touch-callout:none] overflow-hidden outline-none cursor-grab data-[panning]:cursor-grabbing',
           props.className,
         )}
-        onMouseDown={handleMouseDown}
+        onPointerDown={handlePointerDown}
         onClick={handleClick}
       >
         {props.children}
@@ -436,4 +484,115 @@ const HiddenInput = (props: HiddenInputProps) => {
       onCompositionEnd={handleCompositionEnd}
     />
   )
+}
+
+// how long a finger rests before selecting, and how far it can move first
+const LONG_PRESS_MS = 450
+const TOUCH_SLOP = 10
+// time and distance between the taps of a double tap
+const DOUBLE_TAP_MS = 350
+const DOUBLE_TAP_DISTANCE = 30
+
+// the character under a touch, -1 for none
+const cellIndex = (target: EventTarget) => {
+  const el = (target as HTMLElement).closest<HTMLElement>('[data-index]')
+  return el ? Number(el.dataset.index) : -1
+}
+
+// Selecting with a finger, which otherwise pans: a long press selects the
+// word under it (dragging then extends the selection), and a double tap
+// selects the sentence. Either is translated.
+interface TouchActions {
+  // the selection follows the pointer until it's lifted
+  followPointer: (pointerId: number) => void
+  placeCaret: (x: number, y: number) => void
+}
+
+function useTouchGestures(actions: TouchActions) {
+  // the handlers are made once, so the listeners they add can be removed
+  const actionsRef = useRef(actions)
+  actionsRef.current = actions
+  return useMemo(() => touchGestures(actionsRef), [])
+}
+
+function touchGestures(actionsRef: React.RefObject<TouchActions>) {
+  let press: {
+    pointerId: number
+    x: number
+    y: number
+    index: number
+    timer: number
+  } | null = null
+  let lastTap: { time: number; x: number; y: number } | null = null
+
+  const cancelPress = () => {
+    if (!press) return
+    window.clearTimeout(press.timer)
+    press = null
+    window.removeEventListener('pointermove', handleMove)
+    window.removeEventListener('pointerup', handleUp)
+    window.removeEventListener('pointercancel', cancelPress)
+  }
+
+  const handleMove = (e: PointerEvent) => {
+    if (!press || e.pointerId !== press.pointerId) return
+    // it's a pan
+    if (Math.hypot(e.clientX - press.x, e.clientY - press.y) > TOUCH_SLOP) {
+      lastTap = null
+      cancelPress()
+    }
+  }
+
+  const handleUp = (e: PointerEvent) => {
+    if (!press || e.pointerId !== press.pointerId) return
+    const { index } = press
+    cancelPress()
+    const now = performance.now()
+    const doubleTap =
+      lastTap &&
+      now - lastTap.time < DOUBLE_TAP_MS &&
+      Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) <
+        DOUBLE_TAP_DISTANCE
+    if (!doubleTap) {
+      lastTap = { time: now, x: e.clientX, y: e.clientY }
+      actionsRef.current.placeCaret(e.clientX, e.clientY)
+      return
+    }
+    lastTap = null
+    if (index < 0) return
+    const { pt } = useProjectsStore.getState().getActiveProject()
+    const [start, end] = sentenceAt(getText(pt), index)
+    if (start === end) return
+    // the finger's on the page, so it isn't moved
+    useCursorStore.getState().selectRange(start, end, false)
+    useTranslateStore.getState().translateSelection()
+  }
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // a second finger is a pinch
+    if (press) {
+      cancelPress()
+      return
+    }
+    const index = cellIndex(e.target)
+    const { pointerId } = e
+    const timer = window.setTimeout(() => {
+      cancelPress()
+      lastTap = null
+      if (index < 0) return
+      const { pt, readings } = useProjectsStore.getState().getActiveProject()
+      const lexicon = useLexiconStore.getState().lexicon
+      const { words, wordAt } = getAnalysis(pt, lexicon, readings)
+      const word = words[wordAt[index]]
+      const [start, end] = word ? [word.start, word.end] : [index, index + 1]
+      useCursorStore.getState().selectRange(start, end, false)
+      actionsRef.current.followPointer(pointerId)
+    }, LONG_PRESS_MS)
+    press = { pointerId, x: e.clientX, y: e.clientY, index, timer }
+    window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerup', handleUp)
+    window.addEventListener('pointercancel', cancelPress)
+  }
+
+  return { handlePointerDown }
 }

@@ -169,21 +169,7 @@ export const useTranslateStore = create<TranslateState>()(
         showTranslation: (id) => {
           const t = projectHistory().find((t) => t.id === id)
           if (!t) return
-          const cursor = useCursorStore.getState()
-          const end = {
-            index: t.end,
-            virtual: 0,
-            affinity: 'upstream' as const,
-          }
-          useCursorStore.setState({
-            selectionStart: {
-              index: t.start,
-              virtual: 0,
-              affinity: 'downstream',
-            },
-            selectionEnd: end,
-          })
-          cursor.setCursor(end)
+          useCursorStore.getState().selectRange(t.start, t.end)
           set({ current: id })
         },
         dismiss: () => set({ current: null }),

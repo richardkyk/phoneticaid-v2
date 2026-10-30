@@ -95,10 +95,12 @@ const DIGITS = '零〇一二三四五六七八九十'
 // (yí gè, yìqǐ, bú shì): 4th tone before a 4th tone, and 一 4th tone before
 // the others. 一 keeps its own tone when it's counted or ordered (第一,
 // 星期一, 一月, 十一) or ends a longer word (统一), and is neutral in 看一看.
+// Before a neutral tone, the next character's own tone counts (一个 yí ge).
 function applyToneSandhi(
   text: string,
   pinyin: Array<string>,
   words: Array<[number, number]>,
+  lexicon: Lexicon,
 ) {
   const lastInWord = new Uint8Array(text.length)
   for (const [start, end] of words) {
@@ -109,7 +111,9 @@ function applyToneSandhi(
     const ch = text[i]
     const prev = i > 0 ? text[i - 1] : ''
     const next = text[i + 1]
-    const nextTone = pinyin[i + 1] ? tone(pinyin[i + 1]) : 0
+    const nextTone = pinyin[i + 1]
+      ? tone(pinyin[i + 1]) || tone(lexicon.pinyin.get(next) ?? '')
+      : 0
     if (ch === '不' && pinyin[i] === 'bù' && nextTone === 4) {
       pinyin[i] = 'bú'
     }
@@ -159,7 +163,7 @@ function analyseParagraph(
   for (const [offset, syllable] of Object.entries(chosen ?? {})) {
     pinyin[Number(offset)] = syllable
   }
-  applyToneSandhi(text, pinyin, words)
+  applyToneSandhi(text, pinyin, words, lexicon)
   return { pinyin, words }
 }
 

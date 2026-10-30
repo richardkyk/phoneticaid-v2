@@ -19,7 +19,11 @@ const clamp = (val: number, min: number, max: number) =>
   Math.min(Math.max(val, min), max)
 
 // Safari sends pinches as gesture events rather than ctrl + wheel
-type GestureEvent = UIEvent & { scale: number; clientX: number; clientY: number }
+type GestureEvent = UIEvent & {
+  scale: number
+  clientX: number
+  clientY: number
+}
 
 // Draws the world (the pages, laid out at 100%) through the camera, and pans
 // and zooms the camera from the wheel, trackpad, drags and zoom shortcuts
@@ -158,12 +162,16 @@ export function useCanvas(
       camera().zoomAt(gestureStartZoom * gesture.scale, toViewport(gesture))
     }
 
-    // dragging the background, or middle dragging anywhere, pans (left
-    // dragging on the pages selects text instead)
+    // dragging the background, a finger anywhere, or middle dragging
+    // anywhere, pans (left dragging on the pages with a mouse or pen selects
+    // text instead, as does a finger after a long press, see editor.tsx)
     let pan: { pointerId: number; x: number; y: number } | null = null
     const handlePointerDown = (e: PointerEvent) => {
       const onPage = (e.target as HTMLElement).closest('[data-page]')
-      if (pan || !(e.button === 1 || (e.button === 0 && !onPage))) return
+      const touch = e.pointerType === 'touch'
+      if (pan || !(e.button === 1 || (e.button === 0 && (!onPage || touch)))) {
+        return
+      }
       // no middle click autoscroll
       if (e.button === 1) e.preventDefault()
       pan = { pointerId: e.pointerId, x: e.clientX, y: e.clientY }
@@ -172,7 +180,9 @@ export function useCanvas(
     }
     const handlePointerMove = (e: PointerEvent) => {
       if (e.pointerId !== pan?.pointerId) return
-      camera().panBy(e.clientX - pan.x, e.clientY - pan.y)
+      if (!('selecting' in viewportEl.dataset)) {
+        camera().panBy(e.clientX - pan.x, e.clientY - pan.y)
+      }
       pan.x = e.clientX
       pan.y = e.clientY
     }

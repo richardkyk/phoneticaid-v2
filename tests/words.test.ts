@@ -220,6 +220,10 @@ describe('analyseText with CC-CEDICT words', () => {
     )
   })
 
+  it("changes 一 before a neutral tone by the next character's own tone", () => {
+    expect(sentencePinyin('我是一个学生')).toBe('wǒ shì yíge xuésheng')
+  })
+
   it('only uses them where HSK words would leave single characters', () => {
     const words = (text: string) =>
       analyseText(text, extendedLexicon).words.map((w) => w.text)
