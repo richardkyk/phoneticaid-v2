@@ -1,14 +1,20 @@
 // Builds the word list in public/hsk from the complete-hsk-vocabulary dataset
-// (MIT, https://github.com/drkameleon/complete-hsk-vocabulary).
+// (MIT, https://github.com/drkameleon/complete-hsk-vocabulary), plus the
+// usual reading of every other character from Unihan's kMandarin field
+// (Unicode license, https://www.unicode.org/charts/unihan.html).
 //
 // Each line is `word<TAB>pinyin<TAB>level`: the pinyin has one syllable per
 // character, separated by spaces (儿 gets its own "r"), and the level is the
-// word's HSK 3.0 level, empty for words only in HSK 2.0 (level 7 covers 7-9).
-// Traditional forms are included so traditional text is matched too.
+// word's HSK 3.0 level, empty for words only in HSK 2.0 (level 7 covers 7-9)
+// and for characters that aren't HSK words. Traditional forms are included
+// so traditional text is matched too.
 //
-// Usage: node scripts/build-hsk.mjs
+// Usage: node scripts/build-hsk.mjs (needs `unzip`)
 
-import { mkdir, writeFile } from 'node:fs/promises'
+import { execFileSync } from 'node:child_process'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 
 // pinned so the list only changes when this is bumped deliberately
 const COMMIT = '7ac65bf1a6387d35f1ade478906172a19311c7f9'
@@ -53,6 +59,43 @@ for (const entry of entries) {
     .sort((a, b) => neutral(b) - neutral(a))[0]
   add(entry.s, best, level)
   for (const form of entry.f) add(form.t, best, level)
+}
+
+// The reading of a character on its own. The dataset's are no good for this
+// (it picks one entry per character, e.g. 说 shuì, 个 gě), so Unihan's most
+// customary reading is used, unless it's listed here.
+const SINGLE_CHARACTER_PINYIN = {
+  得: 'de',
+  长: 'cháng',
+  長: 'cháng',
+  着: 'zhe',
+  著: 'zhe',
+  乾: 'gān',
+}
+
+const UNIHAN = 'https://www.unicode.org/Public/16.0.0/ucd/Unihan.zip'
+const unihanRes = await fetch(UNIHAN)
+if (!unihanRes.ok)
+  throw new Error(`Failed to download ${UNIHAN}: ${unihanRes.status}`)
+const dir = await mkdtemp(join(tmpdir(), 'unihan-'))
+try {
+  const zip = join(dir, 'Unihan.zip')
+  await writeFile(zip, Buffer.from(await unihanRes.arrayBuffer()))
+  execFileSync('unzip', ['-q', zip, 'Unihan_Readings.txt', '-d', dir])
+  const readings = await readFile(join(dir, 'Unihan_Readings.txt'), 'utf8')
+  for (const line of readings.split('\n')) {
+    const [code, field, value] = line.split('\t')
+    if (!code.startsWith('U+') || field !== 'kMandarin') continue
+    const char = String.fromCodePoint(parseInt(code.slice(2), 16))
+    // only the characters the app treats as Chinese
+    if (!/^[一-鿿]$/.test(char)) continue
+    const syls = [SINGLE_CHARACTER_PINYIN[char] ?? value.split(' ')[0]]
+    const existing = words.get(char)
+    if (existing) existing.syls = syls
+    else words.set(char, { syls, level: Infinity })
+  }
+} finally {
+  await rm(dir, { recursive: true })
 }
 
 const lines = [...words]

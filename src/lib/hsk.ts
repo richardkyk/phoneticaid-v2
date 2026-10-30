@@ -1,9 +1,10 @@
 import { create } from 'zustand'
 
-// The word list (HSK 2.0 and 3.0 words with their pinyin and HSK 3.0 level),
-// built into public/hsk by scripts/build-hsk.mjs and fetched when a project
-// is opened (the browser caches it after that). It's used to split text into
-// words, for the pinyin of words, and for hiding the pinyin of known words.
+// The word list (HSK 2.0 and 3.0 words with their pinyin and HSK 3.0 level,
+// and the usual reading of every other character), built into public/hsk by
+// scripts/build-hsk.mjs and fetched when a project is opened (the browser
+// caches it after that). It's used to split text into words, for pinyin, and
+// for hiding the pinyin of known words.
 
 // word -> the lowest HSK 3.0 level it appears in (levels 7-9 are level 7)
 export type HskLevels = Map<string, number>
@@ -12,7 +13,7 @@ export interface Lexicon {
   // every listed word
   words: Set<string>
   levels: HskLevels
-  // pinyin for each character of a word of two or more characters
+  // pinyin for each character of a word
   pinyin: Map<string, Array<string>>
   // length of the longest word, in UTF-16 units
   maxLength: number
@@ -33,7 +34,7 @@ export function parseLexicon(text: string): Lexicon {
     lexicon.maxLength = Math.max(lexicon.maxLength, word.length)
     if (level) lexicon.levels.set(word, Number(level))
     const syllables = pinyin ? pinyin.split(' ') : []
-    if (word.length > 1 && syllables.length === word.length) {
+    if (syllables.length === word.length) {
       lexicon.pinyin.set(word, syllables)
     }
   }

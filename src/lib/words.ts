@@ -1,4 +1,3 @@
-import { pinyin } from 'pinyin'
 import { getText } from './piece-table'
 import type { PieceTable } from './piece-table'
 import { isKnownWord } from './hsk'
@@ -8,10 +7,10 @@ import type { HskLevels, Lexicon } from './hsk'
 // Done per paragraph rather than per row, so words (and the pinyin worked out
 // from their context) aren't cut up where a line wraps.
 //
-// Words come from the word list (see hsk.ts), whose pinyin is used for them,
-// since the pinyin library gets common words wrong (e.g. 觉得 juédé, 孩子
-// háizǐ). Until it has loaded, the browser's segmenter and the library's
-// pinyin are used.
+// Words and pinyin come from the word list (see hsk.ts): a listed word gets
+// its own pinyin, anything else the usual reading of each character. Until
+// it has loaded, words come from the browser's segmenter and there's no
+// pinyin.
 
 export interface Word {
   // absolute offsets, end is exclusive
@@ -41,39 +40,6 @@ interface ParagraphAnalysis {
   pinyin: Array<string>
   // [start, end) relative to the paragraph
   words: Array<[number, number]>
-}
-
-function paragraphPinyin(text: string) {
-  const py = pinyin(
-    // the placeholder is two UTF-16 units, like the cells it's drawn in
-    text.replace(/\u{E0000}/gu, '母 ').replace(/[^一-鿿]/g, ' '),
-    { segment: true },
-  ).flatMap(([s]) => {
-    // check for Latin or accented letters (for pinyin)
-    const hasPinyin = /[a-zA-ZÀ-ſ]/.test(s)
-    if (hasPinyin) return [s]
-    // otherwise split each character into an empty string placeholder
-    return Array.from(s).map(() => '')
-  })
-  // one entry per character, whatever the segmenter did
-  return Array.from({ length: text.length }, (_, i) => py[i] ?? '')
-}
-
-// The everyday reading of characters standing on their own, where the pinyin
-// library picks a rarer one (e.g. 还 huán rather than hái)
-const SINGLE_CHARACTER_PINYIN: Record<string, string> = {
-  还: 'hái',
-  都: 'dōu',
-  着: 'zhe',
-  地: 'de',
-  得: 'de',
-  行: 'xíng',
-  吧: 'ba',
-  么: 'me',
-  啊: 'a',
-  为: 'wèi',
-  只: 'zhǐ',
-  几: 'jǐ',
 }
 
 // Splits text into listed words and single characters, using the fewest
@@ -106,7 +72,8 @@ function analyseParagraph(
   text: string,
   lexicon: Lexicon | undefined,
 ): ParagraphAnalysis {
-  const pinyin = paragraphPinyin(text)
+  // one entry per UTF-16 unit, like the cells (the placeholder is two)
+  const pinyin: Array<string> = new Array(text.length).fill('')
   const words: Array<[number, number]> = []
 
   if (!lexicon) {
@@ -123,16 +90,15 @@ function analyseParagraph(
     if (!hasHan(word)) continue
     words.push([start, end])
     const syllables = lexicon.pinyin.get(word)
-    if (syllables) {
-      syllables.forEach((syllable, i) => (pinyin[start + i] = syllable))
-    } else if (word in SINGLE_CHARACTER_PINYIN) {
-      pinyin[start] = SINGLE_CHARACTER_PINYIN[word]
+    for (let i = start; i < end; i++) {
+      pinyin[i] =
+        syllables?.[i - start] ?? lexicon.pinyin.get(text[i])?.[0] ?? ''
     }
   }
   return { pinyin, words }
 }
 
-// working out the pinyin is slow, so paragraphs are only redone when they
+// segmenting is slow, so paragraphs are only redone when they
 // change (or the word list loads)
 let paragraphCache = new Map<string, ParagraphAnalysis>()
 let cachedLexicon: Lexicon | undefined

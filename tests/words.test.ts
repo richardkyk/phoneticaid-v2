@@ -35,7 +35,7 @@ const wordTexts = (text: string) => analyseText(text).words.map((w) => w.text)
 describe('analyseText', () => {
   it('has pinyin for each character', () => {
     const text = '我在银行工作, ok!\n他行不行？'
-    const { pinyin } = analyseText(text)
+    const { pinyin } = analyseText(text, fullLexicon)
     expect(pinyin).toHaveLength(text.length)
     expect(pinyin.slice(0, 6)).toEqual([
       'wǒ',
@@ -52,9 +52,18 @@ describe('analyseText', () => {
 
   it('keeps the pinyin aligned after the two unit placeholder', () => {
     const text = '師\u{E0000}好'
-    const { pinyin } = analyseText(text)
+    const { pinyin } = analyseText(text, fullLexicon)
     expect(pinyin).toHaveLength(text.length)
     expect(pinyin.at(-1)).toBe('hǎo')
+  })
+
+  it('has no pinyin until the word list has loaded', () => {
+    expect(analyseText('你好').pinyin).toEqual(['', ''])
+  })
+
+  it('uses the usual reading of characters outside listed words', () => {
+    const { pinyin } = analyseText('说个', fullLexicon)
+    expect(pinyin).toEqual(['shuō', 'gè'])
   })
 
   it('only keeps words with Chinese characters', () => {
@@ -122,9 +131,9 @@ describe('hiddenPinyin', () => {
 
 describe('rangePinyin', () => {
   it('runs the syllables of a word together', () => {
-    const analysis = analyseText('我喜欢银行。你好')
-    expect(rangePinyin(analysis, 0, 5)).toBe('wǒ xǐhuān yínháng')
-    expect(rangePinyin(analysis, 3, 8)).toBe('yínháng nǐhǎo')
+    const analysis = analyseText('我喜欢银行。老师', fullLexicon)
+    expect(rangePinyin(analysis, 0, 5)).toBe('wǒ xǐhuan yínháng')
+    expect(rangePinyin(analysis, 3, 8)).toBe('yínháng lǎoshī')
   })
 })
 
