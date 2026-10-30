@@ -72,6 +72,13 @@ const SINGLE_CHARACTER_PINYIN = {
   着: 'zhe',
   著: 'zhe',
   乾: 'gān',
+  佛: 'fó',
+  嚼: 'jiáo',
+  妳: 'nǐ',
+  漂: 'piāo',
+  摻: 'chān',
+  挣: 'zhèng',
+  掙: 'zhèng',
 }
 
 const UNIHAN = 'https://www.unicode.org/Public/16.0.0/ucd/Unihan.zip'

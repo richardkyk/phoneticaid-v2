@@ -1598,7 +1598,7 @@
 余地	yú dì	7
 余额	yú é	7
 佚	yì	
-佛	fú	6
+佛	fó	6
 佛教	fó jiào	6
 作	zuò	6
 作业	zuò yè	2
@@ -5875,7 +5875,7 @@
 嚹	lá	
 嚺	tà	
 嚻	xiāo	
-嚼	jué	7
+嚼	jiáo	7
 嚽	chuò	
 嚾	huān	
 嚿	huò	
@@ -7546,7 +7546,7 @@
 妰	zhuó	
 妱	zhāo	
 妲	dá	
-妳	nǎi	1
+妳	nǐ	1
 妴	yuàn	
 妵	tǒu	
 妶	xián	
@@ -12439,7 +12439,7 @@
 挠	náo	7
 挡	dǎng	5
 挢	jiǎo	
-挣	zhēng	5
+挣	zhèng	5
 挣扎	zhēng zhá	7
 挣钱	zhèng qián	5
 挤	jǐ	5
@@ -12638,7 +12638,7 @@
 掖	yē	
 掗	yà	
 掘	jué	
-掙	zhēng	5
+掙	zhèng	5
 掙扎	zhēng zhá	7
 掙錢	zhèng qián	5
 掚	liǎng	
@@ -13085,7 +13085,7 @@
 摸索	mō suo	7
 摹	mó	
 摺	zhé	4
-摻	càn	7
+摻	chān	7
 摼	kēng	
 摽	biào	
 摾	jiàng	
@@ -17875,7 +17875,7 @@
 漁	yú	
 漁民	yú mín	7
 漁船	yú chuán	7
-漂	piào	7
+漂	piāo	7
 漂亮	piào liang	2
 漂浮	piāo fú	
 漃	jì	
