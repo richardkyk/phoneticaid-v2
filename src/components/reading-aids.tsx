@@ -4,7 +4,7 @@ import type { Cell } from '@/lib/layout'
 import type { DocumentStore } from '@/lib/stores/document-store'
 import { useCursorStore } from '@/lib/stores/cursor-store'
 import { useRevealStore } from '@/lib/stores/reveal-store'
-import { useHskStore } from '@/lib/hsk'
+import { useLexiconStore } from '@/lib/hsk'
 import type { HskLevels } from '@/lib/hsk'
 import { wordRect } from '@/lib/geometry'
 import { hiddenPinyin } from '@/lib/words'
@@ -16,18 +16,14 @@ let hiddenCache: {
   hidden: Uint8Array | null
 } | null = null
 
-// Which characters have their pinyin hidden, loading the HSK word list when
-// it's needed. Shared by every page, so it's only worked out once per change.
+// Which characters have their pinyin hidden. Shared by every page, so it's
+// only worked out once per change.
 export function useHiddenPinyin(
   document: DocumentStore,
   analysis: TextAnalysis,
 ) {
   const { pinyinMode, hskLevel } = document
-  const levels = useHskStore((state) => state.levels)
-
-  useEffect(() => {
-    if (pinyinMode === 'unknown') useHskStore.getState().load()
-  }, [pinyinMode])
+  const levels = useLexiconStore((state) => state.lexicon?.levels)
 
   const args: [TextAnalysis, PinyinMode, HskLevels | undefined, number] = [
     analysis,

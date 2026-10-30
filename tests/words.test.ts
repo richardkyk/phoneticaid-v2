@@ -1,10 +1,34 @@
 import { describe, it, expect } from 'vitest'
 import { analyseText, hiddenPinyin, rangePinyin } from '@/lib/words'
-import { isKnownWord, parseHskLevels } from '@/lib/hsk'
+import { readFileSync } from 'node:fs'
+import { isKnownWord, parseLexicon } from '@/lib/hsk'
 
-const levels = parseHskLevels(
-  ['我 你 好 在 图 书 银行 工作 看', '图书馆 行', '喜欢'].join('\n'),
+// word, pinyin, level
+const lexicon = parseLexicon(
+  [
+    ['我', 'wǒ', 1],
+    ['你', 'nǐ', 1],
+    ['好', 'hǎo', 1],
+    ['在', 'zài', 1],
+    ['图', 'tú', 1],
+    ['书', 'shū', 1],
+    ['银行', 'yín háng', 1],
+    ['工作', 'gōng zuò', 1],
+    ['看', 'kàn', 1],
+    ['图书馆', 'tú shū guǎn', 2],
+    ['行', 'xíng', 2],
+    ['喜欢', 'xǐ huan', 3],
+    ['研究', 'yán jiū', 4],
+    ['研究生', 'yán jiū shēng', 4],
+    ['生命', 'shēng mìng', 4],
+  ]
+    .map((fields) => fields.join('\t'))
+    .join('\n'),
 )
+const levels = lexicon.levels
+
+// the real word list
+const fullLexicon = parseLexicon(readFileSync('public/hsk/words.tsv', 'utf8'))
 
 const wordTexts = (text: string) => analyseText(text).words.map((w) => w.text)
 
@@ -101,5 +125,46 @@ describe('rangePinyin', () => {
     const analysis = analyseText('我喜欢银行。你好')
     expect(rangePinyin(analysis, 0, 5)).toBe('wǒ xǐhuān yínháng')
     expect(rangePinyin(analysis, 3, 8)).toBe('yínháng nǐhǎo')
+  })
+})
+
+describe('analyseText with the word list', () => {
+  const words = (text: string, lex = lexicon) =>
+    analyseText(text, lex).words.map((w) => w.text)
+  const sentencePinyin = (text: string) => {
+    const analysis = analyseText(text, fullLexicon)
+    return analysis.words
+      .map((w) => analysis.pinyin.slice(w.start, w.end).join(''))
+      .join(' ')
+  }
+
+  it('splits into listed words', () => {
+    expect(words('我在图书馆看书')).toEqual(['我', '在', '图书馆', '看', '书'])
+  })
+
+  it('prefers words of even lengths', () => {
+    expect(words('研究生命')).toEqual(['研究', '生命'])
+  })
+
+  it('uses the pinyin of the listed word', () => {
+    const { pinyin } = analyseText('我喜欢', lexicon)
+    expect(pinyin).toEqual(['wǒ', 'xǐ', 'huan'])
+  })
+
+  it('gets common words and particles right', () => {
+    expect(sentencePinyin('他还没来，我们都是学生。')).toBe(
+      'tā hái méi lái wǒmen dōu shì xuésheng',
+    )
+    expect(sentencePinyin('他慢慢地走着，跑得很快。')).toBe(
+      'tā mànmàn de zǒu zhe pǎo de hěn kuài',
+    )
+    expect(sentencePinyin('孩子觉得很有意思，喜欢爸爸。')).toBe(
+      'háizi juéde hěn yǒuyìsi xǐhuan bàba',
+    )
+    expect(sentencePinyin('银行在哪儿？')).toBe('yínháng zài nǎr')
+  })
+
+  it('handles traditional text', () => {
+    expect(sentencePinyin('謝謝老師')).toBe('xièxie lǎoshī')
   })
 })

@@ -9,6 +9,7 @@ import { PAGE_GAP, pageTop, useCameraStore } from '@/lib/stores/camera-store'
 import { useCanvas } from './canvas'
 import { ZoomControls } from './zoom-controls'
 import { getAnalysis } from '@/lib/words'
+import { useLexiconStore } from '@/lib/hsk'
 import { usePeekKey } from './reading-aids'
 import { TranslationPopover } from './translation-popover'
 import { getDisplayText, useScriptStore } from '@/lib/script'
@@ -20,7 +21,12 @@ export const Document = () => {
   const document = useDocumentStore()
   const project = useProjectsStore((state) => state.getActiveProject())
   const layout = getLayout(project.pt, document.columns)
-  const analysis = getAnalysis(project.pt)
+  // words and their pinyin, redone once the word list has loaded
+  const lexicon = useLexiconStore((state) => state.lexicon)
+  useEffect(() => {
+    useLexiconStore.getState().load()
+  }, [])
+  const analysis = getAnalysis(project.pt, lexicon)
   // re-rendered once the converter for the script has loaded
   useScriptStore((state) => state.converters[document.script])
   const display = getDisplayText(project.pt, document.script)

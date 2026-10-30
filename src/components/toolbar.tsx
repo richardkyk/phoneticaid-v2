@@ -20,6 +20,7 @@ import { ButtonGroup } from './ui/button-group'
 import { cn } from '@/lib/utils'
 import { getLayout } from '@/lib/layout'
 import { getAnalysis } from '@/lib/words'
+import { useLexiconStore } from '@/lib/hsk'
 import { getDisplayText, scripts } from '@/lib/script'
 import { isVertical, writingModes } from '@/lib/geometry'
 import { Page } from './page'
@@ -306,7 +307,7 @@ function PrintButton(props: PrintButtonProps) {
         const documentStore = useDocumentStore.getState()
         const pt = useProjectsStore.getState().getActiveProject().pt
         const layout = getLayout(pt, documentStore.columns)
-        const analysis = getAnalysis(pt)
+        const analysis = getAnalysis(pt, useLexiconStore.getState().lexicon)
         const display = getDisplayText(pt, documentStore.script)
         const linesPerPage = documentStore.linesPerPage()
         const pages = []

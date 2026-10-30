@@ -1,21 +1,43 @@
 import { create } from 'zustand'
 
-// The HSK 3.0 word list, built into public/hsk by scripts/build-hsk.mjs and
-// fetched the first time it's needed (the browser caches it after that).
-// Levels 7-9 are combined into level 7.
+// The word list (HSK 2.0 and 3.0 words with their pinyin and HSK 3.0 level),
+// built into public/hsk by scripts/build-hsk.mjs and fetched when a project
+// is opened (the browser caches it after that). It's used to split text into
+// words, for the pinyin of words, and for hiding the pinyin of known words.
 
-// word -> the lowest level it appears in
+// word -> the lowest HSK 3.0 level it appears in (levels 7-9 are level 7)
 export type HskLevels = Map<string, number>
 
-// one line per level, words separated by spaces
-export function parseHskLevels(text: string): HskLevels {
-  const levels: HskLevels = new Map()
-  text.split('\n').forEach((line, i) => {
-    for (const word of line.split(' ')) {
-      if (word) levels.set(word, i + 1)
+export interface Lexicon {
+  // every listed word
+  words: Set<string>
+  levels: HskLevels
+  // pinyin for each character of a word of two or more characters
+  pinyin: Map<string, Array<string>>
+  // length of the longest word, in UTF-16 units
+  maxLength: number
+}
+
+// lines of `word<TAB>pinyin<TAB>level`, the pinyin one syllable per character
+export function parseLexicon(text: string): Lexicon {
+  const lexicon: Lexicon = {
+    words: new Set(),
+    levels: new Map(),
+    pinyin: new Map(),
+    maxLength: 1,
+  }
+  for (const line of text.split('\n')) {
+    const [word, pinyin, level] = line.split('\t')
+    if (!word) continue
+    lexicon.words.add(word)
+    lexicon.maxLength = Math.max(lexicon.maxLength, word.length)
+    if (level) lexicon.levels.set(word, Number(level))
+    const syllables = pinyin ? pinyin.split(' ') : []
+    if (word.length > 1 && syllables.length === word.length) {
+      lexicon.pinyin.set(word, syllables)
     }
-  })
-  return levels
+  }
+  return lexicon
 }
 
 const isHan = (ch: string) => /[一-鿿]/.test(ch)
@@ -35,22 +57,22 @@ export function isKnownWord(
   return chars.every((ch) => (levels.get(ch) ?? Infinity) <= maxLevel)
 }
 
-interface HskState {
-  levels: HskLevels | undefined
+interface LexiconState {
+  lexicon: Lexicon | undefined
   load: () => void
 }
 
 let loading = false
 
-export const useHskStore = create<HskState>()((set, get) => ({
-  levels: undefined,
+export const useLexiconStore = create<LexiconState>()((set, get) => ({
+  lexicon: undefined,
   load: async () => {
-    if (get().levels || loading) return
+    if (get().lexicon || loading) return
     loading = true
     try {
-      const res = await fetch('/hsk/hsk-3.0.txt')
-      if (!res.ok) throw new Error(`HSK word list: ${res.status}`)
-      set({ levels: parseHskLevels(await res.text()) })
+      const res = await fetch('/hsk/words.tsv')
+      if (!res.ok) throw new Error(`Word list: ${res.status}`)
+      set({ lexicon: parseLexicon(await res.text()) })
     } catch (err) {
       console.error(err)
     } finally {
