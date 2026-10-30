@@ -299,23 +299,26 @@ function PrintButton(props: PrintButtonProps) {
     <Button
       variant="ghost"
       onClick={handlePrint}
-      size="icon"
+      size="sm"
       className={props.className}
     >
       <PrinterIcon className="size-4" />
+      Print
     </Button>
   )
 }
 
+// Undo, redo and printing, at the top of the settings panel
 export function DocumentToolbar() {
   const { past, future } = useHistoryStore()
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 border-b p-2">
       <Button
         onClick={() => useHistoryStore.getState().undo()}
         size="icon-sm"
         variant="ghost"
+        title="Undo"
         disabled={past.length === 0}
       >
         <UndoIcon />
@@ -324,11 +327,12 @@ export function DocumentToolbar() {
         onClick={() => useHistoryStore.getState().redo()}
         size="icon-sm"
         variant="ghost"
+        title="Redo"
         disabled={future.length === 0}
       >
         <RedoIcon />
       </Button>
-      <PrintButton />
+      <PrintButton className="ml-auto" />
     </div>
   )
 }

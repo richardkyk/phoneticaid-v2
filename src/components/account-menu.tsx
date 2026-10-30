@@ -19,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
+import { cn } from '@/lib/utils'
 
 const PROJECT_PATH = /^\/projects\/([^/]+)/
 
@@ -93,8 +94,13 @@ function GoogleIcon() {
   )
 }
 
+interface AccountMenuProps {
+  // a full width row with the name and sync status (at the bottom of the
+  // settings panel), rather than just the avatar
+  full?: boolean
+}
 // Signing in with Google syncs projects between devices
-export function AccountMenu() {
+export function AccountMenu(props: AccountMenuProps) {
   const { data: session, isPending } = authClient.useSession()
   const status = useSyncStore((state) => state.status)
   const lastSynced = useSyncStore((state) => state.lastSynced)
@@ -112,7 +118,7 @@ export function AccountMenu() {
       <Button
         variant="outline"
         size="sm"
-        className="max-sm:size-8"
+        className={cn(props.full && 'w-full')}
         title="Sign in to sync your projects between devices"
         onClick={() =>
           authClient.signIn.social({
@@ -122,31 +128,61 @@ export function AccountMenu() {
         }
       >
         <GoogleIcon />
-        {/* just the icon on narrow screens, where the header's full */}
-        <span className="max-sm:hidden">Sign in</span>
+        {props.full ? 'Sign in to sync' : 'Sign in'}
       </Button>
     )
   }
 
   const { user } = session
   const StatusIcon = status === 'error' ? CloudAlertIcon : CloudCheckIcon
+  const statusText =
+    status === 'syncing'
+      ? 'Syncing…'
+      : status === 'error'
+        ? "Couldn't sync"
+        : lastSynced
+          ? `Synced ${syncedAgo(lastSynced)}`
+          : 'Not synced yet'
+  const avatar = (
+    <Avatar className="size-7">
+      {user.image && <AvatarImage src={user.image} alt="" />}
+      <AvatarFallback>{user.name.slice(0, 1)}</AvatarFallback>
+    </Avatar>
+  )
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          className="rounded-full"
-          title={user.name}
-        >
-          <Avatar className="size-7">
-            {user.image && <AvatarImage src={user.image} alt="" />}
-            <AvatarFallback>{user.name.slice(0, 1)}</AvatarFallback>
-          </Avatar>
-        </Button>
+        {props.full ? (
+          <Button
+            variant="ghost"
+            className="h-auto w-full justify-start px-2 py-1.5 font-normal"
+          >
+            {avatar}
+            <div className="min-w-0 text-left">
+              <div className="truncate text-sm">{user.name}</div>
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <StatusIcon className="size-3" />
+                {statusText}
+              </div>
+            </div>
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="rounded-full"
+            title={user.name}
+          >
+            {avatar}
+          </Button>
+        )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-60">
+      <DropdownMenuContent
+        align={props.full ? 'start' : 'end'}
+        side={props.full ? 'top' : 'bottom'}
+        className="w-60"
+      >
         <DropdownMenuLabel className="font-normal">
           <div className="truncate text-sm font-medium">{user.name}</div>
           <div className="truncate text-xs text-muted-foreground">
@@ -156,13 +192,7 @@ export function AccountMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="flex items-center gap-2 text-xs font-normal text-muted-foreground">
           <StatusIcon className="size-4" />
-          {status === 'syncing'
-            ? 'Syncing…'
-            : status === 'error'
-              ? "Couldn't sync"
-              : lastSynced
-                ? `Synced ${syncedAgo(lastSynced)}`
-                : 'Not synced yet'}
+          {statusText}
         </DropdownMenuLabel>
         <DropdownMenuItem
           onSelect={(e) => {

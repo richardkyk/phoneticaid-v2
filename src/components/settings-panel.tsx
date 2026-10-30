@@ -4,7 +4,9 @@ import { useRef } from 'react'
 import { XIcon } from 'lucide-react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
+import { AccountMenu } from './account-menu'
 import {
+  DocumentToolbar,
   LayoutToolbar,
   PinyinToolbar,
   SpacingToolbar,
@@ -79,6 +81,7 @@ export function SettingsPanel(props: SettingsPanelProps) {
           </Button>
         )}
       </div>
+      <DocumentToolbar />
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         {tab === 'settings' ? (
           <>
@@ -93,6 +96,9 @@ export function SettingsPanel(props: SettingsPanelProps) {
             <TranslationHistory />
           </>
         )}
+      </div>
+      <div className="shrink-0 border-t p-2">
+        <AccountMenu full />
       </div>
     </aside>
   )

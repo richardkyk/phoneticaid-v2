@@ -20,8 +20,6 @@ import {
   PanelRightIcon,
   PlusIcon,
 } from 'lucide-react'
-import { DocumentToolbar } from './toolbar'
-import { AccountMenu } from './account-menu'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 
@@ -29,7 +27,7 @@ export function AppHeader() {
   return (
     <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
       {/* the title gives way on narrow screens */}
-      <div className="flex min-w-0 items-center gap-1">
+      <div className="flex min-w-0 flex-1 items-center gap-1">
         <Button variant="ghost" size="icon-sm" asChild title="All projects">
           <Link to="/" replace>
             <img src="/favicon.ico" alt="All projects" width={20} height={20} />
@@ -42,14 +40,9 @@ export function AppHeader() {
         <EditableTitle />
         <ProjectSwitcher />
       </div>
+      {/* undo, redo, printing and the account are in the settings panel */}
       <div className="ml-auto flex shrink-0 items-center gap-1">
-        <DocumentToolbar />
-        <Separator
-          orientation="vertical"
-          className="mx-1 data-[orientation=vertical]:h-4"
-        />
         <SettingsToggle />
-        <AccountMenu />
       </div>
     </header>
   )
@@ -156,7 +149,7 @@ function EditableTitle() {
       autoFocus
       value={activeProject.title}
       onChange={(e) => setActiveProjectAttribute({ title: e.target.value })}
-      className="border px-2 w-[180px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+      className="min-w-0 max-w-[180px] flex-1 border px-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
       onBlur={() => setIsEditing(false)}
     />
   ) : (
