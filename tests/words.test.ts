@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { analyseText, hiddenPinyin, rangePinyin } from '@/lib/words'
 import { readFileSync } from 'node:fs'
-import { isKnownWord, parseLexicon } from '@/lib/hsk'
+import { extendLexicon, isKnownWord, parseLexicon } from '@/lib/hsk'
 
 // word, pinyin, level
 const lexicon = parseLexicon(
@@ -29,6 +29,11 @@ const levels = lexicon.levels
 
 // the real word list
 const fullLexicon = parseLexicon(readFileSync('public/hsk/words.tsv', 'utf8'))
+// with CC-CEDICT's words
+const extendedLexicon = extendLexicon(
+  fullLexicon,
+  readFileSync('public/dict/words.tsv', 'utf8'),
+)
 
 const wordTexts = (text: string) => analyseText(text).words.map((w) => w.text)
 
@@ -191,5 +196,35 @@ describe('analyseText with the word list', () => {
     expect(sentencePinyin('第一次，星期一下午，一月，十一个，统一了')).toBe(
       'dìyī cì xīngqī yī xiàwǔ yī yuè shí yī gè tǒngyī le',
     )
+  })
+})
+
+describe('analyseText with CC-CEDICT words', () => {
+  const sentencePinyin = (text: string) => {
+    const analysis = analyseText(text, extendedLexicon)
+    return analysis.words
+      .map((w) => analysis.pinyin.slice(w.start, w.end).join(''))
+      .join(' ')
+  }
+
+  it('finds words outside HSK, with their pinyin', () => {
+    expect(sentencePinyin('我去图书馆还书')).toBe('wǒ qù túshūguǎn huánshū')
+  })
+
+  it('still splits HSK sentences the same way', () => {
+    expect(sentencePinyin('他还没来，我们都是学生。')).toBe(
+      'tā hái méi lái wǒmen dōu shì xuésheng',
+    )
+    expect(sentencePinyin('孩子觉得很有意思，喜欢爸爸。')).toBe(
+      'háizi juéde hěn yǒuyìsi xǐhuan bàba',
+    )
+  })
+
+  it('only uses them where HSK words would leave single characters', () => {
+    const words = (text: string) =>
+      analyseText(text, extendedLexicon).words.map((w) => w.text)
+    expect(words('经济发展')).toEqual(['经济', '发展'])
+    expect(words('下个星期')).toEqual(['下个', '星期'])
+    expect(words('这个问题')).toEqual(['这个', '问题'])
   })
 })

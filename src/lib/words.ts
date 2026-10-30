@@ -43,7 +43,13 @@ interface ParagraphAnalysis {
 }
 
 // Splits text into listed words and single characters, using the fewest
-// pieces, then the most even lengths (e.g. 研究|生命 over 研究生|命)
+// pieces, then the most even lengths (e.g. 研究|生命 over 研究生|命).
+// CC-CEDICT's words count as one piece fewer than their length, less a bit,
+// so they're only used where HSK words would leave single characters (还书,
+// but 经济|发展 rather than 经济发展).
+const PIECE = 1000
+const EXTRA_WORD_DISCOUNT = 500
+
 function segmentWithLexicon(text: string, lexicon: Lexicon) {
   const n = text.length
   const cost = new Array<number>(n + 1).fill(Infinity)
@@ -55,8 +61,12 @@ function segmentWithLexicon(text: string, lexicon: Lexicon) {
       length <= lexicon.maxLength && i + length <= n;
       length++
     ) {
-      if (length > 1 && !lexicon.words.has(text.slice(i, i + length))) continue
-      const c = cost[i] + 1000 + length * length
+      const word = text.slice(i, i + length)
+      if (length > 1 && !lexicon.words.has(word)) continue
+      const pieces = lexicon.extra.has(word)
+        ? PIECE * length - EXTRA_WORD_DISCOUNT
+        : PIECE
+      const c = cost[i] + pieces + length * length
       if (c < cost[i + length]) {
         cost[i + length] = c
         from[i + length] = i
@@ -135,10 +145,9 @@ function analyseParagraph(
     const word = text.slice(start, end)
     if (!hasHan(word)) continue
     words.push([start, end])
-    const syllables = lexicon.pinyin.get(word)
+    const syllables = lexicon.pinyin.get(word)?.split(' ')
     for (let i = start; i < end; i++) {
-      pinyin[i] =
-        syllables?.[i - start] ?? lexicon.pinyin.get(text[i])?.[0] ?? ''
+      pinyin[i] = syllables?.[i - start] ?? lexicon.pinyin.get(text[i]) ?? ''
     }
   }
   applyToneSandhi(text, pinyin, words)

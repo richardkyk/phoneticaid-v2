@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 
-// English meanings of the words in the word list, for the dictionary card.
-// Built into public/hsk/meanings.tsv by scripts/build-hsk.mjs and only
-// fetched once a card is first shown.
+// English meanings of words from CC-CEDICT, for the dictionary card. Built
+// into public/dict/meanings by scripts/build-cedict.mjs, split by the first
+// character so a card only fetches a small part of it.
 
 export interface Reading {
   // run together, e.g. dōngxi
@@ -12,25 +12,21 @@ export interface Reading {
 
 export type Dictionary = Map<string, Array<Reading>>
 
-// lines of `word<TAB>pinyin<TAB>meanings` (meanings separated by `|`), or
-// `word<TAB>=simplified` for a traditional word with the same readings
+// must match SHARDS in scripts/build-cedict.mjs
+const SHARDS = 64
+
+// which part of the dictionary has a word
+export const shardOf = (word: string) => (word.codePointAt(0) ?? 0) % SHARDS
+
+// lines of `word<TAB>pinyin<TAB>meanings`, the meanings separated by `|`
 export function parseDictionary(text: string): Dictionary {
   const dictionary: Dictionary = new Map()
-  const aliases: Array<[string, string]> = []
   for (const line of text.split('\n')) {
     const [word, pinyin, meanings] = line.split('\t')
     if (!word || !pinyin) continue
-    if (pinyin.startsWith('=')) {
-      aliases.push([word, pinyin.slice(1)])
-      continue
-    }
     const readings = dictionary.get(word) ?? []
     readings.push({ pinyin, meanings: meanings.split('|') })
     dictionary.set(word, readings)
-  }
-  for (const [word, simplified] of aliases) {
-    const readings = dictionary.get(simplified)
-    if (readings) dictionary.set(word, readings)
   }
   return dictionary
 }
@@ -47,7 +43,7 @@ export function lookUp(
   const plain = (s: string) =>
     s
       .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[̀-ͯ]/g, '')
       .toLowerCase()
   const rank = (reading: Reading) =>
     reading.pinyin === pinyin
@@ -59,25 +55,28 @@ export function lookUp(
 }
 
 interface DictionaryState {
-  dictionary: Dictionary | undefined
-  load: () => void
+  // the parts of the dictionary fetched so far
+  shards: Partial<Record<number, Dictionary>>
+  load: (shard: number) => void
 }
 
-let loading = false
+const loading = new Set<number>()
 
 export const useDictionaryStore = create<DictionaryState>()((set, get) => ({
-  dictionary: undefined,
-  load: async () => {
-    if (get().dictionary || loading) return
-    loading = true
+  shards: {},
+  load: async (shard) => {
+    if (get().shards[shard] || loading.has(shard)) return
+    loading.add(shard)
     try {
-      const res = await fetch('/hsk/meanings.tsv')
-      if (!res.ok) throw new Error(`Meanings: ${res.status}`)
-      set({ dictionary: parseDictionary(await res.text()) })
+      const url = `/dict/meanings/${String(shard).padStart(2, '0')}.tsv`
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`${url}: ${res.status}`)
+      const dictionary = parseDictionary(await res.text())
+      set({ shards: { ...get().shards, [shard]: dictionary } })
     } catch (err) {
       console.error(err)
     } finally {
-      loading = false
+      loading.delete(shard)
     }
   },
 }))

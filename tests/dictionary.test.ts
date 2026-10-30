@@ -1,19 +1,19 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
-import { lookUp, parseDictionary } from '@/lib/dictionary'
+import { lookUp, parseDictionary, shardOf } from '@/lib/dictionary'
 
 const dictionary = parseDictionary(
-  [
-    '还\thái\tstill|yet',
-    '还\thuán\tto return',
-    '還\t=还',
-    '一\tyī\tone',
-    '髮\tfà\thair',
-  ].join('\n'),
+  ['还\thái\tstill|yet', '还\thuán\tto return', '一\tyī\tone'].join('\n'),
 )
 
-// the real list
-const full = parseDictionary(readFileSync('public/hsk/meanings.tsv', 'utf8'))
+// a word's part of the real dictionary
+const shard = (word: string) =>
+  parseDictionary(
+    readFileSync(
+      `public/dict/meanings/${String(shardOf(word)).padStart(2, '0')}.tsv`,
+      'utf8',
+    ),
+  )
 
 describe('parseDictionary', () => {
   it('reads each reading with its meanings', () => {
@@ -23,15 +23,24 @@ describe('parseDictionary', () => {
     ])
   })
 
-  it('gives a traditional word the readings of its simplified one', () => {
-    expect(dictionary.get('還')).toBe(dictionary.get('还'))
+  it('finds words in their part of the real dictionary', () => {
+    expect(shard('银行').get('银行')?.[0].meanings).toContain('bank')
+    expect(shard('銀行').get('銀行')?.[0].meanings).toContain('bank')
+    expect(shard('还书').get('还书')?.[0].pinyin).toBe('huánshū')
   })
 
-  it('reads the full list', () => {
-    expect(full.get('银行')?.[0].meanings).toContain('bank')
-    expect(full.get('銀行')).toBe(full.get('银行'))
-    // surnames are left out
-    expect(full.get('还')?.map((r) => r.pinyin)).toEqual(['hái', 'huán'])
+  it('leaves out surnames, and tidies cross-references', () => {
+    const readings = shard('还').get('还')!
+    expect(new Set(readings.map((r) => r.pinyin))).toEqual(
+      new Set(['hái', 'huán']),
+    )
+    expect(shard('银行').get('银行')?.[0].meanings).toContain(
+      'measure word: 家, 个',
+    )
+  })
+
+  it('keeps names when there is nothing else', () => {
+    expect(shard('北京').get('北京')?.[0].pinyin).toBe('Běijīng')
   })
 })
 

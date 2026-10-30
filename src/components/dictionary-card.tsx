@@ -7,7 +7,7 @@ import { useUiStore } from '@/lib/stores/ui-store'
 import type { DocumentStore } from '@/lib/stores/document-store'
 import type { Layout } from '@/lib/layout'
 import { popoverStyle } from '@/lib/popover'
-import { lookUp, useDictionaryStore } from '@/lib/dictionary'
+import { lookUp, shardOf, useDictionaryStore } from '@/lib/dictionary'
 import { rangePinyin } from '@/lib/words'
 import type { TextAnalysis } from '@/lib/words'
 import { toDisplayScript } from '@/lib/script'
@@ -49,12 +49,12 @@ interface DictionaryCardProps {
   layout: Layout
   analysis: TextAnalysis
 }
-// The meanings of the word under the pointer (or tapped), beside it. Not
-// shown while text is selected, which has the translation instead.
+// The meanings of the word under the pointer (or tapped), beside it, from
+// CC-CEDICT (credited on the card, as its license asks). Not shown while text
+// is selected, which has the translation instead.
 export function DictionaryCard(props: DictionaryCardProps) {
   const { document, layout, analysis } = props
   const enabled = useUiStore((state) => state.dictionary)
-  const dictionary = useDictionaryStore((state) => state.dictionary)
   const camera = useCameraStore()
   const selecting = useCursorStore(
     (state) =>
@@ -64,10 +64,12 @@ export function DictionaryCard(props: DictionaryCardProps) {
   )
   const word = useCardWord(analysis)
   const showing = enabled && !selecting && !!word
+  const shard = word ? shardOf(word.text) : -1
+  const dictionary = useDictionaryStore((state) => state.shards[shard])
 
   useEffect(() => {
-    if (showing) useDictionaryStore.getState().load()
-  }, [showing])
+    if (showing) useDictionaryStore.getState().load(shard)
+  }, [showing, shard])
 
   if (!showing) return null
 
@@ -101,6 +103,9 @@ export function DictionaryCard(props: DictionaryCardProps) {
           </div>
         </div>
       ))}
+      {readings.length > 0 && (
+        <div className="text-[10px] text-muted-foreground">CC-CEDICT</div>
+      )}
     </div>
   )
 }

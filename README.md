@@ -1,5 +1,18 @@
 Welcome to your new TanStack app! 
 
+# Data
+
+The word lists and dictionary in `public` are built by the scripts in
+`scripts` (`node scripts/build-hsk.mjs`, then `node scripts/build-cedict.mjs`):
+
+- `public/hsk`: HSK words and levels from
+  [complete-hsk-vocabulary](https://github.com/drkameleon/complete-hsk-vocabulary)
+  (MIT), and character readings from
+  [Unihan](https://www.unicode.org/charts/unihan.html) (Unicode license).
+- `public/dict`: other words, and the meanings in the dictionary card, from
+  [CC-CEDICT](https://www.mdbg.net/chinese/dictionary?page=cc-cedict)
+  (CC BY-SA 4.0), see `public/dict/README.txt`.
+
 # Getting Started
 
 To run this application:
