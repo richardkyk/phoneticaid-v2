@@ -154,3 +154,19 @@ body {
   --header-height: 50px;
   --font-sans: 'Geist', sans-serif;
 }
+
+/* the pages printed by the print button, see toolbar.tsx */
+#print-root {
+  display: none;
+}
+@media print {
+  body > :not(#print-root) {
+    display: none !important;
+  }
+  #print-root {
+    display: block;
+  }
+  #print-root > [data-page]:not(:last-child) {
+    break-after: page;
+  }
+}

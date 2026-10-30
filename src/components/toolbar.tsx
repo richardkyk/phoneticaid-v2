@@ -25,7 +25,7 @@ import { Page } from './page'
 import { createRoot } from 'react-dom/client'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
-import { toast } from 'sonner'
+import { flushSync } from 'react-dom'
 import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { Switch } from './ui/switch'
@@ -231,179 +231,57 @@ function Disabled({ disabled, children }: DisabledProps) {
 interface PrintButtonProps {
   className?: string
 }
+// Renders every page into a container that's only shown when printing (see
+// styles.css) and prints straight from the click, as iOS Safari ignores
+// print() once the tap has been handled
 function PrintButton(props: PrintButtonProps) {
   const handlePrint = () => {
-    const id = toast.loading('Generating...')
-    // Create a hidden iframe
-    const iframe = document.createElement('iframe')
-    iframe.id = 'iframedownload'
-    iframe.style.position = 'fixed'
-    iframe.style.width = '0'
-    iframe.style.height = '0'
-    iframe.style.border = 'none'
-    iframe.style.visibility = 'hidden'
-    document.body.appendChild(iframe)
+    // left in place after printing, as iOS reports the print finished before
+    // it has used the pages, so it's replaced on the next print instead
+    document.getElementById('print-root')?.remove()
+    const container = document.createElement('div')
+    container.id = 'print-root'
+    document.body.appendChild(container)
 
-    const cleanup = () => {
-      toast.dismiss(id)
-      const el = document.getElementById('iframedownload')
-      if (!el) return
-      document.body.removeChild(el)
+    const documentStore = useDocumentStore.getState()
+    const { pt, readings } = useProjectsStore.getState().getActiveProject()
+    const layout = getLayout(pt, documentStore.columns)
+    const analysis = getAnalysis(
+      pt,
+      useLexiconStore.getState().lexicon,
+      readings,
+    )
+    const display = getDisplayText(pt, documentStore.script)
+    const linesPerPage = documentStore.linesPerPage()
+    const pages: (typeof layout.rows)[] = []
+    for (let i = 0; i < layout.rows.length; i += linesPerPage) {
+      pages.push(layout.rows.slice(i, i + linesPerPage))
     }
 
-    const forceFont = (doc: Document, fontFamily: string) => {
-      const span = doc.createElement('span')
-      span.style.fontFamily = fontFamily
-      span.style.position = 'absolute'
-      span.style.visibility = 'hidden'
-      span.textContent = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-      doc.body.appendChild(span)
-      return span
-    }
-
-    // Function to wait for all stylesheets to load
-    const waitForStylesheets = async (doc: Document) => {
-      const stylePromises: Promise<void>[] = []
-
-      // Iterate over existing link and style elements in the main document
-      // QuerySelectorAll returns a NodeListOf<Element> which is fine
-      document
-        .querySelectorAll('link[rel="stylesheet"], style')
-        .forEach((el) => {
-          // Ensure we are working with an actual Element type
-          if (!(el instanceof Element)) return
-
-          const clonedEl = el.cloneNode(true) as Element
-          doc.head.appendChild(clonedEl)
-
-          // Check if it's a LINK tag and has a rel="stylesheet"
-          // tagName check implicitly works here because we know it's an Element
-          if (
-            clonedEl.tagName === 'LINK' &&
-            (el as HTMLLinkElement).rel === 'stylesheet'
-          ) {
-            // We can be sure it's a HTMLLinkElement now, so we assert
-            const linkElement = clonedEl as HTMLLinkElement
-
-            stylePromises.push(
-              new Promise((resolve, reject) => {
-                linkElement.onload = () => resolve()
-                linkElement.onerror = (err) => reject(err)
-              }),
-            )
-          }
-        })
-      return Promise.all(stylePromises).then(() => {}) // Return a Promise<void>
-    }
-
-    const handlePrint = async function () {
-      // Use async function here
-      const doc = iframe.contentDocument
-      if (!doc) return
-
-      // Now populate the document's structure using innerHTML on the root element
-      doc.documentElement.innerHTML = `
-       <head>
-        <title>Print Document</title>
-        <style>
-            body { margin: 0; }
-            .page {
-                page-break-after: always;
-                box-sizing: border-box;
-            }
-        </style>
-       </head>
-       <body></body>
-       `
-
-      // Wait for all the cloned stylesheets to load
-      try {
-        await waitForStylesheets(doc)
-        const span = forceFont(doc, 'KaiTi2')
-        await doc.fonts.ready
-        span.remove()
-
-        // Stylesheets are loaded, now render React components
-        const documentStore = useDocumentStore.getState()
-        const { pt, readings } = useProjectsStore.getState().getActiveProject()
-        const layout = getLayout(pt, documentStore.columns)
-        const analysis = getAnalysis(
-          pt,
-          useLexiconStore.getState().lexicon,
-          readings,
-        )
-        const display = getDisplayText(pt, documentStore.script)
-        const linesPerPage = documentStore.linesPerPage()
-        const pages = []
-
-        for (let i = 0; i < layout.rows.length; i += linesPerPage) {
-          pages.push(layout.rows.slice(i, i + linesPerPage))
-        }
-
-        // Render React components into iframe body
-        const root = createRoot(doc.body)
-        root.render(
-          <>
-            {pages.map((p, i) => (
-              <Page
-                key={i}
-                document={documentStore}
-                pageIndex={i}
-                pageRows={p}
-                layout={layout}
-                analysis={analysis}
-                display={display}
-              />
-            ))}
-          </>,
-        )
-
-        // Wait for React to finish rendering (this part is still a slight hack, but better than before)
-        // A small timeout might still be needed if React rendering takes time.
-        setTimeout(() => {
-          toast.dismiss(id)
-          iframe.contentWindow?.focus()
-          iframe.contentWindow?.print()
-          cleanup()
-        }, 1000)
-      } catch (error) {
-        console.error('Error loading stylesheets for printing:', error)
-        cleanup()
-        toast.error('Something went wrong')
-      }
-    }
-
-    const timer = setInterval(async function () {
-      const _iframe = document.getElementById(
-        'iframedownload',
-      ) as HTMLIFrameElement
-      if (!_iframe) return
-      const iframeDoc =
-        _iframe.contentDocument || _iframe.contentWindow?.document
-      // Check if loading is complete
-      if (
-        iframeDoc?.readyState == 'complete' ||
-        iframeDoc?.readyState == 'interactive'
-      ) {
-        await handlePrint()
-
-        clearInterval(timer)
-        toast.dismiss(id)
-        return
-      }
-    }, 1000)
-
-    setTimeout(() => {
-      // Cleanup after 10 seconds
-      clearInterval(timer)
-      cleanup()
-    }, 10000)
+    flushSync(() =>
+      createRoot(container).render(
+        <>
+          {pages.map((p, i) => (
+            <Page
+              key={i}
+              document={documentStore}
+              pageIndex={i}
+              pageRows={p}
+              layout={layout}
+              analysis={analysis}
+              display={display}
+            />
+          ))}
+        </>,
+      ),
+    )
+    window.print()
   }
 
   return (
     <Button
       variant="ghost"
-      onClick={() => handlePrint()}
+      onClick={handlePrint}
       size="icon"
       className={props.className}
     >
