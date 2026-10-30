@@ -27,7 +27,7 @@ export const Document = () => {
   useEffect(() => {
     useLexiconStore.getState().load()
   }, [])
-  const analysis = getAnalysis(project.pt, lexicon)
+  const analysis = getAnalysis(project.pt, lexicon, project.readings)
   // re-rendered once the converter for the script has loaded
   useScriptStore((state) => state.converters[document.script])
   const display = getDisplayText(project.pt, document.script)

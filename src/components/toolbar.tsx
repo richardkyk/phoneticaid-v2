@@ -3,6 +3,7 @@ import { Button } from './ui/button'
 import {
   ChevronDownIcon,
   InfoIcon,
+  Loader,
   LayoutIcon,
   MinusIcon,
   PanelLeftDashedIcon,
@@ -29,6 +30,7 @@ import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { Switch } from './ui/switch'
 import { useUiStore } from '@/lib/stores/ui-store'
+import { useReadingsStore } from '@/lib/stores/readings-store'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import {
   DropdownMenu,
@@ -323,9 +325,13 @@ function PrintButton(props: PrintButtonProps) {
 
         // Stylesheets are loaded, now render React components
         const documentStore = useDocumentStore.getState()
-        const pt = useProjectsStore.getState().getActiveProject().pt
+        const { pt, readings } = useProjectsStore.getState().getActiveProject()
         const layout = getLayout(pt, documentStore.columns)
-        const analysis = getAnalysis(pt, useLexiconStore.getState().lexicon)
+        const analysis = getAnalysis(
+          pt,
+          useLexiconStore.getState().lexicon,
+          readings,
+        )
         const display = getDisplayText(pt, documentStore.script)
         const linesPerPage = documentStore.linesPerPage()
         const pages = []
@@ -579,6 +585,7 @@ export function PinyinToolbar() {
     setDocumentAttribute,
   } = useDocumentStore()
   const { dictionary, toggleDictionary } = useUiStore()
+  const readingsProgress = useReadingsStore((state) => state.progress)
   const vertical = isVertical(writingMode)
   const choice = pinyinChoice(pinyinMode, hskLevel)
 
@@ -665,6 +672,29 @@ export function PinyinToolbar() {
             onChange={(v) => setDocumentAttribute({ wordGroups: v })}
           />
         </Disabled>
+        <div className="flex items-center justify-between gap-2">
+          <ControlLabel
+            label="AI readings"
+            hint="Asks AI which reading characters like 得 (de, děi) and 还 (hái, huán) have here, using the translation provider. Each paragraph is checked once, until it's edited."
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-28 text-xs shadow-none"
+            disabled={!!readingsProgress}
+            onClick={() => useReadingsStore.getState().check()}
+          >
+            {readingsProgress ? (
+              <>
+                <Loader className="size-3 animate-spin" />
+                {readingsProgress.total > 1 &&
+                  `${readingsProgress.done + 1}/${readingsProgress.total}`}
+              </>
+            ) : (
+              'Check'
+            )}
+          </Button>
+        </div>
         <SwitchControl
           id="dictionary"
           label="Dictionary"

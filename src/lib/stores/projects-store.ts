@@ -4,6 +4,7 @@ import { getText, PieceTable } from '../piece-table'
 import { useCursorStore } from './cursor-store'
 import { useHistoryStore } from './history-store'
 import { useTranslateStore } from './translate-store'
+import type { ChosenReadings } from '../words'
 import {
   defaultDocumentState,
   DocumentState,
@@ -23,6 +24,8 @@ export interface Project {
   title: string
   pt: PieceTable
   doc: DocumentState
+  // readings chosen with AI (see readings.ts)
+  readings?: ChosenReadings
   lastUpdated: number
 }
 
@@ -108,6 +111,7 @@ export const useProjectsStore = create<MultiProjectState>()(
           title: `${project.title} (copy)`,
           pt: blankPieceTable(getText(project.pt)),
           doc: structuredClone(project.doc),
+          readings: structuredClone(project.readings),
           lastUpdated: Date.now(),
         }
         set({

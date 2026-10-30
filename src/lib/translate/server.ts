@@ -16,6 +16,8 @@ If the input text does not need translation, do not output anything at all — r
 interface ServerProvider {
   available: () => Promise<boolean>
   translate: (text: string) => Promise<string>
+  // answers a prompt, for language models (not DeepL)
+  complete?: (system: string, prompt: string) => Promise<string>
 }
 
 const workersAIBinding = async () => {
@@ -25,11 +27,15 @@ const workersAIBinding = async () => {
 
 // Not streamed: streaming through workers-ai-provider duplicates every token
 // for some Workers AI models (e.g. "HeHe is is ...")
-async function generate(model: LanguageModel, text: string) {
+async function generate(
+  model: LanguageModel,
+  prompt: string,
+  system = SYSTEM_PROMPT,
+) {
   const result = await generateText({
     model,
-    system: SYSTEM_PROMPT,
-    prompt: text,
+    system,
+    prompt,
     maxRetries: 0,
     // Workers AI defaults to 256 tokens, which reasoning models (gpt-oss) can
     // use up entirely before writing the answer, leaving it empty
@@ -39,27 +45,32 @@ async function generate(model: LanguageModel, text: string) {
 }
 
 // Models must be available on the Workers Free plan
-const workersAI = (model: string): ServerProvider => ({
-  available: async () => !!(await workersAIBinding()),
-  translate: async (text) => {
+const workersAI = (model: string): ServerProvider => {
+  const languageModel = async () => {
     const workersai = createWorkersAI({ binding: (await workersAIBinding())! })
     // newer models aren't in workers-ai-provider's model list, but run the same way
-    return generate(workersai(model as Parameters<typeof workersai>[0]), text)
-  },
-})
+    return workersai(model as Parameters<typeof workersai>[0])
+  }
+  return {
+    available: async () => !!(await workersAIBinding()),
+    translate: async (text) => generate(await languageModel(), text),
+    complete: async (system, prompt) =>
+      generate(await languageModel(), prompt, system),
+  }
+}
+
+const gemini = () =>
+  createGoogleGenerativeAI({ apiKey: env.GEMINI_API_KEY })('gemini-3.8-flash')
+const openai = () =>
+  createOpenAI({ apiKey: env.OPENAI_API_KEY })('gpt-5.4-mini')
 
 export const serverProviders: Record<ProviderId, ServerProvider> = {
   'workers-ai-sea-lion': workersAI('@cf/aisingapore/gemma-sea-lion-v4-27b-it'),
   'workers-ai-gpt-oss': workersAI('@cf/openai/gpt-oss-20b'),
   gemini: {
     available: async () => !!env.GEMINI_API_KEY,
-    translate: (text) =>
-      generate(
-        createGoogleGenerativeAI({ apiKey: env.GEMINI_API_KEY })(
-          'gemini-3.8-flash',
-        ),
-        text,
-      ),
+    translate: (text) => generate(gemini(), text),
+    complete: (system, prompt) => generate(gemini(), prompt, system),
   },
   deepl: {
     available: async () => !!env.DEEPL_API_KEY,
@@ -90,10 +101,7 @@ export const serverProviders: Record<ProviderId, ServerProvider> = {
   },
   openai: {
     available: async () => !!env.OPENAI_API_KEY,
-    translate: (text) =>
-      generate(
-        createOpenAI({ apiKey: env.OPENAI_API_KEY })('gpt-5.4-mini'),
-        text,
-      ),
+    translate: (text) => generate(openai(), text),
+    complete: (system, prompt) => generate(openai(), prompt, system),
   },
 }

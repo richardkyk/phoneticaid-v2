@@ -11,6 +11,9 @@
 //   only fetches a small file. One line per reading,
 //   `word<TAB>pinyin<TAB>meanings`, the pinyin run together (dōngxi) and the
 //   meanings separated by `|`.
+// - readings.txt: characters with more than one reading of their own (得 dé,
+//   de, děi), for choosing between them with AI. One line per character,
+//   `char<TAB>pinyin<TAB>gloss<TAB>pinyin<TAB>gloss…`.
 //
 // MDBG only publishes the latest version, so the output changes whenever
 // this is run; the date is in public/dict/README.txt.
@@ -112,7 +115,15 @@ for (const line of text.split('\n')) {
 const neutral = (syls) =>
   syls.filter((s) => !/[\u0300-\u036f]/.test(s.normalize('NFD'))).length
 
+// a reading that's only part of other words, or another way of writing a
+// character, isn't one the character has of its own
+const ownMeaning = (meaning) =>
+  !isVariant(meaning) &&
+  !/^(used in |Taiwan pr\.|see )/.test(meaning) &&
+  !/^\((Internet )?slang\)/.test(meaning)
+
 const wordLines = []
+const readingLines = []
 const shards = Array.from({ length: SHARDS }, () => [])
 for (const [word, readings] of entries) {
   // names (Běijīng) and surnames (Huán) are only kept when there's nothing else
@@ -143,6 +154,23 @@ for (const [word, readings] of entries) {
     if (best) wordLines.push(`${word}\t${best.join(' ')}`)
   }
 
+  if (word.length === 1) {
+    const own = new Map()
+    for (const reading of common) {
+      const meaning = reading.meanings.find(ownMeaning)
+      const pinyin = reading.syllables.join('')
+      // a short gloss is enough to tell the readings apart
+      const gloss =
+        meaning && meaning.length > 60 ? meaning.slice(0, 59) + '…' : meaning
+      if (gloss && !own.has(pinyin)) own.set(pinyin, gloss)
+    }
+    if (own.size > 1) {
+      readingLines.push(
+        [word, ...[...own].flatMap(([py, gloss]) => [py, gloss])].join('\t'),
+      )
+    }
+  }
+
   // readings with the same pinyin are merged
   const byPinyin = new Map()
   for (const reading of kept) {
@@ -162,6 +190,8 @@ await rm('public/dict', { recursive: true, force: true })
 await mkdir('public/dict/meanings', { recursive: true })
 wordLines.sort()
 await writeFile('public/dict/words.txt', wordLines.join('\n') + '\n')
+readingLines.sort()
+await writeFile('public/dict/readings.txt', readingLines.join('\n') + '\n')
 await Promise.all(
   shards.map((lines, i) =>
     writeFile(
@@ -181,5 +211,5 @@ https://www.mdbg.net/chinese/dictionary?page=cc-cedict
 `,
 )
 console.log(
-  `public/dict: ${wordLines.length} extra words, meanings of ${entries.size} words (${date})`,
+  `public/dict: ${wordLines.length} extra words, meanings of ${entries.size} words, ${readingLines.length} characters with several readings (${date})`,
 )
