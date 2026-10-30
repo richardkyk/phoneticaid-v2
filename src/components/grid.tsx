@@ -74,17 +74,18 @@ export const Grid = (props: GridProps) => {
       {props.pageRows.map((row, i) => {
         return row.map((cell, j) => {
           const char = charRect(document, i, cell.col)
-          const pinyin =
-            cell.index === -1 || hidden?.[cell.index]
-              ? ''
-              : (analysis.pinyin[cell.index] ?? '')
+          const reading =
+            cell.index === -1 ? '' : (analysis.pinyin[cell.index] ?? '')
+          // hidden pinyin keeps its (empty) spot, which is hovered to reveal
+          // it and clicked to pick its reading
+          const pinyin = hidden?.[cell.index] ? '' : reading
           // the newline cell keeps its marker
           const shown = display?.[cell.index]
           const content = shown && shown !== '\n' ? shown : cell.content
 
           return (
             <Fragment key={`${i}-${j}`}>
-              {document.showPinyin && (
+              {document.showPinyin && reading && (
                 <Pinyin
                   document={document}
                   line={i}
