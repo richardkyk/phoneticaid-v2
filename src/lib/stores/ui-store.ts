@@ -7,7 +7,8 @@ export type PanelTab = 'settings' | 'translations'
 
 interface UiState {
   settingsOpen: boolean
-  // on narrow screens the panel slides over the page instead, starting closed
+  // on narrow screens the panel is a sheet from the bottom instead, starting
+  // closed
   settingsDrawerOpen: boolean
   // which tab of the right panel is shown
   panelTab: PanelTab

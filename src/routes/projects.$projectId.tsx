@@ -37,14 +37,18 @@ function Workspace() {
           <Document />
         </div>
         {!narrow && settingsOpen && <SettingsPanel />}
-        {/* on narrow screens the panel slides over the page */}
+        {/* on narrow screens it's a sheet from the bottom, leaving the top of
+        the page in view */}
         {narrow && drawerOpen && (
           <>
             <div
-              className="absolute inset-0 z-20 bg-black/20 print:hidden"
+              className="absolute inset-0 z-20 bg-black/10 print:hidden"
               onClick={closeDrawer}
             />
-            <SettingsPanel className="absolute inset-y-0 right-0 z-30 w-72 max-w-[85vw] shadow-xl" />
+            <SettingsPanel
+              onClose={closeDrawer}
+              className="absolute inset-x-0 bottom-0 z-30 h-[60%] w-full animate-in slide-in-from-bottom duration-200 rounded-t-2xl border-t border-l-0 shadow-[0_-8px_24px_rgba(0,0,0,0.12)]"
+            />
           </>
         )}
       </div>
