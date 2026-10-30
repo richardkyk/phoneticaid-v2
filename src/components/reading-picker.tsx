@@ -55,7 +55,14 @@ export function ReadingPicker(props: ReadingPickerProps) {
     if (index === null) return
     const close = () => useReadingsStore.getState().setPicking(null)
     const handlePointerDown = (e: PointerEvent) => {
-      if (!ref.current?.contains(e.target as Node)) close()
+      if (ref.current?.contains(e.target as Node)) return
+      close()
+      // clicking the same pinyin again only closes it, rather than the
+      // editor opening it again
+      const pinyin = (e.target as HTMLElement).closest<HTMLElement>(
+        '[data-pinyin]',
+      )
+      if (pinyin?.dataset.index === String(index)) e.stopPropagation()
     }
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!['Alt', 'Shift', 'Control', 'Meta'].includes(e.key)) close()
