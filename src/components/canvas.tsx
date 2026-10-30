@@ -11,6 +11,8 @@ const ZOOM_SPEED = 0.01
 // trackpad scroll, which sends hundreds of px per event) don't zoom in jumps
 // while pinches (a few px per frame) aren't held back
 const MAX_ZOOM_DELTA_PER_FRAME = 8
+// px from the screen's sides where iOS swipes go back or forward a page
+const EDGE_SWIPE = 24
 // ms without wheel events that ends a scroll gesture (including the trackpad's
 // momentum after the fingers lift)
 const WHEEL_GESTURE_GAP = 150
@@ -191,6 +193,15 @@ export function useCanvas(
       pan = null
       delete viewportEl.dataset.panning
     }
+    // a finger panning from near the side of the screen would otherwise be
+    // taken by iOS as a swipe back or forward a page (it also stops that
+    // touch's click, so a tap there doesn't open the keyboard)
+    const handleTouchStart = (e: TouchEvent) => {
+      const x = e.touches[0]?.clientX
+      if (x < EDGE_SWIPE || x > window.innerWidth - EDGE_SWIPE) {
+        e.preventDefault()
+      }
+    }
     const handleMouseDown = (e: MouseEvent) => {
       if (e.button === 1) e.preventDefault()
     }
@@ -213,6 +224,9 @@ export function useCanvas(
     viewportEl.addEventListener('pointerup', handlePointerUp)
     viewportEl.addEventListener('pointercancel', handlePointerUp)
     viewportEl.addEventListener('mousedown', handleMouseDown)
+    viewportEl.addEventListener('touchstart', handleTouchStart, {
+      passive: false,
+    })
     // capture so this runs before the editor sees the key
     window.addEventListener('keydown', handleKeyDown, true)
     window.addEventListener('keydown', handleControl, true)
@@ -232,6 +246,7 @@ export function useCanvas(
       viewportEl.removeEventListener('pointerup', handlePointerUp)
       viewportEl.removeEventListener('pointercancel', handlePointerUp)
       viewportEl.removeEventListener('mousedown', handleMouseDown)
+      viewportEl.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('keydown', handleKeyDown, true)
       window.removeEventListener('keydown', handleControl, true)
       window.removeEventListener('keyup', handleControl, true)
