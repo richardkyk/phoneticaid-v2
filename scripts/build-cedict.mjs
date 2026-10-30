@@ -1,12 +1,12 @@
 // Builds public/dict from CC-CEDICT (CC BY-SA 4.0, published by MDBG,
 // https://www.mdbg.net/chinese/dictionary?page=cc-cedict):
 //
-// - words.tsv: words that aren't in the HSK list (public/hsk/words.tsv, so
+// - words.txt: words that aren't in the HSK list (public/hsk/words.txt, so
 //   build that first), as `word<TAB>pinyin` with one syllable per character.
 //   They're used for splitting text into words and for their pinyin, after
 //   the HSK list. Names, slang and words longer than four characters are
 //   left out.
-// - meanings/NN.tsv: the English meanings of every word, for the dictionary
+// - meanings/NN.txt: the English meanings of every word, for the dictionary
 //   card, split by the first character's code point (mod SHARDS) so a card
 //   only fetches a small file. One line per reading,
 //   `word<TAB>pinyin<TAB>meanings`, the pinyin run together (dōngxi) and the
@@ -14,6 +14,9 @@
 //
 // MDBG only publishes the latest version, so the output changes whenever
 // this is run; the date is in public/dict/README.txt.
+//
+// The files are tab separated, but named .txt so Cloudflare compresses them
+// (it doesn't for text/tab-separated-values).
 //
 // Usage: node scripts/build-cedict.mjs
 
@@ -31,7 +34,7 @@ const text = gunzipSync(Buffer.from(await res.arrayBuffer())).toString('utf8')
 const date = /^#! date=(.*)$/m.exec(text)?.[1] ?? 'unknown'
 
 const hsk = new Set(
-  (await readFile('public/hsk/words.tsv', 'utf8'))
+  (await readFile('public/hsk/words.txt', 'utf8'))
     .split('\n')
     .map((line) => line.split('\t')[0]),
 )
@@ -158,11 +161,11 @@ for (const [word, readings] of entries) {
 await rm('public/dict', { recursive: true, force: true })
 await mkdir('public/dict/meanings', { recursive: true })
 wordLines.sort()
-await writeFile('public/dict/words.tsv', wordLines.join('\n') + '\n')
+await writeFile('public/dict/words.txt', wordLines.join('\n') + '\n')
 await Promise.all(
   shards.map((lines, i) =>
     writeFile(
-      `public/dict/meanings/${String(i).padStart(2, '0')}.tsv`,
+      `public/dict/meanings/${String(i).padStart(2, '0')}.txt`,
       lines.sort().join('\n') + '\n',
     ),
   ),

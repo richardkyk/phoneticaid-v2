@@ -68,7 +68,7 @@ export const useDictionaryStore = create<DictionaryState>()((set, get) => ({
     if (get().shards[shard] || loading.has(shard)) return
     loading.add(shard)
     try {
-      const url = `/dict/meanings/${String(shard).padStart(2, '0')}.tsv`
+      const url = `/dict/meanings/${String(shard).padStart(2, '0')}.txt`
       const res = await fetch(url)
       if (!res.ok) throw new Error(`${url}: ${res.status}`)
       const dictionary = parseDictionary(await res.text())

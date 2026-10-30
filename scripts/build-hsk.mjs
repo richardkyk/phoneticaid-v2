@@ -8,6 +8,7 @@
 // word's HSK 3.0 level, empty for words only in HSK 2.0 (level 7 covers 7-9)
 // and for characters that aren't HSK words. Traditional forms are included
 // so traditional text is matched too.
+// It's named .txt rather than .tsv so Cloudflare compresses it.
 //
 // Usage: node scripts/build-hsk.mjs (needs `unzip`)
 
@@ -105,5 +106,5 @@ const lines = [...words]
   )
 
 await mkdir('public/hsk', { recursive: true })
-await writeFile('public/hsk/words.tsv', lines.join('\n') + '\n')
-console.log(`public/hsk/words.tsv: ${words.size} words`)
+await writeFile('public/hsk/words.txt', lines.join('\n') + '\n')
+console.log(`public/hsk/words.txt: ${words.size} words`)

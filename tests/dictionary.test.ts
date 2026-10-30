@@ -10,7 +10,7 @@ const dictionary = parseDictionary(
 const shard = (word: string) =>
   parseDictionary(
     readFileSync(
-      `public/dict/meanings/${String(shardOf(word)).padStart(2, '0')}.tsv`,
+      `public/dict/meanings/${String(shardOf(word)).padStart(2, '0')}.txt`,
       'utf8',
     ),
   )

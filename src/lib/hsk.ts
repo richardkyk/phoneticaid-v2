@@ -6,7 +6,7 @@ import { create } from 'zustand'
 // caches it after that). It's used to split text into words, for pinyin, and
 // for hiding the pinyin of known words.
 //
-// Once it's loaded, the rest of CC-CEDICT's words (public/dict/words.tsv,
+// Once it's loaded, the rest of CC-CEDICT's words (public/dict/words.txt,
 // built by scripts/build-cedict.mjs) are added to it, for words outside HSK
 // (e.g. 还书 huán shū).
 
@@ -95,11 +95,11 @@ export const useLexiconStore = create<LexiconState>()((set, get) => ({
     if (get().lexicon || loading) return
     loading = true
     try {
-      const lexicon = parseLexicon(await fetchText('/hsk/words.tsv'))
+      const lexicon = parseLexicon(await fetchText('/hsk/words.txt'))
       set({ lexicon })
       // the rest of the words come after, as they're a much bigger download
       set({
-        lexicon: extendLexicon(lexicon, await fetchText('/dict/words.tsv')),
+        lexicon: extendLexicon(lexicon, await fetchText('/dict/words.txt')),
       })
     } catch (err) {
       console.error(err)

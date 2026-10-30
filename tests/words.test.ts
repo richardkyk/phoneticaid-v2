@@ -28,11 +28,11 @@ const lexicon = parseLexicon(
 const levels = lexicon.levels
 
 // the real word list
-const fullLexicon = parseLexicon(readFileSync('public/hsk/words.tsv', 'utf8'))
+const fullLexicon = parseLexicon(readFileSync('public/hsk/words.txt', 'utf8'))
 // with CC-CEDICT's words
 const extendedLexicon = extendLexicon(
   fullLexicon,
-  readFileSync('public/dict/words.tsv', 'utf8'),
+  readFileSync('public/dict/words.txt', 'utf8'),
 )
 
 const wordTexts = (text: string) => analyseText(text).words.map((w) => w.text)
