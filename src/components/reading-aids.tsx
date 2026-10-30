@@ -56,12 +56,15 @@ export function usePeekKey() {
 
 // The character under the pointer, for revealing its word's pinyin
 export const trackHover = (e: React.PointerEvent) => {
+  // a finger reveals its word when it taps (see editor.tsx), as pressing is
+  // also how it starts selecting
+  if (e.pointerType === 'touch') return
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-index]')
   const index = el ? Number(el.dataset.index) : -1
   useRevealStore.getState().setHovered(index >= 0 ? index : null)
 }
 export const clearHover = (e: React.PointerEvent) => {
-  // a tap leaves the pointer straight away, so taps keep their word revealed
+  // taps keep their word revealed
   if (e.pointerType !== 'mouse') return
   useRevealStore.getState().setHovered(null)
 }

@@ -12,6 +12,7 @@ import { useLexiconStore } from '@/lib/hsk'
 import { getText } from '@/lib/piece-table'
 import { sentenceAt } from '@/lib/sentences'
 import { getAnalysis } from '@/lib/words'
+import { useRevealStore } from '@/lib/stores/reveal-store'
 import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 
 const clamp = (val: number, min: number, max: number) =>
@@ -167,7 +168,10 @@ export const Editor: React.FC<EditorProps> = (props) => {
         cancelAnimationFrame(autoPanRef.current)
         autoPanRef.current = null
       }
-      inputRef.current?.focus({ preventScroll: true })
+      // a finger's selection is for reading, so the keyboard stays closed
+      if (e.pointerType !== 'touch') {
+        inputRef.current?.focus({ preventScroll: true })
+      }
       useTranslateStore.getState().translateSelection()
 
       window.removeEventListener('pointermove', handleSelectMove)
@@ -205,9 +209,16 @@ export const Editor: React.FC<EditorProps> = (props) => {
     moveIMEInputToCursor(inputRef)
   }
 
-  const touch = useTouchGestures({ followPointer, placeCaret })
+  // closes the on-screen keyboard while a finger selects, so it doesn't
+  // cover the translation
+  const closeKeyboard = () => inputRef.current?.blur()
+
+  const touch = useTouchGestures({ followPointer, placeCaret, closeKeyboard })
+
+  const lastPointerTypeRef = useRef('')
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    lastPointerTypeRef.current = e.pointerType
     // other buttons (e.g. middle dragging to pan) don't select
     if (e.button !== 0) return
     const pageEl = (e.target as HTMLElement).closest(
@@ -284,6 +295,13 @@ export const Editor: React.FC<EditorProps> = (props) => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
+    // the click after a finger selects (a double tap) would open the keyboard
+    if (
+      lastPointerTypeRef.current === 'touch' &&
+      useCursorStore.getState().getSelection()
+    ) {
+      return
+    }
     moveIMEInputToCursor(inputRef)
     inputRef.current?.focus({ preventScroll: true })
   }
@@ -511,6 +529,7 @@ interface TouchActions {
   // the selection follows the pointer until it's lifted
   followPointer: (pointerId: number) => void
   placeCaret: (x: number, y: number) => void
+  closeKeyboard: () => void
 }
 
 function useTouchGestures(actions: TouchActions) {
@@ -561,6 +580,8 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
     if (!doubleTap) {
       lastTap = { time: now, x: e.clientX, y: e.clientY }
       actionsRef.current.placeCaret(e.clientX, e.clientY)
+      // reveals the word's pinyin and shows its dictionary card
+      useRevealStore.getState().setHovered(index >= 0 ? index : null)
       return
     }
     lastTap = null
@@ -568,6 +589,7 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
     const { pt } = useProjectsStore.getState().getActiveProject()
     const [start, end] = sentenceAt(getText(pt), index)
     if (start === end) return
+    actionsRef.current.closeKeyboard()
     // the finger's on the page, so it isn't moved
     useCursorStore.getState().selectRange(start, end, false)
     useTranslateStore.getState().translateSelection()
@@ -590,6 +612,7 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
       const { words, wordAt } = getAnalysis(pt, lexicon, readings)
       const word = words[wordAt[index]]
       const [start, end] = word ? [word.start, word.end] : [index, index + 1]
+      actionsRef.current.closeKeyboard()
       useCursorStore.getState().selectRange(start, end, false)
       actionsRef.current.followPointer(pointerId)
     }, LONG_PRESS_MS)
