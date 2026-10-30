@@ -16919,7 +16919,7 @@
 泄密	xiè mì	7
 泄气	xiè qì	7
 泄漏	xiè lòu	7
-泄露	xiè lù	7
+泄露	xiè lòu	7
 泅	qiú	
 泆	yì	
 泇	jiā	
@@ -17080,6 +17080,7 @@
 洩密	xiè mì	7
 洩氣	xiè qì	7
 洩漏	xiè lòu	7
+洩露	xiè lòu	7
 洪	hóng	
 洪亮	hóng liàng	7
 洪水	hóng shuǐ	6

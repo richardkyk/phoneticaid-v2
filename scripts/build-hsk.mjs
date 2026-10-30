@@ -31,6 +31,17 @@ const syllables = (pinyin) =>
 const neutral = (syls) =>
   syls.filter((s) => !/[\u0300-\u036f]/.test(s.normalize('NFD'))).length
 
+// readings the dataset gets wrong, by simplified form
+const WORD_PINYIN = {
+  泄露: 'xiè lòu',
+}
+
+// other ways a traditional character is written, for words the dataset only
+// lists with the first
+const VARIANTS = {
+  泄: '洩',
+}
+
 // word -> { pinyin, level }
 const words = new Map()
 const add = (word, syls, level) => {
@@ -58,8 +69,14 @@ for (const entry of entries) {
     .map((form) => syllables(form.i.y))
     .filter((syls) => syls.length === entry.s.length)
     .sort((a, b) => neutral(b) - neutral(a))[0]
-  add(entry.s, best, level)
-  for (const form of entry.f) add(form.t, best, level)
+  const syls = WORD_PINYIN[entry.s]?.split(' ') ?? best
+  add(entry.s, syls, level)
+  for (const form of entry.f) {
+    add(form.t, syls, level)
+    // 泄露 is written 洩露 too, which the dataset leaves out
+    const variant = [...form.t].map((c) => VARIANTS[c] ?? c).join('')
+    if (variant !== form.t) add(variant, syls, level)
+  }
 }
 
 // The reading of a character on its own. The dataset's are no good for this
