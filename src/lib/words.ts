@@ -68,6 +68,52 @@ function segmentWithLexicon(text: string, lexicon: Lexicon) {
   return pieces.reverse()
 }
 
+// 1-4, or 0 for the neutral tone (and syllables like the r of 儿)
+function tone(syllable: string) {
+  const mark = /[\u0304\u0301\u030c\u0300]/.exec(syllable.normalize('NFD'))
+  return mark ? '\u0304\u0301\u030c\u0300'.indexOf(mark[0]) + 1 : 0
+}
+
+const DIGITS = '零〇一二三四五六七八九十'
+
+// Changes the tones of 一 and 不 to how they're said, as textbooks write them
+// (yí gè, yìqǐ, bú shì): 4th tone before a 4th tone, and 一 4th tone before
+// the others. 一 keeps its own tone when it's counted or ordered (第一,
+// 星期一, 一月, 十一) or ends a longer word (统一), and is neutral in 看一看.
+function applyToneSandhi(
+  text: string,
+  pinyin: Array<string>,
+  words: Array<[number, number]>,
+) {
+  const lastInWord = new Uint8Array(text.length)
+  for (const [start, end] of words) {
+    if (end - start > 1) lastInWord[end - 1] = 1
+  }
+
+  for (let i = 0; i < text.length - 1; i++) {
+    const ch = text[i]
+    const prev = i > 0 ? text[i - 1] : ''
+    const next = text[i + 1]
+    const nextTone = pinyin[i + 1] ? tone(pinyin[i + 1]) : 0
+    if (ch === '不' && pinyin[i] === 'bù' && nextTone === 4) {
+      pinyin[i] = 'bú'
+    }
+    if (ch !== '一' || pinyin[i] !== 'yī') continue
+    if (prev && prev === next) {
+      pinyin[i] = 'yi'
+      continue
+    }
+    const keep =
+      !nextTone ||
+      lastInWord[i] ||
+      (prev && '第期拜周'.includes(prev)) ||
+      '月号'.includes(next) ||
+      (prev && DIGITS.includes(prev)) ||
+      DIGITS.includes(next)
+    if (!keep) pinyin[i] = nextTone === 4 ? 'yí' : 'yì'
+  }
+}
+
 function analyseParagraph(
   text: string,
   lexicon: Lexicon | undefined,
@@ -95,6 +141,7 @@ function analyseParagraph(
         syllables?.[i - start] ?? lexicon.pinyin.get(text[i])?.[0] ?? ''
     }
   }
+  applyToneSandhi(text, pinyin, words)
   return { pinyin, words }
 }
 

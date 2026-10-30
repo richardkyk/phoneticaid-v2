@@ -176,4 +176,20 @@ describe('analyseText with the word list', () => {
   it('handles traditional text', () => {
     expect(sentencePinyin('謝謝老師')).toBe('xièxie lǎoshī')
   })
+
+  it('changes the tones of 一 and 不 as they are said', () => {
+    expect(sentencePinyin('我不是，一个，一起，一定，不错')).toBe(
+      'wǒ bú shì yí gè yìqǐ yídìng búcuò',
+    )
+    expect(sentencePinyin('不好，对不起，看一看')).toBe(
+      'bù hǎo duìbuqǐ kàn yi kàn',
+    )
+    expect(sentencePinyin('一本书')).toBe('yì běn shū')
+  })
+
+  it('keeps the tone of 一 when counting or ordering', () => {
+    expect(sentencePinyin('第一次，星期一下午，一月，十一个，统一了')).toBe(
+      'dìyī cì xīngqī yī xiàwǔ yī yuè shí yī gè tǒngyī le',
+    )
+  })
 })
