@@ -26,7 +26,10 @@ const MAX_MEANINGS = 6
 // The word under the pointer (or last tapped) whose card is shown, once it's
 // been there a moment. Typing hides it until another word is hovered.
 function useCardWord(analysis: TextAnalysis) {
-  const hovered = useRevealStore((state) => state.hovered)
+  // only the character, as clicking its pinyin picks its reading
+  const hovered = useRevealStore((state) =>
+    state.onPinyin ? null : state.hovered,
+  )
   const word = hovered === null ? -1 : (analysis.wordAt[hovered] ?? -1)
   const [shown, setShown] = useState(-1)
 

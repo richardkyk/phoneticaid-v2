@@ -657,7 +657,7 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
       if (onPinyin) useReadingsStore.getState().setPicking(index)
       else actionsRef.current.placeCaret(e.clientX, e.clientY)
       // reveals the word's pinyin and shows its dictionary card
-      useRevealStore.getState().setHovered(index >= 0 ? index : null)
+      useRevealStore.getState().setHovered(index >= 0 ? index : null, onPinyin)
       return
     }
     lastTap = null

@@ -593,7 +593,7 @@ export function PinyinToolbar() {
         <SwitchControl
           id="dictionary"
           label="Dictionary"
-          hint="Rest the pointer on a word, or tap it, to see its meanings."
+          hint="Rest the pointer on a word, or tap it, to see its meanings. Click or tap pinyin to change its reading."
           checked={dictionary}
           onChange={() => toggleDictionary()}
         />

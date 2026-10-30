@@ -61,7 +61,9 @@ export const trackHover = (e: React.PointerEvent) => {
   if (e.pointerType === 'touch') return
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-index]')
   const index = el ? Number(el.dataset.index) : -1
-  useRevealStore.getState().setHovered(index >= 0 ? index : null)
+  useRevealStore
+    .getState()
+    .setHovered(index >= 0 ? index : null, el?.dataset.pinyin !== undefined)
 }
 export const clearHover = (e: React.PointerEvent) => {
   // taps keep their word revealed
