@@ -1,4 +1,4 @@
-Built by scripts/build-cedict.mjs from CC-CEDICT (2026-10-29T01:05:57Z).
+Built by scripts/build-cedict.mjs from CC-CEDICT (2026-10-30T01:44:55Z).
 
 CC-CEDICT is published by MDBG under the Creative Commons
 Attribution-ShareAlike 4.0 International License

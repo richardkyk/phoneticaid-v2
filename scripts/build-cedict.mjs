@@ -9,7 +9,8 @@
 // - meanings/NN.txt: the English meanings of every word, for the dictionary
 //   card, split by the first character's code point (mod SHARDS) so a card
 //   only fetches a small file. One line per reading,
-//   `word<TAB>pinyin<TAB>meanings`, the pinyin run together (dōngxi) and the
+//   `word<TAB>pinyin<TAB>meanings`, the pinyin one syllable per character
+//   (dōng xi), as is pinyin in the meanings (also pr. xiè lù), and the
 //   meanings separated by `|`.
 // - readings.txt: characters with more than one reading of their own (得 dé,
 //   de, děi), for choosing between them with AI. One line per character,
@@ -82,7 +83,7 @@ function tidyMeaning(meaning) {
         py
           .match(/[a-zA-Z:]+[1-5]?/g)
           .map(toneMark)
-          .join(''),
+          .join(' '),
       )
       .replace(/,(?=\S)/g, ', ')
   )
@@ -174,7 +175,7 @@ for (const [word, readings] of entries) {
   // readings with the same pinyin are merged
   const byPinyin = new Map()
   for (const reading of kept) {
-    const pinyin = reading.syllables.join('')
+    const pinyin = reading.syllables.join(' ')
     byPinyin.set(pinyin, [...(byPinyin.get(pinyin) ?? []), ...reading.meanings])
   }
   const shard = shards[word.codePointAt(0) % SHARDS]

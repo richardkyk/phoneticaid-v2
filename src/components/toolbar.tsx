@@ -245,12 +245,15 @@ function PrintButton(props: PrintButtonProps) {
     document.body.appendChild(container)
 
     const documentStore = useDocumentStore.getState()
-    const { pt, readings } = useProjectsStore.getState().getActiveProject()
+    const { pt, readings, pickedReadings } = useProjectsStore
+      .getState()
+      .getActiveProject()
     const layout = getLayout(pt, documentStore.columns)
     const analysis = getAnalysis(
       pt,
       useLexiconStore.getState().lexicon,
       readings,
+      pickedReadings,
     )
     const display = getDisplayText(pt, documentStore.script)
     const linesPerPage = documentStore.linesPerPage()

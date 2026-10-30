@@ -78,9 +78,11 @@ const findNearestPage = (viewportEl: HTMLElement, y: number) => {
 // The word containing the character at `index` (absolute offsets, end is
 // exclusive), or just the character when it isn't in a word
 const wordRange = (index: number): [number, number] => {
-  const { pt, readings } = useProjectsStore.getState().getActiveProject()
+  const { pt, readings, pickedReadings } = useProjectsStore
+    .getState()
+    .getActiveProject()
   const lexicon = useLexiconStore.getState().lexicon
-  const { words, wordAt } = getAnalysis(pt, lexicon, readings)
+  const { words, wordAt } = getAnalysis(pt, lexicon, readings, pickedReadings)
   const word = words[wordAt[index]]
   return word ? [word.start, word.end] : [index, index + 1]
 }

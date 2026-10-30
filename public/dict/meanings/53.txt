@@ -1,350 +1,350 @@
 丵	zhuó	thick grass|"bush" component in Chinese characters
 亵	xiè	obscene|disrespectful
-亵慢	xièmàn	irreverent|slighting
-亵昵	xiènì	disrespectful; overly familiar
-亵服	xièfú	informal wear|home clothes (old)|women's underwear|lingerie
-亵渎	xièdú	(literary) to blaspheme; to desecrate; to profane
-亵渎神明	xièdúshénmíng	to blaspheme|to commit sacrilege
+亵慢	xiè màn	irreverent|slighting
+亵昵	xiè nì	disrespectful; overly familiar
+亵服	xiè fú	informal wear|home clothes (old)|women's underwear|lingerie
+亵渎	xiè dú	(literary) to blaspheme; to desecrate; to profane
+亵渎神明	xiè dú shén míng	to blaspheme|to commit sacrilege
 仵	wǔ	equal|well-matched|to violate
-仵作	wǔzuò	coroner (old)
-仵工	wǔgōng	(HK) funeral worker; mortuary worker
+仵作	wǔ zuò	coroner (old)
+仵工	wǔ gōng	(HK) funeral worker; mortuary worker
 併	bìng	to combine|to amalgamate
-併入	bìngrù	to merge into|to incorporate in
-併吞	bìngtūn	to swallow up|to annex|to merge
-併捲機	bìngjuǎnjī	ribbon lap machine
-併攏	bìnglǒng	to draw together|to place side by side (e.g. one's fingers, two halves of a torn sheet of paper etc)
-併發	bìngfā	to happen simultaneously|(medicine) (of one disease) to be complicated by (another); (of another disease) to erupt simultaneously|(computing) concurrent
-併發症	bìngfāzhèng	complications (undesired side-effect of medical procedure)
-併系群	bìngxìqún	variant of 并系群
-併紗	bìngshā	doubling (combining two or more lengths of yarn into a single thread)
-併購	bìnggòu	merger and acquisition (M and A)|acquisition|to take over
-併集	bìngjí	union (symbol ∪) (set theory)
+併入	bìng rù	to merge into|to incorporate in
+併吞	bìng tūn	to swallow up|to annex|to merge
+併捲機	bìng juǎn jī	ribbon lap machine
+併攏	bìng lǒng	to draw together|to place side by side (e.g. one's fingers, two halves of a torn sheet of paper etc)
+併發	bìng fā	to happen simultaneously|(medicine) (of one disease) to be complicated by (another); (of another disease) to erupt simultaneously|(computing) concurrent
+併發症	bìng fā zhèng	complications (undesired side-effect of medical procedure)
+併系群	bìng xì qún	variant of 并系群
+併紗	bìng shā	doubling (combining two or more lengths of yarn into a single thread)
+併購	bìng gòu	merger and acquisition (M and A)|acquisition|to take over
+併集	bìng jí	union (symbol ∪) (set theory)
 侵	qīn	to invade|to encroach|to infringe|to approach
-侵佔	qīnzhàn	to invade and occupy (territory)
-侵入	qīnrù	to make (military) incursions|to invade|to intrude into|to trespass|to gain unauthorized access (computing)
-侵入岩	qīnrùyán	intrusive rock
-侵入性	qīnrùxìng	invasive (e.g. disease or procedure)
-侵入者	qīnrùzhě	intruder|invader
-侵删	qīnshān	(Internet slang) if this is an infringement of copyright, please notify me and I will remove it
-侵刪	qīnshān	(Internet slang) if this is an infringement of copyright, please notify me and I will remove it
-侵华	qīnHuá	to invade China (referring to 19th century imperialist powers and Japan)
-侵占	qīnzhàn	to invade and occupy (territory)
-侵吞	qīntūn	to annex|to swallow (up)|to embezzle
-侵夜	qīnyè	(literary) nightfall|night
-侵害	qīnhài	to encroach on|to infringe on
-侵害人	qīnhàirén	perpetrator
-侵彻	qīnchè	(of a projectile) to penetrate (armor etc)
-侵徹	qīnchè	(of a projectile) to penetrate (armor etc)
-侵扰	qīnrǎo	to invade and harass
-侵擾	qīnrǎo	to invade and harass
-侵晨	qīnchén	towards dawn
-侵权	qīnquán	to infringe the rights of|to violate|infringement
-侵权行为	qīnquánxíngwéi	tort; infringement (of sb's rights)
-侵權	qīnquán	to infringe the rights of|to violate|infringement
-侵權行為	qīnquánxíngwéi	tort; infringement (of sb's rights)
-侵犯	qīnfàn	to infringe on|to encroach on|to violate|to assault
-侵略	qīnlüè	to invade|invasion
-侵略军	qīnlüèjūn	invading army
-侵略战争	qīnlüèzhànzhēng	war of aggression
-侵略戰爭	qīnlüèzhànzhēng	war of aggression
-侵略者	qīnlüèzhě	aggressors; invaders
-侵略軍	qīnlüèjūn	invading army
-侵華	qīnHuá	to invade China (referring to 19th century imperialist powers and Japan)
-侵蚀	qīnshí	to erode|to corrode
-侵蚀作用	qīnshízuòyòng	erosion
-侵蝕	qīnshí	to erode|to corrode
-侵蝕作用	qīnshízuòyòng	erosion
-侵袭	qīnxí	to invade|to assail|onslaught
-侵襲	qīnxí	to invade|to assail|onslaught
-侵限	qīnxiàn	intrusion; perimeter breach|(esp.) (of a person or a foreign object) to breach the perimeter surrounding railway tracks
+侵佔	qīn zhàn	to invade and occupy (territory)
+侵入	qīn rù	to make (military) incursions|to invade|to intrude into|to trespass|to gain unauthorized access (computing)
+侵入岩	qīn rù yán	intrusive rock
+侵入性	qīn rù xìng	invasive (e.g. disease or procedure)
+侵入者	qīn rù zhě	intruder|invader
+侵删	qīn shān	(Internet slang) if this is an infringement of copyright, please notify me and I will remove it
+侵刪	qīn shān	(Internet slang) if this is an infringement of copyright, please notify me and I will remove it
+侵华	qīn Huá	to invade China (referring to 19th century imperialist powers and Japan)
+侵占	qīn zhàn	to invade and occupy (territory)
+侵吞	qīn tūn	to annex|to swallow (up)|to embezzle
+侵夜	qīn yè	(literary) nightfall|night
+侵害	qīn hài	to encroach on|to infringe on
+侵害人	qīn hài rén	perpetrator
+侵彻	qīn chè	(of a projectile) to penetrate (armor etc)
+侵徹	qīn chè	(of a projectile) to penetrate (armor etc)
+侵扰	qīn rǎo	to invade and harass
+侵擾	qīn rǎo	to invade and harass
+侵晨	qīn chén	towards dawn
+侵权	qīn quán	to infringe the rights of|to violate|infringement
+侵权行为	qīn quán xíng wéi	tort; infringement (of sb's rights)
+侵權	qīn quán	to infringe the rights of|to violate|infringement
+侵權行為	qīn quán xíng wéi	tort; infringement (of sb's rights)
+侵犯	qīn fàn	to infringe on|to encroach on|to violate|to assault
+侵略	qīn lüè	to invade|invasion
+侵略军	qīn lüè jūn	invading army
+侵略战争	qīn lüè zhàn zhēng	war of aggression
+侵略戰爭	qīn lüè zhàn zhēng	war of aggression
+侵略者	qīn lüè zhě	aggressors; invaders
+侵略軍	qīn lüè jūn	invading army
+侵華	qīn Huá	to invade China (referring to 19th century imperialist powers and Japan)
+侵蚀	qīn shí	to erode|to corrode
+侵蚀作用	qīn shí zuò yòng	erosion
+侵蝕	qīn shí	to erode|to corrode
+侵蝕作用	qīn shí zuò yòng	erosion
+侵袭	qīn xí	to invade|to assail|onslaught
+侵襲	qīn xí	to invade|to assail|onslaught
+侵限	qīn xiàn	intrusion; perimeter breach|(esp.) (of a person or a foreign object) to breach the perimeter surrounding railway tracks
 俵	biào	(literary) to distribute|Taiwan pr. biǎo
 倵	wǔ	(used in given names)
 偵	zhēn	to scout|to spy|to detect
-偵察	zhēnchá	to investigate a crime|to scout|to reconnoiter|reconnaissance|detection|a scout
-偵察兵	zhēnchábīng	a scout|spy
-偵察員	zhēncháyuán	detective|investigator|scout|spy
-偵察性	zhēncháxìng	investigatory
-偵察機	zhēnchájī	surveillance aircraft|spy plane
-偵探	zhēntàn	detective|to do detective work
-偵查	zhēnchá	to detect|to investigate
-偵毒器	zhēndúqì	detection unit
-偵毒管	zhēndúguǎn	detector tube
-偵測	zhēncè	to detect|to sense
-偵測器	zhēncèqì	detector
-偵破	zhēnpò	to investigate (as detective)|to solve (crime)|to uncover (a plot)|to sniff out|to break in and analyze|detective work|to scout
-偵緝	zhēnjī	to track down|to investigate and arrest
-偵聽	zhēntīng	to eavesdrop|to tap (telephone conversations)|to intercept and investigate
-偵訊	zhēnxùn	to interrogate during investigation
-偵辦	zhēnbàn	to investigate (a crime) and prosecute
+偵察	zhēn chá	to investigate a crime|to scout|to reconnoiter|reconnaissance|detection|a scout
+偵察兵	zhēn chá bīng	a scout|spy
+偵察員	zhēn chá yuán	detective|investigator|scout|spy
+偵察性	zhēn chá xìng	investigatory
+偵察機	zhēn chá jī	surveillance aircraft|spy plane
+偵探	zhēn tàn	detective|to do detective work
+偵查	zhēn chá	to detect|to investigate
+偵毒器	zhēn dú qì	detection unit
+偵毒管	zhēn dú guǎn	detector tube
+偵測	zhēn cè	to detect|to sense
+偵測器	zhēn cè qì	detector
+偵破	zhēn pò	to investigate (as detective)|to solve (crime)|to uncover (a plot)|to sniff out|to break in and analyze|detective work|to scout
+偵緝	zhēn jī	to track down|to investigate and arrest
+偵聽	zhēn tīng	to eavesdrop|to tap (telephone conversations)|to intercept and investigate
+偵訊	zhēn xùn	to interrogate during investigation
+偵辦	zhēn bàn	to investigate (a crime) and prosecute
 債	zhài	debt|measure word: 笔
-債主	zhàizhǔ	creditor
-債券	zhàiquàn	bond|debenture
-債務	zhàiwù	debt|liability|amount due|indebtedness
-債務人	zhàiwùrén	debtor
-債務擔保證券	zhàiwùdānbǎozhèngquàn	collateralized debt obligation (CDO), type of bond
-債務證券	zhàiwùzhèngquàn	debt security; bond security
-債務證書	zhàiwùzhèngshū	debt instrument
-債多不愁	zhàiduōbùchóu	(lit.) when up to one's ears in debt, one ceases to worry about it (idiom)|(fig.) to be past worrying (about sth)
-債市	zhàishì	bond market (abbr. for 债券市场)
-債戶	zhàihù	debtor
-債權	zhàiquán	creditor's rights (law)
-債權人	zhàiquánrén	creditor
-債權國	zhàiquánguó	creditor country
-債款	zhàikuǎn	debt
-債臺高築	zhàitáigāozhù	lit. build a high desk of debt (idiom); heavily in debt
+債主	zhài zhǔ	creditor
+債券	zhài quàn	bond|debenture
+債務	zhài wù	debt|liability|amount due|indebtedness
+債務人	zhài wù rén	debtor
+債務擔保證券	zhài wù dān bǎo zhèng quàn	collateralized debt obligation (CDO), type of bond
+債務證券	zhài wù zhèng quàn	debt security; bond security
+債務證書	zhài wù zhèng shū	debt instrument
+債多不愁	zhài duō bù chóu	(lit.) when up to one's ears in debt, one ceases to worry about it (idiom)|(fig.) to be past worrying (about sth)
+債市	zhài shì	bond market (abbr. for 债券市场)
+債戶	zhài hù	debtor
+債權	zhài quán	creditor's rights (law)
+債權人	zhài quán rén	creditor
+債權國	zhài quán guó	creditor country
+債款	zhài kuǎn	debt
+債臺高築	zhài tái gāo zhù	lit. build a high desk of debt (idiom); heavily in debt
 僵	jiāng	rigid|deadlock|stiff (corpse)
-僵住	jiāngzhù	motionless|unable to move
-僵住症	jiāngzhùzhèng	catalepsy
-僵化	jiānghuà	to become rigid
-僵卧	jiāngwò	to lie rigid and motionless
-僵固性	jiānggùxìng	rigidity
-僵尸	jiāngshī	gyonshi|jiang shi|Chinese vampire|zombie
-僵尸粉	jiāngshīfěn	"zombie fans", fake followers that can be bought to boost one's popularity on Weibo, Baidu etc
-僵尸网络	jiāngshīwǎngluò	botnet|zombie network|slave network (used by spammers)
-僵尸车	jiāngshīchē	(coll.) abandoned car
-僵局	jiāngjú	impasse|deadlock
-僵屍網絡	jiāngshīwǎngluò	botnet|zombie network|slave network (used by spammers)
-僵屍車	jiāngshīchē	(coll.) abandoned car
-僵持	jiāngchí	to be deadlocked
-僵直	jiāngzhí	stiff|rigid|inflexible
-僵硬	jiāngyìng	stiff; rigid
-僵臥	jiāngwò	to lie rigid and motionless
+僵住	jiāng zhù	motionless|unable to move
+僵住症	jiāng zhù zhèng	catalepsy
+僵化	jiāng huà	to become rigid
+僵卧	jiāng wò	to lie rigid and motionless
+僵固性	jiāng gù xìng	rigidity
+僵尸	jiāng shī	gyonshi|jiang shi|Chinese vampire|zombie
+僵尸粉	jiāng shī fěn	"zombie fans", fake followers that can be bought to boost one's popularity on Weibo, Baidu etc
+僵尸网络	jiāng shī wǎng luò	botnet|zombie network|slave network (used by spammers)
+僵尸车	jiāng shī chē	(coll.) abandoned car
+僵局	jiāng jú	impasse|deadlock
+僵屍網絡	jiāng shī wǎng luò	botnet|zombie network|slave network (used by spammers)
+僵屍車	jiāng shī chē	(coll.) abandoned car
+僵持	jiāng chí	to be deadlocked
+僵直	jiāng zhí	stiff|rigid|inflexible
+僵硬	jiāng yìng	stiff; rigid
+僵臥	jiāng wò	to lie rigid and motionless
 儵	shū	variant of 倏
 兵	bīng	soldiers|a force|an army|weapons|arms|military|warlike|measure word: 个
-兵丁	bīngdīng	(old) soldier
-兵不厌诈	bīngbùyànzhà	(idiom) deception is justified in war
-兵不厭詐	bīngbùyànzhà	(idiom) deception is justified in war
-兵不血刃	bīngbùxuèrèn	lit. no blood on the men's swords (idiom); fig. an effortless victory
-兵临城下	bīnglínchéngxià	soldiers at the city walls (idiom); fig. at a critical juncture
-兵书	bīngshū	a book on the art of war
-兵乱	bīngluàn	confusion of war|turmoil of war
-兵亂	bīngluàn	confusion of war|turmoil of war
-兵刃	bīngrèn	(bladed) weapons
-兵制	bīngzhì	military system
-兵力	bīnglì	military strength|armed forces|troops
-兵卒	bīngzú	soldiers|troops
-兵变	bīngbiàn	mutiny|(Tw) to be dumped by one's girlfriend while serving in the army
-兵员	bīngyuán	soldiers|troops
-兵員	bīngyuán	soldiers|troops
-兵器	bīngqì	weaponry|weapons|arms
-兵器术	bīngqìshù	martial arts involving weapons
-兵器術	bīngqìshù	martial arts involving weapons
-兵团	bīngtuán	large military unit|formation|corps|army
-兵團	bīngtuán	large military unit|formation|corps|army
-兵士	bīngshì	ordinary soldier
-兵家	bīngjiā	military strategist in ancient China|military commander|soldier
-兵家常事	bīngjiāchángshì	commonplace in military operations (idiom)
-兵工厂	bīnggōngchǎng	munitions factory
-兵工廠	bīnggōngchǎng	munitions factory
-兵差	bīngchāi	labor conscripted to support the military
-兵库	Bīngkù	Hyōgo (prefecture in Japan)
-兵庫	Bīngkù	Hyōgo (prefecture in Japan)
-兵強馬壯	bīngqiángmǎzhuàng	lit. strong soldiers and sturdy horses (idiom)|fig. a well-trained and powerful army
-兵强马壮	bīngqiángmǎzhuàng	lit. strong soldiers and sturdy horses (idiom)|fig. a well-trained and powerful army
-兵役	bīngyì	military service
-兵戈	bīnggē	weapons|arms|fighting|war
-兵戈扰攘	bīnggērǎorǎng	arms and confusion (idiom); turmoil of war
-兵戈擾攘	bīnggērǎorǎng	arms and confusion (idiom); turmoil of war
-兵戎	bīngróng	arms|weapons
-兵戎相見	bīngróngxiāngjiàn	to meet on the battlefield (idiom)
-兵戎相见	bīngróngxiāngjiàn	to meet on the battlefield (idiom)
-兵推	bīngtuī	war-gaming; simulation of a military operation (abbr. for 兵棋推演)
-兵敗如山倒	bīngbàirúshāndǎo	troops in defeat like a landslide (idiom); a beaten army in total collapse
-兵書	bīngshū	a book on the art of war
-兵权	bīngquán	military leadership|military power
-兵棋推演	bīngqítuīyǎn	war-gaming; simulation of a military operation
-兵權	bīngquán	military leadership|military power
-兵法	bīngfǎ	art of war|military strategy and tactics
-兵源	bīngyuán	manpower resources (for military service)|sources of troops
-兵營	bīngyíng	military camp|barracks
-兵燹	bīngxiǎn	(literary) ravages of war
-兵痞	bīngpǐ	army riffraff|army ruffian|soldier of fortune
-兵种	bīngzhǒng	(military) branch of the armed forces
-兵種	bīngzhǒng	(military) branch of the armed forces
-兵站	bīngzhàn	army service station|military depot
-兵符	bīngfú	see 虎符
-兵精粮足	bīngjīngliángzú	elite soldiers, ample provisions (idiom); well-prepared forces|preparations for war are in an advanced state
-兵精糧足	bīngjīngliángzú	elite soldiers, ample provisions (idiom); well-prepared forces|preparations for war are in an advanced state
-兵臨城下	bīnglínchéngxià	soldiers at the city walls (idiom); fig. at a critical juncture
-兵舰	bīngjiàn	warship
-兵船	bīngchuán	man-of-war|naval vessel|warship
-兵艦	bīngjiàn	warship
-兵荒馬亂	bīnghuāngmǎluàn	(idiom) war-torn; ravaged by war; in a state of utter chaos
-兵荒马乱	bīnghuāngmǎluàn	(idiom) war-torn; ravaged by war; in a state of utter chaos
-兵营	bīngyíng	military camp|barracks
-兵蚁	bīngyǐ	soldier ant|dinergate
-兵蟻	bīngyǐ	soldier ant|dinergate
-兵變	bīngbiàn	mutiny|(Tw) to be dumped by one's girlfriend while serving in the army
-兵貴神速	bīngguìshénsù	lit. speed is a crucial asset in war (idiom)|fig. swift and resolute (in doing sth)
-兵败如山倒	bīngbàirúshāndǎo	troops in defeat like a landslide (idiom); a beaten army in total collapse
-兵贵神速	bīngguìshénsù	lit. speed is a crucial asset in war (idiom)|fig. swift and resolute (in doing sth)
-兵连祸结	bīngliánhuòjié	ravaged by successive wars|war-torn|war-ridden
-兵連禍結	bīngliánhuòjié	ravaged by successive wars|war-torn|war-ridden
-兵部	Bīngbù	Ministry of War (in imperial China)
-兵队	bīngduì	troops
-兵隊	bīngduì	troops
-兵餉	bīngxiǎng	pay and provisions for soldiers
-兵饷	bīngxiǎng	pay and provisions for soldiers
-兵馬	bīngmǎ	troops and horses|military forces
-兵馬俑	bīngmǎyǒng	figurines of warriors and horses buried with the dead|Terracotta Army (historic site)
-兵马	bīngmǎ	troops and horses|military forces
-兵马俑	bīngmǎyǒng	figurines of warriors and horses buried with the dead|Terracotta Army (historic site)
+兵丁	bīng dīng	(old) soldier
+兵不厌诈	bīng bù yàn zhà	(idiom) deception is justified in war
+兵不厭詐	bīng bù yàn zhà	(idiom) deception is justified in war
+兵不血刃	bīng bù xuè rèn	lit. no blood on the men's swords (idiom); fig. an effortless victory
+兵临城下	bīng lín chéng xià	soldiers at the city walls (idiom); fig. at a critical juncture
+兵书	bīng shū	a book on the art of war
+兵乱	bīng luàn	confusion of war|turmoil of war
+兵亂	bīng luàn	confusion of war|turmoil of war
+兵刃	bīng rèn	(bladed) weapons
+兵制	bīng zhì	military system
+兵力	bīng lì	military strength|armed forces|troops
+兵卒	bīng zú	soldiers|troops
+兵变	bīng biàn	mutiny|(Tw) to be dumped by one's girlfriend while serving in the army
+兵员	bīng yuán	soldiers|troops
+兵員	bīng yuán	soldiers|troops
+兵器	bīng qì	weaponry|weapons|arms
+兵器术	bīng qì shù	martial arts involving weapons
+兵器術	bīng qì shù	martial arts involving weapons
+兵团	bīng tuán	large military unit|formation|corps|army
+兵團	bīng tuán	large military unit|formation|corps|army
+兵士	bīng shì	ordinary soldier
+兵家	bīng jiā	military strategist in ancient China|military commander|soldier
+兵家常事	bīng jiā cháng shì	commonplace in military operations (idiom)
+兵工厂	bīng gōng chǎng	munitions factory
+兵工廠	bīng gōng chǎng	munitions factory
+兵差	bīng chāi	labor conscripted to support the military
+兵库	Bīng kù	Hyōgo (prefecture in Japan)
+兵庫	Bīng kù	Hyōgo (prefecture in Japan)
+兵強馬壯	bīng qiáng mǎ zhuàng	lit. strong soldiers and sturdy horses (idiom)|fig. a well-trained and powerful army
+兵强马壮	bīng qiáng mǎ zhuàng	lit. strong soldiers and sturdy horses (idiom)|fig. a well-trained and powerful army
+兵役	bīng yì	military service
+兵戈	bīng gē	weapons|arms|fighting|war
+兵戈扰攘	bīng gē rǎo rǎng	arms and confusion (idiom); turmoil of war
+兵戈擾攘	bīng gē rǎo rǎng	arms and confusion (idiom); turmoil of war
+兵戎	bīng róng	arms|weapons
+兵戎相見	bīng róng xiāng jiàn	to meet on the battlefield (idiom)
+兵戎相见	bīng róng xiāng jiàn	to meet on the battlefield (idiom)
+兵推	bīng tuī	war-gaming; simulation of a military operation (abbr. for 兵棋推演)
+兵敗如山倒	bīng bài rú shān dǎo	troops in defeat like a landslide (idiom); a beaten army in total collapse
+兵書	bīng shū	a book on the art of war
+兵权	bīng quán	military leadership|military power
+兵棋推演	bīng qí tuī yǎn	war-gaming; simulation of a military operation
+兵權	bīng quán	military leadership|military power
+兵法	bīng fǎ	art of war|military strategy and tactics
+兵源	bīng yuán	manpower resources (for military service)|sources of troops
+兵營	bīng yíng	military camp|barracks
+兵燹	bīng xiǎn	(literary) ravages of war
+兵痞	bīng pǐ	army riffraff|army ruffian|soldier of fortune
+兵种	bīng zhǒng	(military) branch of the armed forces
+兵種	bīng zhǒng	(military) branch of the armed forces
+兵站	bīng zhàn	army service station|military depot
+兵符	bīng fú	see 虎符
+兵精粮足	bīng jīng liáng zú	elite soldiers, ample provisions (idiom); well-prepared forces|preparations for war are in an advanced state
+兵精糧足	bīng jīng liáng zú	elite soldiers, ample provisions (idiom); well-prepared forces|preparations for war are in an advanced state
+兵臨城下	bīng lín chéng xià	soldiers at the city walls (idiom); fig. at a critical juncture
+兵舰	bīng jiàn	warship
+兵船	bīng chuán	man-of-war|naval vessel|warship
+兵艦	bīng jiàn	warship
+兵荒馬亂	bīng huāng mǎ luàn	(idiom) war-torn; ravaged by war; in a state of utter chaos
+兵荒马乱	bīng huāng mǎ luàn	(idiom) war-torn; ravaged by war; in a state of utter chaos
+兵营	bīng yíng	military camp|barracks
+兵蚁	bīng yǐ	soldier ant|dinergate
+兵蟻	bīng yǐ	soldier ant|dinergate
+兵變	bīng biàn	mutiny|(Tw) to be dumped by one's girlfriend while serving in the army
+兵貴神速	bīng guì shén sù	lit. speed is a crucial asset in war (idiom)|fig. swift and resolute (in doing sth)
+兵败如山倒	bīng bài rú shān dǎo	troops in defeat like a landslide (idiom); a beaten army in total collapse
+兵贵神速	bīng guì shén sù	lit. speed is a crucial asset in war (idiom)|fig. swift and resolute (in doing sth)
+兵连祸结	bīng lián huò jié	ravaged by successive wars|war-torn|war-ridden
+兵連禍結	bīng lián huò jié	ravaged by successive wars|war-torn|war-ridden
+兵部	Bīng bù	Ministry of War (in imperial China)
+兵队	bīng duì	troops
+兵隊	bīng duì	troops
+兵餉	bīng xiǎng	pay and provisions for soldiers
+兵饷	bīng xiǎng	pay and provisions for soldiers
+兵馬	bīng mǎ	troops and horses|military forces
+兵馬俑	bīng mǎ yǒng	figurines of warriors and horses buried with the dead|Terracotta Army (historic site)
+兵马	bīng mǎ	troops and horses|military forces
+兵马俑	bīng mǎ yǒng	figurines of warriors and horses buried with the dead|Terracotta Army (historic site)
 况	kuàng	moreover|situation
-况且	kuàngqiě	moreover|besides|in addition|furthermore
-况味	kuàngwèi	circumstances|atmosphere|mood
-况复	kuàngfù	moreover
+况且	kuàng qiě	moreover|besides|in addition|furthermore
+况味	kuàng wèi	circumstances|atmosphere|mood
+况复	kuàng fù	moreover
 凵	kǎn	receptacle
 刵	èr	cutting off the ears as punishment
 創	chuàng	to initiate; to create; to achieve (sth for the first time)
 創	chuāng	(bound form) a wound; to wound
-創下	chuàngxià	to establish; to set (a new record)
-創下高票房	chuàngxiàgāopiàofáng	to set a box office record
-創世	chuàngshì	the creation of the world
-創世紀	chuàngshìjì	creation myth
-創世記	Chuàngshìjì	Genesis (first book of the Bible)
-創世論	chuàngshìlùn	creationism
-創作	chuàngzuò	to create; to produce; to write|a creative work; a creation
-創作力	chuàngzuòlì	originality
-創作者	chuàngzuòzhě	creator; author
-創傷	chuāngshāng	wound; injury; trauma
-創傷後壓力症候群	chuāngshānghòuyālìzhènghòuqún	(Tw) post-traumatic stress disorder; PTSD
-創傷後應激障礙	chuāngshānghòuyìngjīzhàngài	post-traumatic stress disorder; PTSD
-創價學會	ChuàngjiàXuéhuì	Soka Gakkai International
-創優	chuàngyōu	to strive for excellence
-創刊	chuàngkān	to start publishing; to found a journal
-創刊號	chuàngkānhào	first issue
-創利	chuànglì	to make a profit
-創制	chuàngzhì	to formulate; to institute; to create
-創匯	chuànghuì	to earn foreign exchange
-創口	chuāngkǒu	wound; cut
-創口貼	chuāngkǒutiē	band-aid
-創可貼	chuāngkětiē	band-aid; sticking plaster
-創始	chuàngshǐ	to initiate; to found
-創始人	chuàngshǐrén	creator; founder; initiator
-創始者	chuàngshǐzhě	creator; initiator
-創客	chuàngkè	maker (innovative enthusiast who builds objects using technology)
-創巨痛深	chuāngjùtòngshēn	(idiom) deeply distressed
-創建	chuàngjiàn	to found; to establish
-創建者	chuàngjiànzhě	founder; creator
-創意	chuàngyì	creative|creativity
-創投	chuàngtóu	venture capital investment (abbr. for 创业投资)
-創投基金	chuàngtóujījīn	venture capital fund
-創收	chuàngshōu	to generate revenue; to create extra income
-創新	chuàngxīn	to bring forth new ideas; to blaze new trails|innovation
-創新精神	chuàngxīnjīngshén	creativity
-創業	chuàngyè	to begin an undertaking; to start an enterprise|entrepreneurship
-創業投資	chuàngyètóuzī	venture capital investment
-創業精神	chuàngyèjīngshén	enterprising spirit; pioneering spirit
-創業者	chuàngyèzhě	entrepreneur
-創牌子	chuàngpáizi	(of a company) to establish a brand name
-創痕	chuānghén	scar (physical or psychological)
-創痛	chuāngtòng	physical or emotional pain
-創立	chuànglì	to establish; to set up; to found
-創立人	chuànglìrén	founder
-創立者	chuànglìzhě	founder
-創練	chuàngliàn	to form and train (a military unit)|to create and practice (a martial art)|to train oneself (by real-life experience)
-創舉	chuàngjǔ	pioneering work
-創見	chuàngjiàn	an original idea
-創見性	chuàngjiànxìng	original (idea, discovery etc)
-創記錄	chuàngjìlù	to set a record
-創設	chuàngshè	to establish; to set up|to create (suitable conditions etc)
-創譯	chuàngyì	transcreation (adaptation of a creative work for an audience of a different culture)
-創議	chuàngyì	to propose|proposal
-創辦	chuàngbàn	to establish; to found
-創辦人	chuàngbànrén	founder (of an institution etc)
-創辦者	chuàngbànzhě	founder; creator
-創造	chuàngzào	to create|to bring about|to produce|to set (a record)
-創造主	Chuàngzàozhǔ	Creator (Christianity)
-創造力	chuàngzàolì	ingenuity|creativity
-創造性	chuàngzàoxìng	creativeness|creativity
-創造者	chuàngzàozhě	creator
-創造論	chuàngzàolùn	creationism (religion)
-創面	chuāngmiàn	surface of a wound
+創下	chuàng xià	to establish; to set (a new record)
+創下高票房	chuàng xià gāo piào fáng	to set a box office record
+創世	chuàng shì	the creation of the world
+創世紀	chuàng shì jì	creation myth
+創世記	Chuàng shì jì	Genesis (first book of the Bible)
+創世論	chuàng shì lùn	creationism
+創作	chuàng zuò	to create; to produce; to write|a creative work; a creation
+創作力	chuàng zuò lì	originality
+創作者	chuàng zuò zhě	creator; author
+創傷	chuāng shāng	wound; injury; trauma
+創傷後壓力症候群	chuāng shāng hòu yā lì zhèng hòu qún	(Tw) post-traumatic stress disorder; PTSD
+創傷後應激障礙	chuāng shāng hòu yìng jī zhàng ài	post-traumatic stress disorder; PTSD
+創價學會	Chuàng jià Xué huì	Soka Gakkai International
+創優	chuàng yōu	to strive for excellence
+創刊	chuàng kān	to start publishing; to found a journal
+創刊號	chuàng kān hào	first issue
+創利	chuàng lì	to make a profit
+創制	chuàng zhì	to formulate; to institute; to create
+創匯	chuàng huì	to earn foreign exchange
+創口	chuāng kǒu	wound; cut
+創口貼	chuāng kǒu tiē	band-aid
+創可貼	chuāng kě tiē	band-aid; sticking plaster
+創始	chuàng shǐ	to initiate; to found
+創始人	chuàng shǐ rén	creator; founder; initiator
+創始者	chuàng shǐ zhě	creator; initiator
+創客	chuàng kè	maker (innovative enthusiast who builds objects using technology)
+創巨痛深	chuāng jù tòng shēn	(idiom) deeply distressed
+創建	chuàng jiàn	to found; to establish
+創建者	chuàng jiàn zhě	founder; creator
+創意	chuàng yì	creative|creativity
+創投	chuàng tóu	venture capital investment (abbr. for 创业投资)
+創投基金	chuàng tóu jī jīn	venture capital fund
+創收	chuàng shōu	to generate revenue; to create extra income
+創新	chuàng xīn	to bring forth new ideas; to blaze new trails|innovation
+創新精神	chuàng xīn jīng shén	creativity
+創業	chuàng yè	to begin an undertaking; to start an enterprise|entrepreneurship
+創業投資	chuàng yè tóu zī	venture capital investment
+創業精神	chuàng yè jīng shén	enterprising spirit; pioneering spirit
+創業者	chuàng yè zhě	entrepreneur
+創牌子	chuàng pái zi	(of a company) to establish a brand name
+創痕	chuāng hén	scar (physical or psychological)
+創痛	chuāng tòng	physical or emotional pain
+創立	chuàng lì	to establish; to set up; to found
+創立人	chuàng lì rén	founder
+創立者	chuàng lì zhě	founder
+創練	chuàng liàn	to form and train (a military unit)|to create and practice (a martial art)|to train oneself (by real-life experience)
+創舉	chuàng jǔ	pioneering work
+創見	chuàng jiàn	an original idea
+創見性	chuàng jiàn xìng	original (idea, discovery etc)
+創記錄	chuàng jì lù	to set a record
+創設	chuàng shè	to establish; to set up|to create (suitable conditions etc)
+創譯	chuàng yì	transcreation (adaptation of a creative work for an audience of a different culture)
+創議	chuàng yì	to propose|proposal
+創辦	chuàng bàn	to establish; to found
+創辦人	chuàng bàn rén	founder (of an institution etc)
+創辦者	chuàng bàn zhě	founder; creator
+創造	chuàng zào	to create|to bring about|to produce|to set (a record)
+創造主	Chuàng zào zhǔ	Creator (Christianity)
+創造力	chuàng zào lì	ingenuity|creativity
+創造性	chuàng zào xìng	creativeness|creativity
+創造者	chuàng zào zhě	creator
+創造論	chuàng zào lùn	creationism (religion)
+創面	chuāng miàn	surface of a wound
 劵	juàn	old variant of 倦
 劵	quàn	variant of 券
 勵	lì	to encourage|to urge
-勵志	lìzhì	to pursue a goal with determination|inspirational; motivational
-勵志哥	lìzhìgē	(coll.) a guy who is admired for having overcome challenges to achieve success
-勵精圖治	lìjīngtúzhì	(of a ruler) to strive to make one's nation strong and prosperous (idiom)
+勵志	lì zhì	to pursue a goal with determination|inspirational; motivational
+勵志哥	lì zhì gē	(coll.) a guy who is admired for having overcome challenges to achieve success
+勵精圖治	lì jīng tú zhì	(of a ruler) to strive to make one's nation strong and prosperous (idiom)
 匵	dú	old variant of 椟
 卵	luǎn	egg; ovum; spawn|(coll.) testicles|(old) penis|(expletive) fucking
-卵圆	luǎnyuán	oval|ellipse
-卵圆形	luǎnyuánxíng	oval|ellipsoidal
-卵圆窗	luǎnyuánchuāng	(anatomy) oval window (between the middle and inner ear)
-卵圓	luǎnyuán	oval|ellipse
-卵圓形	luǎnyuánxíng	oval|ellipsoidal
-卵圓窗	luǎnyuánchuāng	(anatomy) oval window (between the middle and inner ear)
-卵子	luǎnzi	testicles|penis
-卵子	luǎnzǐ	ovum
-卵巢	luǎncháo	ovary
-卵巢窝	luǎncháowō	(anatomy) ovarian fossa
-卵巢窩	luǎncháowō	(anatomy) ovarian fossa
-卵形	luǎnxíng	oval|egg-shaped (leaves in botany)
-卵模	luǎnmó	ootype (site of egg composition in flatworm biology)
-卵母細胞	luǎnmǔxìbāo	(biology) oocyte; ovocyte
-卵母细胞	luǎnmǔxìbāo	(biology) oocyte; ovocyte
-卵泡	luǎnpāo	ovarian follicle|Taiwan pr. luǎnpào
-卵生	luǎnshēng	oviparous
-卵用雞	luǎnyòngjī	laying hen
-卵用鸡	luǎnyòngjī	laying hen
-卵石	luǎnshí	cobble; cobblestone; pebble
-卵磷脂	luǎnlínzhī	lecithin (phospholipid found in egg yolk)
-卵精巢	luǎnjīngcháo	ovaries and testes
-卵細胞	luǎnxìbāo	egg cell
-卵细胞	luǎnxìbāo	egg cell
-卵胎生	luǎntāishēng	ovoviviparous
-卵蛋	luǎndàn	(coll.) testicle; balls
-卵裂	luǎnliè	cleavage of fertilized ovum into cells
-卵鞘	luǎnqiào	(invertebrate zoology) ootheca
-卵黃	luǎnhuáng	egg yolk
-卵黃囊	luǎnhuángnáng	yolk sac (ectodermal cells attaching fetus to uterus before the development of the placenta)
-卵黃管	luǎnhuángguǎn	vitelline duct
-卵黃腺	luǎnhuángxiàn	vitelline glands|vitellaria (in biology)
-卵黄	luǎnhuáng	egg yolk
-卵黄囊	luǎnhuángnáng	yolk sac (ectodermal cells attaching fetus to uterus before the development of the placenta)
-卵黄管	luǎnhuángguǎn	vitelline duct
-卵黄腺	luǎnhuángxiàn	vitelline glands|vitellaria (in biology)
+卵圆	luǎn yuán	oval|ellipse
+卵圆形	luǎn yuán xíng	oval|ellipsoidal
+卵圆窗	luǎn yuán chuāng	(anatomy) oval window (between the middle and inner ear)
+卵圓	luǎn yuán	oval|ellipse
+卵圓形	luǎn yuán xíng	oval|ellipsoidal
+卵圓窗	luǎn yuán chuāng	(anatomy) oval window (between the middle and inner ear)
+卵子	luǎn zi	testicles|penis
+卵子	luǎn zǐ	ovum
+卵巢	luǎn cháo	ovary
+卵巢窝	luǎn cháo wō	(anatomy) ovarian fossa
+卵巢窩	luǎn cháo wō	(anatomy) ovarian fossa
+卵形	luǎn xíng	oval|egg-shaped (leaves in botany)
+卵模	luǎn mó	ootype (site of egg composition in flatworm biology)
+卵母細胞	luǎn mǔ xì bāo	(biology) oocyte; ovocyte
+卵母细胞	luǎn mǔ xì bāo	(biology) oocyte; ovocyte
+卵泡	luǎn pāo	ovarian follicle|Taiwan pr. luǎn pào
+卵生	luǎn shēng	oviparous
+卵用雞	luǎn yòng jī	laying hen
+卵用鸡	luǎn yòng jī	laying hen
+卵石	luǎn shí	cobble; cobblestone; pebble
+卵磷脂	luǎn lín zhī	lecithin (phospholipid found in egg yolk)
+卵精巢	luǎn jīng cháo	ovaries and testes
+卵細胞	luǎn xì bāo	egg cell
+卵细胞	luǎn xì bāo	egg cell
+卵胎生	luǎn tāi shēng	ovoviviparous
+卵蛋	luǎn dàn	(coll.) testicle; balls
+卵裂	luǎn liè	cleavage of fertilized ovum into cells
+卵鞘	luǎn qiào	(invertebrate zoology) ootheca
+卵黃	luǎn huáng	egg yolk
+卵黃囊	luǎn huáng náng	yolk sac (ectodermal cells attaching fetus to uterus before the development of the placenta)
+卵黃管	luǎn huáng guǎn	vitelline duct
+卵黃腺	luǎn huáng xiàn	vitelline glands|vitellaria (in biology)
+卵黄	luǎn huáng	egg yolk
+卵黄囊	luǎn huáng náng	yolk sac (ectodermal cells attaching fetus to uterus before the development of the placenta)
+卵黄管	luǎn huáng guǎn	vitelline duct
+卵黄腺	luǎn huáng xiàn	vitelline glands|vitellaria (in biology)
 叵	pǒ	not|thereupon
-叵测	pǒcè	unfathomable|unpredictable|treacherous
-叵測	pǒcè	unfathomable|unpredictable|treacherous
+叵测	pǒ cè	unfathomable|unpredictable|treacherous
+叵測	pǒ cè	unfathomable|unpredictable|treacherous
 吵	chāo	used in 吵吵|Taiwan pr. chǎo
 吵	chǎo	noisy; loud|to quarrel; to argue
-吵吵	chāochao	to make a racket; to quarrel
-吵吵嚷嚷	chǎochǎorǎngrǎng	to make an (unnecessary) racket (idiom)
-吵嘴	chǎozuǐ	to quarrel
-吵嚷	chǎorǎng	to make a racket|clamour|uproar
-吵杂	chǎozá	noisy
-吵架	chǎojià	to quarrel|to have a row|quarrel|measure word: 顿
-吵醒	chǎoxǐng	to wake sb up with a noise
-吵闹	chǎonào	noisy|raucous|to shout and scream
-吵闹声	chǎonàoshēng	noise
-吵雜	chǎozá	noisy
-吵鬧	chǎonào	noisy|raucous|to shout and scream
-吵鬧聲	chǎonàoshēng	noise
+吵吵	chāo chao	to make a racket; to quarrel
+吵吵嚷嚷	chǎo chǎo rǎng rǎng	to make an (unnecessary) racket (idiom)
+吵嘴	chǎo zuǐ	to quarrel
+吵嚷	chǎo rǎng	to make a racket|clamour|uproar
+吵杂	chǎo zá	noisy
+吵架	chǎo jià	to quarrel|to have a row|quarrel|measure word: 顿
+吵醒	chǎo xǐng	to wake sb up with a noise
+吵闹	chǎo nào	noisy|raucous|to shout and scream
+吵闹声	chǎo nào shēng	noise
+吵雜	chǎo zá	noisy
+吵鬧	chǎo nào	noisy|raucous|to shout and scream
+吵鬧聲	chǎo nào shēng	noise
 呵	hē	(bound form) to scold|to expel breath|(onom.) laughter (usu. reduplicated)|interjection of surprise
 呵	ā	variant of 啊
-呵叱	hēchì	variant of 呵斥
-呵呵	hēhē	(onom.) gentle laughter|chuckle
-呵喝	hēhè	to shout loudly|to bellow|to berate
-呵护	hēhù	to bless|to cherish|to take good care of|to conserve
-呵斥	hēchì	to berate; to excoriate; to chide
-呵欠	hēqiàn	yawn
-呵禁	hējìn	to berate|to shout loudly
-呵譴	hēqiǎn	to reprimand
-呵護	hēhù	to bless|to cherish|to take good care of|to conserve
-呵谴	hēqiǎn	to reprimand
-呵責	hēzé	to abuse|to berate
-呵责	hēzé	to abuse|to berate
+呵叱	hē chì	variant of 呵斥
+呵呵	hē hē	(onom.) gentle laughter|chuckle
+呵喝	hē hè	to shout loudly|to bellow|to berate
+呵护	hē hù	to bless|to cherish|to take good care of|to conserve
+呵斥	hē chì	to berate; to excoriate; to chide
+呵欠	hē qiàn	yawn
+呵禁	hē jìn	to berate|to shout loudly
+呵譴	hē qiǎn	to reprimand
+呵護	hē hù	to bless|to cherish|to take good care of|to conserve
+呵谴	hē qiǎn	to reprimand
+呵責	hē zé	to abuse|to berate
+呵责	hē zé	to abuse|to berate
 唵	ǎn	(interjection) oh!|(dialect) to stuff sth in one's mouth|(used in buddhist transliterations) om
-唵嘛呢叭咪吽	ǎnmáníbāmīhōng	om mani padme hum (Buddhist mantra)
+唵嘛呢叭咪吽	ǎn má ní bā mī hōng	om mani padme hum (Buddhist mantra)
 啵	bo	grammatical particle equivalent to 吧
 啵	bō	(onom.) to bubble
-啵啵	bōbō	(onom.) bubbling noise
+啵啵	bō bō	(onom.) bubbling noise
 喵	miāo	(onom.) meow|cat's mewing
-喵星人	miāoxīngrén	cat (Internet slang)
-喵的	miāode	drat|frick|(euphemistic variant of 妈的)
+喵星人	miāo xīng rén	cat (Internet slang)
+喵的	miāo de	drat|frick|(euphemistic variant of 妈的)
 嗵	tōng	(onom.) thump|thud
-嗵嗵鼓	tōngtōnggǔ	tom-tom (drum)
+嗵嗵鼓	tōng tōng gǔ	tom-tom (drum)
 嘵	xiāo	a cry of alarm|querulous
 嚵	chàn	(literary) animal's mouth or beak
 嚵	chán	(variant of 馋) gluttonous|greedy
@@ -353,1028 +353,1028 @@
 垵	ǎn	(used in place names)
 埵	duǒ	solid earth
 堵	dǔ	to block up (a road, pipe etc)|to stop up (a hole)|(fig.) (of a person) choked up with anxiety or stress|wall (literary)|(classifier for walls)
-堵住	dǔzhù	to block up
-堵击	dǔjī	to intercept and attack (military)
-堵塞	dǔsè	to clog up|blockage
-堵塞費	dǔsèfèi	traffic congestion fee
-堵塞费	dǔsèfèi	traffic congestion fee
-堵床上	dǔchuángshàng	(coll.) to catch an adulterous couple in the act
-堵截	dǔjié	to intercept; to block the passage of; to interdict
-堵擊	dǔjī	to intercept and attack (military)
-堵死	dǔsǐ	to block (a road)|to plug (a hole)|to stop up
-堵車	dǔchē	traffic congestion; traffic jam|to be stuck in traffic; (of traffic) to become congested
-堵车	dǔchē	traffic congestion; traffic jam|to be stuck in traffic; (of traffic) to become congested
+堵住	dǔ zhù	to block up
+堵击	dǔ jī	to intercept and attack (military)
+堵塞	dǔ sè	to clog up|blockage
+堵塞費	dǔ sè fèi	traffic congestion fee
+堵塞费	dǔ sè fèi	traffic congestion fee
+堵床上	dǔ chuáng shàng	(coll.) to catch an adulterous couple in the act
+堵截	dǔ jié	to intercept; to block the passage of; to interdict
+堵擊	dǔ jī	to intercept and attack (military)
+堵死	dǔ sǐ	to block (a road)|to plug (a hole)|to stop up
+堵車	dǔ chē	traffic congestion; traffic jam|to be stuck in traffic; (of traffic) to become congested
+堵车	dǔ chē	traffic congestion; traffic jam|to be stuck in traffic; (of traffic) to become congested
 塵	chén	dust|dirt|earth
-塵世	chénshì	(religion) this mortal life; the mundane world
-塵俗	chénsú	mundane world
-塵囂	chénxiāo	hubbub|hustle and bustle
-塵土	chéntǔ	dust
-塵埃	chénāi	dust
-塵埃落定	chénāiluòdìng	lit. the dust has settled (idiom)|fig. to get sorted out|to be finalized
-塵封	chénfēng	covered in dust|dusty|lying unused for a long time
-塵暴	chénbào	dust devil
-塵肺	chénfèi	pneumoconiosis
-塵蟎	chénmǎn	dust mite
-塵雲	chényún	dust cloud
-塵霧	chénwù	cloud of dust|smog
+塵世	chén shì	(religion) this mortal life; the mundane world
+塵俗	chén sú	mundane world
+塵囂	chén xiāo	hubbub|hustle and bustle
+塵土	chén tǔ	dust
+塵埃	chén āi	dust
+塵埃落定	chén āi luò dìng	lit. the dust has settled (idiom)|fig. to get sorted out|to be finalized
+塵封	chén fēng	covered in dust|dusty|lying unused for a long time
+塵暴	chén bào	dust devil
+塵肺	chén fèi	pneumoconiosis
+塵蟎	chén mǎn	dust mite
+塵雲	chén yún	dust cloud
+塵霧	chén wù	cloud of dust|smog
 墵	tán	old variant of 壜
 妵	tǒu	(feminine name)|beautiful|fair
 姵	pèi	(used in female names)
 娵	jū	(feminine name)|(star)
 婵	chán	used in 婵娟 and 婵媛
-婵娟	chánjuān	(literary) beautiful woman|(literary) lovely; graceful|(literary) the moon
-婵媛	chányuán	(literary) (of a woman) graceful|(literary) to be interwoven|(literary) to be emotionally involved
+婵娟	chán juān	(literary) beautiful woman|(literary) lovely; graceful|(literary) the moon
+婵媛	chán yuán	(literary) (of a woman) graceful|(literary) to be interwoven|(literary) to be emotionally involved
 媵	yìng	maid escorting bride to new home|concubine
-媵侍	yìngshì	concubine (old)
+媵侍	yìng shì	concubine (old)
 嫵	wǔ	used in 妩媚
-嫵媚	wǔmèi	lovely|charming
+嫵媚	wǔ mèi	lovely|charming
 孵	fū	breeding|to incubate|to hatch
-孵化	fūhuà	breeding|to incubate|innovation (esp. in commerce and marketing)
-孵化器	fūhuàqì	incubator (for eggs or startup businesses)
-孵化场	fūhuàchǎng	incubator|hatchery (for poultry etc)
-孵化場	fūhuàchǎng	incubator|hatchery (for poultry etc)
-孵化期	fūhuàqī	incubation period|time for sth to develop
-孵卵	fūluǎn	to hatch|to brood
-孵育	fūyù	to incubate|to rear (chicks)
-孵蛋	fūdàn	to incubate
+孵化	fū huà	breeding|to incubate|innovation (esp. in commerce and marketing)
+孵化器	fū huà qì	incubator (for eggs or startup businesses)
+孵化场	fū huà chǎng	incubator|hatchery (for poultry etc)
+孵化場	fū huà chǎng	incubator|hatchery (for poultry etc)
+孵化期	fū huà qī	incubation period|time for sth to develop
+孵卵	fū luǎn	to hatch|to brood
+孵育	fū yù	to incubate|to rear (chicks)
+孵蛋	fū dàn	to incubate
 宵	xiāo	night
-宵夜	xiāoyè	midnight snack|late-night snack
-宵小	xiāoxiǎo	thief|bandit|scoundrel|villain
-宵征	xiāozhēng	night journey|punitive expedition by night
-宵禁	xiāojìn	night curfew
-宵衣旰食	xiāoyīgànshí	to dress before light and not eat before dark (idiom)|diligently attending to official matters
+宵夜	xiāo yè	midnight snack|late-night snack
+宵小	xiāo xiǎo	thief|bandit|scoundrel|villain
+宵征	xiāo zhēng	night journey|punitive expedition by night
+宵禁	xiāo jìn	night curfew
+宵衣旰食	xiāo yī gàn shí	to dress before light and not eat before dark (idiom)|diligently attending to official matters
 寵	chǒng	to love|to pamper|to spoil|to favor
-寵信	chǒngxìn	to dote on and trust
-寵兒	chǒngér	pet|favorite|darling
-寵壞	chǒnghuài	to spoil (a child etc)
-寵妾	chǒngqiè	favored concubine
-寵妾滅妻	chǒngqièmièqī	favor the concubine and do away with the wife (idiom)|spoil one's mistress and neglect one's wife
-寵姬	chǒngjī	favorite concubine
-寵幸	chǒngxìng	(old) (esp. of the Emperor) to show special favor towards
-寵愛	chǒngài	to dote on sb
-寵擅專房	chǒngshànzhuānfáng	an especially favored concubine (idiom)
-寵溺	chǒngnì	to spoil; to indulge
-寵物	chǒngwù	house pet
-寵物門	chǒngwùmén	pet door; pet flap
-寵粉	chǒngfěn	to reward one's fans with special treatment
-寵臣	chǒngchén	favored minister
+寵信	chǒng xìn	to dote on and trust
+寵兒	chǒng ér	pet|favorite|darling
+寵壞	chǒng huài	to spoil (a child etc)
+寵妾	chǒng qiè	favored concubine
+寵妾滅妻	chǒng qiè miè qī	favor the concubine and do away with the wife (idiom)|spoil one's mistress and neglect one's wife
+寵姬	chǒng jī	favorite concubine
+寵幸	chǒng xìng	(old) (esp. of the Emperor) to show special favor towards
+寵愛	chǒng ài	to dote on sb
+寵擅專房	chǒng shàn zhuān fáng	an especially favored concubine (idiom)
+寵溺	chǒng nì	to spoil; to indulge
+寵物	chǒng wù	house pet
+寵物門	chǒng wù mén	pet door; pet flap
+寵粉	chǒng fěn	to reward one's fans with special treatment
+寵臣	chǒng chén	favored minister
 岵	hù	(literary) mountain covered with vegetation
 巵	zhī	old variant of 卮
 幵	qiān	(literary) flat; level
 庵	ān	hut|small temple|nunnery
-庵堂	āntáng	Buddhist nunnery
-庵摩勒	ānmólè	see 余甘子
-庵摩落迦果	ānmóluòjiāguǒ	see 余甘子
+庵堂	ān táng	Buddhist nunnery
+庵摩勒	ān mó lè	see 余甘子
+庵摩落迦果	ān mó luò jiā guǒ	see 余甘子
 廵	xún	variant of 巡
 張	zhāng	to open up|to spread|sheet of paper|classifier for flat objects, sheet|classifier for votes
-張三	ZhāngSān	Zhang San, name for an unspecified person, first of a series of three: 张三, 李四, 王五 Tom, Dick and Harry|(dialect) wolf
-張三李四	ZhāngSānLǐSì	(lit.) Zhang Three and Li Four (idiom)|(fig.) any Tom, Dick or Harry
-張丹	ZhāngDān	Zhang Dan (1985-), Chinese figure skater
-張之洞	ZhāngZhīdòng	Zhang Zhidong (1837-1909), prominent politician in late Qing
-張伯倫	Zhāngbólún	Chamberlain (name)|Wilt Chamberlain (1936-1999), US basketball player
-張作霖	ZhāngZuòlín	Zhang Zuolin (c. 1873-1928), warlord of Manchuria 1916-1928
-張僧繇	ZhāngSēngyóu	Zhang Sengyou (active c. 490-540), one of the Four Great Painters of the Six Dynasties 六朝四大家
-張儀	ZhāngYí	Zhang Yi (-309 BC), political strategist of the School of Diplomacy 纵横家 during the Warring States Period (475-221 BC)
-張冠李戴	ZhāngguānLǐdài	lit. to put Zhang's hat on Li's head|to attribute sth to the wrong person (idiom)|to confuse one thing with another
-張力	zhānglì	tension
-張勳	ZhāngXūn	Zhang Xun (1854-1923), Qing loyalist general who attempted to restore the abdicated emperor Puyi 溥仪 to the throne in the Manchu Restoration of 1917 张勋复辟
-張勳復辟	ZhāngXūnFùbì	Manchu Restoration of 1917, an attempt by General Zhang Xun 张勋 to reinstate the monarchy in China by restoring abdicated emperor Puyi 溥仪 to the throne
-張北	Zhāngběi	see 张北县
-張北縣	ZhāngběiXiàn	Zhangbei, a county in Zhangjiakou City 张家口市, Hebei
-張口	zhāngkǒu	to open one's mouth (to eat, speak etc)|to gape|to start talking (esp. to make a request)
-張口結舌	zhāngkǒujiéshé	agape and tongue-tied (idiom); at a loss for words|gaping and speechless
-張嘴	zhāngzuǐ	to open one's mouth (to speak, esp. to make a request)|to gape
-張國榮	ZhāngGuóróng	Leslie Cheung (1956-2003), Hong Kong singer and actor
-張國燾	ZhāngGuótāo	Zhang Guotao (1897-1979), Chinese communist leader in the 1920s and 1930s, defected to Guomindang in 1938
-張大千	ZhāngDàqiān	Chang Dai-chien or Zhang Daqian (1899-1983), one of the greatest Chinese artists of the 20th century
-張天翼	ZhāngTiānyì	Zhang Tianyi (1906-1985), children's writer, author of prize-winning fairy tale Secret of the Magic Gourd 宝葫芦的秘密
-張太雷	ZhāngTàiléi	Zhang Tailei (1898-1927), founding member of Chinese communist party
-張學友	ZhāngXuéyǒu	Jacky Cheung or Hok Yau Jacky (1961-), Cantopop and film star
-張學良	ZhāngXuéliáng	Zhang Xueliang (1901-2001) son of Fengtian clique warlord, then senior general for the Nationalists and subsequently for the People's Liberation Army
-張家口	Zhāngjiākǒu	see 张家口市
-張家口市	ZhāngjiākǒuShì	Zhangjiakou, prefecture-level city in Hebei Province 河北省
-張家川	Zhāngjiāchuān	see 张家川回族自治县
-張家川回族自治縣	ZhāngjiāchuānHuízúZìzhìxiàn	Zhangjiachuan Hui Autonomous County, in Tianshui City 天水市, Gansu
-張家川縣	ZhāngjiāchuānXiàn	see 张家川回族自治县
-張家港	Zhāngjiāgǎng	see 张家港市
-張家港市	ZhāngjiāgǎngShì	Zhangjiagang, a county-level city in Suzhou City 苏州市, Jiangsu
-張家界	Zhāngjiājiè	see 张家界市
-張家界市	ZhāngjiājièShì	Zhangjiajie, prefecture-level city in Hunan Province 湖南省
-張寧	ZhāngNíng	Zhang Ning (1975-), PRC female badminton player and Olympic gold medalist
-張寶	ZhāngBǎo	Zhang Bao (-184), leader of the Yellow Turban rebels during the late Han 汉朝
-張居正	ZhāngJūzhèng	Zhang Juzheng (1525-1582), Grand Secretary during the Ming dynasty, credited with bringing the dynasty to its apogee
-張岱	ZhāngDài	Zhang Dai (1597-c. 1684), late Ming scholar
-張店	Zhāngdiàn	see 张店区
-張店區	ZhāngdiànQū	Zhangdian, a district of Zibo City 淄博市, Shandong
-張廷玉	ZhāngTíngyù	Zhang Tingyu (1672-1755), Qing politician, senior minister to three successive emperors, oversaw compilation of History of the Ming Dynasty 明史 and the Kangxi Dictionary 康熙字典
-張弛	zhāngchí	tension and relaxation
-張德江	ZhāngDéjiāng	Zhang Dejiang (1946-), PRC politician
-張心	zhāngxīn	to be troubled|to be concerned
-張志新	ZhāngZhìxīn	Zhang Zhixin (1930-1975) female revolutionary and martyr, who followed the true Marxist-Leninist line as a party member, and was arrested in 1969, then executed in 1975 after opposing the counterrevolutionary party-usurping conspiracies of Lin Biao and the Gang of Four, and only rehabilitated posthumously in 1979
-張怡	Zhāngyí	Zhang Yi (1608-1695), prolific author and poet spanning interregnum between Ming and Qing
-張怡寧	ZhāngYíníng	Zhang Yining (1981-), PRC female table tennis player and Olympic gold medalist
-張惠妹	ZhāngHuìmèi	A-Mei, aka Gulilai Amit (1972-), aboriginal Taiwanese pop singer
-張惶	zhānghuáng	variant of 张皇
-張愛玲	ZhāngÀilíng	Eileen Chang (1920-1995), famous Chinese-American novelist
-張戎	ZhāngRóng	Jung Chang (1952-), British-Chinese writer, name at birth Zhang Erhong 张二鸿, author of Wild Swans 野天鹅 and Mao: The Unknown Story 毛泽东·鲜为人知的故事
-張成澤	ZhāngChéngzé	Jang Song-taek (1946-2013), brother-in-law of Kim Jong-il 金正日, uncle and mentor of Kim Jong-un 金正恩, in 2013 accused of being a counter-revolutionary and executed
-張掖	Zhāngyè	see 张掖市
-張掖市	ZhāngyèShì	Zhangye, prefecture-level city in Gansu Province 甘肃省
-張掛	zhāngguà	to hang up (a picture, banner, mosquito net etc)
-張揖	ZhāngYī	Zhang Yi (c. 3rd century), literary figure from Wei of the Three Kingdoms, other name 稚让, named as compiler of earliest extant Chinese encyclopedia 广雅 and several lost works
-張揚	zhāngyáng	to display ostentatiously|to bring out into the open|to make public|to spread around|flamboyant|brash
-張擇端	ZhāngZéduān	Zhang Zeduan (1085-1145), Song dynasty painter
-張敞	ZhāngChǎng	Zhang Chang, official and scholar of the Western Han dynasty
-張旭	ZhāngXù	Zhang Xu (probably early 8th century), Tang dynasty poet and calligrapher, most famous for his grass script 草書|草书
-張易之	Zhāngyìzhī	Zhang Yizhi (-705), Tang dynasty politician and favorite of Empress Wu Zetian 武则天
-張春帆	ZhāngChūnfān	Zhang Chunfan (-1935), late Qing novelist, author of The Nine-tailed Turtle 九尾龜|九尾龟
-張春橋	ZhāngChūnqiáo	Zhang Chunqiao (1917-2005), one of the Gang of Four
-張曼玉	ZhāngMànyù	Maggie Cheung (1964-), Hong Kong actress
-張望	zhāngwàng	to look around|to peep (through a crack)|to peer at|to throw a look at
-張柏芝	ZhāngBózhī	Cecilia Cheung (1980-), Hong Kong actress and pop singer
-張治中	ZhāngZhìzhōng	Zhang Zhizhong (1890-1969), National Revolutionary Army general
-張溥	ZhāngPǔ	Ming dynasty scholar (1602–1641), prolific writer, proponent of the Fushe 复社 cultural renewal movement, author of Five Men's Tombstone Inscription 五人墓碑记
-張灣	Zhāngwān	see 张湾区
-張灣區	ZhāngwānQū	Zhangwan, a district of Shiyan City 十堰市, Hubei
-張燈結彩	zhāngdēngjiécǎi	to be decorated with lanterns and colored banners (idiom)
-張牙舞爪	zhāngyáwǔzhǎo	to bare fangs and brandish claws (idiom); to make threatening gestures
-張狂	zhāngkuáng	brash|insolent|frantic
-張獻忠	ZhāngXiànzhōng	Zhang Xianzhong (1606-1647), leader of a late-Ming peasant revolt
-張王李趙	ZhāngWángLǐZhào	(idiom) any Tom, Dick or Harry; anyone
-張皇	zhānghuáng	alarmed|flustered
-張皇失措	zhānghuángshīcuò	panic-stricken (idiom)|to be in a flustered state|also written 张惶失措
-張目	zhāngmù	to open one's eyes wide
-張秋	ZhāngQiū	Cho Chang (Harry Potter)
-張籍	ZhāngJí	Zhang Ji (767-830), Tang Dynasty poet
-張純如	ZhāngChúnrú	Iris Chang (1968–2004), Chinese American author of "The Rape of Nanking"
-張羅	zhāngluo	to take care of|to raise money|to attend to (guests, customers etc)
-張聞天	ZhāngWéntiān	Zhang Wentian (1900-1976), CCP party leader and theorist
-張自忠	ZhāngZìzhōng	Zhang Zizhong (1891-1940), Chinese National Revolutionary Army general during the Second Sino-Japanese War
-張自烈	ZhāngZìliè	Zhang Zilie (1597-1673), Ming dynasty scholar, author of Zhengzitong 正字通
-張若虛	ZhāngRuòxū	Zhang Ruoxu (c. 660-720), Tang dynasty poet, author of yuefu poem River on a spring night 春江花月夜
-張華	ZhāngHuá	Zhang Hua (232-300), Western Jin writer, poet and politician|Zhang Hua (1958-1982), student held up as a martyr after he died saving an old peasant from a septic tank|other Zhang Hua's too numerous to mention
-張蔭桓	ZhāngYìnhuán	Zhang Yinhuan (1837-1900), late Qing politician and senior Chinese diplomat
-張藝謀	ZhāngYìmóu	Zhang Yimou (1950-), PRC film director
-張衡	ZhāngHéng	Zhang Heng (78-139) great Han dynasty astronomer and mathematician
-張角	ZhāngJué	Zhang Jue (-184), leader of the Yellow turban rebels during the late Han
-張貼	zhāngtiē	to post (a notice)|to advertise
-張量	zhāngliàng	tensor (math.)
-張開	zhāngkāi	to open up|to spread|to extend
-張震	ZhāngZhèn	Chang Chen (1976-), Taiwanese film actor
-張靜初	ZhāngJìngchū	Zhang Jingchu (1980-), PRC actress
-張韶涵	ZhāngSháohán	Angela Chang (1982-), Taiwanese pop singer and actress
-張飛	ZhāngFēi	Zhang Fei (168-221), general of Shu and blood-brother of Liu Bei in Romance of the Three Kingdoms, famous as fearsome fighter and lover of wine
-張飛打岳飛	ZhāngfēidǎYuèfēi	lit. Zhang Fei fights Yue Fei|fig. an impossible combination|an impossible turn of events (idiom)
-張騫	ZhāngQiān	Zhang Qian (-114 BC), Han dynasty explorer of 2nd century BC
-張高麗	ZhāngGāolì	Zhang Gaoli (1946-), PRC politician
+張三	Zhāng Sān	Zhang San, name for an unspecified person, first of a series of three: 张三, 李四, 王五 Tom, Dick and Harry|(dialect) wolf
+張三李四	Zhāng Sān Lǐ Sì	(lit.) Zhang Three and Li Four (idiom)|(fig.) any Tom, Dick or Harry
+張丹	Zhāng Dān	Zhang Dan (1985-), Chinese figure skater
+張之洞	Zhāng Zhī dòng	Zhang Zhidong (1837-1909), prominent politician in late Qing
+張伯倫	Zhāng bó lún	Chamberlain (name)|Wilt Chamberlain (1936-1999), US basketball player
+張作霖	Zhāng Zuò lín	Zhang Zuolin (c. 1873-1928), warlord of Manchuria 1916-1928
+張僧繇	Zhāng Sēng yóu	Zhang Sengyou (active c. 490-540), one of the Four Great Painters of the Six Dynasties 六朝四大家
+張儀	Zhāng Yí	Zhang Yi (-309 BC), political strategist of the School of Diplomacy 纵横家 during the Warring States Period (475-221 BC)
+張冠李戴	Zhāng guān Lǐ dài	lit. to put Zhang's hat on Li's head|to attribute sth to the wrong person (idiom)|to confuse one thing with another
+張力	zhāng lì	tension
+張勳	Zhāng Xūn	Zhang Xun (1854-1923), Qing loyalist general who attempted to restore the abdicated emperor Puyi 溥仪 to the throne in the Manchu Restoration of 1917 张勋复辟
+張勳復辟	Zhāng Xūn Fù bì	Manchu Restoration of 1917, an attempt by General Zhang Xun 张勋 to reinstate the monarchy in China by restoring abdicated emperor Puyi 溥仪 to the throne
+張北	Zhāng běi	see 张北县
+張北縣	Zhāng běi Xiàn	Zhangbei, a county in Zhangjiakou City 张家口市, Hebei
+張口	zhāng kǒu	to open one's mouth (to eat, speak etc)|to gape|to start talking (esp. to make a request)
+張口結舌	zhāng kǒu jié shé	agape and tongue-tied (idiom); at a loss for words|gaping and speechless
+張嘴	zhāng zuǐ	to open one's mouth (to speak, esp. to make a request)|to gape
+張國榮	Zhāng Guó róng	Leslie Cheung (1956-2003), Hong Kong singer and actor
+張國燾	Zhāng Guó tāo	Zhang Guotao (1897-1979), Chinese communist leader in the 1920s and 1930s, defected to Guomindang in 1938
+張大千	Zhāng Dà qiān	Chang Dai-chien or Zhang Daqian (1899-1983), one of the greatest Chinese artists of the 20th century
+張天翼	Zhāng Tiān yì	Zhang Tianyi (1906-1985), children's writer, author of prize-winning fairy tale Secret of the Magic Gourd 宝葫芦的秘密
+張太雷	Zhāng Tài léi	Zhang Tailei (1898-1927), founding member of Chinese communist party
+張學友	Zhāng Xué yǒu	Jacky Cheung or Hok Yau Jacky (1961-), Cantopop and film star
+張學良	Zhāng Xué liáng	Zhang Xueliang (1901-2001) son of Fengtian clique warlord, then senior general for the Nationalists and subsequently for the People's Liberation Army
+張家口	Zhāng jiā kǒu	see 张家口市
+張家口市	Zhāng jiā kǒu Shì	Zhangjiakou, prefecture-level city in Hebei Province 河北省
+張家川	Zhāng jiā chuān	see 张家川回族自治县
+張家川回族自治縣	Zhāng jiā chuān Huí zú Zì zhì xiàn	Zhangjiachuan Hui Autonomous County, in Tianshui City 天水市, Gansu
+張家川縣	Zhāng jiā chuān Xiàn	see 张家川回族自治县
+張家港	Zhāng jiā gǎng	see 张家港市
+張家港市	Zhāng jiā gǎng Shì	Zhangjiagang, a county-level city in Suzhou City 苏州市, Jiangsu
+張家界	Zhāng jiā jiè	see 张家界市
+張家界市	Zhāng jiā jiè Shì	Zhangjiajie, prefecture-level city in Hunan Province 湖南省
+張寧	Zhāng Níng	Zhang Ning (1975-), PRC female badminton player and Olympic gold medalist
+張寶	Zhāng Bǎo	Zhang Bao (-184), leader of the Yellow Turban rebels during the late Han 汉朝
+張居正	Zhāng Jū zhèng	Zhang Juzheng (1525-1582), Grand Secretary during the Ming dynasty, credited with bringing the dynasty to its apogee
+張岱	Zhāng Dài	Zhang Dai (1597-c. 1684), late Ming scholar
+張店	Zhāng diàn	see 张店区
+張店區	Zhāng diàn Qū	Zhangdian, a district of Zibo City 淄博市, Shandong
+張廷玉	Zhāng Tíng yù	Zhang Tingyu (1672-1755), Qing politician, senior minister to three successive emperors, oversaw compilation of History of the Ming Dynasty 明史 and the Kangxi Dictionary 康熙字典
+張弛	zhāng chí	tension and relaxation
+張德江	Zhāng Dé jiāng	Zhang Dejiang (1946-), PRC politician
+張心	zhāng xīn	to be troubled|to be concerned
+張志新	Zhāng Zhì xīn	Zhang Zhixin (1930-1975) female revolutionary and martyr, who followed the true Marxist-Leninist line as a party member, and was arrested in 1969, then executed in 1975 after opposing the counterrevolutionary party-usurping conspiracies of Lin Biao and the Gang of Four, and only rehabilitated posthumously in 1979
+張怡	Zhāng yí	Zhang Yi (1608-1695), prolific author and poet spanning interregnum between Ming and Qing
+張怡寧	Zhāng Yí níng	Zhang Yining (1981-), PRC female table tennis player and Olympic gold medalist
+張惠妹	Zhāng Huì mèi	A-Mei, aka Gulilai Amit (1972-), aboriginal Taiwanese pop singer
+張惶	zhāng huáng	variant of 张皇
+張愛玲	Zhāng Ài líng	Eileen Chang (1920-1995), famous Chinese-American novelist
+張戎	Zhāng Róng	Jung Chang (1952-), British-Chinese writer, name at birth Zhang Erhong 张二鸿, author of Wild Swans 野天鹅 and Mao: The Unknown Story 毛泽东·鲜为人知的故事
+張成澤	Zhāng Chéng zé	Jang Song-taek (1946-2013), brother-in-law of Kim Jong-il 金正日, uncle and mentor of Kim Jong-un 金正恩, in 2013 accused of being a counter-revolutionary and executed
+張掖	Zhāng yè	see 张掖市
+張掖市	Zhāng yè Shì	Zhangye, prefecture-level city in Gansu Province 甘肃省
+張掛	zhāng guà	to hang up (a picture, banner, mosquito net etc)
+張揖	Zhāng Yī	Zhang Yi (c. 3rd century), literary figure from Wei of the Three Kingdoms, other name 稚让, named as compiler of earliest extant Chinese encyclopedia 广雅 and several lost works
+張揚	zhāng yáng	to display ostentatiously|to bring out into the open|to make public|to spread around|flamboyant|brash
+張擇端	Zhāng Zé duān	Zhang Zeduan (1085-1145), Song dynasty painter
+張敞	Zhāng Chǎng	Zhang Chang, official and scholar of the Western Han dynasty
+張旭	Zhāng Xù	Zhang Xu (probably early 8th century), Tang dynasty poet and calligrapher, most famous for his grass script 草書|草书
+張易之	Zhāng yì zhī	Zhang Yizhi (-705), Tang dynasty politician and favorite of Empress Wu Zetian 武则天
+張春帆	Zhāng Chūn fān	Zhang Chunfan (-1935), late Qing novelist, author of The Nine-tailed Turtle 九尾龜|九尾龟
+張春橋	Zhāng Chūn qiáo	Zhang Chunqiao (1917-2005), one of the Gang of Four
+張曼玉	Zhāng Màn yù	Maggie Cheung (1964-), Hong Kong actress
+張望	zhāng wàng	to look around|to peep (through a crack)|to peer at|to throw a look at
+張柏芝	Zhāng Bó zhī	Cecilia Cheung (1980-), Hong Kong actress and pop singer
+張治中	Zhāng Zhì zhōng	Zhang Zhizhong (1890-1969), National Revolutionary Army general
+張溥	Zhāng Pǔ	Ming dynasty scholar (1602–1641), prolific writer, proponent of the Fushe 复社 cultural renewal movement, author of Five Men's Tombstone Inscription 五人墓碑记
+張灣	Zhāng wān	see 张湾区
+張灣區	Zhāng wān Qū	Zhangwan, a district of Shiyan City 十堰市, Hubei
+張燈結彩	zhāng dēng jié cǎi	to be decorated with lanterns and colored banners (idiom)
+張牙舞爪	zhāng yá wǔ zhǎo	to bare fangs and brandish claws (idiom); to make threatening gestures
+張狂	zhāng kuáng	brash|insolent|frantic
+張獻忠	Zhāng Xiàn zhōng	Zhang Xianzhong (1606-1647), leader of a late-Ming peasant revolt
+張王李趙	Zhāng Wáng Lǐ Zhào	(idiom) any Tom, Dick or Harry; anyone
+張皇	zhāng huáng	alarmed|flustered
+張皇失措	zhāng huáng shī cuò	panic-stricken (idiom)|to be in a flustered state|also written 张惶失措
+張目	zhāng mù	to open one's eyes wide
+張秋	Zhāng Qiū	Cho Chang (Harry Potter)
+張籍	Zhāng Jí	Zhang Ji (767-830), Tang Dynasty poet
+張純如	Zhāng Chún rú	Iris Chang (1968–2004), Chinese American author of "The Rape of Nanking"
+張羅	zhāng luo	to take care of|to raise money|to attend to (guests, customers etc)
+張聞天	Zhāng Wén tiān	Zhang Wentian (1900-1976), CCP party leader and theorist
+張自忠	Zhāng Zì zhōng	Zhang Zizhong (1891-1940), Chinese National Revolutionary Army general during the Second Sino-Japanese War
+張自烈	Zhāng Zì liè	Zhang Zilie (1597-1673), Ming dynasty scholar, author of Zhengzitong 正字通
+張若虛	Zhāng Ruò xū	Zhang Ruoxu (c. 660-720), Tang dynasty poet, author of yuefu poem River on a spring night 春江花月夜
+張華	Zhāng Huá	Zhang Hua (232-300), Western Jin writer, poet and politician|Zhang Hua (1958-1982), student held up as a martyr after he died saving an old peasant from a septic tank|other Zhang Hua's too numerous to mention
+張蔭桓	Zhāng Yìn huán	Zhang Yinhuan (1837-1900), late Qing politician and senior Chinese diplomat
+張藝謀	Zhāng Yì móu	Zhang Yimou (1950-), PRC film director
+張衡	Zhāng Héng	Zhang Heng (78-139) great Han dynasty astronomer and mathematician
+張角	Zhāng Jué	Zhang Jue (-184), leader of the Yellow turban rebels during the late Han
+張貼	zhāng tiē	to post (a notice)|to advertise
+張量	zhāng liàng	tensor (math.)
+張開	zhāng kāi	to open up|to spread|to extend
+張震	Zhāng Zhèn	Chang Chen (1976-), Taiwanese film actor
+張靜初	Zhāng Jìng chū	Zhang Jingchu (1980-), PRC actress
+張韶涵	Zhāng Sháo hán	Angela Chang (1982-), Taiwanese pop singer and actress
+張飛	Zhāng Fēi	Zhang Fei (168-221), general of Shu and blood-brother of Liu Bei in Romance of the Three Kingdoms, famous as fearsome fighter and lover of wine
+張飛打岳飛	Zhāng fēi dǎ Yuè fēi	lit. Zhang Fei fights Yue Fei|fig. an impossible combination|an impossible turn of events (idiom)
+張騫	Zhāng Qiān	Zhang Qian (-114 BC), Han dynasty explorer of 2nd century BC
+張高麗	Zhāng Gāo lì	Zhang Gaoli (1946-), PRC politician
 徵	zhēng	to invite|to recruit|to levy (taxes)|to draft (troops)|phenomenon|symptom|characteristic sign (used as proof)|evidence
 徵	zhǐ	4th note in the ancient Chinese pentatonic scale 五音, corresponding to sol
-徵信	zhēngxìn	to examine the reliability|reliable|credit reporting
-徵信社	zhēngxìnshè	(Tw) private investigator; credit bureau
-徵候	zhēnghòu	sign; indication; symptom
-徵傳	zhēngzhuàn	narrative of long journey|campaign record
-徵兆	zhēngzhào	omen|sign (that sth is about to happen)|warning sign
-徵兵	zhēngbīng	to levy troops|recruitment
-徵募	zhēngmù	to conscript
-徵友	zhēngyǒu	to seek new friends through personal ads, dating apps etc
-徵召	zhēngzhào	to enlist|to draft|to conscript|to appoint to an official position
-徵名責實	zhēngmíngzéshí	to seek out the real nature based on the name (idiom); to judge sth at face value
-徵士	zhēngshì	soldier (in battle)
-徵婚	zhēnghūn	to look for a partner
-徵實	zhēngshí	levies in kind|grain tax
-徵才	zhēngcái	to recruit
-徵收	zhēngshōu	to levy (a tax)|to expropriate
-徵文	zhēngwén	to solicit articles, essays or pieces of literature (on a subject or in commemoration of an event)
-徵求	zhēngqiú	to solicit|to seek|to request (opinions, feedback etc)|to petition
-徵狀	zhēngzhuàng	symptom
-徵發	zhēngfā	a punitive expedition|a requisition
-徵稅	zhēngshuì	to levy taxes
-徵稿	zhēnggǎo	to solicit contributions (to a publication)
-徵聘	zhēngpìn	to invite job applications|to recruit
-徵詢	zhēngxún	to consult; to solicit the opinion of
-徵調	zhēngdiào	to conscript|to second (personnel)|to requisition (supplies etc)
-徵象	zhēngxiàng	sign|symptom
-徵選	zhēngxuǎn	to call for entries and select the best|to solicit (entries, submissions, applications etc)|to select (the best candidate)|contest|competition
-徵集	zhēngjí	to collect|to recruit
+徵信	zhēng xìn	to examine the reliability|reliable|credit reporting
+徵信社	zhēng xìn shè	(Tw) private investigator; credit bureau
+徵候	zhēng hòu	sign; indication; symptom
+徵傳	zhēng zhuàn	narrative of long journey|campaign record
+徵兆	zhēng zhào	omen|sign (that sth is about to happen)|warning sign
+徵兵	zhēng bīng	to levy troops|recruitment
+徵募	zhēng mù	to conscript
+徵友	zhēng yǒu	to seek new friends through personal ads, dating apps etc
+徵召	zhēng zhào	to enlist|to draft|to conscript|to appoint to an official position
+徵名責實	zhēng míng zé shí	to seek out the real nature based on the name (idiom); to judge sth at face value
+徵士	zhēng shì	soldier (in battle)
+徵婚	zhēng hūn	to look for a partner
+徵實	zhēng shí	levies in kind|grain tax
+徵才	zhēng cái	to recruit
+徵收	zhēng shōu	to levy (a tax)|to expropriate
+徵文	zhēng wén	to solicit articles, essays or pieces of literature (on a subject or in commemoration of an event)
+徵求	zhēng qiú	to solicit|to seek|to request (opinions, feedback etc)|to petition
+徵狀	zhēng zhuàng	symptom
+徵發	zhēng fā	a punitive expedition|a requisition
+徵稅	zhēng shuì	to levy taxes
+徵稿	zhēng gǎo	to solicit contributions (to a publication)
+徵聘	zhēng pìn	to invite job applications|to recruit
+徵詢	zhēng xún	to consult; to solicit the opinion of
+徵調	zhēng diào	to conscript|to second (personnel)|to requisition (supplies etc)
+徵象	zhēng xiàng	sign|symptom
+徵選	zhēng xuǎn	to call for entries and select the best|to solicit (entries, submissions, applications etc)|to select (the best candidate)|contest|competition
+徵集	zhēng jí	to collect|to recruit
 念	niàn	to read|to study (a subject)|to attend (a school)|to read aloud|to give (sb) a tongue-lashing 顿)|to miss (sb)|idea|remembrance|twenty (banker's anti-fraud numeral corresponding to 廿)
-念书	niànshū	to read; to study|to attend school
-念佛	niànfó	to pray to Buddha|to chant the names of Buddha
-念兹在兹	niànzīzàizī	see 念念不忘
-念力	niànlì	psychokinesis; telekinesis
-念叨	niàndao	to talk about often|to reminisce about|to keep repeating|to keep harping on|to discuss
-念咒	niànzhòu	to chant a magic spell|to recite incantations
-念头	niàntou	thought; idea; intention
-念学位	niànxuéwèi	to study for a degree|to take a degree course
-念學位	niànxuéwèi	to study for a degree|to take a degree course
-念念不忘	niànniànbùwàng	to keep in mind constantly (idiom)
-念念有詞	niànniànyǒucí	to mumble|to mutter to oneself
-念念有词	niànniànyǒucí	to mumble|to mutter to oneself
-念想	niànxiǎng	to miss (the presence of); to cherish the memory of|aspiration; desire; sth one keeps thinking about|(coll.) keepsake; memento|(coll.) impression (of sb or sth in one's mind)
-念想儿	niànxiangr	(coll.) keepsake; memento|(coll.) impression (of sb or sth in one's mind)
-念想兒	niànxiangr	(coll.) keepsake; memento|(coll.) impression (of sb or sth in one's mind)
-念日	niànrì	memorial day|commemoration day
-念旧	niànjiù	to remember old friends|to cherish old friendships|for old time's sake
-念書	niànshū	to read; to study|to attend school
-念珠	niànzhū	prayer beads|rosary|rosary beads|measure word: 串
-念珠菌症	niànzhūjūnzhèng	(medicine) candidiasis|thrush
-念經	niànjīng	to recite or chant Buddhist scripture
-念经	niànjīng	to recite or chant Buddhist scripture
-念舊	niànjiù	to remember old friends|to cherish old friendships|for old time's sake
-念茲在茲	niànzīzàizī	see 念念不忘
-念誦	niànsòng	to read out|to recite|to remember sb (while talking about sth else)
-念诵	niànsòng	to read out|to recite|to remember sb (while talking about sth else)
-念頭	niàntou	thought; idea; intention
+念书	niàn shū	to read; to study|to attend school
+念佛	niàn fó	to pray to Buddha|to chant the names of Buddha
+念兹在兹	niàn zī zài zī	see 念念不忘
+念力	niàn lì	psychokinesis; telekinesis
+念叨	niàn dao	to talk about often|to reminisce about|to keep repeating|to keep harping on|to discuss
+念咒	niàn zhòu	to chant a magic spell|to recite incantations
+念头	niàn tou	thought; idea; intention
+念学位	niàn xué wèi	to study for a degree|to take a degree course
+念學位	niàn xué wèi	to study for a degree|to take a degree course
+念念不忘	niàn niàn bù wàng	to keep in mind constantly (idiom)
+念念有詞	niàn niàn yǒu cí	to mumble|to mutter to oneself
+念念有词	niàn niàn yǒu cí	to mumble|to mutter to oneself
+念想	niàn xiǎng	to miss (the presence of); to cherish the memory of|aspiration; desire; sth one keeps thinking about|(coll.) keepsake; memento|(coll.) impression (of sb or sth in one's mind)
+念想儿	niàn xiang r	(coll.) keepsake; memento|(coll.) impression (of sb or sth in one's mind)
+念想兒	niàn xiang r	(coll.) keepsake; memento|(coll.) impression (of sb or sth in one's mind)
+念日	niàn rì	memorial day|commemoration day
+念旧	niàn jiù	to remember old friends|to cherish old friendships|for old time's sake
+念書	niàn shū	to read; to study|to attend school
+念珠	niàn zhū	prayer beads|rosary|rosary beads|measure word: 串
+念珠菌症	niàn zhū jūn zhèng	(medicine) candidiasis|thrush
+念經	niàn jīng	to recite or chant Buddhist scripture
+念经	niàn jīng	to recite or chant Buddhist scripture
+念舊	niàn jiù	to remember old friends|to cherish old friendships|for old time's sake
+念茲在茲	niàn zī zài zī	see 念念不忘
+念誦	niàn sòng	to read out|to recite|to remember sb (while talking about sth else)
+念诵	niàn sòng	to read out|to recite|to remember sb (while talking about sth else)
+念頭	niàn tou	thought; idea; intention
 怵	chù	fearful|timid|to fear
-怵惕	chùtì	to be alarmed|to be apprehensive
-怵惧	chùjù	fear|dread|panic
-怵懼	chùjù	fear|dread|panic
-怵然	chùrán	fearful
-怵目惊心	chùmùjīngxīn	lit. shocks the eye, astonishes the heart (idiom); shocking|horrible to see|a ghastly sight|also written 觸目驚心|触目惊心
-怵目驚心	chùmùjīngxīn	lit. shocks the eye, astonishes the heart (idiom); shocking|horrible to see|a ghastly sight|also written 觸目驚心|触目惊心
+怵惕	chù tì	to be alarmed|to be apprehensive
+怵惧	chù jù	fear|dread|panic
+怵懼	chù jù	fear|dread|panic
+怵然	chù rán	fearful
+怵目惊心	chù mù jīng xīn	lit. shocks the eye, astonishes the heart (idiom); shocking|horrible to see|a ghastly sight|also written 觸目驚心|触目惊心
+怵目驚心	chù mù jīng xīn	lit. shocks the eye, astonishes the heart (idiom); shocking|horrible to see|a ghastly sight|also written 觸目驚心|触目惊心
 悵	chàng	regretful; upset; despairing; depressed
-悵悵然	chàngchàngrán	disappointed
-悵惘	chàngwǎng	distracted|listless|in low spirits
-悵然	chàngrán	disappointed and frustrated
-悵然若失	chàngránruòshī	(idiom) to feel a profound sense of loss; to feel disconsolate
+悵悵然	chàng chàng rán	disappointed
+悵惘	chàng wǎng	distracted|listless|in low spirits
+悵然	chàng rán	disappointed and frustrated
+悵然若失	chàng rán ruò shī	(idiom) to feel a profound sense of loss; to feel disconsolate
 慵	yōng	lethargic
-慵懒	yōnglǎn	languid|indolent
-慵懶	yōnglǎn	languid|indolent
+慵懒	yōng lǎn	languid|indolent
+慵懶	yōng lǎn	languid|indolent
 懵	měng	(bound form) confused; ignorant
-懵圈	mēngquān	variant of 蒙圈
-懵懂	měngdǒng	confused; ignorant
-懵懵懂懂	měngměngdǒngdǒng	(idiom) confused; ignorant; muddle-headed
-懵逼	měngbī	(dialect) stupefied|dumbfounded
+懵圈	mēng quān	variant of 蒙圈
+懵懂	měng dǒng	confused; ignorant
+懵懵懂懂	měng měng dǒng dǒng	(idiom) confused; ignorant; muddle-headed
+懵逼	měng bī	(dialect) stupefied|dumbfounded
 抵	dǐ	to press against; to support; to prop up|to resist; to withstand|to be equal to; to match|to balance; to offset|to mortgage|to make up for; to compensate for|to arrive at; to reach|to clap (one's hands) lightly (expressing delight) (Taiwan pr. zhǐ)
-抵住	dǐzhù	to resist|to press against|to brace
-抵债	dǐzhài	to repay a debt in kind or by labor
-抵偿	dǐcháng	to compensate|to make good (a financial loss)
-抵債	dǐzhài	to repay a debt in kind or by labor
-抵償	dǐcháng	to compensate|to make good (a financial loss)
-抵充	dǐchōng	to use in payment|to compensate
-抵减	dǐjiǎn	to claim a credit against|tax reduction
-抵制	dǐzhì	to resist|to boycott|to refuse (to cooperate)|to reject|resistance|refusal
-抵华	dǐHuá	to arrive in China
-抵岸	dǐàn	to come ashore
-抵御	dǐyù	to resist|to withstand
-抵扣	dǐkòu	to deduct (money due)
-抵抗	dǐkàng	to resist|resistance
-抵抗力	dǐkànglì	resistance|immunity
-抵押	dǐyā	to provide (an asset) as security for a loan|to put up collateral
-抵押品	dǐyāpǐn	security (property held against a loan)|mortgaged property
-抵押物	dǐyāwù	collateral (finance)
-抵押貸款	dǐyādàikuǎn	mortgage loan
-抵押贷款	dǐyādàikuǎn	mortgage loan
-抵拒	dǐjù	to resist|to stand up to
-抵挡	dǐdǎng	to resist|to hold back|to stop|to ward off|to withstand
-抵擋	dǐdǎng	to resist|to hold back|to stop|to ward off|to withstand
-抵消	dǐxiāo	to counteract|to cancel out|to offset
-抵減	dǐjiǎn	to claim a credit against|tax reduction
-抵牾	dǐwǔ	to conflict with|to contradict|contradiction
-抵用	dǐyòng	to exchange for (sth of equal value or utility); to use in lieu; to redeem (a coupon etc); to use to offset (an amount owed etc)
-抵用券	dǐyòngquàn	coupon|voucher
-抵用金	dǐyòngjīn	store credit (credit to be spent at a specified retailer)
-抵禦	dǐyù	to resist|to withstand
-抵罪	dǐzuì	to be punished for a crime
-抵華	dǐHuá	to arrive in China
-抵补	dǐbǔ	to compensate for|to make good
-抵補	dǐbǔ	to compensate for|to make good
-抵触	dǐchù	to conflict|to contradict
-抵觸	dǐchù	to conflict|to contradict
-抵賬	dǐzhàng	to repay a debt in kind or by labor
-抵賴	dǐlài	to refuse to admit (what one has done)|to disavow|to renege
-抵账	dǐzhàng	to repay a debt in kind or by labor
-抵赖	dǐlài	to refuse to admit (what one has done)|to disavow|to renege
-抵足而卧	dǐzúérwò	see 抵足而眠
-抵足而眠	dǐzúérmián	lit. to live and sleep together (idiom); fig. a close friendship
-抵足而臥	dǐzúérwò	see 抵足而眠
-抵达	dǐdá	to arrive|to reach (a destination)
-抵達	dǐdá	to arrive|to reach (a destination)
-抵銷	dǐxiāo	variant of 抵消
-抵销	dǐxiāo	variant of 抵消
+抵住	dǐ zhù	to resist|to press against|to brace
+抵债	dǐ zhài	to repay a debt in kind or by labor
+抵偿	dǐ cháng	to compensate|to make good (a financial loss)
+抵債	dǐ zhài	to repay a debt in kind or by labor
+抵償	dǐ cháng	to compensate|to make good (a financial loss)
+抵充	dǐ chōng	to use in payment|to compensate
+抵减	dǐ jiǎn	to claim a credit against|tax reduction
+抵制	dǐ zhì	to resist|to boycott|to refuse (to cooperate)|to reject|resistance|refusal
+抵华	dǐ Huá	to arrive in China
+抵岸	dǐ àn	to come ashore
+抵御	dǐ yù	to resist|to withstand
+抵扣	dǐ kòu	to deduct (money due)
+抵抗	dǐ kàng	to resist|resistance
+抵抗力	dǐ kàng lì	resistance|immunity
+抵押	dǐ yā	to provide (an asset) as security for a loan|to put up collateral
+抵押品	dǐ yā pǐn	security (property held against a loan)|mortgaged property
+抵押物	dǐ yā wù	collateral (finance)
+抵押貸款	dǐ yā dài kuǎn	mortgage loan
+抵押贷款	dǐ yā dài kuǎn	mortgage loan
+抵拒	dǐ jù	to resist|to stand up to
+抵挡	dǐ dǎng	to resist|to hold back|to stop|to ward off|to withstand
+抵擋	dǐ dǎng	to resist|to hold back|to stop|to ward off|to withstand
+抵消	dǐ xiāo	to counteract|to cancel out|to offset
+抵減	dǐ jiǎn	to claim a credit against|tax reduction
+抵牾	dǐ wǔ	to conflict with|to contradict|contradiction
+抵用	dǐ yòng	to exchange for (sth of equal value or utility); to use in lieu; to redeem (a coupon etc); to use to offset (an amount owed etc)
+抵用券	dǐ yòng quàn	coupon|voucher
+抵用金	dǐ yòng jīn	store credit (credit to be spent at a specified retailer)
+抵禦	dǐ yù	to resist|to withstand
+抵罪	dǐ zuì	to be punished for a crime
+抵華	dǐ Huá	to arrive in China
+抵补	dǐ bǔ	to compensate for|to make good
+抵補	dǐ bǔ	to compensate for|to make good
+抵触	dǐ chù	to conflict|to contradict
+抵觸	dǐ chù	to conflict|to contradict
+抵賬	dǐ zhàng	to repay a debt in kind or by labor
+抵賴	dǐ lài	to refuse to admit (what one has done)|to disavow|to renege
+抵账	dǐ zhàng	to repay a debt in kind or by labor
+抵赖	dǐ lài	to refuse to admit (what one has done)|to disavow|to renege
+抵足而卧	dǐ zú ér wò	see 抵足而眠
+抵足而眠	dǐ zú ér mián	lit. to live and sleep together (idiom); fig. a close friendship
+抵足而臥	dǐ zú ér wò	see 抵足而眠
+抵达	dǐ dá	to arrive|to reach (a destination)
+抵達	dǐ dá	to arrive|to reach (a destination)
+抵銷	dǐ xiāo	variant of 抵消
+抵销	dǐ xiāo	variant of 抵消
 挵	nòng	old variant of 弄
 揵	qián	carry
 搵	wèn	(literary) to wipe away (tears)|to press with one's fingers|to soak
 搵	wěn	to look for (Cantonese)|Mandarin equivalent: 找
-搵錢	wènqián	(dialect) to make money
-搵食	wènshí	to earn one's living (Cantonese)|Mandarin equivalent: 谋生
+搵錢	wèn qián	(dialect) to make money
+搵食	wèn shí	to earn one's living (Cantonese)|Mandarin equivalent: 谋生
 撵	niǎn	to expel|to oust|(dialect) to chase after|to try to catch up with
-撵出	niǎnchū	to expel|to drive out|to oust
-撵走	niǎnzǒu	to drive out|to oust
+撵出	niǎn chū	to expel|to drive out|to oust
+撵走	niǎn zǒu	to drive out|to oust
 攵	pū	variant of 攴
 敵	dí	(bound form) enemy|(bound form) to be a match for; to rival|(bound form) to resist; to withstand
-敵人	dírén	enemy|measure word: 个
-敵佔區	dízhànqū	enemy occupied territory
-敵國	díguó	enemy country
-敵地	dídì	enemy territory
-敵基督	Díjīdū	Antichrist
-敵害	díhài	pest|vermin|animal that is harmful to crops or to another species|enemy|predator
-敵將	díjiàng	enemy general; the opposing side's commander
-敵對	díduì	hostile|enemy (factions)|combative
-敵對性	díduìxìng	hostility; antagonism|adversarial; hostile
-敵後	díhòu	(military) the enemy's rear|behind enemy lines
-敵情	díqíng	the situation of the enemy positions|intelligence about the enemy
-敵意	díyì	enmity; hostility
-敵愾	díkài	hatred felt toward one's enemies
-敵我	díwǒ	the enemy and us
-敵我矛盾	díwǒmáodùn	contradictions between ourselves and the enemy|Either you are for us or against us.
-敵手	díshǒu	opponent|substantial adversary|worthy match|antagonist|in the enemy's hands
-敵探	dítàn	enemy spy
-敵敵畏	dídíwèi	(loanword) DDVP, aka dichlorvos (an organophosphate used as an insecticide)
-敵方	dífāng	enemy
-敵機	díjī	enemy plane
-敵檔	dídàng	rival productions (of the same opera in neighboring theaters)
-敵殺死	Díshāsǐ	Decis (insecticide brand)
-敵營	díyíng	enemy camp
-敵特	dítè	enemy (agents)|(class) enemy
-敵特分子	dítèfènzǐ	enemy agent; spy (esp. from a hostile foreign power)
-敵百蟲	díbǎichóng	trichlorfon (C4H8Cl3O4P), organophosphate insecticide; also called dipterex
-敵眾我寡	dízhòngwǒguǎ	multitude of enemies, few friends (idiom from Mencius)|heavily outnumbered|beaten by the weight of numbers
-敵臺	dítái	defensive tower|lookout tower|enemy radio station
-敵視	díshì	hostile|malevolence|antagonism|to view as enemy|to stand against
-敵軍	díjūn	enemy troops|hostile forces|measure word: 股
-敵陣	dízhèn	the enemy ranks
+敵人	dí rén	enemy|measure word: 个
+敵佔區	dí zhàn qū	enemy occupied territory
+敵國	dí guó	enemy country
+敵地	dí dì	enemy territory
+敵基督	Dí jī dū	Antichrist
+敵害	dí hài	pest|vermin|animal that is harmful to crops or to another species|enemy|predator
+敵將	dí jiàng	enemy general; the opposing side's commander
+敵對	dí duì	hostile|enemy (factions)|combative
+敵對性	dí duì xìng	hostility; antagonism|adversarial; hostile
+敵後	dí hòu	(military) the enemy's rear|behind enemy lines
+敵情	dí qíng	the situation of the enemy positions|intelligence about the enemy
+敵意	dí yì	enmity; hostility
+敵愾	dí kài	hatred felt toward one's enemies
+敵我	dí wǒ	the enemy and us
+敵我矛盾	dí wǒ máo dùn	contradictions between ourselves and the enemy|Either you are for us or against us.
+敵手	dí shǒu	opponent|substantial adversary|worthy match|antagonist|in the enemy's hands
+敵探	dí tàn	enemy spy
+敵敵畏	dí dí wèi	(loanword) DDVP, aka dichlorvos (an organophosphate used as an insecticide)
+敵方	dí fāng	enemy
+敵機	dí jī	enemy plane
+敵檔	dí dàng	rival productions (of the same opera in neighboring theaters)
+敵殺死	Dí shā sǐ	Decis (insecticide brand)
+敵營	dí yíng	enemy camp
+敵特	dí tè	enemy (agents)|(class) enemy
+敵特分子	dí tè fèn zǐ	enemy agent; spy (esp. from a hostile foreign power)
+敵百蟲	dí bǎi chóng	trichlorfon (C4H8Cl3O4P), organophosphate insecticide; also called dipterex
+敵眾我寡	dí zhòng wǒ guǎ	multitude of enemies, few friends (idiom from Mencius)|heavily outnumbered|beaten by the weight of numbers
+敵臺	dí tái	defensive tower|lookout tower|enemy radio station
+敵視	dí shì	hostile|malevolence|antagonism|to view as enemy|to stand against
+敵軍	dí jūn	enemy troops|hostile forces|measure word: 股
+敵陣	dí zhèn	the enemy ranks
 斵	zhuó	variant of 斫
 旵	chǎn	(literary) (of sunlight) to beam down|to illuminate|(used in place names and given names)
 昵	nì	familiar|intimate|to approach
-昵愛	nìài	to love dearly|intimacy|close love
-昵比	nìbǐ	intimate
-昵爱	nìài	to love dearly|intimacy|close love
-昵称	nìchēng	nickname|diminutive|term of endearment|to nickname
+昵愛	nì ài	to love dearly|intimacy|close love
+昵比	nì bǐ	intimate
+昵爱	nì ài	to love dearly|intimacy|close love
+昵称	nì chēng	nickname|diminutive|term of endearment|to nickname
 暵	hàn	dry|hot
 朵	duǒ	flower|earlobe|fig. item on both sides|classifier for flowers, clouds etc
-朵頤	duǒyí	(literary) to munch
-朵颐	duǒyí	(literary) to munch
+朵頤	duǒ yí	(literary) to munch
+朵颐	duǒ yí	(literary) to munch
 杵	chǔ	pestle|to poke
 枵	xiāo	(archaic) hollow of a tree|(literary) empty; hollow
 柵	zhà	fence|also pr. shān
-柵子	zhàzi	bamboo fence
-柵格	shāngé	grid|lattice|raster
-柵條	zhàtiáo	paling|fence rail
-柵極	shānjí	grid (in vacuum tubes)|gate (terminal of a field-effect transistor)
-柵欄	zhàlán	fence
-柵籬	zhàlí	hedge|fence
-柵門	zhàmén	gate|door with grating|turnstile|logical gate (electronics)
+柵子	zhà zi	bamboo fence
+柵格	shān gé	grid|lattice|raster
+柵條	zhà tiáo	paling|fence rail
+柵極	shān jí	grid (in vacuum tubes)|gate (terminal of a field-effect transistor)
+柵欄	zhà lán	fence
+柵籬	zhà lí	hedge|fence
+柵門	zhà mén	gate|door with grating|turnstile|logical gate (electronics)
 栵	lì	hedge
 梵	Fàn	abbr. for 梵教 Brahmanism|abbr. for Sanskrit 梵语 or 梵文|abbr. for 梵蒂冈, the Vatican
-梵书	Fànshū	Brahmana, ancient Hindu texts
-梵克雅宝	Fànkèyǎbǎo	Van Cleef & Arpels (French luxury jewelry company)
-梵克雅寶	Fànkèyǎbǎo	Van Cleef & Arpels (French luxury jewelry company)
-梵冊貝葉	fàncèbèiyè	Sanskrit on Talipot palm leaves (idiom); Buddhist scripture
-梵册贝叶	fàncèbèiyè	Sanskrit on Talipot palm leaves (idiom); Buddhist scripture
-梵刹	Fànchà	Buddhist temple|monastery
-梵剎	Fànchà	Buddhist temple|monastery
-梵呗	fànbài	(Buddhism) chanting of prayers
-梵哑铃	fànyǎlíng	violin (loanword)
-梵唄	fànbài	(Buddhism) chanting of prayers
-梵啞鈴	fànyǎlíng	violin (loanword)
-梵天	Fàntiān	Nirvana (in Buddhist scripture)|Lord Brahma (the Hindu Creator)
-梵婀玲	fànēlíng	(loanword) (archaic) violin
-梵帝冈	Fàndìgāng	variant of 梵蒂冈
-梵帝岡	Fàndìgāng	variant of 梵蒂冈
-梵教	Fànjiào	Brahmanism
-梵文	Fànwén	Sanskrit
-梵書	Fànshū	Brahmana, ancient Hindu texts
-梵汉对音	fànhànduìyīn	Sanskrit-Chinese transliteration
-梵漢對音	fànhànduìyīn	Sanskrit-Chinese transliteration
-梵蒂冈	Fàndìgāng	the Vatican
-梵蒂冈城	Fàndìgāngchéng	Vatican City, capital of Holy See
-梵蒂岡	Fàndìgāng	the Vatican
-梵蒂岡城	Fàndìgāngchéng	Vatican City, capital of Holy See
-梵語	Fànyǔ	Sanskrit (language)
-梵諦岡	Fàndìgāng	variant of 梵蒂冈
-梵语	Fànyǔ	Sanskrit (language)
-梵谛冈	Fàndìgāng	variant of 梵蒂冈
-梵谷	Fàngǔ	(Tw) Vincent van Gogh (1853–1890), Dutch post-Impressionist painter|also pr. Fángǔ
-梵高	Fàngāo	Vincent van Gogh (1853–1890), Dutch post-Impressionist painter|also pr. Fángāo
+梵书	Fàn shū	Brahmana, ancient Hindu texts
+梵克雅宝	Fàn kè yǎ bǎo	Van Cleef & Arpels (French luxury jewelry company)
+梵克雅寶	Fàn kè yǎ bǎo	Van Cleef & Arpels (French luxury jewelry company)
+梵冊貝葉	fàn cè bèi yè	Sanskrit on Talipot palm leaves (idiom); Buddhist scripture
+梵册贝叶	fàn cè bèi yè	Sanskrit on Talipot palm leaves (idiom); Buddhist scripture
+梵刹	Fàn chà	Buddhist temple|monastery
+梵剎	Fàn chà	Buddhist temple|monastery
+梵呗	fàn bài	(Buddhism) chanting of prayers
+梵哑铃	fàn yǎ líng	violin (loanword)
+梵唄	fàn bài	(Buddhism) chanting of prayers
+梵啞鈴	fàn yǎ líng	violin (loanword)
+梵天	Fàn tiān	Nirvana (in Buddhist scripture)|Lord Brahma (the Hindu Creator)
+梵婀玲	fàn ē líng	(loanword) (archaic) violin
+梵帝冈	Fàn dì gāng	variant of 梵蒂冈
+梵帝岡	Fàn dì gāng	variant of 梵蒂冈
+梵教	Fàn jiào	Brahmanism
+梵文	Fàn wén	Sanskrit
+梵書	Fàn shū	Brahmana, ancient Hindu texts
+梵汉对音	fàn hàn duì yīn	Sanskrit-Chinese transliteration
+梵漢對音	fàn hàn duì yīn	Sanskrit-Chinese transliteration
+梵蒂冈	Fàn dì gāng	the Vatican
+梵蒂冈城	Fàn dì gāng chéng	Vatican City, capital of Holy See
+梵蒂岡	Fàn dì gāng	the Vatican
+梵蒂岡城	Fàn dì gāng chéng	Vatican City, capital of Holy See
+梵語	Fàn yǔ	Sanskrit (language)
+梵諦岡	Fàn dì gāng	variant of 梵蒂冈
+梵语	Fàn yǔ	Sanskrit (language)
+梵谛冈	Fàn dì gāng	variant of 梵蒂冈
+梵谷	Fàn gǔ	(Tw) Vincent van Gogh (1853–1890), Dutch post-Impressionist painter|also pr. Fán gǔ
+梵高	Fàn gāo	Vincent van Gogh (1853–1890), Dutch post-Impressionist painter|also pr. Fán gāo
 棵	kē	classifier for trees, cabbages, plants etc
 椵	jiǎ	(grapefruit)
 極	jí	extremely|pole (geography, physics)|utmost|top
-極了	jíle	extremely|exceedingly
-極值	jízhí	maxima and minima|extremum
-極光	jíguāng	aurora (meteorology)
-極其	jíqí	extremely
-極刑	jíxíng	supreme penalty|execution
-極力	jílì	to make a supreme effort|at all costs
-極化	jíhuà	polarization
-極北	jíběi	extreme north
-極北朱頂雀	jíběizhūdǐngquè	(bird species of China) Arctic redpoll (Acanthis hornemanni)
-極北柳鶯	jíběiliǔyīng	(bird species of China) Arctic warbler (Phylloscopus borealis)
-極南	jínán	extreme south
-極右	jíyòu	(politics) far-right; ultra-right
-極右分子	jíyòufènzǐ	extreme right-winger
-極右翼	jíyòuyì	extreme right (politics)
-極品	jípǐn	best quality|item of the highest quality|(slang) outrageous|annoying in the extreme|gross|person with these qualities
-極地	jídì	polar region
-極夜	jíyè	polar night
-極大	jídà	enormous; great|(math.) maximum
-極大值	jídàzhí	maximum value
-極好	jíhǎo	fabulous|superb|excellent
-極客	jíkè	(loanword) (coll.) geek
-極寒	jíhán	extreme cold
-極小	jíxiǎo	minimal|extremely small
-極少	jíshǎo	very little|very few
-極少數	jíshǎoshù	extremely few|a small minority
-極左	jízuǒ	(politics) far-left; ultra-left
-極差	jíchā	range (of a set of data) (statistics)
-極度	jídù	extremely
-極座標	jízuòbiāo	(math.) polar coordinates
-極座標系	jízuòbiāoxì	(math.) polar coordinate system
-極徑	jíjìng	modulus (distance from the origin in polar coordinates)
-極性	jíxìng	(chemical, electrical) polarity|polarized
-極晝	jízhòu	polar day
-極有可能	jíyǒukěnéng	extremely possible|probable
-極東	Jídōng	the Far East|East Asia
-極核	jíhé	polar nucleus
-極樂	jílè	bliss|extreme happiness
-極樂世界	jílèshìjiè	paradise (mainly Buddhist)|Elysium|(Budd.) Sukhavati
-極權	jíquán	totalitarian
-極權主義	jíquánzhǔyì	totalitarianism
-極深研幾	jíshēnyánjǐ	deep and detailed investigation (idiom)
-極為	jíwéi	extremely; exceedingly
-極盛時期	jíshèngshíqī	most flourishing period|Golden Age
-極目遠望	jímùyuǎnwàng	as far as the eye can see
-極短篇小說	jíduǎnpiānxiǎoshuō	flash fiction
-極端	jíduān	extreme
-極端主義	jíduānzhǔyì	extremism
-極端之惡	jíduānzhīè	(philosophy) radical evil
-極端分子	jíduānfènzǐ	extremist
-極簡主義	jíjiǎnzhǔyì	minimalism
-極致	jízhì	peak|pinnacle|ultimate
-極角	jíjiǎo	polar angle|argument (angle in polar coordinates)
-極超	jíchāo	hyper-|ultra-
-極軸	jízhóu	polar axis (x-axis in polar coordinates)
-極辣	jílà	very spicy
-極道	jídào	yakuza
-極限	jíxiàn	limit|extreme boundary
-極限運動	jíxiànyùndòng	extreme sport
-極點	jídiǎn	extreme point|pole|the origin (in polar coordinates)
+極了	jí le	extremely|exceedingly
+極值	jí zhí	maxima and minima|extremum
+極光	jí guāng	aurora (meteorology)
+極其	jí qí	extremely
+極刑	jí xíng	supreme penalty|execution
+極力	jí lì	to make a supreme effort|at all costs
+極化	jí huà	polarization
+極北	jí běi	extreme north
+極北朱頂雀	jí běi zhū dǐng què	(bird species of China) Arctic redpoll (Acanthis hornemanni)
+極北柳鶯	jí běi liǔ yīng	(bird species of China) Arctic warbler (Phylloscopus borealis)
+極南	jí nán	extreme south
+極右	jí yòu	(politics) far-right; ultra-right
+極右分子	jí yòu fèn zǐ	extreme right-winger
+極右翼	jí yòu yì	extreme right (politics)
+極品	jí pǐn	best quality|item of the highest quality|(slang) outrageous|annoying in the extreme|gross|person with these qualities
+極地	jí dì	polar region
+極夜	jí yè	polar night
+極大	jí dà	enormous; great|(math.) maximum
+極大值	jí dà zhí	maximum value
+極好	jí hǎo	fabulous|superb|excellent
+極客	jí kè	(loanword) (coll.) geek
+極寒	jí hán	extreme cold
+極小	jí xiǎo	minimal|extremely small
+極少	jí shǎo	very little|very few
+極少數	jí shǎo shù	extremely few|a small minority
+極左	jí zuǒ	(politics) far-left; ultra-left
+極差	jí chā	range (of a set of data) (statistics)
+極度	jí dù	extremely
+極座標	jí zuò biāo	(math.) polar coordinates
+極座標系	jí zuò biāo xì	(math.) polar coordinate system
+極徑	jí jìng	modulus (distance from the origin in polar coordinates)
+極性	jí xìng	(chemical, electrical) polarity|polarized
+極晝	jí zhòu	polar day
+極有可能	jí yǒu kě néng	extremely possible|probable
+極東	Jí dōng	the Far East|East Asia
+極核	jí hé	polar nucleus
+極樂	jí lè	bliss|extreme happiness
+極樂世界	jí lè shì jiè	paradise (mainly Buddhist)|Elysium|(Budd.) Sukhavati
+極權	jí quán	totalitarian
+極權主義	jí quán zhǔ yì	totalitarianism
+極深研幾	jí shēn yán jǐ	deep and detailed investigation (idiom)
+極為	jí wéi	extremely; exceedingly
+極盛時期	jí shèng shí qī	most flourishing period|Golden Age
+極目遠望	jí mù yuǎn wàng	as far as the eye can see
+極短篇小說	jí duǎn piān xiǎo shuō	flash fiction
+極端	jí duān	extreme
+極端主義	jí duān zhǔ yì	extremism
+極端之惡	jí duān zhī è	(philosophy) radical evil
+極端分子	jí duān fèn zǐ	extremist
+極簡主義	jí jiǎn zhǔ yì	minimalism
+極致	jí zhì	peak|pinnacle|ultimate
+極角	jí jiǎo	polar angle|argument (angle in polar coordinates)
+極超	jí chāo	hyper-|ultra-
+極軸	jí zhóu	polar axis (x-axis in polar coordinates)
+極辣	jí là	very spicy
+極道	jí dào	yakuza
+極限	jí xiàn	limit|extreme boundary
+極限運動	jí xiàn yùn dòng	extreme sport
+極點	jí diǎn	extreme point|pole|the origin (in polar coordinates)
 槵	huàn	soapberry (order Sapindales)
-槵子	huànzǐ	fruit of the Sapindus trees (used for Buddhist prayer beads)
+槵子	huàn zǐ	fruit of the Sapindus trees (used for Buddhist prayer beads)
 樵	qiáo	firewood|gather wood
-樵夫	qiáofū	woodman|woodcutter
-樵子	qiáozǐ	woodcutter
+樵夫	qiáo fū	woodman|woodcutter
+樵子	qiáo zǐ	woodcutter
 檵	jì	fringe flower (Loropetalum chinense), evergreen shrub
 檵	qǐ	variant of 杞, wolfberry shrub (Lycium chinense)
-檵木	jìmù	fringe flower (Loropetalum chinense), evergreen shrub
-檵花	jìhuā	fringe flower (Loropetalum chinense), evergreen shrub
+檵木	jì mù	fringe flower (Loropetalum chinense), evergreen shrub
+檵花	jì huā	fringe flower (Loropetalum chinense), evergreen shrub
 欵	kuǎn	to treat well|to detain
 段	duàn	paragraph|section|segment|stage (of a process)|classifier for stories, periods of time, lengths of thread etc
-段位	duànwèi	rank|class|(Japanese martial arts and board games) dan
-段子	duànzi	item of storytelling or performed dialogue (folk arts)|sketch
-段子手	duànzishǒu	sb who crafts and delivers witty, humorous or satirical short stories, jokes or punchlines; a wit; a humorist
-段数	duànshù	rank|level
-段數	duànshù	rank|level
-段氏	Duànshì	a branch of the Xianbei 鮮卑|鲜卑 nomadic people
-段玉裁	DuànYùcái	Duan Yucai (1735-1815), author of Commentary on Shuowen Jiezi (1815) 说文解字注
-段祺瑞	DuànQíruì	Duan Qirui (1864-1936), commander of Beiyang Army under Yuan Shikai, then politician and powerful warlord
-段荃法	DuànQuánfǎ	Duan Quanfa (1939-2010), Chinese writer
-段落	duànluò	phase|time interval|paragraph|(written) passage
-段錯誤	duàncuòwù	segmentation fault
-段错误	duàncuòwù	segmentation fault
+段位	duàn wèi	rank|class|(Japanese martial arts and board games) dan
+段子	duàn zi	item of storytelling or performed dialogue (folk arts)|sketch
+段子手	duàn zi shǒu	sb who crafts and delivers witty, humorous or satirical short stories, jokes or punchlines; a wit; a humorist
+段数	duàn shù	rank|level
+段數	duàn shù	rank|level
+段氏	Duàn shì	a branch of the Xianbei 鮮卑|鲜卑 nomadic people
+段玉裁	Duàn Yù cái	Duan Yucai (1735-1815), author of Commentary on Shuowen Jiezi (1815) 说文解字注
+段祺瑞	Duàn Qí ruì	Duan Qirui (1864-1936), commander of Beiyang Army under Yuan Shikai, then politician and powerful warlord
+段荃法	Duàn Quán fǎ	Duan Quanfa (1939-2010), Chinese writer
+段落	duàn luò	phase|time interval|paragraph|(written) passage
+段錯誤	duàn cuò wù	segmentation fault
+段错误	duàn cuò wù	segmentation fault
 毵	sān	long-haired|shaggy
 氵	shuǐ	"water" radical in Chinese characters (Kangxi radical 85), occurring in 没, 法, 流 etc|see also 三点水
 泵	bèng	pump (loanword)
-泵柄	bèngbǐng	pump handle
-泵浦	bèngpǔ	pump (loanword)
-泵灯	bèngdēng	lamp|turn signal
-泵燈	bèngdēng	lamp|turn signal
-泵站	bèngzhàn	pumping station
+泵柄	bèng bǐng	pump handle
+泵浦	bèng pǔ	pump (loanword)
+泵灯	bèng dēng	lamp|turn signal
+泵燈	bèng dēng	lamp|turn signal
+泵站	bèng zhàn	pumping station
 洵	xún	truly|whirlpool
 涵	hán	to contain|to include|culvert
-涵义	hányì	content|meaning|connotation|implication
-涵养	hányǎng	to cultivate (personal qualities)|(of forests etc) to support; to provide a suitable environment for the replenishment of (natural resources: groundwater, animals, plants etc)
-涵意	hányì	content|meaning|connotation|implication|same as 涵義|涵义
-涵括	hánkuò	to encompass|to cover
-涵摄	hánshè	to assimilate|to subsume
-涵攝	hánshè	to assimilate|to subsume
-涵江	Hánjiāng	see 涵江区
-涵江区	HánjiāngQū	Hanjiang, a district of Putian City 莆田市, Fujian
-涵江區	HánjiāngQū	Hanjiang, a district of Putian City 莆田市, Fujian
-涵洞	hándòng	culvert
-涵淡	hándàn	waves
-涵盖	hángài	to cover|to comprise|to include
-涵管	hánguǎn	culvert pipe
-涵義	hányì	content|meaning|connotation|implication
-涵蓄	hánxù	variant of 含蓄
-涵蓋	hángài	to cover|to comprise|to include
-涵養	hányǎng	to cultivate (personal qualities)|(of forests etc) to support; to provide a suitable environment for the replenishment of (natural resources: groundwater, animals, plants etc)
+涵义	hán yì	content|meaning|connotation|implication
+涵养	hán yǎng	to cultivate (personal qualities)|(of forests etc) to support; to provide a suitable environment for the replenishment of (natural resources: groundwater, animals, plants etc)
+涵意	hán yì	content|meaning|connotation|implication|same as 涵義|涵义
+涵括	hán kuò	to encompass|to cover
+涵摄	hán shè	to assimilate|to subsume
+涵攝	hán shè	to assimilate|to subsume
+涵江	Hán jiāng	see 涵江区
+涵江区	Hán jiāng Qū	Hanjiang, a district of Putian City 莆田市, Fujian
+涵江區	Hán jiāng Qū	Hanjiang, a district of Putian City 莆田市, Fujian
+涵洞	hán dòng	culvert
+涵淡	hán dàn	waves
+涵盖	hán gài	to cover|to comprise|to include
+涵管	hán guǎn	culvert pipe
+涵義	hán yì	content|meaning|connotation|implication
+涵蓄	hán xù	variant of 含蓄
+涵蓋	hán gài	to cover|to comprise|to include
+涵養	hán yǎng	to cultivate (personal qualities)|(of forests etc) to support; to provide a suitable environment for the replenishment of (natural resources: groundwater, animals, plants etc)
 淵	yuān	deep pool|deep|profound
-淵博	yuānbó	erudite|profound|learned|extremely knowledgeable
-淵壑	yuānhè	deep valley
-淵富	yuānfù	rich and variegated
-淵廣	yuānguǎng	broad and extensive (of knowledge etc)
-淵慮	yuānlǜ	profound thoughts or ideas
-淵沖	yuānchōng	(literary) (of sb's mind or intelligence) deep; insightful
-淵泉	yuānquán	deep springs
-淵泓	yuānhóng	vast and profound
-淵海	yuānhǎi	(lit.) abyss and ocean|(fig.) vast and profound
-淵深	yuānshēn	profound (knowledge)|erudite
-淵淵	yuānyuān	deep and still|sound of a drum
-淵渟岳峙	yuāntíngyuèzhì	(idiom) to have a serene yet formidable demeanor; to have a commanding presence
-淵源	yuānyuán	origin|source|relationship
-淵玄	yuānxuán	profundity|depth
-淵藪	yuānsǒu	(lit.) gathering place of fish or other creatures|(fig.) haunt; lair; nest; den; hotbed
-淵詣	yuānyì	deep and profound meaning
-淵謀	yuānmóu	profound or erudite plans
-淵識	yuānshí	erudite and sophisticated
-淵谷	yuāngǔ	deep valley
-淵遠	yuānyuǎn	deep|profound
-淵默	yuānmò	profound silence
+淵博	yuān bó	erudite|profound|learned|extremely knowledgeable
+淵壑	yuān hè	deep valley
+淵富	yuān fù	rich and variegated
+淵廣	yuān guǎng	broad and extensive (of knowledge etc)
+淵慮	yuān lǜ	profound thoughts or ideas
+淵沖	yuān chōng	(literary) (of sb's mind or intelligence) deep; insightful
+淵泉	yuān quán	deep springs
+淵泓	yuān hóng	vast and profound
+淵海	yuān hǎi	(lit.) abyss and ocean|(fig.) vast and profound
+淵深	yuān shēn	profound (knowledge)|erudite
+淵淵	yuān yuān	deep and still|sound of a drum
+淵渟岳峙	yuān tíng yuè zhì	(idiom) to have a serene yet formidable demeanor; to have a commanding presence
+淵源	yuān yuán	origin|source|relationship
+淵玄	yuān xuán	profundity|depth
+淵藪	yuān sǒu	(lit.) gathering place of fish or other creatures|(fig.) haunt; lair; nest; den; hotbed
+淵詣	yuān yì	deep and profound meaning
+淵謀	yuān móu	profound or erudite plans
+淵識	yuān shí	erudite and sophisticated
+淵谷	yuān gǔ	deep valley
+淵遠	yuān yuǎn	deep|profound
+淵默	yuān mò	profound silence
 溵	Yīn	used in place-names, e.g. 溵水 was once the name of the Shahe River 沙河, Henan, and 溵州 was a Tang Dynasty prefecture
 漵	xù	name of a river
-漵浦	Xùpǔ	see 溆浦县
-漵浦縣	XùpǔXiàn	Xupu, a county in Huaihua City 怀化市, Hunan
+漵浦	Xù pǔ	see 溆浦县
+漵浦縣	Xù pǔ Xiàn	Xupu, a county in Huaihua City 怀化市, Hunan
 潵	sàn	to disperse water
 潵	sǎ	old variant of 撒
 瀵	fèn	name of a river|valley vapor
 灵	líng	quick|alert|efficacious|effective|to come true|spirit|departed soul|coffin
-灵丘	Língqiū	see 灵丘县
-灵丘县	LíngqiūXiàn	Lingqiu, a county in Datong City 大同市, Shanxi
-灵丹妙药	língdānmiàoyào	effective cure, miracle medicine (idiom); fig. wonder-cure for all problems|panacea|elixir
-灵位	língwèi	memorial tablet
-灵体	língtǐ	soul
-灵便	língbiàn	quick|agile|nimble|easy to handle|handy
-灵光	língguāng	divine light (around the Buddha)|a halo|a miraculous column of light|(slang) jolly good!
-灵利	línglì	clever|bright|quick-witted
-灵动	língdòng	to be quick-witted
-灵台	Língtái	see 灵台县
-灵台县	LíngtáiXiàn	Lingtai, a county in Pingliang City 平凉市, Gansu
-灵命	língmìng	the will of Heaven|the will of God
-灵堂	língtáng	mourning hall|funeral hall
-灵塔	língtǎ	memorial pagoda
-灵妙	língmiào	wonderful; ingenious; clever
-灵媒	língméi	medium (person believed to communicate with spirits)
-灵宝	Língbǎo	see 灵宝市
-灵宝市	LíngbǎoShì	Lingbao, county-level city in Sanmenxia 三门峡市, Henan
-灵寿	Língshòu	see 灵寿县
-灵寿县	LíngshòuXiàn	Lingshou, a county in Shijiazhuang City 石家庄市, Hebei
-灵山	Língshān	see 灵山县
-灵山县	LíngshānXiàn	Lingshan, a county in Qinzhou City 钦州市, Guangxi
-灵川	Língchuān	see 灵川县
-灵川县	LíngchuānXiàn	Lingchuan, a county in Guilin City 桂林市, Guangxi
-灵巧	língqiǎo	deft|nimble|ingenious
-灵床	língchuáng	bier|bed kept as it was when the deceased was alive
-灵异	língyì	deity|monster|strange|mysterious|supernatural
-灵快	língkuài	agile|quick
-灵性	língxìng	spiritual nature|spirituality|intelligence (esp. in animals)
-灵怪	língguài	a goblin|a spirit
-灵恩	Língēn	Charismatic Christianity
-灵恩派	Língēnpài	Charismatic Movement
-灵感	línggǎn	creative inspiration
-灵感触发图	línggǎnchùfātú	mind map
-灵敏	língmǐn	smart|clever|sensitive|keen|quick|sharp
-灵敏度	língmǐndù	(level of) sensitivity
-灵机	língjī	sudden inspiration|bright idea|clever trick
-灵机一动	língjīyīdòng	a bright idea suddenly occurs (idiom); to hit upon an inspiration|to be struck by a brainwave
-灵枢经	Língshūjīng	Lingshu Jing (Divine Pivot, or Spiritual Pivot), ancient Chinese medical text (c. 1st century BC)
-灵柩	língjiù	coffin containing a corpse
-灵棺	língguān	a bier|a catafalque (memorial platform)|a coffin
-灵武	Língwǔ	see 灵武市
-灵武市	LíngwǔShì	Lingwu, a county-level city in Yinchuan City 银川市, Ningxia
-灵气	língqì	spiritual influence (of mountains etc)|cleverness|ingeniousness
-灵气疗法	língqìliáofǎ	Reiki (palm healing)
-灵泛	língfàn	nimble|agile
-灵活	línghuó	flexible|nimble|agile
-灵活性	línghuóxìng	flexibility
-灵渠	Língqú	Lingqu, canal in Xing'an county 兴安, Guangxi, built in 214 BC to link the Yangtze 长江 to the Pearl River 珠江
-灵牌	língpái	spirit tablet|memorial tablet
-灵犀	língxī	rhinoceros horn, reputed to confer telepathic powers|fig. mutual sensitivity|tacit exchange of romantic feelings|a meeting of minds
-灵犀一点通	língxīyīdiǎntōng	mental rapport|likeness of mind|spiritual link
-灵犀相通	língxīxiāngtōng	kindred spirits
-灵猫	língmāo	civet (arboreal cat)|viverrid (mammal group including mongoose and civet)
-灵猫类	língmāolèi	a civet (arboreal cat)|viverrid (mammal group including mongoose and civet)
-灵璧	Língbì	see 灵璧县
-灵璧县	LíngbìXiàn	Lingbi, a county in Suzhou City 宿州市, Anhui
-灵界	língjiè	spiritual world
-灵石	Língshí	see 灵石县
-灵石县	LíngshíXiàn	Lingshi, a county in Jinzhong City 晋中市, Shanxi
-灵符	língfú	Daoist talisman
-灵芝	língzhī	lingzhi or reishi mushroom (Ganoderma lucidum)
-灵药	língyào	legendary magic potion of immortals|panacea|fig. wonder solution to a problem
-灵语	língyǔ	tongues (spiritual gift)
-灵谷寺	Línggǔsì	Linggu temple (Nanjing)
-灵车	língchē	hearse
-灵通	língtōng	fast and abundant (news)|clever|effective
-灵醒	língxǐng	(of senses, mind etc) alert|keen|clear-minded
-灵长	língcháng	long life and prosperity
-灵长	língzhǎng	primate (monkey, hominid etc)
-灵长目	língzhǎngmù	primate order (including monkeys, hominids etc)
-灵长类	língzhǎnglèi	primate (monkey, hominid etc)
-灵雀寺	Língqiǎosì	Nyitso Monastery in Dawu County 道孚县, Garze Tibetan autonomous prefecture, Sichuan
-灵验	língyàn	efficacious|effective|(of a prediction) accurate|correct
-灵骨塔	línggǔtǎ	columbarium
-灵魂	línghún	soul|spirit
-灵魂人物	línghúnrénwù	key figure|the linchpin of sth
-灵魂伴侣	línghúnbànlǚ	soulmate
-灵魂出窍	línghúnchūqiào	out-of-body experience
-灵魂深处	línghúnshēnchù	in the depth of one's soul
+灵丘	Líng qiū	see 灵丘县
+灵丘县	Líng qiū Xiàn	Lingqiu, a county in Datong City 大同市, Shanxi
+灵丹妙药	líng dān miào yào	effective cure, miracle medicine (idiom); fig. wonder-cure for all problems|panacea|elixir
+灵位	líng wèi	memorial tablet
+灵体	líng tǐ	soul
+灵便	líng biàn	quick|agile|nimble|easy to handle|handy
+灵光	líng guāng	divine light (around the Buddha)|a halo|a miraculous column of light|(slang) jolly good!
+灵利	líng lì	clever|bright|quick-witted
+灵动	líng dòng	to be quick-witted
+灵台	Líng tái	see 灵台县
+灵台县	Líng tái Xiàn	Lingtai, a county in Pingliang City 平凉市, Gansu
+灵命	líng mìng	the will of Heaven|the will of God
+灵堂	líng táng	mourning hall|funeral hall
+灵塔	líng tǎ	memorial pagoda
+灵妙	líng miào	wonderful; ingenious; clever
+灵媒	líng méi	medium (person believed to communicate with spirits)
+灵宝	Líng bǎo	see 灵宝市
+灵宝市	Líng bǎo Shì	Lingbao, county-level city in Sanmenxia 三门峡市, Henan
+灵寿	Líng shòu	see 灵寿县
+灵寿县	Líng shòu Xiàn	Lingshou, a county in Shijiazhuang City 石家庄市, Hebei
+灵山	Líng shān	see 灵山县
+灵山县	Líng shān Xiàn	Lingshan, a county in Qinzhou City 钦州市, Guangxi
+灵川	Líng chuān	see 灵川县
+灵川县	Líng chuān Xiàn	Lingchuan, a county in Guilin City 桂林市, Guangxi
+灵巧	líng qiǎo	deft|nimble|ingenious
+灵床	líng chuáng	bier|bed kept as it was when the deceased was alive
+灵异	líng yì	deity|monster|strange|mysterious|supernatural
+灵快	líng kuài	agile|quick
+灵性	líng xìng	spiritual nature|spirituality|intelligence (esp. in animals)
+灵怪	líng guài	a goblin|a spirit
+灵恩	Líng ēn	Charismatic Christianity
+灵恩派	Líng ēn pài	Charismatic Movement
+灵感	líng gǎn	creative inspiration
+灵感触发图	líng gǎn chù fā tú	mind map
+灵敏	líng mǐn	smart|clever|sensitive|keen|quick|sharp
+灵敏度	líng mǐn dù	(level of) sensitivity
+灵机	líng jī	sudden inspiration|bright idea|clever trick
+灵机一动	líng jī yī dòng	a bright idea suddenly occurs (idiom); to hit upon an inspiration|to be struck by a brainwave
+灵枢经	Líng shū jīng	Lingshu Jing (Divine Pivot, or Spiritual Pivot), ancient Chinese medical text (c. 1st century BC)
+灵柩	líng jiù	coffin containing a corpse
+灵棺	líng guān	a bier|a catafalque (memorial platform)|a coffin
+灵武	Líng wǔ	see 灵武市
+灵武市	Líng wǔ Shì	Lingwu, a county-level city in Yinchuan City 银川市, Ningxia
+灵气	líng qì	spiritual influence (of mountains etc)|cleverness|ingeniousness
+灵气疗法	líng qì liáo fǎ	Reiki (palm healing)
+灵泛	líng fàn	nimble|agile
+灵活	líng huó	flexible|nimble|agile
+灵活性	líng huó xìng	flexibility
+灵渠	Líng qú	Lingqu, canal in Xing'an county 兴安, Guangxi, built in 214 BC to link the Yangtze 长江 to the Pearl River 珠江
+灵牌	líng pái	spirit tablet|memorial tablet
+灵犀	líng xī	rhinoceros horn, reputed to confer telepathic powers|fig. mutual sensitivity|tacit exchange of romantic feelings|a meeting of minds
+灵犀一点通	líng xī yī diǎn tōng	mental rapport|likeness of mind|spiritual link
+灵犀相通	líng xī xiāng tōng	kindred spirits
+灵猫	líng māo	civet (arboreal cat)|viverrid (mammal group including mongoose and civet)
+灵猫类	líng māo lèi	a civet (arboreal cat)|viverrid (mammal group including mongoose and civet)
+灵璧	Líng bì	see 灵璧县
+灵璧县	Líng bì Xiàn	Lingbi, a county in Suzhou City 宿州市, Anhui
+灵界	líng jiè	spiritual world
+灵石	Líng shí	see 灵石县
+灵石县	Líng shí Xiàn	Lingshi, a county in Jinzhong City 晋中市, Shanxi
+灵符	líng fú	Daoist talisman
+灵芝	líng zhī	lingzhi or reishi mushroom (Ganoderma lucidum)
+灵药	líng yào	legendary magic potion of immortals|panacea|fig. wonder solution to a problem
+灵语	líng yǔ	tongues (spiritual gift)
+灵谷寺	Líng gǔ sì	Linggu temple (Nanjing)
+灵车	líng chē	hearse
+灵通	líng tōng	fast and abundant (news)|clever|effective
+灵醒	líng xǐng	(of senses, mind etc) alert|keen|clear-minded
+灵长	líng cháng	long life and prosperity
+灵长	líng zhǎng	primate (monkey, hominid etc)
+灵长目	líng zhǎng mù	primate order (including monkeys, hominids etc)
+灵长类	líng zhǎng lèi	primate (monkey, hominid etc)
+灵雀寺	Líng qiǎo sì	Nyitso Monastery in Dawu County 道孚县, Garze Tibetan autonomous prefecture, Sichuan
+灵验	líng yàn	efficacious|effective|(of a prediction) accurate|correct
+灵骨塔	líng gǔ tǎ	columbarium
+灵魂	líng hún	soul|spirit
+灵魂人物	líng hún rén wù	key figure|the linchpin of sth
+灵魂伴侣	líng hún bàn lǚ	soulmate
+灵魂出窍	líng hún chū qiào	out-of-body experience
+灵魂深处	líng hún shēn chù	in the depth of one's soul
 熵	shāng	entropy (character created in 1923)
 爵	jué	ancient bronze wine holder with 3 legs and loop handle|nobility
-爵位	juéwèi	order of feudal nobility, namely: Duke 公, Marquis 侯, Count 伯, Viscount 子, Baron 男
-爵士	juéshì	knight|Sir|(loanword) jazz
-爵士乐	juéshìyuè	jazz (loanword)
-爵士樂	juéshìyuè	jazz (loanword)
-爵士舞	juéshìwǔ	jazz (loanword)
-爵士音乐	juéshìyīnyuè	jazz (loanword)
-爵士音樂	juéshìyīnyuè	jazz (loanword)
-爵士鼓	juéshìgǔ	drum kit (Tw)
-爵祿	juélù	rank and emolument of nobility
-爵禄	juélù	rank and emolument of nobility
+爵位	jué wèi	order of feudal nobility, namely: Duke 公, Marquis 侯, Count 伯, Viscount 子, Baron 男
+爵士	jué shì	knight|Sir|(loanword) jazz
+爵士乐	jué shì yuè	jazz (loanword)
+爵士樂	jué shì yuè	jazz (loanword)
+爵士舞	jué shì wǔ	jazz (loanword)
+爵士音乐	jué shì yīn yuè	jazz (loanword)
+爵士音樂	jué shì yīn yuè	jazz (loanword)
+爵士鼓	jué shì gǔ	drum kit (Tw)
+爵祿	jué lù	rank and emolument of nobility
+爵禄	jué lù	rank and emolument of nobility
 牵	qiān	to lead along|to pull (an animal on a tether)|(bound form) to involve|to draw in
-牵一发而动全身	qiānyīfàérdòngquánshēn	lit. pulling a single hair makes the whole body move (idiom)|fig. a small change in one part can affect the whole system
-牵制	qiānzhì	to control|to curb|to restrict|to impede|to pin down (enemy troops)
-牵动	qiāndòng	to affect|to produce a change in sth
-牵头	qiāntóu	to lead (an animal by the head)|to take the lead|to coordinate (a combined operation)|to mediate|a go-between (e.g. marriage broker)
-牵就	qiānjiù	to concede|to give up
-牵引	qiānyǐn	to pull; to draw (a cart); to tow
-牵引力	qiānyǐnlì	motive force|traction
-牵引车	qiānyǐnchē	tractor unit; tractor truck; prime mover
-牵强	qiānqiǎng	far-fetched|implausible (chain of reasoning)
-牵强附会	qiānqiǎngfùhuì	to make an irrelevant comparison or interpretation (idiom)
-牵心	qiānxīn	to worry|concerned
-牵心挂肠	qiānxīnguàcháng	to worry deeply about sth|extremely concerned
-牵手	qiānshǒu	to hold hands
-牵扯	qiānchě	to involve; to implicate|to be interrelated
-牵扯不清	qiānchěbùqīng	unclear; ambiguous|having an unclear relationship with
-牵扶	qiānfú	to lead
-牵挂	qiānguà	to worry about|to be concerned about
-牵掣	qiānchè	to impede|to hold up
-牵涉	qiānshè	to involve|implicated
-牵涉到	qiānshèdào	to involve|to drag in
-牵牛	qiānniú	morning glory (Pharbitis nil)
-牵牛属	qiānniúshǔ	Pharbitis, genus of herbaceous plants including Morning glory 牽牛|牵牛 (Pharbitis nil)
-牵牛星	Qiānniúxīng	Altair (star)|Cowherd of the folk tale Cowherd and Weaving maid 牛郎織女|牛郎织女
-牵牛花	qiānniúhuā	white-edged morning glory
-牵着鼻子走	qiānzhebízizǒu	to lead by the nose
-牵累	qiānlěi	to weigh down|to trouble|to implicate (sb)|tied down (by affairs)
-牵红线	qiānhóngxiàn	to play matchmaker
-牵线	qiānxiàn	to pull strings|to manipulate (a puppet)|to control from behind the scene|to mediate
-牵线人	qiānxiànrén	sb who pulls strings to get things done|wirepuller|go-between|matchmaker
-牵绊	qiānbàn	to bind|to yoke|to impede
-牵绳	qiānshéng	tow rope
-牵缠	qiānchán	to involve|to entangle sb
-牵羊担酒	qiānyángdānjiǔ	pulling a lamb and bringing wine on a carrying pole (idiom); fig. to offer elaborate congratulations|to kill the fatted calf
-牵联	qiānlián	variant of 牵连
-牵肠挂肚	qiānchángguàdù	deeply worried (idiom); to feel anxious
-牵记	qiānjì	to feel anxious about sth|unable to stop thinking about sth|to miss
-牵连	qiānlián	to implicate|implicated|to link together
+牵一发而动全身	qiān yī fà ér dòng quán shēn	lit. pulling a single hair makes the whole body move (idiom)|fig. a small change in one part can affect the whole system
+牵制	qiān zhì	to control|to curb|to restrict|to impede|to pin down (enemy troops)
+牵动	qiān dòng	to affect|to produce a change in sth
+牵头	qiān tóu	to lead (an animal by the head)|to take the lead|to coordinate (a combined operation)|to mediate|a go-between (e.g. marriage broker)
+牵就	qiān jiù	to concede|to give up
+牵引	qiān yǐn	to pull; to draw (a cart); to tow
+牵引力	qiān yǐn lì	motive force|traction
+牵引车	qiān yǐn chē	tractor unit; tractor truck; prime mover
+牵强	qiān qiǎng	far-fetched|implausible (chain of reasoning)
+牵强附会	qiān qiǎng fù huì	to make an irrelevant comparison or interpretation (idiom)
+牵心	qiān xīn	to worry|concerned
+牵心挂肠	qiān xīn guà cháng	to worry deeply about sth|extremely concerned
+牵手	qiān shǒu	to hold hands
+牵扯	qiān chě	to involve; to implicate|to be interrelated
+牵扯不清	qiān chě bù qīng	unclear; ambiguous|having an unclear relationship with
+牵扶	qiān fú	to lead
+牵挂	qiān guà	to worry about|to be concerned about
+牵掣	qiān chè	to impede|to hold up
+牵涉	qiān shè	to involve|implicated
+牵涉到	qiān shè dào	to involve|to drag in
+牵牛	qiān niú	morning glory (Pharbitis nil)
+牵牛属	qiān niú shǔ	Pharbitis, genus of herbaceous plants including Morning glory 牽牛|牵牛 (Pharbitis nil)
+牵牛星	Qiān niú xīng	Altair (star)|Cowherd of the folk tale Cowherd and Weaving maid 牛郎織女|牛郎织女
+牵牛花	qiān niú huā	white-edged morning glory
+牵着鼻子走	qiān zhe bí zi zǒu	to lead by the nose
+牵累	qiān lěi	to weigh down|to trouble|to implicate (sb)|tied down (by affairs)
+牵红线	qiān hóng xiàn	to play matchmaker
+牵线	qiān xiàn	to pull strings|to manipulate (a puppet)|to control from behind the scene|to mediate
+牵线人	qiān xiàn rén	sb who pulls strings to get things done|wirepuller|go-between|matchmaker
+牵绊	qiān bàn	to bind|to yoke|to impede
+牵绳	qiān shéng	tow rope
+牵缠	qiān chán	to involve|to entangle sb
+牵羊担酒	qiān yáng dān jiǔ	pulling a lamb and bringing wine on a carrying pole (idiom); fig. to offer elaborate congratulations|to kill the fatted calf
+牵联	qiān lián	variant of 牵连
+牵肠挂肚	qiān cháng guà dù	deeply worried (idiom); to feel anxious
+牵记	qiān jì	to feel anxious about sth|unable to stop thinking about sth|to miss
+牵连	qiān lián	to implicate|implicated|to link together
 犵	qì	name of a tribe
 猵	biān	a kind of otter
 猵	piàn	used in 猵狙
-猵狙	piànjū	mythical beast similar to an ape with dog's head
+猵狙	piàn jū	mythical beast similar to an ape with dog's head
 獵	liè	hunting
-獵人	lièrén	hunter
-獵刀	lièdāo	hunting knife
-獵取	lièqǔ	to hunt|(fig.) to seek (fame etc)
-獵場	lièchǎng	hunting ground
-獵奇	lièqí	to hunt for novelty|to seek novelty
-獵巫	lièwū	to conduct a witch hunt
-獵戶	lièhù	hunter
-獵戶座	Lièhùzuò	Orion (constellation)
-獵戶座大星雲	Lièhùzuòdàxīngyún	the Great Nebula in Orion M42
-獵戶座流星雨	lièhùzuòliúxīngyǔ	Orionids|Orionid meteor shower
-獵戶臂	lièhùbì	Orion spiral arm or local spur of our galaxy (containing our solar system)
-獵手	lièshǒu	hunter
-獵捕	lièbǔ	to hunt|hunting
-獵槍	lièqiāng	hunting gun|shotgun
-獵殺	lièshā	to kill (in hunting)
-獵殺紅色十月號	LièshāHóngsèShíyuèhào	"The Hunt for Red October", a novel by Tom Clancy
-獵潛	lièqián	anti-submarine (warfare)
-獵潛艇	lièqiántǐng	anti-submarine vessel
-獵物	lièwù	prey; quarry
-獵犬	lièquǎn	hound; hunting dog
-獵犬座	Lièquǎnzuò	Canes Venatici (constellation)
-獵狗	liègǒu	hunting dog
-獵艷	lièyàn	to chase women|to express oneself in a pompous flowery style
-獵豹	lièbào	cheetah
-獵隼	lièsǔn	(bird species of China) saker falcon (Falco cherrug)
-獵頭	liètóu	headhunting (executive recruitment)|headhunter (profession)|headhunting (tribal custom)
-獵鷹	lièyīng	falcon
+獵人	liè rén	hunter
+獵刀	liè dāo	hunting knife
+獵取	liè qǔ	to hunt|(fig.) to seek (fame etc)
+獵場	liè chǎng	hunting ground
+獵奇	liè qí	to hunt for novelty|to seek novelty
+獵巫	liè wū	to conduct a witch hunt
+獵戶	liè hù	hunter
+獵戶座	Liè hù zuò	Orion (constellation)
+獵戶座大星雲	Liè hù zuò dà xīng yún	the Great Nebula in Orion M42
+獵戶座流星雨	liè hù zuò liú xīng yǔ	Orionids|Orionid meteor shower
+獵戶臂	liè hù bì	Orion spiral arm or local spur of our galaxy (containing our solar system)
+獵手	liè shǒu	hunter
+獵捕	liè bǔ	to hunt|hunting
+獵槍	liè qiāng	hunting gun|shotgun
+獵殺	liè shā	to kill (in hunting)
+獵殺紅色十月號	Liè shā Hóng sè Shí yuè hào	"The Hunt for Red October", a novel by Tom Clancy
+獵潛	liè qián	anti-submarine (warfare)
+獵潛艇	liè qián tǐng	anti-submarine vessel
+獵物	liè wù	prey; quarry
+獵犬	liè quǎn	hound; hunting dog
+獵犬座	Liè quǎn zuò	Canes Venatici (constellation)
+獵狗	liè gǒu	hunting dog
+獵艷	liè yàn	to chase women|to express oneself in a pompous flowery style
+獵豹	liè bào	cheetah
+獵隼	liè sǔn	(bird species of China) saker falcon (Falco cherrug)
+獵頭	liè tóu	headhunting (executive recruitment)|headhunter (profession)|headhunting (tribal custom)
+獵鷹	liè yīng	falcon
 珵	chéng	fine jade|jade ornament
 琵	pí	see 琵琶, pipa lute
-琵嘴鴨	pízuǐyā	(bird species of China) northern shoveler (Spatula clypeata)
-琵嘴鸭	pízuǐyā	(bird species of China) northern shoveler (Spatula clypeata)
-琵琶	pípa	pipa, Chinese lute, with 4 strings, a large pear-shaped body and a fretted fingerboard
-琵琶行	PípaXíng	Song of the Pipa Player, long poem by Tang poet Bai Juyi 白居易
-琵琶骨	pípagǔ	(old) scapula
-琵琶魚	pípayú	anglerfish
-琵琶鱼	pípayú	anglerfish
-琵鷺	pílù	spoonbill (wading bird of the family Threskiornithidae)
-琵鹭	pílù	spoonbill (wading bird of the family Threskiornithidae)
+琵嘴鴨	pí zuǐ yā	(bird species of China) northern shoveler (Spatula clypeata)
+琵嘴鸭	pí zuǐ yā	(bird species of China) northern shoveler (Spatula clypeata)
+琵琶	pí pa	pipa, Chinese lute, with 4 strings, a large pear-shaped body and a fretted fingerboard
+琵琶行	Pí pa Xíng	Song of the Pipa Player, long poem by Tang poet Bai Juyi 白居易
+琵琶骨	pí pa gǔ	(old) scapula
+琵琶魚	pí pa yú	anglerfish
+琵琶鱼	pí pa yú	anglerfish
+琵鷺	pí lù	spoonbill (wading bird of the family Threskiornithidae)
+琵鹭	pí lù	spoonbill (wading bird of the family Threskiornithidae)
 璵	yú	ornamental jade
 瓵	yí	earthen jar
 电	diàn	lightning|electricity|electric (bound form)|to get (or give) an electric shock|phone call or telegram etc|to send via telephone or telegram etc
-电价	diànjià	price of electricity
-电传	diànchuán	to send information using electronic means (such as fax, telegram, telex etc)|a message transmitted using electronic means|telex|teleprinter
-电位	diànwèi	electric potential|voltage
-电位器	diànwèiqì	potentiometer
-电位计	diànwèijì	potentiometer
-电信	diànxìn	telecommunications
-电信号	diànxìnhào	electrical signal
-电信局	diànxìnjú	central office|telecommunications office
-电信网路	diànxìnwǎnglù	telecommunications network
-电信诈骗	diànxìnzhàpiàn	wire fraud
-电光	diànguāng	light produced by electricity; (esp.) lightning flash|(textiles) glossy finish
-电光朝露	diànguāngzhāolù	flash of lightning, morning dew (idiom); fig. ephemeral|impermanent
-电光火石	diànguānghuǒshí	see 电光石火
-电光石火	diànguāngshíhuǒ	(idiom) in a flash; fleeting; momentary
-电冰柜	diànbīngguì	freezer
-电冰箱	diànbīngxiāng	refrigerator|measure word: 个
-电击	diànjī	electric shock
-电击棒	diànjībàng	stun baton
-电刑	diànxíng	to torture sb using electricity|electrocution (capital punishment)
-电力	diànlì	electrical power|electricity
-电力机车	diànlìjīchē	electric locomotive
-电功率	diàngōnglǜ	electric power (measured in watts)
-电动	diàndòng	electric-powered|(Tw) video game
-电动力学	diàndònglìxué	electrodynamics
-电动势	diàndòngshì	electromotive force
-电动机	diàndòngjī	electric motor
-电动牙刷	diàndòngyáshuā	electric toothbrush
-电动玩具	diàndòngwánjù	battery-powered toy|(Tw) video game|computer game
-电动葫芦	diàndònghúlu	electric chain pulley block
-电动车	diàndòngchē	electric vehicle (commonly refers to e-bikes, scooters or electric cars)
-电化学	diànhuàxué	electrochemistry
-电化教育	diànhuàjiàoyù	multimedia education|abbr. to 電教|电教
-电厂	diànchǎng	electric power plant
-电压	diànyā	voltage
-电压表	diànyābiǎo	voltmeter
-电压计	diànyājì	voltmeter
-电台	diàntái	transmitter-receiver|broadcasting station|radio station|measure word: 个, 家
-电吉他	diànjítā	electric guitar
-电吹风	diànchuīfēng	hair dryer
-电告	diàngào	to inform by telegraph, telephone etc
-电唁	diànyàn	a telegraph condolence|to send a message of condolence by telegram
-电唱	diànchàng	gramophone|record player
-电唱头	diànchàngtóu	pickup (of a record player)
-电唱机	diànchàngjī	gramophone|record player
-电唱盘	diànchàngpán	gramophone|record player
-电商	diànshāng	e-commerce (abbr. for 电子商务)|(old) to negotiate by telegram or telephone
-电器	diànqì	(electrical) appliance|device
-电场	diànchǎng	electric field
-电塔	diàntǎ	electricity pylon|transmission tower
-电子	diànzǐ	electronic|electron (particle physics)
-电子业	diànzǐyè	electronics industry
-电子书	diànzǐshū	electronic book|e-book|e-book reader
-电子云	diànzǐyún	electron cloud
-电子人	diànzǐrén	cyborg
-电子伏	diànzǐfú	electron volt (eV)
-电子伏特	diànzǐfútè	electron volt (eV)
-电子信箱	diànzǐxìnxiāng	e-mail inbox
-电子商务	diànzǐshāngwù	e-commerce
-电子器件	diànzǐqìjiàn	electric equipment
-电子学	diànzǐxué	electronics
-电子学系	diànzǐxuéxì	department of electronics
-电子层	diànzǐcéng	electron shell (in the atom)
-电子层数	diànzǐcéngshù	electron shell number (chemistry)
-电子工业	diànzǐgōngyè	electronics industry
-电子工程	diànzǐgōngchéng	electronic engineering
-电子手帐	diànzǐshǒuzhàng	electronic organizer|PDA
-电子数据交换	diànzǐshùjùjiāohuàn	electronic exchange of data
-电子文件	diànzǐwénjiàn	electronic document
-电子显微镜	diànzǐxiǎnwēijìng	electron microscope
-电子束	diànzǐshù	beam of electrons
-电子榨菜	diànzǐzhàcài	(slang) entertaining content such as Internet videos and TV shows that people watch while eating
-电子游戏	diànzǐyóuxì	computer and video games
-电子烟	diànzǐyān	e-cigarette|vape
-电子版	diànzǐbǎn	electronic edition|digital version
-电子狗	diànzǐgǒu	radar detector (slang)
-电子环保亭	diànzǐhuánbǎotíng	electrical junk depot, site for reprocessing of old electrical and electronic equipment
-电子琴	diànzǐqín	electronic keyboard (music)
-电子盘	diànzǐpán	USB flash drive; thumb drive
-电子眼	diànzǐyǎn	electronic eye; bionic eye|surveillance camera; (esp.) traffic enforcement camera
-电子科技大学	DiànzǐKējìDàxué	University of Electronic Science and Technology of China
-电子稳定程序	diànzǐwěndìngchéngxù	(automotive) electronic stability program (ESP)
-电子空间	diànzǐkōngjiān	cyberspace
-电子竞技	diànzǐjìngjì	esports
-电子管	diànzǐguǎn	valve (electronics)|vacuum tube
-电子网络	diànzǐwǎngluò	electronic network
-电子脚镣	diànzǐjiǎoliào	ankle monitor; electronic ankle bracelet
-电子舞曲	diànzǐwǔqǔ	electronic dance music
-电子表	diànzǐbiǎo	electric watch; electronic watch; digital watch
-电子表格	diànzǐbiǎogé	(computing) spreadsheet
-电子警察	diànzǐjǐngchá	traffic camera|speed camera|closed-circuit TV police surveillance
-电子计算机	diànzǐjìsuànjī	electronic computer
-电子词典	diànzǐcídiǎn	electronic dictionary
-电子货币	diànzǐhuòbì	electronic money
-电子邮件	diànzǐyóujiàn	email|measure word: 封, 份
-电子邮箱	diànzǐyóuxiāng	email inbox
-电学	diànxué	electrical engineering
-电容	diànróng	capacitance|capacitor
-电容器	diànróngqì	capacitor
-电导	diàndǎo	electrical conductance
-电导体	diàndǎotǐ	conductor of electricity
-电导率	diàndǎolǜ	electrical conductivity
-电工	diàngōng	electrician|electrical engineering|electrical work (in a house)
-电弧	diànhú	electric arc
-电弧焊	diànhúhàn	electric arc welding
-电影	diànyǐng	movie; film|measure word: 部
-电影制作	diànyǐngzhìzuò	filmmaking; film production
-电影制片	diànyǐngzhìpiàn	film production (producing)
-电影剧本	diànyǐngjùběn	screenplay; film script
-电影奖	diànyǐngjiǎng	film award
-电影机	diànyǐngjī	movie camera
-电影演员	diànyǐngyǎnyuán	film actor; movie actor; movie actress
-电影界	diànyǐngjiè	moviedom|the world of movies|film circles
-电影票	diànyǐngpiào	cinema ticket
-电影节	diànyǐngjié	film festival|measure word: 届
-电影院	diànyǐngyuàn	cinema; movie theater|measure word: 家, 座
-电感	diàngǎn	inductance|inductor
-电扇	diànshàn	electric fan
-电扶梯	diànfútī	escalator
-电抗	diànkàng	reactance
-电抗器	diànkàngqì	inductor|reactor (in an electrical circuit)
-电报	diànbào	telegram|cable|telegraph|measure word: 封, 份
-电报局	diànbàojú	telegraph office
-电报机	diànbàojī	telegraph
-电控	diànkòng	electric control; electronic control
-电教	diànjiào	multimedia education (abbr. for 電化教育|电化教育)
-电晕	diànyùn	corona discharge
-电晶体	diànjīngtǐ	(Tw) transistor
-电木	diànmù	bakelite (early plastic)|also written 胶木
-电机	diànjī	electrical machinery
-电机及电子学工程师联合会	DiànjījíDiànzǐxuéGōngchéngshīLiánhéhuì	IEEE|Institute of Electrical and Electronic Engineers
-电杆	diàngān	electric pole|telephone pole
-电杆	diàngǎn	electric pole|telegraph pole
-电极	diànjí	electrode
-电枪	diànqiāng	stun gun|Taser
-电梯	diàntī	elevator|escalator|measure word: 台, 部
-电梯井	diàntījǐng	elevator shaft
-电棍	diàngùn	stun baton
-电棒	diànbàng	(coll.) flashlight|(Tw) stun baton|(Tw) hair iron; hair tongs
-电椅	diànyǐ	electric chair (used to execute criminals)
-电死	diànsǐ	to electrocute|to die from an electric shock
-电气	diànqì	electricity|electric|electrical
-电气化	diànqìhuà	electrification; to convert to electrical power (esp. for railways, factories or other infrastructure)
-电气工程	diànqìgōngchéng	electrical engineering
-电气石	diànqìshí	tourmaline
-电汇	diànhuì	telegraphic transfer (TT)
-电池	diànchí	battery; electric cell|measure word: 节, 组
-电波	diànbō	electric wave|alternating current
-电泳	diànyǒng	electrophoresis
-电洞	diàndòng	electron hole (physics)
-电流	diànliú	an electric current|(old) current intensity
-电流强度	diànliúqiángdù	current intensity
-电流表	diànliúbiǎo	ammeter
-电浆	diànjiāng	plasma (physics)
-电源	diànyuán	electric power source
-电源供应器	diànyuángōngyìngqì	power supply unit
-电源插座	diànyuánchāzuò	electric socket|power point
-电源线	diànyuánxiàn	power cable (of an appliance etc)
-电灌站	diànguànzhàn	electric pumping station in irrigation system
-电火花	diànhuǒhuā	electric spark
-电灯	diàndēng	electric light|measure word: 盏
-电灯泡	diàndēngpào	light bulb|(slang) unwanted third guest
-电炉	diànlú	electric stove|hot plate
-电烙铁	diànlàotie	electric iron|electric soldering iron
-电热	diànrè	electrical heating
-电热壶	diànrèhú	electric kettle
-电热毯	diànrètǎn	electric blanket
-电焊	diànhàn	electric welding
-电照明	diànzhàomíng	electric lighting
-电爱	diànài	(slang) to engage in mutual sexual arousal through conversation over the phone; voice-based cybersex
-电玩	diànwán	video game
-电珠	diànzhū	light bulb
-电瓶	diànpíng	accumulator; battery (for storing electricity)
-电瓶车	diànpíngchē	battery-powered vehicle
-电疗	diànliáo	electrotherapy
-电白	Diànbái	see 电白区
-电白区	DiànbáiQū	Dianbai, a district of Maoming City 茂名市, Guangdong
-电眼	diànyǎn	beautiful, expressive eyes
-电石	diànshí	calcium carbide
-电磁	diàncí	electromagnetism
-电磁兼容性	diàncíjiānróngxìng	electromagnetic compatibility
-电磁力	diàncílì	electromagnetic force (physics)
-电磁噪声	diàncízàoshēng	electromagnetic noise
-电磁场	diàncíchǎng	electromagnetic fields
-电磁学	diàncíxué	electromagnetism
-电磁干扰	diàncígānrǎo	electromagnetic interference
-电磁感应	diàncígǎnyìng	electromagnetic induction
-电磁振荡	diàncízhèndàng	electromagnetic oscillation
-电磁波	diàncíbō	electromagnetic wave
-电磁炉	diàncílú	induction cooktop
-电磁理论	diàncílǐlùn	electromagnetism|electromagnetic theory
-电磁相互作用	diàncíxiānghùzuòyòng	electromagnetic interaction (between particles)|electromagnetic force (physics)
-电磁脉冲	diàncímàichōng	electromagnetic pulse (EMP)
-电磁铁	diàncítiě	electromagnet
-电磨	diànmò	electric mill (for grinding wheat etc)
-电离	diànlí	ion|ionized (e.g. gas)
-电离室	diànlíshì	ionization chamber
-电离层	diànlícéng	ionosphere
-电离辐射	diànlífúshè	ionization radiation|nuclear radiation
-电站	diànzhàn	power station; power plant
-电竞	diànjìng	esports (abbr. for 电子竞技)
-电笔	diànbǐ	electrician's test light; voltage tester
-电筒	diàntǒng	flashlight
-电箱	diànxiāng	circuit box
-电纸书	diànzhǐshū	electronic book reader
-电线	diànxiàn	wire|power cord|measure word: 根
-电线杆	diànxiàngān	electric pole|telephone pole|lamppost|measure word: 根
-电线杆	diànxiàngǎn	electric pole|telephone pole|lamppost|measure word: 根
-电缆	diànlǎn	(electric) cable
-电缆塔	diànlǎntǎ	a pylon (for electric power line)
-电缆接头	diànlǎnjiētóu	cable gland
-电缆调制解调器	diànlǎntiáozhìjiětiáoqì	cable modem
-电网	diànwǎng	electricity grid; power grid|electrified wire netting
-电老虎	diànlǎohǔ	electricity hog; electricity guzzler
-电能	diànnéng	electrical energy
-电脑	diànnǎo	computer|measure word: 台
-电脑断层扫描	diànnǎoduàncéngsǎomiáo	CAT scan|CT scan
-电脑病毒	diànnǎobìngdú	computer virus
-电脑绘图	diànnǎohuìtú	computer graphics
-电脑语言	diànnǎoyǔyán	programming language; computer language
-电脑软件	diànnǎoruǎnjiàn	computer software
-电脑辅助工程	diànnǎofǔzhùgōngchéng	computer-aided engineering
-电脑辅助设计	diànnǎofǔzhùshèjì	computer-aided design
-电脑辅助设计与绘图	diànnǎofǔzhùshèjìyǔhuìtú	computer-aided design and drawing
-电臀舞	diàntúnwǔ	twerking, sexually provocative dance involving hip movements while in a low, squatting position
-电芯	diànxīn	battery cell
-电荒	diànhuāng	shortage of electricity
-电荷	diànhè	electric charge
-电荷耦合	diànhèǒuhé	electric charge coupling
-电荷耦合器件	diànhèǒuhéqìjiàn	charge-coupled device (CCD) (electronics)
-电荷量	diànhèliàng	(physics) charge; quantity of electric charge
-电蚊拍	diànwénpāi	electric mosquito swatter
-电蚊香	diànwénxiāng	electric mosquito repellent
-电表	diànbiǎo	power meter|ammeter|amperemeter|wattmeter|kilowatt-hour meter
-电视	diànshì	television; TV|measure word: 台, 部
-电视剧	diànshìjù	TV series|TV drama|measure word: 部
-电视台	diànshìtái	television station
-电视塔	diànshìtǎ	TV tower
-电视广播	diànshìguǎngbō	television broadcast|telecast|videocast
-电视机	diànshìjī	television set|measure word: 台
-电视棒	diànshìbàng	TV streaming stick
-电视秀	diànshìxiù	TV show
-电视节目	diànshìjiémù	television program
-电解	diànjiě	electrolysis|electrolytic
-电解液	diànjiěyè	electrolyte solution
-电解电容	diànjiědiànróng	electrolytic capacitor
-电解质	diànjiězhì	electrolyte
-电警棍	diànjǐnggùn	stun baton
-电讯	diànxùn	telecommunications|telecom
-电访	diànfǎng	(Tw) to make a telephone call (generally as a representative of a company, school or agency etc, to an individual, often for the purpose of conducting a survey) (abbr. for 電話訪問|电话访问)
-电诈	diànzhà	wire fraud (abbr. for 电信诈骗)
-电话	diànhuà	telephone|measure word: 部|phone call|measure word: 通|phone number
-电话亭	diànhuàtíng	telephone booth
-电话会	diànhuàhuì	conference call; teleconference
-电话会议	diànhuàhuìyì	conference call; teleconference
-电话信号	diànhuàxìnhào	telephone signal
-电话区码	diànhuàqūmǎ	area code|telephone dialing code
-电话卡	diànhuàkǎ	telephone card
-电话本	diànhuàběn	personal address book
-电话机	diànhuàjī	telephone set
-电话簿	diànhuàbù	telephone directory
-电话线	diànhuàxiàn	telephone line|telephone wire
-电话线路	diànhuàxiànlù	telephone line
-电话网	diànhuàwǎng	telephone network
-电话网路	diànhuàwǎnglù	telephone network
-电话铃声	diànhuàlíngshēng	(telephone) ring|ringing
-电话门	DiànhuàMén	"Phone Gate", corruption scandal unearthed through telephone records
-电贝斯	diànbèisī	electric bass (guitar)
-电负性	diànfùxìng	electronegativity
-电费	diànfèi	electricity cost
-电路	diànlù	electric circuit
-电车	diànchē	tram; streetcar|trolleybus|electric car|e-bike|(in the context of Japan) electric train
-电邮	diànyóu	email|abbr. for 电子邮件
-电邮地址	diànyóudìzhǐ	email address
-电量	diànliàng	quantity of electric charge
-电量表	diànliàngbiǎo	charge gauge|battery indicator|power meter|coulometer
-电钢琴	diàngāngqín	electric piano; digital piano
-电钮	diànniǔ	push button (electric switch)
-电钻	diànzuàn	electric drill
-电铃	diànlíng	electric bell
-电铲	diànchǎn	power shovel
-电锅	diànguō	(Tw) electric rice cooker
-电锤	diànchuí	rotary hammer|hammer drill
-电键	diànjiàn	electric key|switch
-电锯	diànjù	electric chainsaw
-电镀	diàndù	to electroplate
-电镜	diànjìng	electron microscope (abbr. for 电子显微镜)
-电门	diànmén	electric switch
-电闪	diànshǎn	lightning flashes
-电闸	diànzhá	electric switch|circuit breaker
-电阻	diànzǔ	electrical resistance|resistor
-电阻器	diànzǔqì	resistor
-电震	diànzhèn	(HK) electric shock; electroshock
-电音	diànyīn	electronic music (genre)
-电颤琴	diànchànqín	vibraphone (music)
-电风扇	diànfēngshàn	electric fan|measure word: 架, 台
-电饭煲	diànfànbāo	electric rice cooker
-电饭锅	diànfànguō	electric rice cooker
-电马儿	diànmǎr	(dialect) electric bicycle
-电驴	diànlǘ	(slang) electric bicycle or scooter (moped-style)
-电驴子	diànlǘzi	(dialect) motorcycle
-电驿	diànyì	relay (electronics)
-电鳐	diànyáo	(zoology) electric ray
-电鳗	diànmán	electric eel
-电鸡	diànjī	(slang) (pejorative) e-bike (from Cantonese)
+电价	diàn jià	price of electricity
+电传	diàn chuán	to send information using electronic means (such as fax, telegram, telex etc)|a message transmitted using electronic means|telex|teleprinter
+电位	diàn wèi	electric potential|voltage
+电位器	diàn wèi qì	potentiometer
+电位计	diàn wèi jì	potentiometer
+电信	diàn xìn	telecommunications
+电信号	diàn xìn hào	electrical signal
+电信局	diàn xìn jú	central office|telecommunications office
+电信网路	diàn xìn wǎng lù	telecommunications network
+电信诈骗	diàn xìn zhà piàn	wire fraud
+电光	diàn guāng	light produced by electricity; (esp.) lightning flash|(textiles) glossy finish
+电光朝露	diàn guāng zhāo lù	flash of lightning, morning dew (idiom); fig. ephemeral|impermanent
+电光火石	diàn guāng huǒ shí	see 电光石火
+电光石火	diàn guāng shí huǒ	(idiom) in a flash; fleeting; momentary
+电冰柜	diàn bīng guì	freezer
+电冰箱	diàn bīng xiāng	refrigerator|measure word: 个
+电击	diàn jī	electric shock
+电击棒	diàn jī bàng	stun baton
+电刑	diàn xíng	to torture sb using electricity|electrocution (capital punishment)
+电力	diàn lì	electrical power|electricity
+电力机车	diàn lì jī chē	electric locomotive
+电功率	diàn gōng lǜ	electric power (measured in watts)
+电动	diàn dòng	electric-powered|(Tw) video game
+电动力学	diàn dòng lì xué	electrodynamics
+电动势	diàn dòng shì	electromotive force
+电动机	diàn dòng jī	electric motor
+电动牙刷	diàn dòng yá shuā	electric toothbrush
+电动玩具	diàn dòng wán jù	battery-powered toy|(Tw) video game|computer game
+电动葫芦	diàn dòng hú lu	electric chain pulley block
+电动车	diàn dòng chē	electric vehicle (commonly refers to e-bikes, scooters or electric cars)
+电化学	diàn huà xué	electrochemistry
+电化教育	diàn huà jiào yù	multimedia education|abbr. to 電教|电教
+电厂	diàn chǎng	electric power plant
+电压	diàn yā	voltage
+电压表	diàn yā biǎo	voltmeter
+电压计	diàn yā jì	voltmeter
+电台	diàn tái	transmitter-receiver|broadcasting station|radio station|measure word: 个, 家
+电吉他	diàn jí tā	electric guitar
+电吹风	diàn chuī fēng	hair dryer
+电告	diàn gào	to inform by telegraph, telephone etc
+电唁	diàn yàn	a telegraph condolence|to send a message of condolence by telegram
+电唱	diàn chàng	gramophone|record player
+电唱头	diàn chàng tóu	pickup (of a record player)
+电唱机	diàn chàng jī	gramophone|record player
+电唱盘	diàn chàng pán	gramophone|record player
+电商	diàn shāng	e-commerce (abbr. for 电子商务)|(old) to negotiate by telegram or telephone
+电器	diàn qì	(electrical) appliance|device
+电场	diàn chǎng	electric field
+电塔	diàn tǎ	electricity pylon|transmission tower
+电子	diàn zǐ	electronic|electron (particle physics)
+电子业	diàn zǐ yè	electronics industry
+电子书	diàn zǐ shū	electronic book|e-book|e-book reader
+电子云	diàn zǐ yún	electron cloud
+电子人	diàn zǐ rén	cyborg
+电子伏	diàn zǐ fú	electron volt (eV)
+电子伏特	diàn zǐ fú tè	electron volt (eV)
+电子信箱	diàn zǐ xìn xiāng	e-mail inbox
+电子商务	diàn zǐ shāng wù	e-commerce
+电子器件	diàn zǐ qì jiàn	electric equipment
+电子学	diàn zǐ xué	electronics
+电子学系	diàn zǐ xué xì	department of electronics
+电子层	diàn zǐ céng	electron shell (in the atom)
+电子层数	diàn zǐ céng shù	electron shell number (chemistry)
+电子工业	diàn zǐ gōng yè	electronics industry
+电子工程	diàn zǐ gōng chéng	electronic engineering
+电子手帐	diàn zǐ shǒu zhàng	electronic organizer|PDA
+电子数据交换	diàn zǐ shù jù jiāo huàn	electronic exchange of data
+电子文件	diàn zǐ wén jiàn	electronic document
+电子显微镜	diàn zǐ xiǎn wēi jìng	electron microscope
+电子束	diàn zǐ shù	beam of electrons
+电子榨菜	diàn zǐ zhà cài	(slang) entertaining content such as Internet videos and TV shows that people watch while eating
+电子游戏	diàn zǐ yóu xì	computer and video games
+电子烟	diàn zǐ yān	e-cigarette|vape
+电子版	diàn zǐ bǎn	electronic edition|digital version
+电子狗	diàn zǐ gǒu	radar detector (slang)
+电子环保亭	diàn zǐ huán bǎo tíng	electrical junk depot, site for reprocessing of old electrical and electronic equipment
+电子琴	diàn zǐ qín	electronic keyboard (music)
+电子盘	diàn zǐ pán	USB flash drive; thumb drive
+电子眼	diàn zǐ yǎn	electronic eye; bionic eye|surveillance camera; (esp.) traffic enforcement camera
+电子科技大学	Diàn zǐ Kē jì Dà xué	University of Electronic Science and Technology of China
+电子稳定程序	diàn zǐ wěn dìng chéng xù	(automotive) electronic stability program (ESP)
+电子空间	diàn zǐ kōng jiān	cyberspace
+电子竞技	diàn zǐ jìng jì	esports
+电子管	diàn zǐ guǎn	valve (electronics)|vacuum tube
+电子网络	diàn zǐ wǎng luò	electronic network
+电子脚镣	diàn zǐ jiǎo liào	ankle monitor; electronic ankle bracelet
+电子舞曲	diàn zǐ wǔ qǔ	electronic dance music
+电子表	diàn zǐ biǎo	electric watch; electronic watch; digital watch
+电子表格	diàn zǐ biǎo gé	(computing) spreadsheet
+电子警察	diàn zǐ jǐng chá	traffic camera|speed camera|closed-circuit TV police surveillance
+电子计算机	diàn zǐ jì suàn jī	electronic computer
+电子词典	diàn zǐ cí diǎn	electronic dictionary
+电子货币	diàn zǐ huò bì	electronic money
+电子邮件	diàn zǐ yóu jiàn	email|measure word: 封, 份
+电子邮箱	diàn zǐ yóu xiāng	email inbox
+电学	diàn xué	electrical engineering
+电容	diàn róng	capacitance|capacitor
+电容器	diàn róng qì	capacitor
+电导	diàn dǎo	electrical conductance
+电导体	diàn dǎo tǐ	conductor of electricity
+电导率	diàn dǎo lǜ	electrical conductivity
+电工	diàn gōng	electrician|electrical engineering|electrical work (in a house)
+电弧	diàn hú	electric arc
+电弧焊	diàn hú hàn	electric arc welding
+电影	diàn yǐng	movie; film|measure word: 部
+电影制作	diàn yǐng zhì zuò	filmmaking; film production
+电影制片	diàn yǐng zhì piàn	film production (producing)
+电影剧本	diàn yǐng jù běn	screenplay; film script
+电影奖	diàn yǐng jiǎng	film award
+电影机	diàn yǐng jī	movie camera
+电影演员	diàn yǐng yǎn yuán	film actor; movie actor; movie actress
+电影界	diàn yǐng jiè	moviedom|the world of movies|film circles
+电影票	diàn yǐng piào	cinema ticket
+电影节	diàn yǐng jié	film festival|measure word: 届
+电影院	diàn yǐng yuàn	cinema; movie theater|measure word: 家, 座
+电感	diàn gǎn	inductance|inductor
+电扇	diàn shàn	electric fan
+电扶梯	diàn fú tī	escalator
+电抗	diàn kàng	reactance
+电抗器	diàn kàng qì	inductor|reactor (in an electrical circuit)
+电报	diàn bào	telegram|cable|telegraph|measure word: 封, 份
+电报局	diàn bào jú	telegraph office
+电报机	diàn bào jī	telegraph
+电控	diàn kòng	electric control; electronic control
+电教	diàn jiào	multimedia education (abbr. for 電化教育|电化教育)
+电晕	diàn yùn	corona discharge
+电晶体	diàn jīng tǐ	(Tw) transistor
+电木	diàn mù	bakelite (early plastic)|also written 胶木
+电机	diàn jī	electrical machinery
+电机及电子学工程师联合会	Diàn jī jí Diàn zǐ xué Gōng chéng shī Lián hé huì	IEEE|Institute of Electrical and Electronic Engineers
+电杆	diàn gān	electric pole|telephone pole
+电杆	diàn gǎn	electric pole|telegraph pole
+电极	diàn jí	electrode
+电枪	diàn qiāng	stun gun|Taser
+电梯	diàn tī	elevator|escalator|measure word: 台, 部
+电梯井	diàn tī jǐng	elevator shaft
+电棍	diàn gùn	stun baton
+电棒	diàn bàng	(coll.) flashlight|(Tw) stun baton|(Tw) hair iron; hair tongs
+电椅	diàn yǐ	electric chair (used to execute criminals)
+电死	diàn sǐ	to electrocute|to die from an electric shock
+电气	diàn qì	electricity|electric|electrical
+电气化	diàn qì huà	electrification; to convert to electrical power (esp. for railways, factories or other infrastructure)
+电气工程	diàn qì gōng chéng	electrical engineering
+电气石	diàn qì shí	tourmaline
+电汇	diàn huì	telegraphic transfer (TT)
+电池	diàn chí	battery; electric cell|measure word: 节, 组
+电波	diàn bō	electric wave|alternating current
+电泳	diàn yǒng	electrophoresis
+电洞	diàn dòng	electron hole (physics)
+电流	diàn liú	an electric current|(old) current intensity
+电流强度	diàn liú qiáng dù	current intensity
+电流表	diàn liú biǎo	ammeter
+电浆	diàn jiāng	plasma (physics)
+电源	diàn yuán	electric power source
+电源供应器	diàn yuán gōng yìng qì	power supply unit
+电源插座	diàn yuán chā zuò	electric socket|power point
+电源线	diàn yuán xiàn	power cable (of an appliance etc)
+电灌站	diàn guàn zhàn	electric pumping station in irrigation system
+电火花	diàn huǒ huā	electric spark
+电灯	diàn dēng	electric light|measure word: 盏
+电灯泡	diàn dēng pào	light bulb|(slang) unwanted third guest
+电炉	diàn lú	electric stove|hot plate
+电烙铁	diàn lào tie	electric iron|electric soldering iron
+电热	diàn rè	electrical heating
+电热壶	diàn rè hú	electric kettle
+电热毯	diàn rè tǎn	electric blanket
+电焊	diàn hàn	electric welding
+电照明	diàn zhào míng	electric lighting
+电爱	diàn ài	(slang) to engage in mutual sexual arousal through conversation over the phone; voice-based cybersex
+电玩	diàn wán	video game
+电珠	diàn zhū	light bulb
+电瓶	diàn píng	accumulator; battery (for storing electricity)
+电瓶车	diàn píng chē	battery-powered vehicle
+电疗	diàn liáo	electrotherapy
+电白	Diàn bái	see 电白区
+电白区	Diàn bái Qū	Dianbai, a district of Maoming City 茂名市, Guangdong
+电眼	diàn yǎn	beautiful, expressive eyes
+电石	diàn shí	calcium carbide
+电磁	diàn cí	electromagnetism
+电磁兼容性	diàn cí jiān róng xìng	electromagnetic compatibility
+电磁力	diàn cí lì	electromagnetic force (physics)
+电磁噪声	diàn cí zào shēng	electromagnetic noise
+电磁场	diàn cí chǎng	electromagnetic fields
+电磁学	diàn cí xué	electromagnetism
+电磁干扰	diàn cí gān rǎo	electromagnetic interference
+电磁感应	diàn cí gǎn yìng	electromagnetic induction
+电磁振荡	diàn cí zhèn dàng	electromagnetic oscillation
+电磁波	diàn cí bō	electromagnetic wave
+电磁炉	diàn cí lú	induction cooktop
+电磁理论	diàn cí lǐ lùn	electromagnetism|electromagnetic theory
+电磁相互作用	diàn cí xiāng hù zuò yòng	electromagnetic interaction (between particles)|electromagnetic force (physics)
+电磁脉冲	diàn cí mài chōng	electromagnetic pulse (EMP)
+电磁铁	diàn cí tiě	electromagnet
+电磨	diàn mò	electric mill (for grinding wheat etc)
+电离	diàn lí	ion|ionized (e.g. gas)
+电离室	diàn lí shì	ionization chamber
+电离层	diàn lí céng	ionosphere
+电离辐射	diàn lí fú shè	ionization radiation|nuclear radiation
+电站	diàn zhàn	power station; power plant
+电竞	diàn jìng	esports (abbr. for 电子竞技)
+电笔	diàn bǐ	electrician's test light; voltage tester
+电筒	diàn tǒng	flashlight
+电箱	diàn xiāng	circuit box
+电纸书	diàn zhǐ shū	electronic book reader
+电线	diàn xiàn	wire|power cord|measure word: 根
+电线杆	diàn xiàn gān	electric pole|telephone pole|lamppost|measure word: 根
+电线杆	diàn xiàn gǎn	electric pole|telephone pole|lamppost|measure word: 根
+电缆	diàn lǎn	(electric) cable
+电缆塔	diàn lǎn tǎ	a pylon (for electric power line)
+电缆接头	diàn lǎn jiē tóu	cable gland
+电缆调制解调器	diàn lǎn tiáo zhì jiě tiáo qì	cable modem
+电网	diàn wǎng	electricity grid; power grid|electrified wire netting
+电老虎	diàn lǎo hǔ	electricity hog; electricity guzzler
+电能	diàn néng	electrical energy
+电脑	diàn nǎo	computer|measure word: 台
+电脑断层扫描	diàn nǎo duàn céng sǎo miáo	CAT scan|CT scan
+电脑病毒	diàn nǎo bìng dú	computer virus
+电脑绘图	diàn nǎo huì tú	computer graphics
+电脑语言	diàn nǎo yǔ yán	programming language; computer language
+电脑软件	diàn nǎo ruǎn jiàn	computer software
+电脑辅助工程	diàn nǎo fǔ zhù gōng chéng	computer-aided engineering
+电脑辅助设计	diàn nǎo fǔ zhù shè jì	computer-aided design
+电脑辅助设计与绘图	diàn nǎo fǔ zhù shè jì yǔ huì tú	computer-aided design and drawing
+电臀舞	diàn tún wǔ	twerking, sexually provocative dance involving hip movements while in a low, squatting position
+电芯	diàn xīn	battery cell
+电荒	diàn huāng	shortage of electricity
+电荷	diàn hè	electric charge
+电荷耦合	diàn hè ǒu hé	electric charge coupling
+电荷耦合器件	diàn hè ǒu hé qì jiàn	charge-coupled device (CCD) (electronics)
+电荷量	diàn hè liàng	(physics) charge; quantity of electric charge
+电蚊拍	diàn wén pāi	electric mosquito swatter
+电蚊香	diàn wén xiāng	electric mosquito repellent
+电表	diàn biǎo	power meter|ammeter|amperemeter|wattmeter|kilowatt-hour meter
+电视	diàn shì	television; TV|measure word: 台, 部
+电视剧	diàn shì jù	TV series|TV drama|measure word: 部
+电视台	diàn shì tái	television station
+电视塔	diàn shì tǎ	TV tower
+电视广播	diàn shì guǎng bō	television broadcast|telecast|videocast
+电视机	diàn shì jī	television set|measure word: 台
+电视棒	diàn shì bàng	TV streaming stick
+电视秀	diàn shì xiù	TV show
+电视节目	diàn shì jié mù	television program
+电解	diàn jiě	electrolysis|electrolytic
+电解液	diàn jiě yè	electrolyte solution
+电解电容	diàn jiě diàn róng	electrolytic capacitor
+电解质	diàn jiě zhì	electrolyte
+电警棍	diàn jǐng gùn	stun baton
+电讯	diàn xùn	telecommunications|telecom
+电访	diàn fǎng	(Tw) to make a telephone call (generally as a representative of a company, school or agency etc, to an individual, often for the purpose of conducting a survey) (abbr. for 電話訪問|电话访问)
+电诈	diàn zhà	wire fraud (abbr. for 电信诈骗)
+电话	diàn huà	telephone|measure word: 部|phone call|measure word: 通|phone number
+电话亭	diàn huà tíng	telephone booth
+电话会	diàn huà huì	conference call; teleconference
+电话会议	diàn huà huì yì	conference call; teleconference
+电话信号	diàn huà xìn hào	telephone signal
+电话区码	diàn huà qū mǎ	area code|telephone dialing code
+电话卡	diàn huà kǎ	telephone card
+电话本	diàn huà běn	personal address book
+电话机	diàn huà jī	telephone set
+电话簿	diàn huà bù	telephone directory
+电话线	diàn huà xiàn	telephone line|telephone wire
+电话线路	diàn huà xiàn lù	telephone line
+电话网	diàn huà wǎng	telephone network
+电话网路	diàn huà wǎng lù	telephone network
+电话铃声	diàn huà líng shēng	(telephone) ring|ringing
+电话门	Diàn huà Mén	"Phone Gate", corruption scandal unearthed through telephone records
+电贝斯	diàn bèi sī	electric bass (guitar)
+电负性	diàn fù xìng	electronegativity
+电费	diàn fèi	electricity cost
+电路	diàn lù	electric circuit
+电车	diàn chē	tram; streetcar|trolleybus|electric car|e-bike|(in the context of Japan) electric train
+电邮	diàn yóu	email|abbr. for 电子邮件
+电邮地址	diàn yóu dì zhǐ	email address
+电量	diàn liàng	quantity of electric charge
+电量表	diàn liàng biǎo	charge gauge|battery indicator|power meter|coulometer
+电钢琴	diàn gāng qín	electric piano; digital piano
+电钮	diàn niǔ	push button (electric switch)
+电钻	diàn zuàn	electric drill
+电铃	diàn líng	electric bell
+电铲	diàn chǎn	power shovel
+电锅	diàn guō	(Tw) electric rice cooker
+电锤	diàn chuí	rotary hammer|hammer drill
+电键	diàn jiàn	electric key|switch
+电锯	diàn jù	electric chainsaw
+电镀	diàn dù	to electroplate
+电镜	diàn jìng	electron microscope (abbr. for 电子显微镜)
+电门	diàn mén	electric switch
+电闪	diàn shǎn	lightning flashes
+电闸	diàn zhá	electric switch|circuit breaker
+电阻	diàn zǔ	electrical resistance|resistor
+电阻器	diàn zǔ qì	resistor
+电震	diàn zhèn	(HK) electric shock; electroshock
+电音	diàn yīn	electronic music (genre)
+电颤琴	diàn chàn qín	vibraphone (music)
+电风扇	diàn fēng shàn	electric fan|measure word: 架, 台
+电饭煲	diàn fàn bāo	electric rice cooker
+电饭锅	diàn fàn guō	electric rice cooker
+电马儿	diàn mǎ r	(dialect) electric bicycle
+电驴	diàn lǘ	(slang) electric bicycle or scooter (moped-style)
+电驴子	diàn lǘ zi	(dialect) motorcycle
+电驿	diàn yì	relay (electronics)
+电鳐	diàn yáo	(zoology) electric ray
+电鳗	diàn mán	electric eel
+电鸡	diàn jī	(slang) (pejorative) e-bike (from Cantonese)
 畵	huà	variant of 画
 疵	cī	blemish|flaw|defect
 痵	jì	nervous start in sleep
 瘵	zhài	(literary) disease (esp. tuberculosis)
 盵	Qì	surname Qi
 眵	chī	(bound form) sleep (dried mucus in the corner of the eye)
-眵目糊	chīmuhū	(dialect) sleep (dried mucus in the corner of the eye)
+眵目糊	chī mu hū	(dialect) sleep (dried mucus in the corner of the eye)
 瞵	lín	to stare at
 砵	bō	alms bowl
 硵	lǔ	sal ammoniac
@@ -1384,145 +1384,145 @@
 窵	diào	(literary) distant|deep|profound
 笵	fàn	bamboo mold
 筵	yán	bamboo mat for sitting
-筵上	yánshǎng	feast
-筵宴	yányàn	feast|banquet
-筵席	yánxí	banquet|mat for sitting
-筵席捐	yánxíjuān	tax on a banquet or feast
-筵讌	yányàn	feast|banquet
+筵上	yán shǎng	feast
+筵宴	yán yàn	feast|banquet
+筵席	yán xí	banquet|mat for sitting
+筵席捐	yán xí juān	tax on a banquet or feast
+筵讌	yán yàn	feast|banquet
 籵	fán	dm
 粵	Yuè	Cantonese|short name for Guangdong 广东
-粵劇	Yuèjù	Cantonese opera
-粵拼	Yuèpīn	Jyutping, one of the many Cantonese romanization systems|abbr. of 粤语拼音
-粵海	YuèHǎi	Guangdong-Hainan
-粵港澳大灣區	YuèGǎngÀoDàwānQū	Guangdong-Hong Kong-Macao Greater Bay Area, established in 2017, consisting of Hong Kong, Macao and nine cities in Guangdong
-粵漢鐵路	YuèHànTiělù	Canton-Hankou Railway, linking Guangzhou and Wuchang, incorporated since 1957 into the Jing-Guang Railway 京广铁路
-粵繡	Yuèxiù	Guangdong embroidery, one of the four major traditional styles of Chinese embroidery (the other three being 苏绣, 湘绣 and 蜀绣)
-粵菜	Yuècài	Cantonese cuisine
-粵語	Yuèyǔ	Cantonese language
-粵語拼音	YuèyǔPīnyīn	Cantonese romanization|Jyutping, one of the many Cantonese romanization systems
+粵劇	Yuè jù	Cantonese opera
+粵拼	Yuè pīn	Jyutping, one of the many Cantonese romanization systems|abbr. of 粤语拼音
+粵海	Yuè Hǎi	Guangdong-Hainan
+粵港澳大灣區	Yuè Gǎng Ào Dà wān Qū	Guangdong-Hong Kong-Macao Greater Bay Area, established in 2017, consisting of Hong Kong, Macao and nine cities in Guangdong
+粵漢鐵路	Yuè Hàn Tiě lù	Canton-Hankou Railway, linking Guangzhou and Wuchang, incorporated since 1957 into the Jing-Guang Railway 京广铁路
+粵繡	Yuè xiù	Guangdong embroidery, one of the four major traditional styles of Chinese embroidery (the other three being 苏绣, 湘绣 and 蜀绣)
+粵菜	Yuè cài	Cantonese cuisine
+粵語	Yuè yǔ	Cantonese language
+粵語拼音	Yuè yǔ Pīn yīn	Cantonese romanization|Jyutping, one of the many Cantonese romanization systems
 糵	niè	(literary) yeast used for brewing wine
 紵	zhù	(literary) cloth made from ramie fiber
 綵	cǎi	variant of 彩
 縵	màn	plain thin silk|slow|unadorned
 纵	zòng	vertical; north-south (Taiwan pr. zōng)|from front to back; longitudinal; lengthwise (Taiwan pr. zōng)|military unit corresponding to an army corps (Taiwan pr. zōng)|(bound form) to release (a captive)|to indulge|to leap up|(literary) even if
-纵享	zòngxiǎng	to enjoy|to indulge in
-纵令	zònglìng	to indulge|to give free rein|even if
-纵使	zòngshǐ	even if|even though
-纵剖面	zòngpōumiàn	vertical section|longitudinal section
-纵向	zòngxiàng	longitudinal|vertical
-纵坐标	zòngzuòbiāo	vertical coordinate; ordinate
-纵声	zòngshēng	loudly|in a loud voice
-纵容	zòngróng	to tolerate or condone wrongdoing; to allow (sb) to engage in bad behavior
-纵情	zòngqíng	to your heart's content
-纵意	zòngyì	willfully|wantonly
-纵摇	zòngyáo	pitching motion (of a boat)
-纵放	zòngfàng	undisciplined|untrammeled|to indulge
-纵断面	zòngduànmiàn	vertical section|longitudinal section
-纵梁	zòngliáng	longitudinal beam
-纵横	zònghéng	lit. warp and weft in weaving; vertically and horizontal|length and breadth|criss-crossed|able to move unhindered|abbr. for 合纵连横, School of Diplomacy during the Warring States Period (475-221 BC)
-纵横交错	zònghéngjiāocuò	criss-crossed (idiom)
-纵横字谜	zònghéngzìmí	crossword
-纵横家	Zònghéngjiā	School of Diplomacy of the Warring States Period (475-221 BC) whose leading advocates were Su Qin 苏秦 and Zhang Yi 张仪
-纵横驰骋	zònghéngchíchěng	to criss-cross|to run unhindered across the whole country
-纵欲	zòngyù	to indulge in debauchery
-纵步	zòngbù	to stride|to bound
-纵波	zòngbō	longitudinal wave
-纵深	zòngshēn	depth (from front to rear)|depth (into a territory)|span (of time)|(fig.) depth (of deployment, progress, development etc)
-纵火	zònghuǒ	to set on fire|to commit arson
-纵火犯	zònghuǒfàn	arsonist
-纵然	zòngrán	even if; even though
-纵目	zòngmù	as far as the eye can see
-纵纹	zòngwén	stria longitudinalis (in the brain)
-纵纹绿鹎	zòngwénlǜbēi	(bird species of China) striated bulbul (Alcurus striatus)
-纵纹腹小鸮	zòngwénfùxiǎoxiāo	(bird species of China) little owl (Athene noctua)
-纵纹角鸮	zòngwénjiǎoxiāo	(bird species of China) pallid scops owl (Otus brucei)
-纵线	zòngxiàn	vertical line|vertical coordinate line
-纵肌	zòngjī	longitudinal muscle
-纵虎归山	zònghǔguīshān	lit. to let the tiger return to the mountain; fig. to store up future calamities
-纵裂	zòngliè	lobe|longitudinal slit|vertical fracture
-纵观	zòngguān	to survey comprehensively|an overall survey
-纵览	zònglǎn	panoramic view|wide survey
-纵言	zòngyán	to theorize generally
-纵论	zònglùn	to talk freely
-纵谈	zòngtán	to talk freely
-纵贯	zòngguàn	lit. warp string in weaving|fig. vertical or north-south lines|to pass through|to cross lengthwise|to pierce (esp. north-south or top-to-bottom)
-纵跳	zòngtiào	(sports) vertical jump
-纵身	zòngshēn	to leap|to spring|to throw oneself
-纵酒	zòngjiǔ	to drink excessively
-纵队	zòngduì	column; file (formation of people) (CL:列, 路)|PLA army corps (1946–1949)
-纵隔	zònggé	mediastinum (organs and tissues in the thorax between the lungs)
+纵享	zòng xiǎng	to enjoy|to indulge in
+纵令	zòng lìng	to indulge|to give free rein|even if
+纵使	zòng shǐ	even if|even though
+纵剖面	zòng pōu miàn	vertical section|longitudinal section
+纵向	zòng xiàng	longitudinal|vertical
+纵坐标	zòng zuò biāo	vertical coordinate; ordinate
+纵声	zòng shēng	loudly|in a loud voice
+纵容	zòng róng	to tolerate or condone wrongdoing; to allow (sb) to engage in bad behavior
+纵情	zòng qíng	to your heart's content
+纵意	zòng yì	willfully|wantonly
+纵摇	zòng yáo	pitching motion (of a boat)
+纵放	zòng fàng	undisciplined|untrammeled|to indulge
+纵断面	zòng duàn miàn	vertical section|longitudinal section
+纵梁	zòng liáng	longitudinal beam
+纵横	zòng héng	lit. warp and weft in weaving; vertically and horizontal|length and breadth|criss-crossed|able to move unhindered|abbr. for 合纵连横, School of Diplomacy during the Warring States Period (475-221 BC)
+纵横交错	zòng héng jiāo cuò	criss-crossed (idiom)
+纵横字谜	zòng héng zì mí	crossword
+纵横家	Zòng héng jiā	School of Diplomacy of the Warring States Period (475-221 BC) whose leading advocates were Su Qin 苏秦 and Zhang Yi 张仪
+纵横驰骋	zòng héng chí chěng	to criss-cross|to run unhindered across the whole country
+纵欲	zòng yù	to indulge in debauchery
+纵步	zòng bù	to stride|to bound
+纵波	zòng bō	longitudinal wave
+纵深	zòng shēn	depth (from front to rear)|depth (into a territory)|span (of time)|(fig.) depth (of deployment, progress, development etc)
+纵火	zòng huǒ	to set on fire|to commit arson
+纵火犯	zòng huǒ fàn	arsonist
+纵然	zòng rán	even if; even though
+纵目	zòng mù	as far as the eye can see
+纵纹	zòng wén	stria longitudinalis (in the brain)
+纵纹绿鹎	zòng wén lǜ bēi	(bird species of China) striated bulbul (Alcurus striatus)
+纵纹腹小鸮	zòng wén fù xiǎo xiāo	(bird species of China) little owl (Athene noctua)
+纵纹角鸮	zòng wén jiǎo xiāo	(bird species of China) pallid scops owl (Otus brucei)
+纵线	zòng xiàn	vertical line|vertical coordinate line
+纵肌	zòng jī	longitudinal muscle
+纵虎归山	zòng hǔ guī shān	lit. to let the tiger return to the mountain; fig. to store up future calamities
+纵裂	zòng liè	lobe|longitudinal slit|vertical fracture
+纵观	zòng guān	to survey comprehensively|an overall survey
+纵览	zòng lǎn	panoramic view|wide survey
+纵言	zòng yán	to theorize generally
+纵论	zòng lùn	to talk freely
+纵谈	zòng tán	to talk freely
+纵贯	zòng guàn	lit. warp string in weaving|fig. vertical or north-south lines|to pass through|to cross lengthwise|to pierce (esp. north-south or top-to-bottom)
+纵跳	zòng tiào	(sports) vertical jump
+纵身	zòng shēn	to leap|to spring|to throw oneself
+纵酒	zòng jiǔ	to drink excessively
+纵队	zòng duì	column; file (formation of people) (CL:列, 路)|PLA army corps (1946–1949)
+纵隔	zòng gé	mediastinum (organs and tissues in the thorax between the lungs)
 绵	mián	silk floss|continuous|soft|weak|mild-mannered (dialect)|cotton
-绵亘	miángèn	to stretch in an unbroken chain (esp. of mountains)
-绵力	miánlì	one's limited power (humble expr.)
-绵子	miánzi	(dial.) silk floss
-绵密	miánmì	detailed|meticulous|fine and careful
-绵延	miányán	(esp. of a mountain range) to be continuous; to stretch long and unbroken
-绵惙	miánchuò	critically ill
-绵白糖	miánbáitáng	sugar powder
-绵竹	Miánzhú	see 绵竹市
-绵竹市	MiánzhúShì	Mianzhu, a county-level city in Deyang City 德阳市, Sichuan
-绵绵	miánmián	continuous|uninterrupted
-绵绵不绝	miánmiánbùjué	continuous|endless
-绵绵瓜瓞	miánmiánguādié	(lit.) (of a melon vine) laden with melons of all sizes (idiom)|(fig.) (of descendants) to thrive and prosper for generations
-绵绸	miánchóu	rough-textured fabric of waste silk
-绵羊	miányáng	sheep
-绵联	miánlián	variant of 绵连
-绵薄	miánbó	my humble effort|my meager contribution (humble)
-绵远	miányuǎn	remote
-绵连	miánlián	continuous|uninterrupted
-绵邈	miánmiǎo	far back in time|faraway|remote
-绵里藏针	miánlǐcángzhēn	lit. a needle concealed in silk floss (idiom)|fig. ruthless character behind a gentle appearance|a wolf in sheep's clothing|an iron fist in a velvet glove
-绵长	miáncháng	long and continuous (coastline, sound etc)|extensive|prolonged
-绵阳	Miányáng	see 绵阳市
-绵阳市	MiányángShì	Mianyang, prefecture-level city in Sichuan Province 四川省
+绵亘	mián gèn	to stretch in an unbroken chain (esp. of mountains)
+绵力	mián lì	one's limited power (humble expr.)
+绵子	mián zi	(dial.) silk floss
+绵密	mián mì	detailed|meticulous|fine and careful
+绵延	mián yán	(esp. of a mountain range) to be continuous; to stretch long and unbroken
+绵惙	mián chuò	critically ill
+绵白糖	mián bái táng	sugar powder
+绵竹	Mián zhú	see 绵竹市
+绵竹市	Mián zhú Shì	Mianzhu, a county-level city in Deyang City 德阳市, Sichuan
+绵绵	mián mián	continuous|uninterrupted
+绵绵不绝	mián mián bù jué	continuous|endless
+绵绵瓜瓞	mián mián guā dié	(lit.) (of a melon vine) laden with melons of all sizes (idiom)|(fig.) (of descendants) to thrive and prosper for generations
+绵绸	mián chóu	rough-textured fabric of waste silk
+绵羊	mián yáng	sheep
+绵联	mián lián	variant of 绵连
+绵薄	mián bó	my humble effort|my meager contribution (humble)
+绵远	mián yuǎn	remote
+绵连	mián lián	continuous|uninterrupted
+绵邈	mián miǎo	far back in time|faraway|remote
+绵里藏针	mián lǐ cáng zhēn	lit. a needle concealed in silk floss (idiom)|fig. ruthless character behind a gentle appearance|a wolf in sheep's clothing|an iron fist in a velvet glove
+绵长	mián cháng	long and continuous (coastline, sound etc)|extensive|prolonged
+绵阳	Mián yáng	see 绵阳市
+绵阳市	Mián yáng Shì	Mianyang, prefecture-level city in Sichuan Province 四川省
 缵	zuǎn	(literary) to inherit
 罵	mà	to scold|to abuse|to curse|measure word: 通, 顿
-罵不絕口	màbùjuékǒu	to scold without end (idiom); incessant abuse
-罵人	màrén	to swear or curse (at people)|to scold or yell at someone
-罵到臭頭	màdàochòutóu	to chew sb out (Tw)
-罵名	màmíng	infamy|blackened name
-罵娘	màniáng	to curse (at sb); to call sb names
-罵戰	màzhàn	war of words; exchange of verbal attacks
-罵架	màjià	to have a shouting match; to exchange verbal abuse; to quarrel noisily
-罵罵咧咧	màmaliēliē	to swear while talking; to be foul-mouthed
-罵聲	màshēng	scolding|tongue-lashing|(fig.) angry criticism|opprobrium|measure word: 片
-罵街	màjiē	to shout abuses in the street
+罵不絕口	mà bù jué kǒu	to scold without end (idiom); incessant abuse
+罵人	mà rén	to swear or curse (at people)|to scold or yell at someone
+罵到臭頭	mà dào chòu tóu	to chew sb out (Tw)
+罵名	mà míng	infamy|blackened name
+罵娘	mà niáng	to curse (at sb); to call sb names
+罵戰	mà zhàn	war of words; exchange of verbal attacks
+罵架	mà jià	to have a shouting match; to exchange verbal abuse; to quarrel noisily
+罵罵咧咧	mà ma liē liē	to swear while talking; to be foul-mouthed
+罵聲	mà shēng	scolding|tongue-lashing|(fig.) angry criticism|opprobrium|measure word: 片
+罵街	mà jiē	to shout abuses in the street
 羵	fěn	spirit
 耵	dīng	used in 耵聍|Taiwan pr. dǐng
-耵聍	dīngníng	earwax; cerumen
-耵聹	dīngníng	earwax; cerumen
+耵聍	dīng níng	earwax; cerumen
+耵聹	dīng níng	earwax; cerumen
 聵	kuì	born deaf|deaf|obtuse
 肵	jìn	table
 膵	cuì	pancreas
 舵	duò	helm|rudder
-舵手	duòshǒu	helmsman
-舵把	duòbǎ	tiller of a boat
-舵旁	duòpáng	helm (of a ship)
+舵手	duò shǒu	helmsman
+舵把	duò bǎ	tiller of a boat
+舵旁	duò páng	helm (of a ship)
 茵	yīn	mattress
-茵芋	yīnyù	Skimmia japonica
+茵芋	yīn yù	Skimmia japonica
 荵	rěn	polemonium
 萵	wō	used in 莴苣|used in 莴笋
-萵筍	wōsǔn	celtuce; stem lettuce (Lactuca sativa var. asparagina), aka Chinese lettuce
-萵苣	wōjù	lettuce (Lactuca sativa)
+萵筍	wō sǔn	celtuce; stem lettuce (Lactuca sativa var. asparagina), aka Chinese lettuce
+萵苣	wō jù	lettuce (Lactuca sativa)
 葵	kuí	used in the names of various herbaceous plants
-葵扇	kuíshàn	palm-leaf fan
-葵涌	Kuíchōng	Kwai Chung (area in Hong Kong)|Kwai Cheong
-葵花	kuíhuā	sunflower
-葵花子	kuíhuāzǐ	sunflower seeds
-葵花籽油	kuíhuāzǐyóu	sunflower oil
-葵青	Kuíqīng	Kwai Tsing district of New Territories, Hong Kong
-葵鼠	kuíshǔ	guinea pig
+葵扇	kuí shàn	palm-leaf fan
+葵涌	Kuí chōng	Kwai Chung (area in Hong Kong)|Kwai Cheong
+葵花	kuí huā	sunflower
+葵花子	kuí huā zǐ	sunflower seeds
+葵花籽油	kuí huā zǐ yóu	sunflower oil
+葵青	Kuí qīng	Kwai Tsing district of New Territories, Hong Kong
+葵鼠	kuí shǔ	guinea pig
 蘵	zhí	Physalis angulata
 虵	shé	variant of 蛇
 蚵	é	(Tw) oyster (from Taiwanese, Tai-lo pr. [ô])
-蚵仔	ézi	oyster (from Taiwanese, Tai-lo pr. [ô-á])
-蚵仔煎	ézǐjiān	(Tw) oyster omelette (from Taiwanese, Tai-lo pr. [ô-á-tsian])
+蚵仔	é zi	oyster (from Taiwanese, Tai-lo pr. [ô-á])
+蚵仔煎	é zǐ jiān	(Tw) oyster omelette (from Taiwanese, Tai-lo pr. [ô-á-tsian])
 蛵	xíng	see 虰蛵
 螵	piāo	used in 螵蛸
-螵蛸	piāoxiāo	ootheca, i.e. eggs in their capsule, of a praying mantis (used in TCM)|cuttlebone (abbr. for 海螵蛸)
+螵蛸	piāo xiāo	ootheca, i.e. eggs in their capsule, of a praying mantis (used in TCM)|cuttlebone (abbr. for 海螵蛸)
 蠵	xī	used in 蠵龟
-蠵龜	xīguī	loggerhead sea turtle (Caretta caretta)
-蠵龟	xīguī	loggerhead sea turtle (Caretta caretta)
+蠵龜	xī guī	loggerhead sea turtle (Caretta caretta)
+蠵龟	xī guī	loggerhead sea turtle (Caretta caretta)
 衵	nì	women's undergarments
 袵	rèn	variant of 衽
 裵	péi	variant of 裴
@@ -1532,97 +1532,97 @@
 諵	nán	mumble in repetition
 讵	jù	how (interj. of surprise)
 诵	sòng	to read aloud|to recite
-诵经	sòngjīng	to chant the sutras
-诵读	sòngdú	to read aloud
-诵读困难症	sòngdúkùnnanzhèng	dyslexia
+诵经	sòng jīng	to chant the sutras
+诵读	sòng dú	to read aloud
+诵读困难症	sòng dú kùn nan zhèng	dyslexia
 谵	zhān	(literary) to rant; to rave; to be delirious
-谵妄	zhānwàng	delirium
+谵妄	zhān wàng	delirium
 豵	zōng	litter of pigs|little pig
 賵	fèng	(literary) gift (of money etc) to a bereaved family|to contribute to funeral expenses
 贵	guì	expensive|(bound form) highly valued; precious|(bound form) noble; of high rank|(prefix) (honorific) your
-贵人	guìrén	nobility|person of high rank
-贵人多忘	guìrénduōwàng	an eminent person has short memory (idiom)
-贵人多忘事	guìrénduōwàngshì	see 贵人多忘
-贵公司	guìgōngsī	your company
-贵南	Guìnán	see 贵南县
-贵南县	GuìnánXiàn	Guinan, a county in Hainan Tibetan Autonomous Prefecture 海南藏族自治州, Qinghai
-贵古贱今	guìgǔjiànjīn	to revere the past and despise the present (idiom)
-贵司	guìsī	(courteous) your company
-贵国	guìguó	your distinguished country
-贵圈真乱	guìquānzhēnluàn	(slang, jocular, neologism c. 2006, used esp. in relation to public figures) the things you and your friends get up to (misbehavior, scandals etc) leave me shaking my head
-贵妃	guìfēi	senior concubine|imperial consort
-贵妃床	guìfēichuáng	chaise longue
-贵妃醉酒	GuìfēiZuìjiǔ	The Drunken Beauty, Qing Dynasty Beijing opera
-贵妇	guìfù	upper-class woman|lady (old)
-贵妇人	guìfùrén	dame
-贵妇犬	guìfùquǎn	poodle
-贵姓	guìxìng	what is your surname?|(May I ask) your surname?
-贵定	Guìdìng	see 贵定县
-贵定县	GuìdìngXiàn	Guiding, a county in Qiannan Buyei and Miao Autonomous Prefecture 黔南布依族苗族自治州, Guizhou
-贵宾	guìbīn	honored guest|distinguished guest|VIP
-贵宾室	guìbīnshì	VIP lounge
-贵宾犬	guìbīnquǎn	poodle
-贵州	Guìzhōu	see 贵州省
-贵州省	GuìzhōuShěng	Guizhou Province, capital Guiyang 贵阳市 (short name 贵 or 黔)
-贵干	guìgàn	(polite) your business|what brings you?
-贵庚	guìgēng	your age (honorific)
-贵府	guìfǔ	your home (honorific)
-贵德	Guìdé	see 贵德县
-贵德县	GuìdéXiàn	Guide, a county in Hainan Tibetan Autonomous Prefecture 海南藏族自治州, Qinghai
-贵恙	guìyàng	(courteous) your illness
-贵方	guìfāng	(in business etc) your side|you
-贵族	guìzú	lord|nobility|nobleman|noblewoman|aristocrat|aristocracy
-贵族化	guìzúhuà	gentrification|aristocratic; upper-class
-贵族社会	guìzúshèhuì	aristocracy
-贵校	guìxiào	(honorific) your school
-贵格会	Guìgéhuì	Society of Friends|the Quakers
-贵池	Guìchí	see 贵池区
-贵池区	GuìchíQū	Guichi, a district of Chizhou City 池州市, Anhui
-贵港	Guìgǎng	see 贵港市
-贵港市	GuìgǎngShì	Guigang, prefecture-level city in Guangxi Zhuang Autonomous Region 广西壮族自治区
-贵溪	Guìxī	see 贵溪市
-贵溪市	GuìxīShì	Guixi, a county-level city in Yingtan City 鹰潭市, Jiangxi
-贵珊瑚	guìshānhú	precious coral|red coral (Corallium rubrum and several related species of marine coral)
-贵胄	guìzhòu	descendants of feudal aristocrats
-贵贱	guìjiàn	noble and lowly|high versus low social hierarchy of ruler to people, father to son, husband to wife in Confucianism
-贵远贱近	guìyuǎnjiànjìn	to revere the past and despise the present (idiom)
-贵重	guìzhòng	precious
-贵金属	guìjīnshǔ	precious metal
-贵阳	Guìyáng	see 贵阳市
-贵阳市	GuìyángShì	Guiyang, prefecture-level city and capital of Guizhou Province 贵州省
+贵人	guì rén	nobility|person of high rank
+贵人多忘	guì rén duō wàng	an eminent person has short memory (idiom)
+贵人多忘事	guì rén duō wàng shì	see 贵人多忘
+贵公司	guì gōng sī	your company
+贵南	Guì nán	see 贵南县
+贵南县	Guì nán Xiàn	Guinan, a county in Hainan Tibetan Autonomous Prefecture 海南藏族自治州, Qinghai
+贵古贱今	guì gǔ jiàn jīn	to revere the past and despise the present (idiom)
+贵司	guì sī	(courteous) your company
+贵国	guì guó	your distinguished country
+贵圈真乱	guì quān zhēn luàn	(slang, jocular, neologism c. 2006, used esp. in relation to public figures) the things you and your friends get up to (misbehavior, scandals etc) leave me shaking my head
+贵妃	guì fēi	senior concubine|imperial consort
+贵妃床	guì fēi chuáng	chaise longue
+贵妃醉酒	Guì fēi Zuì jiǔ	The Drunken Beauty, Qing Dynasty Beijing opera
+贵妇	guì fù	upper-class woman|lady (old)
+贵妇人	guì fù rén	dame
+贵妇犬	guì fù quǎn	poodle
+贵姓	guì xìng	what is your surname?|(May I ask) your surname?
+贵定	Guì dìng	see 贵定县
+贵定县	Guì dìng Xiàn	Guiding, a county in Qiannan Buyei and Miao Autonomous Prefecture 黔南布依族苗族自治州, Guizhou
+贵宾	guì bīn	honored guest|distinguished guest|VIP
+贵宾室	guì bīn shì	VIP lounge
+贵宾犬	guì bīn quǎn	poodle
+贵州	Guì zhōu	see 贵州省
+贵州省	Guì zhōu Shěng	Guizhou Province, capital Guiyang 贵阳市 (short name 贵 or 黔)
+贵干	guì gàn	(polite) your business|what brings you?
+贵庚	guì gēng	your age (honorific)
+贵府	guì fǔ	your home (honorific)
+贵德	Guì dé	see 贵德县
+贵德县	Guì dé Xiàn	Guide, a county in Hainan Tibetan Autonomous Prefecture 海南藏族自治州, Qinghai
+贵恙	guì yàng	(courteous) your illness
+贵方	guì fāng	(in business etc) your side|you
+贵族	guì zú	lord|nobility|nobleman|noblewoman|aristocrat|aristocracy
+贵族化	guì zú huà	gentrification|aristocratic; upper-class
+贵族社会	guì zú shè huì	aristocracy
+贵校	guì xiào	(honorific) your school
+贵格会	Guì gé huì	Society of Friends|the Quakers
+贵池	Guì chí	see 贵池区
+贵池区	Guì chí Qū	Guichi, a district of Chizhou City 池州市, Anhui
+贵港	Guì gǎng	see 贵港市
+贵港市	Guì gǎng Shì	Guigang, prefecture-level city in Guangxi Zhuang Autonomous Region 广西壮族自治区
+贵溪	Guì xī	see 贵溪市
+贵溪市	Guì xī Shì	Guixi, a county-level city in Yingtan City 鹰潭市, Jiangxi
+贵珊瑚	guì shān hú	precious coral|red coral (Corallium rubrum and several related species of marine coral)
+贵胄	guì zhòu	descendants of feudal aristocrats
+贵贱	guì jiàn	noble and lowly|high versus low social hierarchy of ruler to people, father to son, husband to wife in Confucianism
+贵远贱近	guì yuǎn jiàn jìn	to revere the past and despise the present (idiom)
+贵重	guì zhòng	precious
+贵金属	guì jīn shǔ	precious metal
+贵阳	Guì yáng	see 贵阳市
+贵阳市	Guì yáng Shì	Guiyang, prefecture-level city and capital of Guizhou Province 贵州省
 赵	zhào	to surpass (old)
-赵乐际	ZhàoLèjì	Zhao Leji (1957-), member of the Politburo Standing Committee and Secretary of the Central Commission for Discipline Inspection
-赵云	ZhàoYún	Zhao Yun (-229), general of Shu in Romance of the Three Kingdoms
-赵元任	ZhàoYuánrèn	Yuen Ren Chao (1892-1982), Chinese-American linguist
-赵公元帅	Zhàogōngyuánshuài	Marshal Zhao, aka Zhao Gongming or Zhao Xuantan, God of Wealth in the Chinese folk tradition and Taoism
-赵公明	ZhàoGōngmíng	Zhao Gongming, God of Wealth in the Chinese folk tradition and Taoism
-赵匡胤	ZhàoKuāngyìn	Zhao Kuangyin, personal name of founding Song emperor Song Taizu 宋太祖 (927-976)
-赵县	ZhàoXiàn	Zhao County or Zhaoxian, a county in Shijiazhuang City 石家庄市, Hebei
-赵国	ZhàoGuó	Zhao, one of the seven states during the Warring States Period of Chinese history (475-220 BC)
-赵子龙	ZhàoZǐlóng	courtesy name of Zhao Yun 赵云, general of Shu in Romance of the Three Kingdoms
-赵宋	ZhàoSòng	Song dynasty (960-1279)|used to distinguish it from 劉宋|刘宋 Song of Southern dynasties (420-479)
-赵客	Zhàokè	knight of the Zhao State|generic term for a knight-errant
-赵家人	Zhàojiārén	(neologism 2015) the Zhao family (derogatory term for those who hold power in the PRC)
-赵尔巽	ZhàoĚrxùn	Zhao Erxun (1844-1927), modern historian, compiled the Draft History of the Qing dynasty 清史稿
-赵岐	ZhàoQí	Zhao Qi (-201 BC), early Han commentator on Mencius 孟子
-赵州桥	ZhàozhōuQiáo	Zhaozhou Bridge over Xiao River 洨河 in Zhao county 赵县, Shijiazhuang, Hebei, dating back to the Sui dynasty 隋代 (581-617) and the world's oldest extant stone arch bridge
-赵忠尧	ZhàoZhōngyáo	Zhao Zhongyao (1902-1998), Chinese pioneer nuclear physicist
-赵惠文王	ZhàoHuìwénWáng	King Huiwen of Zhao 趙國|赵国, reigned 298-266 BC during the Warring States Period
-赵括	ZhàoKuò	Zhao Kuo (-260 BC), hapless general of Zhao 赵国, who famously led an army of 400, 000 to total annihilation at battle of Changping 长平之战 in 260 BC|also called Ma Fuzi 马服子
-赵晔	ZhàoYè	Zhao Ye, Han dynasty historian, author of History of the Southern States Wu and Yue 吳越春秋|吴越春秋
-赵本山	ZhàoBěnshān	Zhao Benshan (1958-), universally known PRC TV comedian
-赵构	ZhàoGòu	Zhao Gou (1107-1187), personal name of the tenth Song Emperor Gaozong 宋高宗 (reigned 1127-1162)
-赵树理	ZhàoShùlǐ	Zhao Shuli (1906-1970), proletarian novelist
-赵玄坛	ZhàoXuántán	Zhao Xuantan, God of Wealth in the Chinese folk tradition and Taoism
-赵紫阳	ZhàoZǐyáng	Zhao Ziyang (1919-2005), PRC reforming politician, general secretary of Chinese Communist Party 1987-1989, held under house arrest from 1989 to his death, and non-person since then
-赵翼	ZhàoYì	Zhao Yi (1727-1814), Qing dynasty poet and historian, one of Three great poets of the Qianlong era 乾嘉三大家
-赵薇	ZhàoWēi	Zhao Wei or Vicky Zhao (1976-), Chinese film star
-赵高	ZhàoGāo	Zhao Gao (?-207 BC), one of the most vile, corrupt and powerful eunuchs in Chinese history, responsible for the fall of Qin Dynasty
+赵乐际	Zhào Lè jì	Zhao Leji (1957-), member of the Politburo Standing Committee and Secretary of the Central Commission for Discipline Inspection
+赵云	Zhào Yún	Zhao Yun (-229), general of Shu in Romance of the Three Kingdoms
+赵元任	Zhào Yuán rèn	Yuen Ren Chao (1892-1982), Chinese-American linguist
+赵公元帅	Zhào gōng yuán shuài	Marshal Zhao, aka Zhao Gongming or Zhao Xuantan, God of Wealth in the Chinese folk tradition and Taoism
+赵公明	Zhào Gōng míng	Zhao Gongming, God of Wealth in the Chinese folk tradition and Taoism
+赵匡胤	Zhào Kuāng yìn	Zhao Kuangyin, personal name of founding Song emperor Song Taizu 宋太祖 (927-976)
+赵县	Zhào Xiàn	Zhao County or Zhaoxian, a county in Shijiazhuang City 石家庄市, Hebei
+赵国	Zhào Guó	Zhao, one of the seven states during the Warring States Period of Chinese history (475-220 BC)
+赵子龙	Zhào Zǐ lóng	courtesy name of Zhao Yun 赵云, general of Shu in Romance of the Three Kingdoms
+赵宋	Zhào Sòng	Song dynasty (960-1279)|used to distinguish it from 劉宋|刘宋 Song of Southern dynasties (420-479)
+赵客	Zhào kè	knight of the Zhao State|generic term for a knight-errant
+赵家人	Zhào jiā rén	(neologism 2015) the Zhao family (derogatory term for those who hold power in the PRC)
+赵尔巽	Zhào Ěr xùn	Zhao Erxun (1844-1927), modern historian, compiled the Draft History of the Qing dynasty 清史稿
+赵岐	Zhào Qí	Zhao Qi (-201 BC), early Han commentator on Mencius 孟子
+赵州桥	Zhào zhōu Qiáo	Zhaozhou Bridge over Xiao River 洨河 in Zhao county 赵县, Shijiazhuang, Hebei, dating back to the Sui dynasty 隋代 (581-617) and the world's oldest extant stone arch bridge
+赵忠尧	Zhào Zhōng yáo	Zhao Zhongyao (1902-1998), Chinese pioneer nuclear physicist
+赵惠文王	Zhào Huì wén Wáng	King Huiwen of Zhao 趙國|赵国, reigned 298-266 BC during the Warring States Period
+赵括	Zhào Kuò	Zhao Kuo (-260 BC), hapless general of Zhao 赵国, who famously led an army of 400, 000 to total annihilation at battle of Changping 长平之战 in 260 BC|also called Ma Fuzi 马服子
+赵晔	Zhào Yè	Zhao Ye, Han dynasty historian, author of History of the Southern States Wu and Yue 吳越春秋|吴越春秋
+赵本山	Zhào Běn shān	Zhao Benshan (1958-), universally known PRC TV comedian
+赵构	Zhào Gòu	Zhao Gou (1107-1187), personal name of the tenth Song Emperor Gaozong 宋高宗 (reigned 1127-1162)
+赵树理	Zhào Shù lǐ	Zhao Shuli (1906-1970), proletarian novelist
+赵玄坛	Zhào Xuán tán	Zhao Xuantan, God of Wealth in the Chinese folk tradition and Taoism
+赵紫阳	Zhào Zǐ yáng	Zhao Ziyang (1919-2005), PRC reforming politician, general secretary of Chinese Communist Party 1987-1989, held under house arrest from 1989 to his death, and non-person since then
+赵翼	Zhào Yì	Zhao Yi (1727-1814), Qing dynasty poet and historian, one of Three great poets of the Qianlong era 乾嘉三大家
+赵薇	Zhào Wēi	Zhao Wei or Vicky Zhao (1976-), Chinese film star
+赵高	Zhào Gāo	Zhao Gao (?-207 BC), one of the most vile, corrupt and powerful eunuchs in Chinese history, responsible for the fall of Qin Dynasty
 趵	bào	jump|leap
 践	jiàn	to fulfill (a promise)|to tread|to walk
-践约	jiànyuē	to keep a promise|to honor an agreement
-践行	jiànxíng	to carry out; to implement; to keep (one's word)
-践踏	jiàntà	to trample
+践约	jiàn yuē	to keep a promise|to honor an agreement
+践行	jiàn xíng	to carry out; to implement; to keep (one's word)
+践踏	jiàn tà	to trample
 踵	zhǒng	to arrive|to follow|heel
 蹵	cù	variant of 蹴
 輵	gé	great array of spears and chariots
@@ -1630,330 +1630,330 @@
 辵	chuò	to walk (side part of split character)
 逵	kuí	crossroads|thoroughfare
 遵	zūn	to observe|to obey|to follow|to comply with
-遵义	Zūnyì	see 遵义市
-遵义会议	Zūnyìhuìyì	Zunyi conference of January 1935 before the Long March
-遵义市	ZūnyìShì	Zunyi, prefecture-level city in Guizhou Province 贵州省
-遵从	zūncóng	to comply with; to follow (directives); to defer to (the judgment of superiors)
-遵令	zūnlìng	to obey orders
-遵办	zūnbàn	to handle in accordance with (the rules)
-遵化	Zūnhuà	see 遵化市
-遵化市	ZūnhuàShì	Zunhua, a county-level city in Tangshan City 唐山市, Hebei
-遵医嘱	zūnyīzhǔ	to follow the doctor's advice|as instructed by the physician
-遵命	zūnmìng	to follow your orders|to do as you bid
-遵奉	zūnfèng	to conform|to obey faithfully
-遵守	zūnshǒu	to comply with; to abide by; to respect (an agreement)
-遵從	zūncóng	to comply with; to follow (directives); to defer to (the judgment of superiors)
-遵循	zūnxún	to follow; to abide by; to comply with
-遵旨	zūnzhǐ	to obey the Emperor's decree|at your Imperial majesty's command
-遵时养晦	zūnshíyǎnghuì	to bide one's time, waiting for an opportunity to stage a comeback in public life (idiom)
-遵時養晦	zūnshíyǎnghuì	to bide one's time, waiting for an opportunity to stage a comeback in public life (idiom)
-遵照	zūnzhào	in accordance with|to follow (the rules)
-遵義	Zūnyì	see 遵义市
-遵義市	ZūnyìShì	Zunyi, prefecture-level city in Guizhou Province 贵州省
-遵義會議	Zūnyìhuìyì	Zunyi conference of January 1935 before the Long March
-遵行	zūnxíng	to follow|to obey|compliance
-遵辦	zūnbàn	to handle in accordance with (the rules)
-遵醫囑	zūnyīzhǔ	to follow the doctor's advice|as instructed by the physician
+遵义	Zūn yì	see 遵义市
+遵义会议	Zūn yì huì yì	Zunyi conference of January 1935 before the Long March
+遵义市	Zūn yì Shì	Zunyi, prefecture-level city in Guizhou Province 贵州省
+遵从	zūn cóng	to comply with; to follow (directives); to defer to (the judgment of superiors)
+遵令	zūn lìng	to obey orders
+遵办	zūn bàn	to handle in accordance with (the rules)
+遵化	Zūn huà	see 遵化市
+遵化市	Zūn huà Shì	Zunhua, a county-level city in Tangshan City 唐山市, Hebei
+遵医嘱	zūn yī zhǔ	to follow the doctor's advice|as instructed by the physician
+遵命	zūn mìng	to follow your orders|to do as you bid
+遵奉	zūn fèng	to conform|to obey faithfully
+遵守	zūn shǒu	to comply with; to abide by; to respect (an agreement)
+遵從	zūn cóng	to comply with; to follow (directives); to defer to (the judgment of superiors)
+遵循	zūn xún	to follow; to abide by; to comply with
+遵旨	zūn zhǐ	to obey the Emperor's decree|at your Imperial majesty's command
+遵时养晦	zūn shí yǎng huì	to bide one's time, waiting for an opportunity to stage a comeback in public life (idiom)
+遵時養晦	zūn shí yǎng huì	to bide one's time, waiting for an opportunity to stage a comeback in public life (idiom)
+遵照	zūn zhào	in accordance with|to follow (the rules)
+遵義	Zūn yì	see 遵义市
+遵義市	Zūn yì Shì	Zunyi, prefecture-level city in Guizhou Province 贵州省
+遵義會議	Zūn yì huì yì	Zunyi conference of January 1935 before the Long March
+遵行	zūn xíng	to follow|to obey|compliance
+遵辦	zūn bàn	to handle in accordance with (the rules)
+遵醫囑	zūn yī zhǔ	to follow the doctor's advice|as instructed by the physician
 邵	Shào	surname Shao|place name
-邵东	Shàodōng	see 邵东市
-邵东市	ShàodōngShì	Shaodong, a county-level city in Shaoyang City 邵阳市, Hunan
-邵伯湖	ShàobóHú	Shaobo Lake, freshwater lake in Jiangsu Province
-邵族	Shàozú	Thao, one of the indigenous peoples of Taiwan
-邵東	Shàodōng	see 邵东市
-邵東市	ShàodōngShì	Shaodong, a county-level city in Shaoyang City 邵阳市, Hunan
-邵武	Shàowǔ	see 邵武市
-邵武市	ShàowǔShì	Shaowu, a county-level city in Nanping City 南平市, Fujian
-邵逸夫	ShàoYìfū	Run Run Shaw (1907-2014), Hong Kong movie and television tycoon
-邵阳	Shàoyáng	see 邵阳市|see 邵阳县
-邵阳县	ShàoyángXiàn	Shaoyang, a county in Shaoyang City 邵阳市, Hunan
-邵阳市	ShàoyángShì	Shaoyang, prefecture-level city in Hunan Province 湖南省
-邵陽	Shàoyáng	see 邵阳市|see 邵阳县
-邵陽市	ShàoyángShì	Shaoyang, prefecture-level city in Hunan Province 湖南省
-邵陽縣	ShàoyángXiàn	Shaoyang, a county in Shaoyang City 邵阳市, Hunan
-邵雍	ShàoYōng	Shao Yong (1011-1077), Northern Song poet and Rationalist scholar 理學家|理学家
-邵飄萍	ShàoPiāopíng	Shao Piaoping (1884-1926), pioneer of journalism and founder of newspaper Beijing Press 京報|京报, executed in 1926 by warlord Zhang Zuolin 張作霖|张作霖
-邵飘萍	ShàoPiāopíng	Shao Piaoping (1884-1926), pioneer of journalism and founder of newspaper Beijing Press 京報|京报, executed in 1926 by warlord Zhang Zuolin 張作霖|张作霖
+邵东	Shào dōng	see 邵东市
+邵东市	Shào dōng Shì	Shaodong, a county-level city in Shaoyang City 邵阳市, Hunan
+邵伯湖	Shào bó Hú	Shaobo Lake, freshwater lake in Jiangsu Province
+邵族	Shào zú	Thao, one of the indigenous peoples of Taiwan
+邵東	Shào dōng	see 邵东市
+邵東市	Shào dōng Shì	Shaodong, a county-level city in Shaoyang City 邵阳市, Hunan
+邵武	Shào wǔ	see 邵武市
+邵武市	Shào wǔ Shì	Shaowu, a county-level city in Nanping City 南平市, Fujian
+邵逸夫	Shào Yì fū	Run Run Shaw (1907-2014), Hong Kong movie and television tycoon
+邵阳	Shào yáng	see 邵阳市|see 邵阳县
+邵阳县	Shào yáng Xiàn	Shaoyang, a county in Shaoyang City 邵阳市, Hunan
+邵阳市	Shào yáng Shì	Shaoyang, prefecture-level city in Hunan Province 湖南省
+邵陽	Shào yáng	see 邵阳市|see 邵阳县
+邵陽市	Shào yáng Shì	Shaoyang, prefecture-level city in Hunan Province 湖南省
+邵陽縣	Shào yáng Xiàn	Shaoyang, a county in Shaoyang City 邵阳市, Hunan
+邵雍	Shào Yōng	Shao Yong (1011-1077), Northern Song poet and Rationalist scholar 理學家|理学家
+邵飄萍	Shào Piāo píng	Shao Piaoping (1884-1926), pioneer of journalism and founder of newspaper Beijing Press 京報|京报, executed in 1926 by warlord Zhang Zuolin 張作霖|张作霖
+邵飘萍	Shào Piāo píng	Shao Piaoping (1884-1926), pioneer of journalism and founder of newspaper Beijing Press 京報|京报, executed in 1926 by warlord Zhang Zuolin 張作霖|张作霖
 郵	yóu	post (office)|mail
-郵亭	yóutíng	postal kiosk|(old) rest shelter for couriers
-郵件	yóujiàn	mail|post|email
-郵務士	yóuwùshì	mailman (Tw)
-郵包	yóubāo	postal parcel|parcel
-郵匯	yóuhuì	to remit by post|remittance sent by post
-郵區	yóuqū	postal district
-郵品	yóupǐn	items issued by a postal service and collected by philatelists (stamps, postcards, first day covers etc)
-郵報	Yóubào	Post (in the name of a newspaper)
-郵寄	yóujì	to mail|to send by post
-郵局	yóujú	post office|measure word: 家, 个
-郵展	yóuzhǎn	philatelic exhibition
-郵差	yóuchāi	postman; mailman (dated in mainland China)
-郵市	yóushì	philatelic market
-郵戳	yóuchuō	postmark
-郵摺	yóuzhé	(philately) presentation pack|stamp folder
-郵政	yóuzhèng	postal service|postal
-郵政信箱	yóuzhèngxìnxiāng	post office box
-郵政區碼	yóuzhèngqūmǎ	PRC postcode, e.g. 361000 for Xiamen or Amoy 厦门, Fujian
-郵政局	yóuzhèngjú	post office
-郵政式拼音	YóuzhèngshìPīnyīn	Chinese postal romanization, developed in the early 1900s, used until the 1980s
-郵政編碼	yóuzhèngbiānmǎ	postal code|zip code
-郵票	yóupiào	(postage) stamp|measure word: 枚, 张
-郵筒	yóutǒng	mailbox|pillar box|(old) letter
-郵箱	yóuxiāng	mailbox|post office box|email|email inbox
-郵簡	yóujiǎn	letter sheet (similar to an aerogram but not necessarily sent by airmail)
-郵編	yóubiān	postal code|zip code
-郵船	yóuchuán	mailboat|ocean liner
-郵花	yóuhuā	(dialect) (postage) stamp
-郵袋	yóudài	mailbag
-郵費	yóufèi	postage
-郵資	yóuzī	postage
-郵購	yóugòu	to purchase by mail; to mail-order
-郵車	yóuchē	mail van; mail coach
-郵輪	yóulún	ocean liner|cruise liner
-郵迷	yóumí	stamp collector|philatelist
-郵遞	yóudì	to mail|to deliver (through the post)
-郵遞區號	yóudìqūhào	(Tw) postal code; ZIP code
-郵遞員	yóudìyuán	mailman
-郵電	yóudiàn	post and telecommunications
+郵亭	yóu tíng	postal kiosk|(old) rest shelter for couriers
+郵件	yóu jiàn	mail|post|email
+郵務士	yóu wù shì	mailman (Tw)
+郵包	yóu bāo	postal parcel|parcel
+郵匯	yóu huì	to remit by post|remittance sent by post
+郵區	yóu qū	postal district
+郵品	yóu pǐn	items issued by a postal service and collected by philatelists (stamps, postcards, first day covers etc)
+郵報	Yóu bào	Post (in the name of a newspaper)
+郵寄	yóu jì	to mail|to send by post
+郵局	yóu jú	post office|measure word: 家, 个
+郵展	yóu zhǎn	philatelic exhibition
+郵差	yóu chāi	postman; mailman (dated in mainland China)
+郵市	yóu shì	philatelic market
+郵戳	yóu chuō	postmark
+郵摺	yóu zhé	(philately) presentation pack|stamp folder
+郵政	yóu zhèng	postal service|postal
+郵政信箱	yóu zhèng xìn xiāng	post office box
+郵政區碼	yóu zhèng qū mǎ	PRC postcode, e.g. 361000 for Xiamen or Amoy 厦门, Fujian
+郵政局	yóu zhèng jú	post office
+郵政式拼音	Yóu zhèng shì Pīn yīn	Chinese postal romanization, developed in the early 1900s, used until the 1980s
+郵政編碼	yóu zhèng biān mǎ	postal code|zip code
+郵票	yóu piào	(postage) stamp|measure word: 枚, 张
+郵筒	yóu tǒng	mailbox|pillar box|(old) letter
+郵箱	yóu xiāng	mailbox|post office box|email|email inbox
+郵簡	yóu jiǎn	letter sheet (similar to an aerogram but not necessarily sent by airmail)
+郵編	yóu biān	postal code|zip code
+郵船	yóu chuán	mailboat|ocean liner
+郵花	yóu huā	(dialect) (postage) stamp
+郵袋	yóu dài	mailbag
+郵費	yóu fèi	postage
+郵資	yóu zī	postage
+郵購	yóu gòu	to purchase by mail; to mail-order
+郵車	yóu chē	mail van; mail coach
+郵輪	yóu lún	ocean liner|cruise liner
+郵迷	yóu mí	stamp collector|philatelist
+郵遞	yóu dì	to mail|to deliver (through the post)
+郵遞區號	yóu dì qū hào	(Tw) postal code; ZIP code
+郵遞員	yóu dì yuán	mailman
+郵電	yóu diàn	post and telecommunications
 鄵	Cào	ancient place name (between present-day Xinzheng County 新郑 and Lushan County 鲁山, Henan)
 酵	jiào	yeast; leaven|fermentation|Taiwan pr. xiào
-酵母	jiàomǔ	yeast; saccharomycete (abbr. for 酵母菌)
-酵母菌	jiàomǔjūn	yeast; saccharomycete
-酵母醇	jiàomǔchún	zymosterol
-酵素	jiàosù	enzyme
-酵解作用	jiàojiězuòyòng	zymolysis
+酵母	jiào mǔ	yeast; saccharomycete (abbr. for 酵母菌)
+酵母菌	jiào mǔ jūn	yeast; saccharomycete
+酵母醇	jiào mǔ chún	zymosterol
+酵素	jiào sù	enzyme
+酵解作用	jiào jiě zuò yòng	zymolysis
 醵	jù	to contribute to a feast|to pool (money)
 釵	chāi	hairpin
 銵	kēng	old variant of 铿
 錵	huā	holmium (chemistry) (old)
 鍵	jiàn	key (on a piano or computer keyboard)|button (on a mouse or other device)|chemical bond|linchpin
-鍵入	jiànrù	to key in; to input; to enter (some text)
-鍵帽	jiànmào	keycap
-鍵政	jiànzhèng	(slang) to discuss politics online
-鍵槽	jiàncáo	(engineering) keyway; key slot
-鍵盤	jiànpán	keyboard
-鍵盤俠	jiànpánxiá	keyboard warrior
-鍵盤樂器	jiànpányuèqì	keyboard instrument (piano, organ etc)
-鍵程	jiànchéng	key travel (of a keyboard)
-鍵詞	jiàncí	keyword
-鍵鼠	jiànshǔ	keyboard and mouse (abbr. for 键盘 + 鼠标)
+鍵入	jiàn rù	to key in; to input; to enter (some text)
+鍵帽	jiàn mào	keycap
+鍵政	jiàn zhèng	(slang) to discuss politics online
+鍵槽	jiàn cáo	(engineering) keyway; key slot
+鍵盤	jiàn pán	keyboard
+鍵盤俠	jiàn pán xiá	keyboard warrior
+鍵盤樂器	jiàn pán yuè qì	keyboard instrument (piano, organ etc)
+鍵程	jiàn chéng	key travel (of a keyboard)
+鍵詞	jiàn cí	keyword
+鍵鼠	jiàn shǔ	keyboard and mouse (abbr. for 键盘 + 鼠标)
 鎵	jiā	gallium (chemistry)
 鏵	huá	plowshare|spade
 鐵	tiě	iron (metal)|arms|weapons|hard|strong|violent|unshakeable|determined|close|tight (slang)
-鐵三	tiěsān	triathlon
-鐵了心	tiělexīn	determined|unshakable
-鐵人	Tiěrén	Ironman
-鐵人三項	tiěrénsānxiàng	triathlon
-鐵公雞	tiěgōngjī	cheapskate|stingy person
-鐵力	Tiělì	see 铁力市
-鐵力市	TiělìShì	Tieli, a county-level city in Yichun City 伊春市, Heilongjiang
-鐵力木	tiělìmù	ironwood (Mesua ferrea)
-鐵匠	tiějiang	blacksmith|ironworker
-鐵哥們	tiěgēmen	(coll.) very close male friends
-鐵哥們兒	tiěgēmenr	erhua variant of 铁哥们
-鐵嘴沙鴴	tiězuǐshāhéng	(bird species of China) greater sand plover (Anarhynchus leschenaultii)
-鐵器	tiěqì	hardware|ironware
-鐵塔	tiětǎ	iron tower
-鐵子	tiězi	(slang) very close friend|bro
-鐵定	tiědìng	unalterable|certainly|definitely
-鐵將軍把門	tiějiāngjūnbǎmén	lit. General Iron is guarding the door (idiom)|fig. the door is padlocked — nobody inside
-鐵山	Tiěshān	see 铁山区
-鐵山區	TiěshānQū	Tieshan, a district of Huangshi City 黄石市, Hubei
-鐵山港	Tiěshāngǎng	see 铁山港区
-鐵山港區	TiěshāngǎngQū	Tieshangang, a district of Beihai City 北海市, Guangxi
-鐵嶺	Tiělǐng	see 铁岭市|see 铁岭县
-鐵嶺市	TiělǐngShì	Tieling, prefecture-level city in Liaoning Province 辽宁省
-鐵嶺縣	TiělǐngXiàn	Tieling, a county in Tieling City 铁岭市, Liaoning
-鐵帽子王	tiěmàoziwáng	iron-cap prince in the Qing dynasty whose title can be passed on to subsequent generations without alteration
-鐵幕	Tiěmù	Iron Curtain (1945-1991) (In Taiwan, the word was used to refer to both the Iron Curtain and the Bamboo Curtain.)
-鐵律	tiělǜ	an iron law; a cast-iron rule
-鐵打	tiědǎ	made of iron|strong as iron
-鐵托	Tiětuō	Marshal Josip Broz Tito (1892-1980), Yugoslav military and communist political leader, president of Yugoslavia 1945-1980
-鐵拐李	TiěguǎiLǐ	see 李铁拐
-鐵拳	tiěquán	iron fist
-鐵撬	tiěqiào	crowbar
-鐵木真	Tiěmùzhēn	Temujin, birth name of Genghis Khan 成吉思汗
-鐵杉	tiěshān	Tsuga chinensis
-鐵杖	tiězhàng	steel staff|steel stick
-鐵東	Tiědōng	see 铁东区
-鐵東區	TiědōngQū	Tiedong, a district of Siping City 四平市, Jilin|Tiedong, a district of Anshan City 鞍山市, Liaoning
-鐵杵成針	tiěchǔchéngzhēn	see 磨杵成针
-鐵板	tiěbǎn	iron panel|hot iron plate for fast grilling (Japanese: teppan)
-鐵板燒	tiěbǎnshāo	teppanyaki
-鐵板牛柳	tiěbǎnniúliǔ	fillet beef served sizzling on a hot iron plate
-鐵板牛肉	tiěbǎnniúròu	beef grilled on a hot iron plate
-鐵板茄子	tiěbǎnqiézi	eggplant served sizzling on a hot iron plate
-鐵格子	tiěgézi	iron lattice|metal grid
-鐵桿	tiěgān	iron (golf club)
-鐵桿	tiěgǎn	iron rod|zealous|die-hard
-鐵桿粉絲	tiěgǎnfěnsī	die-hard fan
-鐵棒	tiěbàng	iron club|steel rod
-鐵樹	tiěshù	sago palm (Cycas revoluta)
-鐵樹開花	tiěshùkāihuā	lit. the iron tree blooms (idiom)|a highly improbable or extremely rare occurrence
-鐵欄	tiělán	metal grille|railing|bars
-鐵氟龍	tiěfúlóng	(Tw) Teflon; polytetrafluoroethylene (PTFE)
-鐵水	tiěshuǐ	molten iron
-鐵爪鵐	tiězhǎowú	(bird species of China) Lapland longspur (Calcarius lapponicus)
-鐵爾梅茲	Tiěěrméizī	Termez city in southeast Uzbekistan
-鐵球	tiěqiú	kung fu balls
-鐵琴	tiěqín	metallophone
-鐵環	tiěhuán	an iron ring
-鐵甲	tiějiǎ	mail plating|armor|armor plating
-鐵甲船	tiějiǎchuán	armored ship
-鐵甲艦	tiějiǎjiàn	ironclad|an armor-plated battleship
-鐵甲車	tiějiǎchē	armored car
-鐵皮	tiěpí	galvanized iron sheet (for building construction)
-鐵石	tiěshí	iron and stone
-鐵石心腸	tiěshíxīncháng	to have a heart of stone|hard-hearted|unfeeling
-鐵砂	tiěshā	shot (in shotgun)|pellets
-鐵砧	tiězhēn	anvil
-鐵礦	tiěkuàng	iron ore|iron ore mine
-鐵礦石	tiěkuàngshí	iron ore
-鐵票	tiěpiào	(Tw) a guaranteed vote; a vote from sb who consistently votes for a particular party or candidate in elections
-鐵票倉	tiěpiàocāng	see 铁票区
-鐵票區	tiěpiàoqū	(Tw) safe seat (in an election); stronghold (for a political party or candidate); a district in which a majority of voters consistently votes for a particular party or candidate
-鐵窗	tiěchuāng	window with an iron grating (apartment etc)|barred window of a prison cell
-鐵窗生活	tiěchuāngshēnghuó	time served in prison|prison life
-鐵箍	tiěgū	iron hoop
-鐵粉	tiěfěn	(slang) hardcore fan (abbr. for 铁杆粉丝)
-鐵絲	tiěsī	iron wire|measure word: 根|subway enthusiast (abbr. for 地铁粉丝)|railway enthusiast (abbr. for 铁路粉丝)
-鐵絲網	tiěsīwǎng	wire netting|measure word: 道
-鐵罐	tiěguàn	metal pot
-鐵腕	tiěwàn	iron fist (of the state)
-鐵菱	tiělíng	(military) caltrop (spiky metal device laid on the ground to create a hazard for enemy horses or troops in ancient times)
-鐵菱角	tiělíngjiǎo	see 铁菱
-鐵蒺藜	tiějíli	(military) caltrop
-鐵蘭屬	tiělánshǔ	(loanword) genus Tillandsia; air plants (more commonly known as 空气凤梨)
-鐵蛋	tiědàn	iron egg, a Taiwanese snack made by stewing eggs in soy sauce and air-drying them each day for a week
-鐵蛋子	tiědànzi	see 铁球
-鐵血	tiěxuè	iron and blood; (fig.) weapons and war; bloody conflict|(of a person) iron-willed and ready to die
-鐵血宰相	Tiěxuèzǎixiàng	Iron Chancellor, refers to Otto von Bismarck (1815-1898), Prussian politician, minister-president of Prussia 1862-1873, Chancellor of Germany 1871-1890
-鐵西	Tiěxī	see 铁西区
-鐵西區	TiěxīQū	Tiexi, a district of Siping City 四平市, Jilin|Tiexi, a district of Shenyang City 沈阳市, Liaoning|Tiexi, a district of Anshan City 鞍山市, Liaoning
-鐵觀音	Tiěguānyīn	Tieguanyin tea (a variety of oolong tea)
-鐵證	tiězhèng	ironclad evidence|conclusive proof
-鐵證如山	tiězhèngrúshān	irrefutable evidence
-鐵路	tiělù	railroad|railway|measure word: 条
-鐵路線	tiělùxiàn	railway line
-鐵蹄	tiětí	iron hoof (of the oppressor)
-鐵軌	tiěguǐ	rail|railroad track|measure word: 根
-鐵軍	tiějūn	invincible army
-鐵通	tiětōng	(Cantonese) iron pipe (weapon)
-鐵道	tiědào	railway line|rail track
-鐵道部	Tiědàobù	Ministry of Railways (MOR), disbanded in 2013 with its regulatory functions taken over by the Ministry of Transport 交通运输部
-鐵達尼號	TiědáníHào	RMS Titanic, British passenger liner that sank in 1912 (Tw)|PRC equivalent: 泰坦尼克号
-鐵鈎	tiěgōu	iron hook
-鐵鈎兒	tiěgōur	erhua variant of 铁钩
-鐵鋁土	tiělǚtǔ	ferralsol (soil taxonomy)
-鐵鋒	Tiěfēng	see 铁锋区
-鐵鋒區	TiěfēngQū	Tiefeng, a district of Qiqihar City 齐齐哈尔市, Heilongjiang
-鐵鍁	tiěxiān	iron shovel|spade|measure word: 把
-鐵鍋	tiěguō	iron cooking pot
-鐵鍬	tiěqiāo	spade|shovel
-鐵鎂質	tiěměizhì	mafic rock (containing magnesium and iron, so comparatively heavy, making oceanic plates)
-鐵鏈	tiěliàn	iron chain
-鐵鏽	tiěxiù	rust
-鐵鏽帶	Tiěxiùdài	Rust Belt
-鐵青	tiěqīng	livid; ashen (from rage, fear or illness)
-鐵面	tiěmiàn	iron mask (as defensive armor)|fig. upright and selfless person
-鐵面無私	tiěmiànwúsī	strictly impartial and incorruptible (idiom)
-鐵飯碗	tiěfànwǎn	secure employment (lit. iron rice bowl)
-鐵餅	tiěbǐng	(athletics) discus|discus throw
-鐵馬	tiěmǎ	armored horse|cavalry|metal chimes hanging from eaves|steel barricade|(Tw) bike
-鐵騎	tiěqí	armored horses|crack horsemen
-鐵骨錚錚	tiěgǔzhēngzhēng	(idiom) (of character) staunch; unyielding
-鐵齒	tiěchǐ	(Tw) obstinate; argumentative; opinionated; skeptical of superstitions (from Taiwanese, Tai-lo pr. [thih-khí])
-鐵齒銅牙	tiěchǐtóngyá	clever and eloquent speaker (idiom)
+鐵三	tiě sān	triathlon
+鐵了心	tiě le xīn	determined|unshakable
+鐵人	Tiě rén	Ironman
+鐵人三項	tiě rén sān xiàng	triathlon
+鐵公雞	tiě gōng jī	cheapskate|stingy person
+鐵力	Tiě lì	see 铁力市
+鐵力市	Tiě lì Shì	Tieli, a county-level city in Yichun City 伊春市, Heilongjiang
+鐵力木	tiě lì mù	ironwood (Mesua ferrea)
+鐵匠	tiě jiang	blacksmith|ironworker
+鐵哥們	tiě gē men	(coll.) very close male friends
+鐵哥們兒	tiě gē men r	erhua variant of 铁哥们
+鐵嘴沙鴴	tiě zuǐ shā héng	(bird species of China) greater sand plover (Anarhynchus leschenaultii)
+鐵器	tiě qì	hardware|ironware
+鐵塔	tiě tǎ	iron tower
+鐵子	tiě zi	(slang) very close friend|bro
+鐵定	tiě dìng	unalterable|certainly|definitely
+鐵將軍把門	tiě jiāng jūn bǎ mén	lit. General Iron is guarding the door (idiom)|fig. the door is padlocked — nobody inside
+鐵山	Tiě shān	see 铁山区
+鐵山區	Tiě shān Qū	Tieshan, a district of Huangshi City 黄石市, Hubei
+鐵山港	Tiě shān gǎng	see 铁山港区
+鐵山港區	Tiě shān gǎng Qū	Tieshangang, a district of Beihai City 北海市, Guangxi
+鐵嶺	Tiě lǐng	see 铁岭市|see 铁岭县
+鐵嶺市	Tiě lǐng Shì	Tieling, prefecture-level city in Liaoning Province 辽宁省
+鐵嶺縣	Tiě lǐng Xiàn	Tieling, a county in Tieling City 铁岭市, Liaoning
+鐵帽子王	tiě mào zi wáng	iron-cap prince in the Qing dynasty whose title can be passed on to subsequent generations without alteration
+鐵幕	Tiě mù	Iron Curtain (1945-1991) (In Taiwan, the word was used to refer to both the Iron Curtain and the Bamboo Curtain.)
+鐵律	tiě lǜ	an iron law; a cast-iron rule
+鐵打	tiě dǎ	made of iron|strong as iron
+鐵托	Tiě tuō	Marshal Josip Broz Tito (1892-1980), Yugoslav military and communist political leader, president of Yugoslavia 1945-1980
+鐵拐李	Tiě guǎi Lǐ	see 李铁拐
+鐵拳	tiě quán	iron fist
+鐵撬	tiě qiào	crowbar
+鐵木真	Tiě mù zhēn	Temujin, birth name of Genghis Khan 成吉思汗
+鐵杉	tiě shān	Tsuga chinensis
+鐵杖	tiě zhàng	steel staff|steel stick
+鐵東	Tiě dōng	see 铁东区
+鐵東區	Tiě dōng Qū	Tiedong, a district of Siping City 四平市, Jilin|Tiedong, a district of Anshan City 鞍山市, Liaoning
+鐵杵成針	tiě chǔ chéng zhēn	see 磨杵成针
+鐵板	tiě bǎn	iron panel|hot iron plate for fast grilling (Japanese: teppan)
+鐵板燒	tiě bǎn shāo	teppanyaki
+鐵板牛柳	tiě bǎn niú liǔ	fillet beef served sizzling on a hot iron plate
+鐵板牛肉	tiě bǎn niú ròu	beef grilled on a hot iron plate
+鐵板茄子	tiě bǎn qié zi	eggplant served sizzling on a hot iron plate
+鐵格子	tiě gé zi	iron lattice|metal grid
+鐵桿	tiě gān	iron (golf club)
+鐵桿	tiě gǎn	iron rod|zealous|die-hard
+鐵桿粉絲	tiě gǎn fěn sī	die-hard fan
+鐵棒	tiě bàng	iron club|steel rod
+鐵樹	tiě shù	sago palm (Cycas revoluta)
+鐵樹開花	tiě shù kāi huā	lit. the iron tree blooms (idiom)|a highly improbable or extremely rare occurrence
+鐵欄	tiě lán	metal grille|railing|bars
+鐵氟龍	tiě fú lóng	(Tw) Teflon; polytetrafluoroethylene (PTFE)
+鐵水	tiě shuǐ	molten iron
+鐵爪鵐	tiě zhǎo wú	(bird species of China) Lapland longspur (Calcarius lapponicus)
+鐵爾梅茲	Tiě ěr méi zī	Termez city in southeast Uzbekistan
+鐵球	tiě qiú	kung fu balls
+鐵琴	tiě qín	metallophone
+鐵環	tiě huán	an iron ring
+鐵甲	tiě jiǎ	mail plating|armor|armor plating
+鐵甲船	tiě jiǎ chuán	armored ship
+鐵甲艦	tiě jiǎ jiàn	ironclad|an armor-plated battleship
+鐵甲車	tiě jiǎ chē	armored car
+鐵皮	tiě pí	galvanized iron sheet (for building construction)
+鐵石	tiě shí	iron and stone
+鐵石心腸	tiě shí xīn cháng	to have a heart of stone|hard-hearted|unfeeling
+鐵砂	tiě shā	shot (in shotgun)|pellets
+鐵砧	tiě zhēn	anvil
+鐵礦	tiě kuàng	iron ore|iron ore mine
+鐵礦石	tiě kuàng shí	iron ore
+鐵票	tiě piào	(Tw) a guaranteed vote; a vote from sb who consistently votes for a particular party or candidate in elections
+鐵票倉	tiě piào cāng	see 铁票区
+鐵票區	tiě piào qū	(Tw) safe seat (in an election); stronghold (for a political party or candidate); a district in which a majority of voters consistently votes for a particular party or candidate
+鐵窗	tiě chuāng	window with an iron grating (apartment etc)|barred window of a prison cell
+鐵窗生活	tiě chuāng shēng huó	time served in prison|prison life
+鐵箍	tiě gū	iron hoop
+鐵粉	tiě fěn	(slang) hardcore fan (abbr. for 铁杆粉丝)
+鐵絲	tiě sī	iron wire|measure word: 根|subway enthusiast (abbr. for 地铁粉丝)|railway enthusiast (abbr. for 铁路粉丝)
+鐵絲網	tiě sī wǎng	wire netting|measure word: 道
+鐵罐	tiě guàn	metal pot
+鐵腕	tiě wàn	iron fist (of the state)
+鐵菱	tiě líng	(military) caltrop (spiky metal device laid on the ground to create a hazard for enemy horses or troops in ancient times)
+鐵菱角	tiě líng jiǎo	see 铁菱
+鐵蒺藜	tiě jí li	(military) caltrop
+鐵蘭屬	tiě lán shǔ	(loanword) genus Tillandsia; air plants (more commonly known as 空气凤梨)
+鐵蛋	tiě dàn	iron egg, a Taiwanese snack made by stewing eggs in soy sauce and air-drying them each day for a week
+鐵蛋子	tiě dàn zi	see 铁球
+鐵血	tiě xuè	iron and blood; (fig.) weapons and war; bloody conflict|(of a person) iron-willed and ready to die
+鐵血宰相	Tiě xuè zǎi xiàng	Iron Chancellor, refers to Otto von Bismarck (1815-1898), Prussian politician, minister-president of Prussia 1862-1873, Chancellor of Germany 1871-1890
+鐵西	Tiě xī	see 铁西区
+鐵西區	Tiě xī Qū	Tiexi, a district of Siping City 四平市, Jilin|Tiexi, a district of Shenyang City 沈阳市, Liaoning|Tiexi, a district of Anshan City 鞍山市, Liaoning
+鐵觀音	Tiě guān yīn	Tieguanyin tea (a variety of oolong tea)
+鐵證	tiě zhèng	ironclad evidence|conclusive proof
+鐵證如山	tiě zhèng rú shān	irrefutable evidence
+鐵路	tiě lù	railroad|railway|measure word: 条
+鐵路線	tiě lù xiàn	railway line
+鐵蹄	tiě tí	iron hoof (of the oppressor)
+鐵軌	tiě guǐ	rail|railroad track|measure word: 根
+鐵軍	tiě jūn	invincible army
+鐵通	tiě tōng	(Cantonese) iron pipe (weapon)
+鐵道	tiě dào	railway line|rail track
+鐵道部	Tiě dào bù	Ministry of Railways (MOR), disbanded in 2013 with its regulatory functions taken over by the Ministry of Transport 交通运输部
+鐵達尼號	Tiě dá ní Hào	RMS Titanic, British passenger liner that sank in 1912 (Tw)|PRC equivalent: 泰坦尼克号
+鐵鈎	tiě gōu	iron hook
+鐵鈎兒	tiě gōu r	erhua variant of 铁钩
+鐵鋁土	tiě lǚ tǔ	ferralsol (soil taxonomy)
+鐵鋒	Tiě fēng	see 铁锋区
+鐵鋒區	Tiě fēng Qū	Tiefeng, a district of Qiqihar City 齐齐哈尔市, Heilongjiang
+鐵鍁	tiě xiān	iron shovel|spade|measure word: 把
+鐵鍋	tiě guō	iron cooking pot
+鐵鍬	tiě qiāo	spade|shovel
+鐵鎂質	tiě měi zhì	mafic rock (containing magnesium and iron, so comparatively heavy, making oceanic plates)
+鐵鏈	tiě liàn	iron chain
+鐵鏽	tiě xiù	rust
+鐵鏽帶	Tiě xiù dài	Rust Belt
+鐵青	tiě qīng	livid; ashen (from rage, fear or illness)
+鐵面	tiě miàn	iron mask (as defensive armor)|fig. upright and selfless person
+鐵面無私	tiě miàn wú sī	strictly impartial and incorruptible (idiom)
+鐵飯碗	tiě fàn wǎn	secure employment (lit. iron rice bowl)
+鐵餅	tiě bǐng	(athletics) discus|discus throw
+鐵馬	tiě mǎ	armored horse|cavalry|metal chimes hanging from eaves|steel barricade|(Tw) bike
+鐵騎	tiě qí	armored horses|crack horsemen
+鐵骨錚錚	tiě gǔ zhēng zhēng	(idiom) (of character) staunch; unyielding
+鐵齒	tiě chǐ	(Tw) obstinate; argumentative; opinionated; skeptical of superstitions (from Taiwanese, Tai-lo pr. [thih-khí])
+鐵齒銅牙	tiě chǐ tóng yá	clever and eloquent speaker (idiom)
 鑵	guàn	variant of 罐
 钵	bō	small earthenware plate or basin|a monk's alms bowl|Sanskrit paatra
-钵头	bōtóu	earthen bowl (Shanghainese)
-钵盂	bōyú	alms bowl
+钵头	bō tóu	earthen bowl (Shanghainese)
+钵盂	bō yú	alms bowl
 铵	ǎn	ammonium
 锵	qiāng	tinkling of small bells
 镵	chán	sharp instrument for digging
 闵	mǐn	old variant of 悯
-闵凶	mǐnxiōng	suffering|affliction
-闵科夫斯基	Mǐnkēfūsījī	Minkowski (name)|Hermann Minkowski (1864-1909), German mathematician
-闵行区	MǐnhángQū	Minhang District of Shanghai
+闵凶	mǐn xiōng	suffering|affliction
+闵科夫斯基	Mǐn kē fū sī jī	Minkowski (name)|Hermann Minkowski (1864-1909), German mathematician
+闵行区	Mǐn háng Qū	Minhang District of Shanghai
 阵	zhèn	disposition of troops|wave|spate|burst|spell|short period of time|classifier for events or states of short duration
-阵亡	zhènwáng	to die in battle
-阵亡战士纪念日	zhènwángzhànshìjìniànrì	Memorial Day (American holiday)
-阵亡者	zhènwángzhě	people killed in battle
-阵列	zhènliè	array|(military) formation|(Tw) (computing) array (data structure)
-阵势	zhènshì	battle array|disposition of forces|situation|circumstance
-阵地	zhèndì	(military) position|front
-阵型	zhènxíng	formation (of a sports team, troops etc)
-阵子	zhènzi	period of time
-阵容	zhènróng	troop arrangement|battle formation|lineup (of a sports team etc)
-阵痛	zhèntòng	labor pains|(fig.) distress caused by a disruptive change
-阵痛期	zhèntòngqī	trying times; painful phase
-阵线	zhènxiàn	a front (militant group)|line of battle|alignment (towards a political party etc)
-阵营	zhènyíng	group of people|camp|faction|sides in a dispute
-阵雨	zhènyǔ	shower (rain)
-阵风	zhènfēng	gust
+阵亡	zhèn wáng	to die in battle
+阵亡战士纪念日	zhèn wáng zhàn shì jì niàn rì	Memorial Day (American holiday)
+阵亡者	zhèn wáng zhě	people killed in battle
+阵列	zhèn liè	array|(military) formation|(Tw) (computing) array (data structure)
+阵势	zhèn shì	battle array|disposition of forces|situation|circumstance
+阵地	zhèn dì	(military) position|front
+阵型	zhèn xíng	formation (of a sports team, troops etc)
+阵子	zhèn zi	period of time
+阵容	zhèn róng	troop arrangement|battle formation|lineup (of a sports team etc)
+阵痛	zhèn tòng	labor pains|(fig.) distress caused by a disruptive change
+阵痛期	zhèn tòng qī	trying times; painful phase
+阵线	zhèn xiàn	a front (militant group)|line of battle|alignment (towards a political party etc)
+阵营	zhèn yíng	group of people|camp|faction|sides in a dispute
+阵雨	zhèn yǔ	shower (rain)
+阵风	zhèn fēng	gust
 陵	líng	mound|tomb|hill|mountain
-陵园	língyuán	cemetery|mausoleum park
-陵園	língyuán	cemetery|mausoleum park
-陵城	Língchéng	see 陵城区
-陵城区	LíngchéngQū	Lingcheng, a district of Dezhou City 德州市, Shandong
-陵城區	LíngchéngQū	Lingcheng, a district of Dezhou City 德州市, Shandong
-陵墓	língmù	tomb|mausoleum
-陵夷	língyí	to deteriorate|to decline|to slump|also written 凌夷
-陵寝	língqǐn	tomb (of king or emperor)
-陵寢	língqǐn	tomb (of king or emperor)
-陵川	Língchuān	see 陵川县
-陵川县	LíngchuānXiàn	Lingchuan, a county in Jincheng City 晋城市, Shanxi
-陵川縣	LíngchuānXiàn	Lingchuan, a county in Jincheng City 晋城市, Shanxi
-陵水	Língshuǐ	Lingshui Lizu Autonomous County, Hainan|abbr. for 陵水黎族自治县
-陵水县	Língshuǐxiàn	Lingshui Lizu Autonomous County, Hainan|abbr. for 陵水黎族自治县
-陵水縣	Língshuǐxiàn	Lingshui Lizu Autonomous County, Hainan|abbr. for 陵水黎族自治县
-陵水黎族自治县	LíngshuǐLízúZìzhìxiàn	Lingshui Lizu Autonomous County, Hainan
-陵水黎族自治縣	LíngshuǐLízúZìzhìxiàn	Lingshui Lizu Autonomous County, Hainan
+陵园	líng yuán	cemetery|mausoleum park
+陵園	líng yuán	cemetery|mausoleum park
+陵城	Líng chéng	see 陵城区
+陵城区	Líng chéng Qū	Lingcheng, a district of Dezhou City 德州市, Shandong
+陵城區	Líng chéng Qū	Lingcheng, a district of Dezhou City 德州市, Shandong
+陵墓	líng mù	tomb|mausoleum
+陵夷	líng yí	to deteriorate|to decline|to slump|also written 凌夷
+陵寝	líng qǐn	tomb (of king or emperor)
+陵寢	líng qǐn	tomb (of king or emperor)
+陵川	Líng chuān	see 陵川县
+陵川县	Líng chuān Xiàn	Lingchuan, a county in Jincheng City 晋城市, Shanxi
+陵川縣	Líng chuān Xiàn	Lingchuan, a county in Jincheng City 晋城市, Shanxi
+陵水	Líng shuǐ	Lingshui Lizu Autonomous County, Hainan|abbr. for 陵水黎族自治县
+陵水县	Líng shuǐ xiàn	Lingshui Lizu Autonomous County, Hainan|abbr. for 陵水黎族自治县
+陵水縣	Líng shuǐ xiàn	Lingshui Lizu Autonomous County, Hainan|abbr. for 陵水黎族自治县
+陵水黎族自治县	Líng shuǐ Lí zú Zì zhì xiàn	Lingshui Lizu Autonomous County, Hainan
+陵水黎族自治縣	Líng shuǐ Lí zú Zì zhì xiàn	Lingshui Lizu Autonomous County, Hainan
 鞵	xié	variant of 鞋
 韵	yùn	the final (of a syllable) (Chinese phonology)|rhyme|appeal|charm|(literary) pleasant sound
-韵书	yùnshū	rime dictionary (ancient type of Chinese dictionary that collates characters by tone and rhyme rather than by radical)
-韵事	yùnshì	poetic occasion|elegant situation|in literature, the cue for a poem
-韵人韵事	yùnrényùnshì	a charming man enjoys charming pursuits (idiom)
-韵味	yùnwèi	implicit charm in rhyme or sound|hinted appeal|interest
-韵头	yùntóu	leading vowel of diphthong
-韵尾	yùnwěi	(phonology) coda, the part of a syllable that follows its vocalic nucleus (e.g. "u" in kòu or "n" in běn)
-韵律	yùnlǜ	cadence|rhythm|rhyme scheme|meter (in verse)|(linguistics) prosody
-韵文	yùnwén	verse (as opposed to prose 散文)
-韵母	yùnmǔ	the final of a Chinese syllable (the component of a syllable remaining after removal of the initial consonant, if any, and the tone, e.g. the final of "niáng" is "iang")
-韵白	yùnbái	form of rhymed baihua 白话 in Beijing opera
-韵目	yùnmù	rhyme entry|subdivision of a rhyming dictionary (containing all words with the given rhyme)
-韵脚	yùnjiǎo	rhyming word ending a line of verse|rhyme
-韵腹	yùnfù	main vowel in diphthong
-韵致	yùnzhì	grace|natural charm
-韵诗	yùnshī	rhyming verse
-韵语	yùnyǔ	rhymed language
-韵调	yùndiào	rhyme and tone|intonation
+韵书	yùn shū	rime dictionary (ancient type of Chinese dictionary that collates characters by tone and rhyme rather than by radical)
+韵事	yùn shì	poetic occasion|elegant situation|in literature, the cue for a poem
+韵人韵事	yùn rén yùn shì	a charming man enjoys charming pursuits (idiom)
+韵味	yùn wèi	implicit charm in rhyme or sound|hinted appeal|interest
+韵头	yùn tóu	leading vowel of diphthong
+韵尾	yùn wěi	(phonology) coda, the part of a syllable that follows its vocalic nucleus (e.g. "u" in kòu or "n" in běn)
+韵律	yùn lǜ	cadence|rhythm|rhyme scheme|meter (in verse)|(linguistics) prosody
+韵文	yùn wén	verse (as opposed to prose 散文)
+韵母	yùn mǔ	the final of a Chinese syllable (the component of a syllable remaining after removal of the initial consonant, if any, and the tone, e.g. the final of "niáng" is "iang")
+韵白	yùn bái	form of rhymed baihua 白话 in Beijing opera
+韵目	yùn mù	rhyme entry|subdivision of a rhyming dictionary (containing all words with the given rhyme)
+韵脚	yùn jiǎo	rhyming word ending a line of verse|rhyme
+韵腹	yùn fù	main vowel in diphthong
+韵致	yùn zhì	grace|natural charm
+韵诗	yùn shī	rhyming verse
+韵语	yùn yǔ	rhymed language
+韵调	yùn diào	rhyme and tone|intonation
 页	xié	head
 页	yè	page|leaf
-页岩	yèyán	shale
-页岩气	yèyánqì	shale gas
-页岩油	yèyányóu	shale oil
-页底	yèdǐ	the bottom of the page
-页心	yèxīn	type page
-页框	yèkuàng	frame (computing)
-页码	yèmǎ	page number
-页签	yèqiān	(computing) tab (GUI element)
-页蒿	yèhāo	caraway
-页边	yèbiān	(page) margin
-页面	yèmiàn	page|web page
-页首	yèshǒu	the top of the page|(word processing) page header
+页岩	yè yán	shale
+页岩气	yè yán qì	shale gas
+页岩油	yè yán yóu	shale oil
+页底	yè dǐ	the bottom of the page
+页心	yè xīn	type page
+页框	yè kuàng	frame (computing)
+页码	yè mǎ	page number
+页签	yè qiān	(computing) tab (GUI element)
+页蒿	yè hāo	caraway
+页边	yè biān	(page) margin
+页面	yè miàn	page|web page
+页首	yè shǒu	the top of the page|(word processing) page header
 餵	wèi	to feed
-餵哺	wèibǔ	to feed (a baby)
-餵奶	wèinǎi	to breast-feed
-餵料	wèiliào	to feed (also fig.)
-餵母乳	wèimǔrǔ	breastfeeding
-餵食	wèishí	to feed
-餵養	wèiyǎng	to feed (a child, domestic animal etc)|to keep|to raise (an animal)
+餵哺	wèi bǔ	to feed (a baby)
+餵奶	wèi nǎi	to breast-feed
+餵料	wèi liào	to feed (also fig.)
+餵母乳	wèi mǔ rǔ	breastfeeding
+餵食	wèi shí	to feed
+餵養	wèi yǎng	to feed (a child, domestic animal etc)|to keep|to raise (an animal)
 饵	ěr	pastry|food|to swallow|to lure|bait|lure
-饵丝	ěrsī	a kind of rice-flour noodles from Yunnan province
-饵子	ěrzi	fish bait
-饵敌	ěrdí	to lure the enemy|to trap
-饵线	ěrxiàn	tippet (in fly-fishing)
-饵诱	ěryòu	to lure|to entice
-饵雷	ěrléi	baited trap|booby-trap
+饵丝	ěr sī	a kind of rice-flour noodles from Yunnan province
+饵子	ěr zi	fish bait
+饵敌	ěr dí	to lure the enemy|to trap
+饵线	ěr xiàn	tippet (in fly-fishing)
+饵诱	ěr yòu	to lure|to entice
+饵雷	ěr léi	baited trap|booby-trap
 馵	zhù	(horse)
 駵	liú	old variant of 骝
 騵	yuán	chestnut horse with white belly
@@ -1966,62 +1966,62 @@
 鵵	tù	Scops semitorques
 鶵	chú	variant of 雏
 鸵	tuó	ostrich
-鸵鸟	tuóniǎo	ostrich
-鸵鸟政策	tuóniǎozhèngcè	ostrich policy (sticking one's head in the sand, failing to acknowledge danger)
+鸵鸟	tuó niǎo	ostrich
+鸵鸟政策	tuó niǎo zhèng cè	ostrich policy (sticking one's head in the sand, failing to acknowledge danger)
 鹵	lǔ	alkaline soil|salt|brine|halogen (chemistry)|crass|stupid
-鹵代烴	lǔdàitīng	haloalkane (obtained from hydrocarbon by substituting halogen for hydrogen, e.g. chlorobenzene or the CFCs)
-鹵化	lǔhuà	to halogenate|halogenation (chemistry)
-鹵化物	lǔhuàwù	halide (i.e. fluoride, chloride, bromide etc)
-鹵化銀	lǔhuàyín	silver halide (usually chloride) used to fix photos
-鹵味	lǔwèi	variant of 卤味
-鹵屬	lǔshǔ	see 卤素
-鹵族	lǔzú	see 卤素
-鹵水	lǔshuǐ	brine|bittern|marinade
-鹵素	lǔsù	halogen (chemistry)
-鹵素燈	lǔsùdēng	halogen lamp
-鹵莽	lǔmǎng	variant of 鲁莽
-鹵質	lǔzhì	alkalinity
+鹵代烴	lǔ dài tīng	haloalkane (obtained from hydrocarbon by substituting halogen for hydrogen, e.g. chlorobenzene or the CFCs)
+鹵化	lǔ huà	to halogenate|halogenation (chemistry)
+鹵化物	lǔ huà wù	halide (i.e. fluoride, chloride, bromide etc)
+鹵化銀	lǔ huà yín	silver halide (usually chloride) used to fix photos
+鹵味	lǔ wèi	variant of 卤味
+鹵屬	lǔ shǔ	see 卤素
+鹵族	lǔ zú	see 卤素
+鹵水	lǔ shuǐ	brine|bittern|marinade
+鹵素	lǔ sù	halogen (chemistry)
+鹵素燈	lǔ sù dēng	halogen lamp
+鹵莽	lǔ mǎng	variant of 鲁莽
+鹵質	lǔ zhì	alkalinity
 麵	miàn	flour|noodles|(of food) soft (not crunchy)|(slang) (of a person) ineffectual|spineless
-麵人兒	miànrénr	dough figurine
-麵包	miànbāo	bread|measure word: 片, 块
-麵包屑	miànbāoxiè	breadcrumbs
-麵包師傅	miànbāoshīfù	baker
-麵包店	miànbāodiàn	bakery|measure word: 家
-麵包心	miànbāoxīn	crumb (soft interior of a loaf of bread)
-麵包房	miànbāofáng	bakery|measure word: 家
-麵包果	miànbāoguǒ	jackfruit|breadfruit|Artocarpus heterophyllus
-麵包樹	miànbāoshù	breadfruit tree|Artocarpus altilis
-麵包機	miànbāojī	bread making machine; bread maker
-麵包渣	miànbāozhā	breadcrumbs
-麵包片	miànbāopiàn	slice of bread
-麵包瓤	miànbāoráng	crumb (soft interior of a loaf of bread)
-麵包皮	miànbāopí	crust
-麵包糠	miànbāokāng	breadcrumbs
-麵包蟲	miànbāochóng	mealworm (Tenebrio molitor)
-麵包車	miànbāochē	van for carrying people|taxi minibus
-麵團	miàntuán	dough
-麵塑	miànsù	(figurines) made of dough|dough modeling
-麵子	miànzi	(medicinal) powder
-麵板	miànbǎn	board for making noodles or kneading bread dough
-麵條	miàntiáo	noodles
-麵條兒	miàntiáor	erhua variant of 面条
-麵檔	miàndàng	noodle stall or counter
-麵湯	miàntāng	noodle soup|noodles in soup|noodle broth
-麵疙瘩	miàngēda	dough dumpling
-麵的	miàndī	abbr. of 面包车的士|minivan taxi
-麵皮	miànpí	dumpling skin|piecrust
-麵種	miànzhǒng	(breadmaking) starter
-麵窩	miànwō	Chinese doughnut
-麵筋	miànjīn	gluten
-麵粉	miànfěn	flour
-麵糊	miànhu	(of food) starchy and soft
-麵糊	miànhù	panada; cooked flour paste|flour paste (used in crafts); batter (used in cooking)|Taiwan pr. miànhú
-麵線	miànxiàn	misua; wheat vermicelli (very thin variety of wheat noodles used esp. in Fujian)
-麵肥	miànféi	leaven|sourdough
-麵類	miànlèi	noodle dishes (on menu)
-麵食	miànshí	food made from wheat flour, such as noodles, dumplings, buns etc
-麵餅	miànbǐng	flatbread
-麵館	miànguǎn	noodle restaurant
-麵體	miàntǐ	noodles
-麵點	miàndiǎn	pastry
+麵人兒	miàn rén r	dough figurine
+麵包	miàn bāo	bread|measure word: 片, 块
+麵包屑	miàn bāo xiè	breadcrumbs
+麵包師傅	miàn bāo shī fù	baker
+麵包店	miàn bāo diàn	bakery|measure word: 家
+麵包心	miàn bāo xīn	crumb (soft interior of a loaf of bread)
+麵包房	miàn bāo fáng	bakery|measure word: 家
+麵包果	miàn bāo guǒ	jackfruit|breadfruit|Artocarpus heterophyllus
+麵包樹	miàn bāo shù	breadfruit tree|Artocarpus altilis
+麵包機	miàn bāo jī	bread making machine; bread maker
+麵包渣	miàn bāo zhā	breadcrumbs
+麵包片	miàn bāo piàn	slice of bread
+麵包瓤	miàn bāo ráng	crumb (soft interior of a loaf of bread)
+麵包皮	miàn bāo pí	crust
+麵包糠	miàn bāo kāng	breadcrumbs
+麵包蟲	miàn bāo chóng	mealworm (Tenebrio molitor)
+麵包車	miàn bāo chē	van for carrying people|taxi minibus
+麵團	miàn tuán	dough
+麵塑	miàn sù	(figurines) made of dough|dough modeling
+麵子	miàn zi	(medicinal) powder
+麵板	miàn bǎn	board for making noodles or kneading bread dough
+麵條	miàn tiáo	noodles
+麵條兒	miàn tiáo r	erhua variant of 面条
+麵檔	miàn dàng	noodle stall or counter
+麵湯	miàn tāng	noodle soup|noodles in soup|noodle broth
+麵疙瘩	miàn gē da	dough dumpling
+麵的	miàn dī	abbr. of 面包车的士|minivan taxi
+麵皮	miàn pí	dumpling skin|piecrust
+麵種	miàn zhǒng	(breadmaking) starter
+麵窩	miàn wō	Chinese doughnut
+麵筋	miàn jīn	gluten
+麵粉	miàn fěn	flour
+麵糊	miàn hu	(of food) starchy and soft
+麵糊	miàn hù	panada; cooked flour paste|flour paste (used in crafts); batter (used in cooking)|Taiwan pr. miàn hú
+麵線	miàn xiàn	misua; wheat vermicelli (very thin variety of wheat noodles used esp. in Fujian)
+麵肥	miàn féi	leaven|sourdough
+麵類	miàn lèi	noodle dishes (on menu)
+麵食	miàn shí	food made from wheat flour, such as noodles, dumplings, buns etc
+麵餅	miàn bǐng	flatbread
+麵館	miàn guǎn	noodle restaurant
+麵體	miàn tǐ	noodles
+麵點	miàn diǎn	pastry
 齵	yú	used in 𱌶𱌹

@@ -192,6 +192,16 @@ describe('analyseText with the word list', () => {
     expect(sentencePinyin('一本书')).toBe('yì běn shū')
   })
 
+  it('uses picked readings, over the AI and the tones of 不', () => {
+    const { pinyin } = analyseText(
+      '我不去\n不是',
+      fullLexicon,
+      { 不是: { 0: 'bù' } },
+      { 不是: { 0: 'bú', 1: 'shi' }, 我不去: { 1: 'bù' } },
+    )
+    expect(pinyin).toEqual(['wǒ', 'bù', 'qù', '', 'bú', 'shi'])
+  })
+
   it('keeps the tone of 一 when counting or ordering', () => {
     expect(sentencePinyin('第一次，星期一下午，一月，十一个，统一了')).toBe(
       'dìyī cì xīngqī yī xiàwǔ yī yuè shí yī gè tǒngyī le',
@@ -218,6 +228,10 @@ describe('analyseText with CC-CEDICT words', () => {
     expect(sentencePinyin('孩子觉得很有意思，喜欢爸爸。')).toBe(
       'háizi juéde hěn yǒuyìsi xǐhuan bàba',
     )
+  })
+
+  it('reads 洩露 like 泄露', () => {
+    expect(sentencePinyin('洩露天機')).toBe('xièlòu tiānjī')
   })
 
   it("changes 一 before a neutral tone by the next character's own tone", () => {

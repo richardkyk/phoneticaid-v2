@@ -4822,7 +4822,6 @@
 乱写	luàn xiě
 乱动	luàn dòng
 乱叫	luàn jiào
-乱吃	luàn chī
 乱咕攘	luàn gū rang
 乱哄哄	luàn hōng hōng
 乱套	luàn tào
@@ -5012,7 +5011,6 @@
 亂倫	luàn lún
 亂動	luàn dòng
 亂叫	luàn jiào
-亂吃	luàn chī
 亂咕攘	luàn gū rang
 亂哄哄	luàn hōng hōng
 亂套	luàn tào
@@ -21857,6 +21855,7 @@
 叫声	jiào shēng
 叫屈	jiào qū
 叫床	jiào chuáng
+叫座	jiào zuò
 叫早	jiào zǎo
 叫春	jiào chūn
 叫法	jiào fǎ
@@ -76938,6 +76937,8 @@
 甜得发腻	tián de fā nì
 甜得發膩	tián de fā nì
 甜心	tián xīn
+甜杆	tián gǎn
+甜桿	tián gǎn
 甜椒	tián jiāo
 甜橙	tián chéng
 甜津津	tián jīn jīn
@@ -76948,6 +76949,8 @@
 甜瓜	tián guā
 甜甜圈	tián tián quān
 甜睡	tián shuì
+甜秆	tián gǎn
+甜稈	tián gǎn
 甜稚	tián zhì
 甜筒	tián tǒng
 甜腻	tián nì

@@ -5,7 +5,7 @@ import { create } from 'zustand'
 // character so a card only fetches a small part of it.
 
 export interface Reading {
-  // run together, e.g. dōngxi
+  // one syllable per character, e.g. dōng xi
   pinyin: string
   meanings: Array<string>
 }
@@ -17,6 +17,10 @@ const SHARDS = 64
 
 // which part of the dictionary has a word
 export const shardOf = (word: string) => (word.codePointAt(0) ?? 0) % SHARDS
+
+// How CC-CEDICT writes a word: it only has 泄露 and the like with 泄, even
+// in traditional
+export const dictionaryForm = (word: string) => word.replaceAll('洩', '泄')
 
 // lines of `word<TAB>pinyin<TAB>meanings`, the meanings separated by `|`
 export function parseDictionary(text: string): Dictionary {
@@ -31,27 +35,68 @@ export function parseDictionary(text: string): Dictionary {
   return dictionary
 }
 
-// The readings of a word, the one it has in the text (e.g. 还 hái rather than
-// huán) first
+// The readings of a word, the one it has in the text (`pinyin`, one syllable
+// per character, e.g. 还 hái rather than huán) first
 export function lookUp(
   dictionary: Dictionary,
   word: string,
   pinyin: string,
 ): Array<Reading> {
   const readings = dictionary.get(word) ?? []
-  // 一 and 不 are written as they're said in the text (see words.ts)
-  const plain = (s: string) =>
-    s
-      .normalize('NFD')
-      .replace(/[̀-ͯ]/g, '')
-      .toLowerCase()
   const rank = (reading: Reading) =>
     reading.pinyin === pinyin
       ? 0
-      : plain(reading.pinyin) === plain(pinyin)
+      : plainPinyin(reading.pinyin) === plainPinyin(pinyin)
         ? 1
         : 2
   return [...readings].sort((a, b) => rank(a) - rank(b))
+}
+
+// pinyin without its tones, as 一 and 不 are written as they're said in the
+// text (see words.ts)
+export const plainPinyin = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+
+export interface ReadingOption {
+  // one per character
+  syllables: Array<string>
+  // e.g. "also said" for 泄露 xiè lù, beside its usual xiè lòu
+  note?: string
+}
+
+// The ways a word can be read: its readings, then the other pronunciations
+// their meanings mention (also pr. xiè lù, Taiwan pr. jí)
+export function readingOptions(
+  readings: Array<Reading>,
+  length: number,
+): Array<ReadingOption> {
+  const options: Array<ReadingOption> = []
+  const add = (pinyin: string, note?: string) => {
+    const syllables = pinyin.split(' ')
+    if (
+      syllables.length === length &&
+      syllables.every((s) => /^\p{L}+$/u.test(s)) &&
+      !options.some((o) => o.syllables.join(' ') === pinyin)
+    ) {
+      options.push({ syllables, note })
+    }
+  }
+  for (const reading of readings) add(reading.pinyin)
+  for (const reading of readings) {
+    for (const meaning of reading.meanings) {
+      for (const match of meaning.matchAll(
+        /\b(also|Taiwan) pr\. (\p{L}+(?: \p{L}+)*)/gu,
+      )) {
+        // the words after the pinyin aren't part of it
+        const pinyin = match[2].split(' ').slice(0, length).join(' ')
+        add(pinyin, match[1] === 'also' ? 'also said' : 'in Taiwan')
+      }
+    }
+  }
+  return options
 }
 
 interface DictionaryState {

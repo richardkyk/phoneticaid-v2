@@ -26,6 +26,8 @@ export interface Project {
   doc: DocumentState
   // readings chosen with AI (see readings.ts)
   readings?: ChosenReadings
+  // readings picked on the dictionary card, which win over the others
+  pickedReadings?: ChosenReadings
   lastUpdated: number
 }
 
@@ -112,6 +114,7 @@ export const useProjectsStore = create<MultiProjectState>()(
           pt: blankPieceTable(getText(project.pt)),
           doc: structuredClone(project.doc),
           readings: structuredClone(project.readings),
+          pickedReadings: structuredClone(project.pickedReadings),
           lastUpdated: Date.now(),
         }
         set({

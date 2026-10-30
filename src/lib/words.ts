@@ -30,9 +30,10 @@ export interface TextAnalysis {
 
 export type PinyinMode = 'all' | 'unknown' | 'none'
 
-// Readings chosen with AI (see readings.ts): per paragraph text, the pinyin
-// by offset in the paragraph. A paragraph that's been checked has an entry,
-// even with nothing chosen.
+// Readings chosen with AI (see readings.ts), or picked on the dictionary
+// card: per paragraph text, the pinyin by offset in the paragraph. A
+// paragraph that's been checked with AI has an entry, even with nothing
+// chosen.
 export type ChosenReadings = Record<string, Record<number, string>>
 
 const hasHan = (s: string) => /[一-鿿]/.test(s)
@@ -137,6 +138,7 @@ function analyseParagraph(
   text: string,
   lexicon: Lexicon | undefined,
   chosen: Record<number, string> | undefined,
+  picked: Record<number, string> | undefined,
 ): ParagraphAnalysis {
   // one entry per UTF-16 unit, like the cells (the placeholder is two)
   const pinyin: Array<string> = new Array(text.length).fill('')
@@ -160,10 +162,16 @@ function analyseParagraph(
       pinyin[i] = syllables?.[i - start] ?? lexicon.pinyin.get(text[i]) ?? ''
     }
   }
-  for (const [offset, syllable] of Object.entries(chosen ?? {})) {
-    pinyin[Number(offset)] = syllable
+  const choose = (readings: Record<number, string> | undefined) => {
+    for (const [offset, syllable] of Object.entries(readings ?? {})) {
+      pinyin[Number(offset)] = syllable
+    }
   }
+  choose(chosen)
+  choose(picked)
   applyToneSandhi(text, pinyin, words, lexicon)
+  // a picked 不 stays as it was picked
+  choose(picked)
   return { pinyin, words }
 }
 
@@ -177,16 +185,20 @@ function cachedParagraph(
   text: string,
   lexicon: Lexicon | undefined,
   chosen: Record<number, string> | undefined,
+  picked: Record<number, string> | undefined,
 ) {
   if (lexicon !== cachedLexicon) {
     paragraphCache = new Map()
     cachedLexicon = lexicon
   }
-  const key = chosen ? `${text}\u0000${JSON.stringify(chosen)}` : text
+  const key =
+    chosen || picked
+      ? `${text}\u0000${JSON.stringify(chosen)}\u0000${JSON.stringify(picked)}`
+      : text
   let analysis = paragraphCache.get(key)
   if (!analysis) {
     if (paragraphCache.size >= MAX_CACHED_PARAGRAPHS) paragraphCache.clear()
-    analysis = analyseParagraph(text, lexicon, chosen)
+    analysis = analyseParagraph(text, lexicon, chosen, picked)
     paragraphCache.set(key, analysis)
   }
   return analysis
@@ -196,6 +208,7 @@ export function analyseText(
   text: string,
   lexicon?: Lexicon,
   chosen?: ChosenReadings,
+  picked?: ChosenReadings,
 ): TextAnalysis {
   const py: Array<string> = new Array(text.length).fill('')
   const words: Array<Word> = []
@@ -203,7 +216,12 @@ export function analyseText(
 
   let offset = 0
   for (const paragraph of text.split('\n')) {
-    const analysis = cachedParagraph(paragraph, lexicon, chosen?.[paragraph])
+    const analysis = cachedParagraph(
+      paragraph,
+      lexicon,
+      chosen?.[paragraph],
+      picked?.[paragraph],
+    )
     for (let i = 0; i < paragraph.length; i++) {
       py[offset + i] = analysis.pinyin[i]
     }
@@ -226,6 +244,7 @@ let cache: {
   pt: PieceTable
   lexicon: Lexicon | undefined
   chosen: ChosenReadings | undefined
+  picked: ChosenReadings | undefined
   analysis: TextAnalysis
 } | null = null
 
@@ -234,17 +253,19 @@ export function getAnalysis(
   pt: PieceTable,
   lexicon: Lexicon | undefined,
   chosen?: ChosenReadings,
+  picked?: ChosenReadings,
 ): TextAnalysis {
   if (
     cache &&
     cache.pt === pt &&
     cache.lexicon === lexicon &&
-    cache.chosen === chosen
+    cache.chosen === chosen &&
+    cache.picked === picked
   ) {
     return cache.analysis
   }
-  const analysis = analyseText(getText(pt), lexicon, chosen)
-  cache = { pt, lexicon, chosen, analysis }
+  const analysis = analyseText(getText(pt), lexicon, chosen, picked)
+  cache = { pt, lexicon, chosen, picked, analysis }
   return analysis
 }
 

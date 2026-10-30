@@ -115,3 +115,42 @@ export const useReadingsStore = create<ReadingsState>()((set, get) => ({
     }
   },
 }))
+
+// Picks the reading of the word from `start` to `end` in the active project,
+// one syllable per character, or goes back to the usual one with null. Kept
+// by paragraph like the AI's, so it's lost if the paragraph is edited.
+export function pickReading(
+  start: number,
+  end: number,
+  syllables: Array<string> | null,
+) {
+  const { projects, activeId } = useProjectsStore.getState()
+  useProjectsStore.setState({
+    projects: projects.map((project) => {
+      if (project.id !== activeId) return project
+      const text = getText(project.pt)
+      const paragraphStart = text.lastIndexOf('\n', start - 1) + 1
+      const paragraphEnd = text.indexOf('\n', start)
+      const paragraph = text.slice(
+        paragraphStart,
+        paragraphEnd === -1 ? text.length : paragraphEnd,
+      )
+      const picked = { ...project.pickedReadings?.[paragraph] }
+      for (let i = start; i < end; i++) {
+        const offset = i - paragraphStart
+        if (syllables) picked[offset] = syllables[i - start]
+        else delete picked[offset]
+      }
+      const paragraphs = new Set(text.split('\n'))
+      const pickedReadings = Object.fromEntries(
+        Object.entries({
+          ...project.pickedReadings,
+          [paragraph]: picked,
+        }).filter(
+          ([p, readings]) => paragraphs.has(p) && Object.keys(readings).length,
+        ),
+      )
+      return { ...project, pickedReadings }
+    }),
+  })
+}
