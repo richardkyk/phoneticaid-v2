@@ -12,6 +12,7 @@ import { getAnalysis } from '@/lib/words'
 import { useLexiconStore } from '@/lib/hsk'
 import { usePeekKey } from './reading-aids'
 import { TranslationPopover } from './translation-popover'
+import { DictionaryCard } from './dictionary-card'
 import { getDisplayText, useScriptStore } from '@/lib/script'
 
 // pages rendered either side of the ones in view
@@ -115,6 +116,7 @@ export const Document = () => {
         layout={layout}
         analysis={analysis}
       />
+      <DictionaryCard document={document} layout={layout} analysis={analysis} />
       <ZoomControls />
     </div>
   )

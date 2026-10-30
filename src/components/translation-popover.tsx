@@ -1,20 +1,17 @@
 import { useEffect } from 'react'
 import { Loader, XIcon } from 'lucide-react'
-import { useCameraStore, pageTop } from '@/lib/stores/camera-store'
+import { useCameraStore } from '@/lib/stores/camera-store'
 import { useCursorStore } from '@/lib/stores/cursor-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import type { DocumentStore } from '@/lib/stores/document-store'
-import { positionToGrid } from '@/lib/layout'
 import type { Layout } from '@/lib/layout'
-import { wordRect } from '@/lib/geometry'
+import { popoverStyle } from '@/lib/popover'
 import { rangePinyin } from '@/lib/words'
 import type { TextAnalysis } from '@/lib/words'
 import { toDisplayScript } from '@/lib/script'
 import { providerLabel } from '@/lib/translate/providers'
 import { Button } from './ui/button'
 
-// space between the selection and the popover, and the viewport's edges
-const GAP = 8
 const WIDTH = 320
 
 interface TranslationPopoverProps {
@@ -60,44 +57,16 @@ export function TranslationPopover(props: TranslationPopoverProps) {
     return null
   }
 
-  // the last selected character, and its pinyin, in viewport px
-  const { row, col } = positionToGrid(layout, {
-    index: translation.end,
-    virtual: 0,
-    affinity: 'upstream',
-  })
-  const linesPerPage = document.linesPerPage()
-  const pageIndex = Math.floor(row / linesPerPage)
-  const rect = wordRect(
+  // beside the last selected character
+  const style = popoverStyle(
     document,
-    row - pageIndex * linesPerPage,
-    Math.max(col - 1, 0),
-    Math.max(col - 1, 0),
+    layout,
+    camera,
+    translation.end - 1,
+    WIDTH,
   )
-  const worldTop =
-    pageTop(pageIndex, document.pageHeight() * document.mmY) +
-    rect.y * document.mmY
-  const left = rect.x * document.mmX * camera.zoom + camera.x
-  const top = worldTop * camera.zoom + camera.y
-  const bottom = top + rect.height * document.mmY * camera.zoom
-  const viewport = camera.viewport
-
   // the selection has been panned out of view
-  if (bottom < 0 || top > viewport.height) return null
-
-  // below the text, unless it's in the lower half of the view
-  const above = bottom > viewport.height / 2
-  const style: React.CSSProperties = {
-    width: WIDTH,
-    left: Math.min(
-      Math.max(left, GAP),
-      Math.max(viewport.width - WIDTH - GAP, GAP),
-    ),
-    maxHeight: (above ? top : viewport.height - bottom) - GAP * 2,
-    ...(above
-      ? { bottom: viewport.height - top + GAP }
-      : { top: bottom + GAP }),
-  }
+  if (!style) return null
 
   const pinyin = rangePinyin(analysis, translation.start, translation.end)
 

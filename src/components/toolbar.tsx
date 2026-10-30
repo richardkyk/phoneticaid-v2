@@ -1,6 +1,7 @@
 import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Button } from './ui/button'
 import {
+  BookOpenIcon,
   BugIcon,
   ChevronDownIcon,
   InfoIcon,
@@ -32,6 +33,7 @@ import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import { Switch } from './ui/switch'
+import { useUiStore } from '@/lib/stores/ui-store'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import {
   DropdownMenu,
@@ -409,6 +411,29 @@ function TranslateButton(props: TranslateProps) {
   )
 }
 
+interface DictionaryProps {
+  className?: string
+}
+// Turns the card with the meanings of the hovered (or tapped) word on and off
+function DictionaryButton(props: DictionaryProps) {
+  const { dictionary, toggleDictionary } = useUiStore()
+  return (
+    <Button
+      className={cn(
+        props.className,
+        'shadow-none',
+        !dictionary && 'border-transparent',
+      )}
+      onClick={() => toggleDictionary()}
+      size="icon-sm"
+      variant={dictionary ? 'default' : 'ghost'}
+      title="Dictionary: meanings of the word under the pointer"
+    >
+      <BookOpenIcon className="size-4" />
+    </Button>
+  )
+}
+
 interface DebugProps {
   className?: string
 }
@@ -453,6 +478,7 @@ export function DocumentToolbar() {
       </Button>
       <PrintButton />
       <TranslateButton />
+      <DictionaryButton />
       <DebugButton />
     </div>
   )

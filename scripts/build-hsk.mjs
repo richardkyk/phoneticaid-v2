@@ -9,6 +9,12 @@
 // and for characters that aren't HSK words. Traditional forms are included
 // so traditional text is matched too.
 //
+// Alongside it, meanings.tsv has the English meanings of each word, for the
+// dictionary card: one line per reading, `word<TAB>pinyin<TAB>meanings`, the
+// pinyin run together (dōngxi) and the meanings separated by `|`. A
+// traditional word with the same readings as its simplified one has a single
+// `word<TAB>=simplified` line instead.
+//
 // Usage: node scripts/build-hsk.mjs (needs `unzip`)
 
 import { execFileSync } from 'node:child_process'
@@ -44,6 +50,24 @@ const add = (word, syls, level) => {
   if (!existing.syls && syls) existing.syls = syls
 }
 
+function isName(form) {
+  return /^[A-ZÀ-Ü]/.test(form.i.y)
+}
+
+// word -> pinyin -> meanings
+const meanings = new Map()
+// traditional word -> simplified
+const simplified = new Map()
+function addMeanings(word, pinyin, list) {
+  if (!meanings.has(word)) meanings.set(word, new Map())
+  const readings = meanings.get(word)
+  const existing = readings.get(pinyin) ?? []
+  // a traditional form's "variant of 个" says nothing about 个 itself
+  const own = list.filter((meaning) => !meaning.includes(`variant of ${word}`))
+  if (!own.length) return
+  readings.set(pinyin, [...new Set([...existing, ...own])])
+}
+
 for (const entry of entries) {
   const levels = entry.l
     .filter((tag) => tag.startsWith('n'))
@@ -59,6 +83,21 @@ for (const entry of entries) {
     .sort((a, b) => neutral(b) - neutral(a))[0]
   add(entry.s, best, level)
   for (const form of entry.f) add(form.t, best, level)
+
+  // surnames (Huán) are left out, unless the word has no other reading
+  const forms = entry.f.some((form) => !isName(form))
+    ? entry.f.filter((form) => !isName(form))
+    : entry.f
+  for (const form of forms) {
+    if (!form.m?.length) continue
+    const pinyin = form.i.y.replace(/u:/g, 'ü').replace(/\s+/g, '')
+    // the simplified word has every form's readings, a traditional one only
+    // its own (发 fā and fà, but 發 fā and 髮 fà)
+    for (const word of new Set([entry.s, form.t])) {
+      addMeanings(word, pinyin, form.m)
+    }
+    if (form.t !== entry.s) simplified.set(form.t, entry.s)
+  }
 }
 
 // The reading of a character on its own. The dataset's are no good for this
@@ -107,3 +146,23 @@ const lines = [...words]
 await mkdir('public/hsk', { recursive: true })
 await writeFile('public/hsk/words.tsv', lines.join('\n') + '\n')
 console.log(`public/hsk/words.tsv: ${words.size} words`)
+
+const readingLines = (word) =>
+  [...meanings.get(word)].map(([pinyin, list]) =>
+    [word, pinyin, list.join('|')].join('\t'),
+  )
+const meaningLines = [...meanings.keys()]
+  .sort((a, b) => (a < b ? -1 : 1))
+  .flatMap((word) => {
+    const lines = readingLines(word)
+    const alias = simplified.get(word)
+    // the same readings as the simplified word
+    const same =
+      alias &&
+      meanings.has(alias) &&
+      lines.join('\n') ===
+        readingLines(alias).join('\n').replaceAll(`${alias}\t`, `${word}\t`)
+    return same ? [`${word}\t=${alias}`] : lines
+  })
+await writeFile('public/hsk/meanings.tsv', meaningLines.join('\n') + '\n')
+console.log(`public/hsk/meanings.tsv: ${meanings.size} words`)
