@@ -45,6 +45,11 @@ interface TranslateState {
   loadAvailableProviders: () => Promise<void>
 }
 
+// crypto.randomUUID only exists on secure (https or localhost) pages, and
+// the dev server is opened over http from phones on the network
+const newId = () =>
+  `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+
 const activeProjectId = () => useProjectsStore.getState().activeId
 
 export const useTranslateStore = create<TranslateState>()(
@@ -116,7 +121,7 @@ export const useTranslateStore = create<TranslateState>()(
           currentAbortController = abortController
 
           const projectId = activeProjectId()
-          const id = crypto.randomUUID()
+          const id = newId()
           setProjectHistory(projectId, [
             ...projectHistory(projectId),
             {

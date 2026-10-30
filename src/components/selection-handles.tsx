@@ -120,7 +120,7 @@ function Handle(props: HandleProps) {
   return (
     <>
       <div
-        className="pointer-events-none absolute z-10 bg-amber-500 print:hidden"
+        className="pointer-events-none absolute z-10 bg-[#007aff] print:hidden"
         style={
           vertical
             ? {
@@ -151,7 +151,7 @@ function Handle(props: HandleProps) {
         onPointerCancel={handlePointerUp}
       >
         <div
-          className="rounded-full bg-amber-500 shadow"
+          className="rounded-full bg-[#007aff] shadow"
           style={{ width: KNOB, height: KNOB }}
         />
       </div>

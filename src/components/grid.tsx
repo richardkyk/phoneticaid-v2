@@ -241,7 +241,7 @@ export const Highlight = (props: HighlightProps) => {
       {spans.map((span) => (
         <div
           key={`${span.row}-${span.startCol}-${span.endCol}`}
-          className="absolute bg-yellow-200 opacity-40 pointer-events-none print:hidden"
+          className="absolute bg-[#007aff]/20 pointer-events-none print:hidden"
           style={rectStyle(
             spanRect(
               document,
