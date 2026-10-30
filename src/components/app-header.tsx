@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { DocumentToolbar } from './toolbar'
 import { cn } from '@/lib/utils'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export function AppHeader() {
   return (
@@ -110,15 +111,22 @@ function ProjectSwitcher() {
 }
 
 function SettingsToggle() {
-  const settingsOpen = useUiStore((state) => state.settingsOpen)
-  const toggleSettings = useUiStore((state) => state.toggleSettings)
+  const narrow = useIsMobile()
+  const open = useUiStore((state) =>
+    narrow ? state.settingsDrawerOpen : state.settingsOpen,
+  )
+  const toggle = () => {
+    const ui = useUiStore.getState()
+    if (narrow) ui.setSettingsDrawerOpen(!ui.settingsDrawerOpen)
+    else ui.toggleSettings()
+  }
 
   return (
     <Button
-      variant={settingsOpen ? 'secondary' : 'ghost'}
+      variant={open ? 'secondary' : 'ghost'}
       size="icon-sm"
-      onClick={toggleSettings}
-      title={settingsOpen ? 'Hide settings' : 'Show settings'}
+      onClick={toggle}
+      title={open ? 'Hide settings' : 'Show settings'}
       className={cn('shadow-none')}
     >
       <PanelRightIcon />

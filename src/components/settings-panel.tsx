@@ -1,6 +1,7 @@
 import { useUiStore } from '@/lib/stores/ui-store'
 import type { PanelTab } from '@/lib/stores/ui-store'
 import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
 import {
   LayoutToolbar,
   PinyinToolbar,
@@ -16,12 +17,17 @@ const tabs: Array<{ value: PanelTab; label: string }> = [
 
 // Settings and translations for the active project, shown to the right of
 // the canvas
-export function SettingsPanel() {
+export function SettingsPanel(props: { className?: string }) {
   const tab = useUiStore((state) => state.panelTab)
   const setTab = useUiStore((state) => state.setPanelTab)
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-l bg-background print:hidden">
+    <aside
+      className={cn(
+        'flex w-64 shrink-0 flex-col border-l bg-background print:hidden',
+        props.className,
+      )}
+    >
       <div className="flex gap-1 border-b p-2">
         {tabs.map((t) => (
           <Button
