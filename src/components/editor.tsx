@@ -167,7 +167,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
         cancelAnimationFrame(autoPanRef.current)
         autoPanRef.current = null
       }
-      inputRef.current?.focus()
+      inputRef.current?.focus({ preventScroll: true })
       useTranslateStore.getState().translateSelection()
 
       window.removeEventListener('pointermove', handleSelectMove)
@@ -285,7 +285,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
     moveIMEInputToCursor(inputRef)
-    inputRef.current?.focus()
+    inputRef.current?.focus({ preventScroll: true })
   }
 
   return (
@@ -403,7 +403,12 @@ const HiddenInput = (props: HiddenInputProps) => {
     setFocused(true)
     moveIMEInputToCursor(props.ref)
   }
-  const handleBlur = () => setFocused(false)
+  const handleBlur = () => {
+    setFocused(false)
+    // iOS scrolls the page to keep a focused input above the keyboard, and
+    // can leave it scrolled when the keyboard closes
+    window.scrollTo(0, 0)
+  }
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
     const ev = e.nativeEvent as InputEvent
@@ -448,7 +453,7 @@ const HiddenInput = (props: HiddenInputProps) => {
     const inputEl = props.ref.current
     if (inputEl) {
       inputEl.style.opacity = '1'
-      inputEl.focus()
+      inputEl.focus({ preventScroll: true })
     }
   }
 

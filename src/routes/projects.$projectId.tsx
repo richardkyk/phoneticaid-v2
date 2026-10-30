@@ -24,8 +24,9 @@ function Workspace() {
   const settingsOpen = useUiStore((state) => state.settingsOpen)
 
   return (
-    // fixed height so the canvas scrolls rather than the page
-    <div className="flex h-svh flex-col overflow-hidden bg-background">
+    // fixed to the viewport so the canvas scrolls rather than the page, and
+    // the page has nothing to scroll (iOS scrolls it to show a focused input)
+    <div className="fixed inset-0 flex flex-col overflow-hidden bg-background">
       <AppHeader />
       <div className="flex min-h-0 flex-1">
         <div className="min-w-0 flex-1">
