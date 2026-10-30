@@ -21,6 +21,9 @@ interface ReadingsState {
   // requests done and to do while checking, otherwise null
   progress: { done: number; total: number } | null
   check: () => Promise<void>
+  // the character whose pinyin was clicked, to pick its reading
+  picking: number | null
+  setPicking: (index: number | null) => void
 }
 
 let table: ReadingTable | undefined
@@ -50,6 +53,10 @@ function saveReadings(projectId: string, found: ChosenReadings) {
 
 export const useReadingsStore = create<ReadingsState>()((set, get) => ({
   progress: null,
+  picking: null,
+  setPicking: (picking) => {
+    if (get().picking !== picking) set({ picking })
+  },
   check: async () => {
     if (get().progress) return
     const lexicon = useLexiconStore.getState().lexicon
@@ -116,31 +123,34 @@ export const useReadingsStore = create<ReadingsState>()((set, get) => ({
   },
 }))
 
-// Picks the reading of the word from `start` to `end` in the active project,
-// one syllable per character, or goes back to the usual one with null. Kept
-// by paragraph like the AI's, so it's lost if the paragraph is edited.
-export function pickReading(
-  start: number,
-  end: number,
-  syllables: Array<string> | null,
-) {
+// The paragraph containing the character at `index`, and where it starts
+function paragraphAt(text: string, index: number) {
+  const start = text.lastIndexOf('\n', index - 1) + 1
+  const end = text.indexOf('\n', index)
+  return { paragraph: text.slice(start, end === -1 ? text.length : end), start }
+}
+
+// The reading picked for the character at `index` in the active project
+export function pickedReading(index: number): string | undefined {
+  const { pt, pickedReadings } = useProjectsStore.getState().getActiveProject()
+  if (!pickedReadings) return
+  const { paragraph, start } = paragraphAt(getText(pt), index)
+  return pickedReadings[paragraph]?.[index - start]
+}
+
+// Picks the reading of the character at `index` in the active project, or
+// goes back to the usual one with null. Kept by paragraph like the AI's, so
+// it's lost if the paragraph is edited.
+export function pickReading(index: number, syllable: string | null) {
   const { projects, activeId } = useProjectsStore.getState()
   useProjectsStore.setState({
     projects: projects.map((project) => {
       if (project.id !== activeId) return project
       const text = getText(project.pt)
-      const paragraphStart = text.lastIndexOf('\n', start - 1) + 1
-      const paragraphEnd = text.indexOf('\n', start)
-      const paragraph = text.slice(
-        paragraphStart,
-        paragraphEnd === -1 ? text.length : paragraphEnd,
-      )
+      const { paragraph, start } = paragraphAt(text, index)
       const picked = { ...project.pickedReadings?.[paragraph] }
-      for (let i = start; i < end; i++) {
-        const offset = i - paragraphStart
-        if (syllables) picked[offset] = syllables[i - start]
-        else delete picked[offset]
-      }
+      if (syllable) picked[index - start] = syllable
+      else delete picked[index - start]
       const paragraphs = new Set(text.split('\n'))
       const pickedReadings = Object.fromEntries(
         Object.entries({

@@ -13,6 +13,7 @@ import { useLexiconStore } from '@/lib/hsk'
 import { usePeekKey } from './reading-aids'
 import { TranslationPopover } from './translation-popover'
 import { DictionaryCard } from './dictionary-card'
+import { ReadingPicker } from './reading-picker'
 import { getDisplayText, useScriptStore } from '@/lib/script'
 
 // pages rendered either side of the ones in view
@@ -122,6 +123,7 @@ export const Document = () => {
         analysis={analysis}
       />
       <DictionaryCard document={document} layout={layout} analysis={analysis} />
+      <ReadingPicker document={document} layout={layout} analysis={analysis} />
       <ZoomControls />
     </div>
   )

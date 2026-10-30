@@ -15,6 +15,7 @@ import { getAnalysis } from '@/lib/words'
 import { gridToPosition } from '@/lib/layout'
 import { SelectionHandles } from './selection-handles'
 import { useRevealStore } from '@/lib/stores/reveal-store'
+import { useReadingsStore } from '@/lib/stores/readings-store'
 import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 
 const clamp = (val: number, min: number, max: number) =>
@@ -85,6 +86,21 @@ const wordRange = (index: number): [number, number] => {
   const { words, wordAt } = getAnalysis(pt, lexicon, readings, pickedReadings)
   const word = words[wordAt[index]]
   return word ? [word.start, word.end] : [index, index + 1]
+}
+
+// The character whose pinyin is under the pointer, -1 for none (or when it
+// has no pinyin)
+const pinyinAt = (target: EventTarget) => {
+  const el = (target as HTMLElement).closest<HTMLElement>('[data-pinyin]')
+  if (!el) return -1
+  const index = Number(el.dataset.index)
+  if (!(index >= 0)) return -1
+  const { pt, readings, pickedReadings } = useProjectsStore
+    .getState()
+    .getActiveProject()
+  const lexicon = useLexiconStore.getState().lexicon
+  const { pinyin } = getAnalysis(pt, lexicon, readings, pickedReadings)
+  return pinyin[index] ? index : -1
 }
 
 interface EditorProps {
@@ -272,6 +288,14 @@ export const Editor: React.FC<EditorProps> = (props) => {
     if (!pageEl) return // clicked outside a page
     const gridEl = pageEl.querySelector('[data-grid]')
     if (!gridEl) return // clicked outside a page
+
+    useReadingsStore.getState().setPicking(null)
+    // clicking pinyin picks its reading
+    const pinyinIndex = e.pointerType === 'touch' ? -1 : pinyinAt(e.target)
+    if (pinyinIndex >= 0) {
+      useReadingsStore.getState().setPicking(pinyinIndex)
+      return
+    }
 
     // a finger pans, so selecting takes a long press (or a double tap)
     if (e.pointerType === 'touch') {
@@ -593,6 +617,8 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
     x: number
     y: number
     index: number
+    // the finger's on the character's pinyin
+    onPinyin: boolean
     timer: number
   } | null = null
   let lastTap: { time: number; x: number; y: number } | null = null
@@ -617,7 +643,7 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
 
   const handleUp = (e: PointerEvent) => {
     if (!press || e.pointerId !== press.pointerId) return
-    const { index } = press
+    const { index, onPinyin } = press
     cancelPress()
     const now = performance.now()
     const doubleTap =
@@ -627,7 +653,9 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
         DOUBLE_TAP_DISTANCE
     if (!doubleTap) {
       lastTap = { time: now, x: e.clientX, y: e.clientY }
-      actionsRef.current.placeCaret(e.clientX, e.clientY)
+      // tapping pinyin picks its reading
+      if (onPinyin) useReadingsStore.getState().setPicking(index)
+      else actionsRef.current.placeCaret(e.clientX, e.clientY)
       // reveals the word's pinyin and shows its dictionary card
       useRevealStore.getState().setHovered(index >= 0 ? index : null)
       return
@@ -662,7 +690,8 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
       useCursorStore.getState().setTouchSelection(true)
       actionsRef.current.followPointer(pointerId, word)
     }, LONG_PRESS_MS)
-    press = { pointerId, x: e.clientX, y: e.clientY, index, timer }
+    const onPinyin = pinyinAt(e.target) >= 0
+    press = { pointerId, x: e.clientX, y: e.clientY, index, onPinyin, timer }
     window.addEventListener('pointermove', handleMove)
     window.addEventListener('pointerup', handleUp)
     window.addEventListener('pointercancel', cancelPress)

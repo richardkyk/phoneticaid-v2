@@ -35,8 +35,10 @@ export const Pinyin = (props: PinyinProps) => {
   return (
     <div
       data-index={props.index}
+      // clicked to pick the character's reading (see editor.tsx)
+      data-pinyin=""
       className={cn(
-        'absolute justify-center flex items-center font-sans whitespace-nowrap',
+        'absolute justify-center flex items-center font-sans whitespace-nowrap cursor-pointer hover:text-sky-700',
         props.className,
       )}
       style={{
