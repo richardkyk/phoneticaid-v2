@@ -295,12 +295,14 @@ export const Editor: React.FC<EditorProps> = (props) => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
-    // the click after a finger selects (a double tap) would open the keyboard
-    if (
-      lastPointerTypeRef.current === 'touch' &&
-      useCursorStore.getState().getSelection()
-    ) {
-      return
+    if (lastPointerTypeRef.current === 'touch') {
+      // tapping off the pages closes the keyboard, as elsewhere on phones
+      if (!(e.target as HTMLElement).closest('[data-page]')) {
+        closeKeyboard()
+        return
+      }
+      // the click after a finger selects (a double tap) would open the keyboard
+      if (useCursorStore.getState().getSelection()) return
     }
     moveIMEInputToCursor(inputRef)
     inputRef.current?.focus({ preventScroll: true })
