@@ -13,6 +13,8 @@ import { providerLabel } from '@/lib/translate/providers'
 import { Button } from './ui/button'
 
 const WIDTH = 320
+// px between a finger's selection and the popover, clear of its handle
+const TOUCH_GAP = 24
 
 interface TranslationPopoverProps {
   document: DocumentStore
@@ -40,6 +42,7 @@ export function TranslationPopover(props: TranslationPopoverProps) {
   useCursorStore((state) => state.selectionStart)
   useCursorStore((state) => state.selectionEnd)
   const selection = useCursorStore.getState().getSelection()
+  const touchSelection = useCursorStore((state) => state.touchSelection)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -64,6 +67,7 @@ export function TranslationPopover(props: TranslationPopoverProps) {
     camera,
     translation.end - 1,
     WIDTH,
+    touchSelection ? TOUCH_GAP : undefined,
   )
   // the selection has been panned out of view
   if (!style) return null

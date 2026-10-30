@@ -1,8 +1,8 @@
 import { pageTop } from './stores/camera-store'
 import type { DocumentStore } from './stores/document-store'
 import { positionToGrid } from './layout'
-import type { Layout } from './layout'
-import { wordRect } from './geometry'
+import type { Layout, Position } from './layout'
+import { caretRect, wordRect } from './geometry'
 
 // space between the text and the popover, and the viewport's edges
 const GAP = 8
@@ -14,15 +14,38 @@ interface Camera {
   viewport: { width: number; height: number }
 }
 
+// The caret at `pos` in viewport px
+export function caretViewportRect(
+  document: DocumentStore,
+  layout: Layout,
+  camera: Camera,
+  pos: Position,
+) {
+  const { row, col } = positionToGrid(layout, pos)
+  const linesPerPage = document.linesPerPage()
+  const pageIndex = Math.floor(row / linesPerPage)
+  const rect = caretRect(document, row - pageIndex * linesPerPage, col)
+  const worldTop =
+    pageTop(pageIndex, document.pageHeight() * document.mmY) +
+    rect.y * document.mmY
+  return {
+    left: rect.x * document.mmX * camera.zoom + camera.x,
+    top: worldTop * camera.zoom + camera.y,
+    width: rect.width * document.mmX * camera.zoom,
+    height: rect.height * document.mmY * camera.zoom,
+  }
+}
+
 // Where to put a popover of `width` px beside the character at `index`: below
-// it, or above it in the lower half of the view. Null when the character has
-// been panned out of view.
+// it, or above it in the lower half of the view, `gap` px away. Null when the
+// character has been panned out of view.
 export function popoverStyle(
   document: DocumentStore,
   layout: Layout,
   camera: Camera,
   index: number,
   width: number,
+  gap = GAP,
 ): React.CSSProperties | null {
   // the character's cell, and its pinyin, in viewport px
   const { row, col } = positionToGrid(layout, {
@@ -55,9 +78,9 @@ export function popoverStyle(
       Math.max(left, GAP),
       Math.max(viewport.width - width - GAP, GAP),
     ),
-    maxHeight: (above ? top : viewport.height - bottom) - GAP * 2,
+    maxHeight: (above ? top : viewport.height - bottom) - gap - GAP,
     ...(above
-      ? { bottom: viewport.height - top + GAP }
-      : { top: bottom + GAP }),
+      ? { bottom: viewport.height - top + gap }
+      : { top: bottom + gap }),
   }
 }

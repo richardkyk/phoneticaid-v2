@@ -12,6 +12,8 @@ import { useLexiconStore } from '@/lib/hsk'
 import { getText } from '@/lib/piece-table'
 import { sentenceAt } from '@/lib/sentences'
 import { getAnalysis } from '@/lib/words'
+import { gridToPosition } from '@/lib/layout'
+import { SelectionHandles } from './selection-handles'
 import { useRevealStore } from '@/lib/stores/reveal-store'
 import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 
@@ -73,6 +75,16 @@ const findNearestPage = (viewportEl: HTMLElement, y: number) => {
   return nearest
 }
 
+// The word containing the character at `index` (absolute offsets, end is
+// exclusive), or just the character when it isn't in a word
+const wordRange = (index: number): [number, number] => {
+  const { pt, readings } = useProjectsStore.getState().getActiveProject()
+  const lexicon = useLexiconStore.getState().lexicon
+  const { words, wordAt } = getAnalysis(pt, lexicon, readings)
+  const word = words[wordAt[index]]
+  return word ? [word.start, word.end] : [index, index + 1]
+}
+
 interface EditorProps {
   children: React.ReactNode
   // the canvas the pages are drawn on
@@ -86,6 +98,23 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const pointerRef = useRef<{ x: number; y: number } | null>(null)
   const autoPanRef = useRef<number | null>(null)
   const lastPanTimeRef = useRef<number | null>(null)
+  // the word a finger long pressed, which its selection grows from a word at
+  // a time (so it doesn't shrink as the finger wobbles)
+  const wordAnchorRef = useRef<[number, number] | null>(null)
+
+  // the caret position (absolute offset) for a point, on the nearest page
+  const indexAtPoint = useCallback((x: number, y: number) => {
+    const viewportEl = props.viewportRef.current
+    const page = viewportEl && findNearestPage(viewportEl, y)
+    if (!page) return null
+    const { row, col } = getRowColFromCoords(
+      x,
+      y,
+      page.pageIndex,
+      page.gridRect,
+    )
+    return gridToPosition(currentLayout(), row, col).index
+  }, [])
 
   // extends the selection to the point under the pointer, using the nearest
   // page so the selection keeps tracking when the pointer leaves the pages
@@ -93,6 +122,17 @@ export const Editor: React.FC<EditorProps> = (props) => {
     const pointer = pointerRef.current
     const viewportEl = props.viewportRef.current
     if (!pointer || !viewportEl) return
+    const anchor = wordAnchorRef.current
+    if (anchor) {
+      const index = indexAtPoint(pointer.x, pointer.y)
+      if (index === null) return
+      let [start, end] = anchor
+      if (index > end) end = wordRange(index - 1)[1]
+      else if (index < start) start = wordRange(index)[0]
+      useCursorStore.getState().selectRange(start, end, false)
+      return
+    }
+
     const page = findNearestPage(viewportEl, pointer.y)
     if (!page) return
 
@@ -162,6 +202,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
       if (e.pointerId !== selectingPointerRef.current) return
       selectingPointerRef.current = null
       isSelectingRef.current = false
+      wordAnchorRef.current = null
       pointerRef.current = null
       delete props.viewportRef.current?.dataset.selecting
       if (autoPanRef.current !== null) {
@@ -181,9 +222,11 @@ export const Editor: React.FC<EditorProps> = (props) => {
     [handleSelectMove],
   )
 
-  // the selection follows the pointer until it's lifted
-  const followPointer = (pointerId: number) => {
+  // the selection follows the pointer until it's lifted, a word at a time
+  // when it's given the word it started from
+  const followPointer = (pointerId: number, word?: [number, number]) => {
     selectingPointerRef.current = pointerId
+    wordAnchorRef.current = word ?? null
     isSelectingRef.current = true
     // stops a touch from panning the canvas (see canvas.tsx)
     if (props.viewportRef.current)
@@ -322,6 +365,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
       >
         {props.children}
       </div>
+      <SelectionHandles indexAtPoint={indexAtPoint} />
       <HiddenInput ref={inputRef} />
     </Fragment>
   )
@@ -529,7 +573,7 @@ const cellIndex = (target: EventTarget) => {
 // selects the sentence. Either is translated.
 interface TouchActions {
   // the selection follows the pointer until it's lifted
-  followPointer: (pointerId: number) => void
+  followPointer: (pointerId: number, word?: [number, number]) => void
   placeCaret: (x: number, y: number) => void
   closeKeyboard: () => void
 }
@@ -594,6 +638,7 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
     actionsRef.current.closeKeyboard()
     // the finger's on the page, so it isn't moved
     useCursorStore.getState().selectRange(start, end, false)
+    useCursorStore.getState().setTouchSelection(true)
     useTranslateStore.getState().translateSelection()
   }
 
@@ -609,14 +654,11 @@ function touchGestures(actionsRef: React.RefObject<TouchActions>) {
       cancelPress()
       lastTap = null
       if (index < 0) return
-      const { pt, readings } = useProjectsStore.getState().getActiveProject()
-      const lexicon = useLexiconStore.getState().lexicon
-      const { words, wordAt } = getAnalysis(pt, lexicon, readings)
-      const word = words[wordAt[index]]
-      const [start, end] = word ? [word.start, word.end] : [index, index + 1]
+      const word = wordRange(index)
       actionsRef.current.closeKeyboard()
-      useCursorStore.getState().selectRange(start, end, false)
-      actionsRef.current.followPointer(pointerId)
+      useCursorStore.getState().selectRange(word[0], word[1], false)
+      useCursorStore.getState().setTouchSelection(true)
+      actionsRef.current.followPointer(pointerId, word)
     }, LONG_PRESS_MS)
     press = { pointerId, x: e.clientX, y: e.clientY, index, timer }
     window.addEventListener('pointermove', handleMove)

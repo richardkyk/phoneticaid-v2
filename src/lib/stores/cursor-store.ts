@@ -38,6 +38,7 @@ interface CursorStoreActions {
   // the end into view unless `scroll` is false
   selectRange: (start: number, end: number, scroll?: boolean) => void
   resetSelection: () => void
+  setTouchSelection: (touchSelection: boolean) => void
   reset: () => void
   focus: () => void
   setFocused: (focused: boolean) => void
@@ -51,6 +52,8 @@ type CursorStoreState = Position &
     // survives layout changes
     selectionStart: Position | null
     selectionEnd: Position | null
+    // whether the selection was made with a finger, which gives it handles
+    touchSelection: boolean
   }
 
 export const useCursorStore = create<CursorStoreState>((set, get) => ({
@@ -59,6 +62,7 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
 
   selectionStart: null,
   selectionEnd: null,
+  touchSelection: false,
 
   getPosition: () => ({
     index: get().index,
@@ -173,6 +177,7 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
   selectAll: () => {
     const layout = currentLayout()
     set({
+      touchSelection: false,
       selectionStart: initialPosition(),
       selectionEnd: gridToPosition(
         layout,
@@ -186,10 +191,12 @@ export const useCursorStore = create<CursorStoreState>((set, get) => ({
       ...initialPosition(),
       selectionStart: null,
       selectionEnd: null,
+      touchSelection: false,
     })
   },
   setFocused: (focused: boolean) => set({ focused }),
   resetSelection: () => {
-    set({ selectionStart: null, selectionEnd: null })
+    set({ selectionStart: null, selectionEnd: null, touchSelection: false })
   },
+  setTouchSelection: (touchSelection) => set({ touchSelection }),
 }))
