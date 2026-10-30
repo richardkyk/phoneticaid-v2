@@ -28,7 +28,8 @@ import { useIsMobile } from '@/hooks/use-mobile'
 export function AppHeader() {
   return (
     <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
-      <div className="flex items-center gap-1">
+      {/* the title gives way on narrow screens */}
+      <div className="flex min-w-0 items-center gap-1">
         <Button variant="ghost" size="icon-sm" asChild title="All projects">
           <Link to="/" replace>
             <img src="/favicon.ico" alt="All projects" width={20} height={20} />
@@ -41,7 +42,7 @@ export function AppHeader() {
         <EditableTitle />
         <ProjectSwitcher />
       </div>
-      <div className="ml-auto flex items-center gap-1">
+      <div className="ml-auto flex shrink-0 items-center gap-1">
         <DocumentToolbar />
         <Separator
           orientation="vertical"
@@ -160,12 +161,12 @@ function EditableTitle() {
     />
   ) : (
     <Button
-      className="has-[>svg]:px-2"
+      className="min-w-0 shrink has-[>svg]:px-2"
       onClick={() => setIsEditing(true)}
       variant="ghost"
       size="sm"
     >
-      <span>{activeProject.title}</span>
+      <span className="truncate">{activeProject.title}</span>
       <PencilIcon className="size-3.5" />
     </Button>
   )

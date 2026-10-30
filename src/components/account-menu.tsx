@@ -112,6 +112,7 @@ export function AccountMenu() {
       <Button
         variant="outline"
         size="sm"
+        className="max-sm:size-8"
         title="Sign in to sync your projects between devices"
         onClick={() =>
           authClient.signIn.social({
@@ -121,7 +122,8 @@ export function AccountMenu() {
         }
       >
         <GoogleIcon />
-        Sign in
+        {/* just the icon on narrow screens, where the header's full */}
+        <span className="max-sm:hidden">Sign in</span>
       </Button>
     )
   }

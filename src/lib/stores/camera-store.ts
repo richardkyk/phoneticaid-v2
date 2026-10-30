@@ -58,13 +58,21 @@ export const useCameraStore = create<CameraState>()(
   persist(
     (set, get) => {
       // keeps part of the pages under the middle of the viewport, so there's
-      // room to pan around them but they can't be lost off screen
+      // room to pan around them but they can't be lost off screen. Pages
+      // smaller than the viewport can also sit anywhere fully in view (e.g.
+      // at the top, zoomed out), rather than being pushed to the middle
+      const bound = (pos: number, view: number, size: number) =>
+        clamp(
+          pos,
+          Math.min(view / 2 - size, 0),
+          Math.max(view / 2, view - size),
+        )
       const place = (x: number, y: number, zoom: number) => {
         const { viewport: v, content: c } = get()
         set({
           zoom,
-          x: clamp(x, v.width / 2 - c.width * zoom, v.width / 2),
-          y: clamp(y, v.height / 2 - c.height * zoom, v.height / 2),
+          x: bound(x, v.width, c.width * zoom),
+          y: bound(y, v.height, c.height * zoom),
         })
       }
 
