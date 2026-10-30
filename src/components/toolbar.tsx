@@ -26,6 +26,7 @@ import { createRoot } from 'react-dom/client'
 import { Label } from './ui/label'
 import { HoldButton } from './hold-button'
 import { flushSync } from 'react-dom'
+import { toast } from 'sonner'
 import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { Switch } from './ui/switch'
@@ -275,7 +276,20 @@ function PrintButton(props: PrintButtonProps) {
         </>,
       ),
     )
+    // browsers built into other apps (e.g. Arc Search on iOS) quietly ignore
+    // print(), and never get as far as beforeprint
+    let printing = false
+    const handleBeforePrint = () => (printing = true)
+    window.addEventListener('beforeprint', handleBeforePrint, { once: true })
     window.print()
+    setTimeout(() => {
+      window.removeEventListener('beforeprint', handleBeforePrint)
+      if (!printing) {
+        toast.error("This browser can't print", {
+          description: 'Open the page in Safari or Chrome to print it.',
+        })
+      }
+    }, 1000)
   }
 
   return (

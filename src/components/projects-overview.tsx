@@ -42,7 +42,13 @@ export function ProjectsOverview() {
 
   const newProject = () => {
     const project = useProjectsStore.getState().addProject()
-    navigate({ to: '/projects/$projectId', params: { projectId: project.id } })
+    // replaced rather than added to the history, so swiping back on a phone
+    // (which pans can set off) doesn't leave the project
+    navigate({
+      to: '/projects/$projectId',
+      params: { projectId: project.id },
+      replace: true,
+    })
   }
 
   const sorted = [...projects].sort((a, b) => b.lastUpdated - a.lastUpdated)
@@ -88,6 +94,7 @@ function ProjectCard({ project }: { project: Project }) {
       <Link
         to="/projects/$projectId"
         params={{ projectId: project.id }}
+        replace
         className="block"
       >
         {/* a thumbnail of the first page */}

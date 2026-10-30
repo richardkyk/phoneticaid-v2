@@ -29,7 +29,7 @@ export function AppHeader() {
     <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
       <div className="flex items-center gap-1">
         <Button variant="ghost" size="icon-sm" asChild title="All projects">
-          <Link to="/">
+          <Link to="/" replace>
             <img src="/favicon.ico" alt="All projects" width={20} height={20} />
           </Link>
         </Button>
@@ -78,7 +78,11 @@ function ProjectSwitcher() {
         </DropdownMenuLabel>
         {recent.map((project) => (
           <DropdownMenuItem key={project.id} asChild>
-            <Link to="/projects/$projectId" params={{ projectId: project.id }}>
+            <Link
+              to="/projects/$projectId"
+              params={{ projectId: project.id }}
+              replace
+            >
               <span className="truncate">{project.title}</span>
               {project.id === activeId && (
                 <CheckIcon className="ml-auto size-4" />
@@ -93,6 +97,7 @@ function ProjectSwitcher() {
             navigate({
               to: '/projects/$projectId',
               params: { projectId: project.id },
+              replace: true,
             })
           }}
         >
@@ -100,7 +105,7 @@ function ProjectSwitcher() {
           New project
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link to="/">
+          <Link to="/" replace>
             <LayoutGridIcon />
             All projects
           </Link>
