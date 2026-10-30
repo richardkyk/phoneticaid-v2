@@ -42,6 +42,7 @@
     "@tanstack/react-virtual": "^3.14.21",
     "@tanstack/router-plugin": "^1.168.47",
     "ai": "^7.0.145",
+    "better-auth": "^1.7.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "geist": "^1.8.1",

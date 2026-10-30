@@ -5,6 +5,7 @@ import type { Project } from '@/lib/stores/projects-store'
 import { getText } from '@/lib/piece-table'
 import { pageSize } from '@/lib/geometry'
 import { Button } from './ui/button'
+import { AccountMenu } from './account-menu'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,10 +59,13 @@ export function ProjectsOverview() {
       <header className="flex h-14 items-center gap-2 border-b bg-background px-6">
         <img src="/favicon.ico" alt="" width={24} height={24} />
         <span className="font-medium">PhoneticAid</span>
-        <Button className="ml-auto" size="sm" onClick={newProject}>
-          <PlusIcon />
-          New project
-        </Button>
+        <div className="ml-auto flex items-center gap-2">
+          <Button size="sm" onClick={newProject}>
+            <PlusIcon />
+            New project
+          </Button>
+          <AccountMenu />
+        </div>
       </header>
       <main className="mx-auto max-w-6xl p-6">
         <h1 className="mb-4 text-lg font-medium">Projects</h1>

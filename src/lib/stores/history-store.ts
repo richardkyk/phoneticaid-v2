@@ -21,6 +21,7 @@ interface HistoryState extends History {
   // parks the active history under `fromId` and restores the one for `toId`
   switchProject: (fromId: string | null, toId: string) => void
   forgetProject: (id: string) => void
+  renameProject: (id: string, newId: string) => void
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
@@ -65,5 +66,9 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   forgetProject: (id) => {
     const { [id]: _, ...rest } = get().inactive
     set({ inactive: rest })
+  },
+  renameProject: (id, newId) => {
+    const { [id]: history, ...rest } = get().inactive
+    if (history) set({ inactive: { ...rest, [newId]: history } })
   },
 }))

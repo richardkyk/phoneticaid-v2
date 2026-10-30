@@ -6,6 +6,7 @@ import { useProjectsStore } from './projects-store'
 import { getAvailableProviders, translate } from '../translate/functions'
 import { providerIds } from '../translate/providers'
 import type { ProviderChoice, ProviderId } from '../translate/providers'
+import { newId } from '../utils'
 
 export interface Translation {
   id: string
@@ -41,14 +42,10 @@ interface TranslateState {
   dismiss: () => void
   clearHistory: () => void
   forgetProject: (projectId: string) => void
+  renameProject: (projectId: string, newId: string) => void
   setProvider: (provider: ProviderChoice) => void
   loadAvailableProviders: () => Promise<void>
 }
-
-// crypto.randomUUID only exists on secure (https or localhost) pages, and
-// the dev server is opened over http from phones on the network
-const newId = () =>
-  `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
 
 const activeProjectId = () => useProjectsStore.getState().activeId
 
@@ -186,6 +183,10 @@ export const useTranslateStore = create<TranslateState>()(
           const history = { ...get().history }
           delete history[projectId]
           set({ history })
+        },
+        renameProject: (projectId, newId) => {
+          const { [projectId]: translations, ...rest } = get().history
+          if (translations) set({ history: { ...rest, [newId]: translations } })
         },
         setProvider: (provider) => set({ provider }),
         loadAvailableProviders: async () => {

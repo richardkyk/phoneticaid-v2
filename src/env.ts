@@ -8,6 +8,10 @@ export const env = createEnv({
     OPENAI_API_KEY: z.string().optional(),
     GEMINI_API_KEY: z.string().optional(),
     DEEPL_API_KEY: z.string().optional(),
+    // accounts (see src/lib/auth.ts)
+    BETTER_AUTH_SECRET: z.string().optional(),
+    GOOGLE_CLIENT_ID: z.string().optional(),
+    GOOGLE_CLIENT_SECRET: z.string().optional(),
   },
 
   /**

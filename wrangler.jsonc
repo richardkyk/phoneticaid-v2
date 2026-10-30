@@ -8,4 +8,13 @@
     "binding": "AI",
     "remote": true,
   },
+  // accounts (Better Auth) and synced projects
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "phoneticaid",
+      "database_id": "51021dc0-62e2-4515-abe3-1d2fa0d708c9",
+      "migrations_dir": "migrations",
+    },
+  ],
 }

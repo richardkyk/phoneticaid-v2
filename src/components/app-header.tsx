@@ -21,6 +21,7 @@ import {
   PlusIcon,
 } from 'lucide-react'
 import { DocumentToolbar } from './toolbar'
+import { AccountMenu } from './account-menu'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 
@@ -47,6 +48,7 @@ export function AppHeader() {
           className="mx-1 data-[orientation=vertical]:h-4"
         />
         <SettingsToggle />
+        <AccountMenu />
       </div>
     </header>
   )
