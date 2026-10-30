@@ -1,11 +1,8 @@
 import { DocumentState, useDocumentStore } from '@/lib/stores/document-store'
 import { Button } from './ui/button'
 import {
-  BookOpenIcon,
-  BugIcon,
   ChevronDownIcon,
   InfoIcon,
-  LanguagesIcon,
   LayoutIcon,
   MinusIcon,
   PanelLeftDashedIcon,
@@ -18,7 +15,6 @@ import {
 } from 'lucide-react'
 import { useHistoryStore } from '@/lib/stores/history-store'
 import { ButtonGroup } from './ui/button-group'
-import { cn } from '@/lib/utils'
 import { getLayout } from '@/lib/layout'
 import { getAnalysis } from '@/lib/words'
 import { useLexiconStore } from '@/lib/hsk'
@@ -31,7 +27,6 @@ import { HoldButton } from './hold-button'
 import { toast } from 'sonner'
 import { CollapsibleToolbar } from './collapsible-toolbar'
 import { useProjectsStore } from '@/lib/stores/projects-store'
-import { useTranslateStore } from '@/lib/stores/translate-store'
 import { Switch } from './ui/switch'
 import { useUiStore } from '@/lib/stores/ui-store'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
@@ -116,7 +111,7 @@ interface ControlLabelProps {
   hint?: string
   htmlFor?: string
 }
-function ControlLabel({ label, hint, htmlFor }: ControlLabelProps) {
+export function ControlLabel({ label, hint, htmlFor }: ControlLabelProps) {
   return (
     <div className="flex items-center gap-1">
       <Label htmlFor={htmlFor} className="text-xs text-gray-600">
@@ -138,6 +133,27 @@ function ControlLabel({ label, hint, htmlFor }: ControlLabelProps) {
           </TooltipContent>
         </Tooltip>
       )}
+    </div>
+  )
+}
+
+interface SwitchControlProps {
+  id: string
+  label: string
+  hint?: string
+  checked: boolean
+  onChange: (checked: boolean) => void
+}
+export function SwitchControl(props: SwitchControlProps) {
+  return (
+    // as tall as the rows with buttons
+    <div className="flex h-8 items-center justify-between">
+      <ControlLabel label={props.label} htmlFor={props.id} hint={props.hint} />
+      <Switch
+        id={props.id}
+        checked={props.checked}
+        onCheckedChange={props.onChange}
+      />
     </div>
   )
 }
@@ -390,71 +406,6 @@ function PrintButton(props: PrintButtonProps) {
   )
 }
 
-interface TranslateProps {
-  className?: string
-}
-function TranslateButton(props: TranslateProps) {
-  const { translate, toggleTranslate } = useTranslateStore()
-  return (
-    <Button
-      className={cn(
-        props.className,
-        'shadow-none',
-        !translate && 'border-transparent',
-      )}
-      onClick={() => toggleTranslate()}
-      size="icon-sm"
-      variant={translate ? 'default' : 'ghost'}
-    >
-      <LanguagesIcon className="size-4" />
-    </Button>
-  )
-}
-
-interface DictionaryProps {
-  className?: string
-}
-// Turns the card with the meanings of the hovered (or tapped) word on and off
-function DictionaryButton(props: DictionaryProps) {
-  const { dictionary, toggleDictionary } = useUiStore()
-  return (
-    <Button
-      className={cn(
-        props.className,
-        'shadow-none',
-        !dictionary && 'border-transparent',
-      )}
-      onClick={() => toggleDictionary()}
-      size="icon-sm"
-      variant={dictionary ? 'default' : 'ghost'}
-      title="Dictionary: meanings of the word under the pointer"
-    >
-      <BookOpenIcon className="size-4" />
-    </Button>
-  )
-}
-
-interface DebugProps {
-  className?: string
-}
-function DebugButton(props: DebugProps) {
-  const { debug, toggleDebug } = useDocumentStore()
-  return (
-    <Button
-      className={cn(
-        props.className,
-        'shadow-none',
-        !debug && 'border-transparent',
-      )}
-      onClick={() => toggleDebug()}
-      variant={debug ? 'default' : 'ghost'}
-      size="icon-sm"
-    >
-      <BugIcon className="size-4" />
-    </Button>
-  )
-}
-
 export function DocumentToolbar() {
   const { past, future } = useHistoryStore()
 
@@ -477,9 +428,6 @@ export function DocumentToolbar() {
         <RedoIcon />
       </Button>
       <PrintButton />
-      <TranslateButton />
-      <DictionaryButton />
-      <DebugButton />
     </div>
   )
 }
@@ -630,6 +578,7 @@ export function PinyinToolbar() {
     hskLevel,
     setDocumentAttribute,
   } = useDocumentStore()
+  const { dictionary, toggleDictionary } = useUiStore()
   const vertical = isVertical(writingMode)
   const choice = pinyinChoice(pinyinMode, hskLevel)
 
@@ -708,20 +657,21 @@ export function PinyinToolbar() {
             )}
             onChange={setChoice}
           />
-          {/* as tall as the rows with buttons */}
-          <div className="flex h-8 items-center justify-between">
-            <ControlLabel
-              label="Group words"
-              htmlFor="word-groups"
-              hint="A faint background behind each word of more than one character, for words still showing their pinyin."
-            />
-            <Switch
-              id="word-groups"
-              checked={wordGroups}
-              onCheckedChange={(v) => setDocumentAttribute({ wordGroups: v })}
-            />
-          </div>
+          <SwitchControl
+            id="word-groups"
+            label="Group words"
+            hint="A faint background behind each word of more than one character, for words still showing their pinyin."
+            checked={wordGroups}
+            onChange={(v) => setDocumentAttribute({ wordGroups: v })}
+          />
         </Disabled>
+        <SwitchControl
+          id="dictionary"
+          label="Dictionary"
+          hint="Rest the pointer on a word, or tap it, to see its meanings."
+          checked={dictionary}
+          onChange={() => toggleDictionary()}
+        />
       </div>
     </CollapsibleToolbar>
   )

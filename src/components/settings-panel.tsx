@@ -7,7 +7,7 @@ import {
   SpacingToolbar,
   TextToolbar,
 } from './toolbar'
-import { TranslationHistory } from './translation-history'
+import { TranslationHistory, TranslationSettings } from './translation-history'
 
 const tabs: Array<{ value: PanelTab; label: string }> = [
   { value: 'settings', label: 'Settings' },
@@ -44,7 +44,10 @@ export function SettingsPanel() {
             <SpacingToolbar />
           </>
         ) : (
-          <TranslationHistory />
+          <>
+            <TranslationSettings />
+            <TranslationHistory />
+          </>
         )}
       </div>
     </aside>

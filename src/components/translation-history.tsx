@@ -1,5 +1,10 @@
 import { useEffect } from 'react'
-import { ChevronDownIcon, Loader, Trash2Icon } from 'lucide-react'
+import {
+  ChevronDownIcon,
+  LanguagesIcon,
+  Loader,
+  Trash2Icon,
+} from 'lucide-react'
 import { useTranslateStore } from '@/lib/stores/translate-store'
 import type { Translation } from '@/lib/stores/translate-store'
 import { useProjectsStore } from '@/lib/stores/projects-store'
@@ -10,6 +15,8 @@ import { providerLabel, providers } from '@/lib/translate/providers'
 import type { ProviderChoice } from '@/lib/translate/providers'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
+import { CollapsibleToolbar } from './collapsible-toolbar'
+import { ControlLabel, SwitchControl } from './toolbar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +28,35 @@ import {
 } from './ui/dropdown-menu'
 
 const NO_TRANSLATIONS: Array<Translation> = []
+
+// Whether selected text is translated, and by which provider
+export function TranslationSettings() {
+  const translate = useTranslateStore((state) => state.translate)
+  const toggleTranslate = useTranslateStore((state) => state.toggleTranslate)
+  return (
+    <CollapsibleToolbar
+      name="Translation"
+      icon={<LanguagesIcon className="size-4" />}
+    >
+      <div className="space-y-3">
+        <SwitchControl
+          id="translate"
+          label="Translate selections"
+          hint="Selected text is translated, beside the selection and in the history below."
+          checked={translate}
+          onChange={() => toggleTranslate()}
+        />
+        <div className="flex items-center justify-between gap-2">
+          <ControlLabel
+            label="Provider"
+            hint="Auto uses the first provider that's set up."
+          />
+          <ProviderSelect />
+        </div>
+      </div>
+    </CollapsibleToolbar>
+  )
+}
 
 // The active project's translations, newest first. Clicking one selects its
 // text again, if it's still there.
@@ -37,8 +73,8 @@ export function TranslationHistory() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-1 border-b p-2">
-        <ProviderSelect />
+      <div className="flex items-center gap-1 border-b py-2 pr-2 pl-4">
+        <span className="text-sm">History</span>
         <Button
           variant="ghost"
           size="icon-sm"
@@ -110,8 +146,15 @@ function ProviderSelect() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="text-xs">
-          {provider === 'auto' ? 'Auto' : providerLabel(provider)}
+        {/* like the settings' dropdowns */}
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-28 justify-between text-xs shadow-none"
+        >
+          <span className="truncate">
+            {provider === 'auto' ? 'Auto' : providerLabel(provider)}
+          </span>
           <ChevronDownIcon className="size-3" />
         </Button>
       </DropdownMenuTrigger>
