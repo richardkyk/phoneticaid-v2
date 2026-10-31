@@ -1,6 +1,5 @@
 import { useUiStore } from '@/lib/stores/ui-store'
 import type { PanelTab } from '@/lib/stores/ui-store'
-import { XIcon } from 'lucide-react'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import {
@@ -19,8 +18,6 @@ const tabs: Array<{ value: PanelTab; label: string }> = [
 
 interface SettingsPanelProps {
   className?: string
-  // shown in a drawer that can be closed (on narrow screens)
-  onClose?: () => void
 }
 // Settings and translations for the active project, shown to the right of
 // the canvas, or in a drawer from the bottom on narrow screens
@@ -47,17 +44,6 @@ export function SettingsPanel(props: SettingsPanelProps) {
             {t.label}
           </Button>
         ))}
-        {props.onClose && (
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="shadow-none"
-            title="Close settings"
-            onClick={props.onClose}
-          >
-            <XIcon />
-          </Button>
-        )}
       </div>
       <DocumentToolbar />
       {tab === 'settings' ? (

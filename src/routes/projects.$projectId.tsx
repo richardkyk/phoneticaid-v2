@@ -26,7 +26,6 @@ function Workspace() {
   const narrow = useIsMobile()
   const settingsOpen = useUiStore((state) => state.settingsOpen)
   const drawerOpen = useUiStore((state) => state.settingsDrawerOpen)
-  const closeDrawer = () => useUiStore.getState().setSettingsDrawerOpen(false)
 
   return (
     // fixed to the viewport so the canvas scrolls rather than the page, and
@@ -53,10 +52,7 @@ function Workspace() {
               aria-describedby={undefined}
             >
               <DrawerTitle className="sr-only">Settings</DrawerTitle>
-              <SettingsPanel
-                onClose={closeDrawer}
-                className="min-h-0 w-full flex-1 border-l-0"
-              />
+              <SettingsPanel className="min-h-0 w-full flex-1 border-l-0" />
             </DrawerContent>
           </Drawer>
         )}
