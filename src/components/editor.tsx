@@ -508,6 +508,29 @@ const padLineCol = (offset: number) => {
   return { line, col: offset - line * (PAD_LINE.length + 1) }
 }
 
+// TEMPORARY: with ?debug=caret, shows the hidden input's caret on screen, to see
+// what iOS does with it
+const caretDebugLines: Array<string> = []
+let caretDebugLast = ''
+const caretDebug = (source: string, el: HTMLTextAreaElement) => {
+  if (typeof window === 'undefined') return
+  if (!window.location.search.includes('debug=caret')) return
+  const state = `focused=${document.activeElement === el} sel=${el.selectionStart}-${el.selectionEnd} len=${el.value.length} pad=${el.value === PAD_VALUE}`
+  if (source === 'poll' && state === caretDebugLast) return
+  caretDebugLast = state
+  caretDebugLines.push(`${source}: ${state}`)
+  if (caretDebugLines.length > 12) caretDebugLines.shift()
+  let box = document.getElementById('caret-debug')
+  if (!box) {
+    box = document.createElement('pre')
+    box.id = 'caret-debug'
+    box.style.cssText =
+      'position:fixed;top:0;left:0;right:0;z-index:9999;margin:0;padding:4px;font:10px monospace;background:rgba(255,255,200,.9);pointer-events:none;white-space:pre-wrap'
+    document.body.appendChild(box)
+  }
+  box.textContent = caretDebugLines.join('\n')
+}
+
 interface HiddenInputProps {
   ref: React.RefObject<HTMLTextAreaElement | null>
 }
@@ -525,9 +548,11 @@ const HiddenInput = (props: HiddenInputProps) => {
 
   // the caret moved natively, e.g. by sliding on iOS's spacebar
   useEffect(() => {
-    const handleSelectionChange = () => {
-      const inputEl = props.ref.current
-      if (!inputEl || document.activeElement !== inputEl) return
+    const inputEl = props.ref.current
+    if (!inputEl) return
+    const syncCaret = (source: string) => {
+      caretDebug(source, inputEl)
+      if (document.activeElement !== inputEl) return
       if (composingRef.current || inputEl.value !== PAD_VALUE) return
       const offset = inputEl.selectionEnd
       if (offset === PAD_CARET && inputEl.selectionStart === PAD_CARET) return
@@ -553,9 +578,35 @@ const HiddenInput = (props: HiddenInputProps) => {
       }
       moveIMEInputToCursor(props.ref)
     }
-    document.addEventListener('selectionchange', handleSelectionChange)
-    return () =>
-      document.removeEventListener('selectionchange', handleSelectionChange)
+
+    // Safari may report the change on the input, the document, or (during the
+    // trackpad gesture) not at all, so the caret is also checked every frame
+    // while the input is focused
+    let frame = 0
+    const poll = () => {
+      syncCaret('poll')
+      frame = requestAnimationFrame(poll)
+    }
+    const startPolling = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(poll)
+    }
+    const stopPolling = () => cancelAnimationFrame(frame)
+    const onDocumentChange = () => syncCaret('document')
+    const onInputChange = () => syncCaret('input')
+
+    document.addEventListener('selectionchange', onDocumentChange)
+    inputEl.addEventListener('selectionchange', onInputChange)
+    inputEl.addEventListener('focus', startPolling)
+    inputEl.addEventListener('blur', stopPolling)
+    if (document.activeElement === inputEl) startPolling()
+    return () => {
+      stopPolling()
+      document.removeEventListener('selectionchange', onDocumentChange)
+      inputEl.removeEventListener('selectionchange', onInputChange)
+      inputEl.removeEventListener('focus', startPolling)
+      inputEl.removeEventListener('blur', stopPolling)
+    }
   }, [])
 
   const handleFocus = () => {
@@ -642,7 +693,10 @@ const HiddenInput = (props: HiddenInputProps) => {
       ref={props.ref}
       className="fixed resize-none bg-white text-xl w-[100px] focus:border-red-500 opacity-0 shadow-[0_0_0_1px_rgba(0,0,0,0.1)] pointer-events-none focus:outline-amber-200"
       rows={1}
-      onKeyDown={(e) => handleEditorKeyDown(e, props.ref)}
+      onKeyDown={(e) => {
+        caretDebug(`key ${e.key}`, e.currentTarget)
+        handleEditorKeyDown(e, props.ref)
+      }}
       onFocus={handleFocus}
       onBlur={handleBlur}
       onInput={handleInput}
