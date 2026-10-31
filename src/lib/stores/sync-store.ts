@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 import { getText } from '../piece-table'
 import { providerIds } from '../translate/providers'
 import { sync } from '../sync/functions'
-import type { SyncedProject } from '../sync/functions'
+import type { SyncedProject, SyncedSettings } from '../sync/functions'
 import type { ProviderChoice } from '../translate/providers'
 import { newId } from '../utils'
 import { useProjectsStore } from './projects-store'
@@ -14,7 +14,7 @@ import { useUiStore } from './ui-store'
 // devices. Each project syncs as a whole and the newest edit wins
 
 // after an edit, so typing doesn't sync every keystroke
-const DEBOUNCE = 2000
+const DEBOUNCE = 500
 // other devices' changes arrive over a websocket (see src/lib/sync/room.ts),
 // this picks them up instead while it's disconnected
 const POLL_INTERVAL = 60_000
@@ -76,6 +76,7 @@ export const useSyncStore = create<SyncState>()(
   persist(
     (set, get) => {
       let running: Promise<void> | null = null
+      let applyingRemote = false
       let again = false
 
       const changedProjects = (): Array<SyncedProject> => {
@@ -119,11 +120,31 @@ export const useSyncStore = create<SyncState>()(
         // what was sent is on the server now (or the server had newer)
         const pushed = { ...get().pushed }
         for (const p of projects) pushed[p.id] = p.updatedAt
+        set({
+          pushed,
+          settingsPushed: settings?.updatedAt ?? get().settingsPushed,
+        })
+        applyRemote(res.projects, res.settings)
+        set({ cursor: res.cursor })
+      }
 
-        useProjectsStore.getState().applySynced(res.projects)
+      // takes in what changed on the server, from a sync or as another tab
+      // announced it
+      const applyRemote = (
+        remoteProjects: Array<SyncedProject>,
+        remoteSettings: SyncedSettings | null,
+      ) => {
+        // taking them in isn't an edit to send back
+        applyingRemote = true
+        try {
+          useProjectsStore.getState().applySynced(remoteProjects)
+        } finally {
+          applyingRemote = false
+        }
         // projects taken from the server don't need sending back
+        const pushed = { ...get().pushed }
         const { projects: local, deleted } = useProjectsStore.getState()
-        for (const remote of res.projects) {
+        for (const remote of remoteProjects) {
           const project = local.find((p) => p.id === remote.id)
           if (project && project.lastUpdated === remote.updatedAt) {
             pushed[remote.id] = remote.updatedAt
@@ -131,19 +152,18 @@ export const useSyncStore = create<SyncState>()(
             pushed[remote.id] = remote.updatedAt
           }
         }
+        set({ pushed })
 
-        let settingsState = {
-          settingsPushed: settings?.updatedAt ?? get().settingsPushed,
-        } as Partial<SyncState>
-        if (res.settings && res.settings.updatedAt > get().settingsUpdatedAt) {
-          applySettings(res.settings.data)
-          settingsState = {
-            settingsUpdatedAt: res.settings.updatedAt,
-            settingsPushed: res.settings.updatedAt,
-          }
+        if (
+          remoteSettings &&
+          remoteSettings.updatedAt > get().settingsUpdatedAt
+        ) {
+          applySettings(remoteSettings.data)
+          set({
+            settingsUpdatedAt: remoteSettings.updatedAt,
+            settingsPushed: remoteSettings.updatedAt,
+          })
         }
-
-        set({ ...settingsState, pushed, cursor: res.cursor })
       }
 
       return {
@@ -205,6 +225,7 @@ export const useSyncStore = create<SyncState>()(
 
           const unsubscribeProjects = useProjectsStore.subscribe(
             (state, prev) => {
+              if (applyingRemote) return
               if (
                 state.projects !== prev.projects ||
                 state.deleted !== prev.deleted
@@ -248,7 +269,19 @@ export const useSyncStore = create<SyncState>()(
               connected = true
             }
             ws.onmessage = (e) => {
-              if (e.data === 'changed') get().syncNow()
+              // what changed comes with the message, unless it was too big
+              // to send
+              if (e.data === 'changed') return get().syncNow()
+              try {
+                const change = JSON.parse(e.data as string) as {
+                  projects: Array<SyncedProject>
+                  settings: SyncedSettings | null
+                }
+                applyRemote(change.projects, change.settings)
+                set({ lastSynced: Date.now() })
+              } catch {
+                get().syncNow()
+              }
             }
             ws.onclose = () => {
               socket = null

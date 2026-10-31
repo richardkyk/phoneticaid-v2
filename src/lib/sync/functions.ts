@@ -48,6 +48,10 @@ export type SyncResult =
     }
   | { ok: false; error: 'signed-out' }
 
+// the biggest change sent to other tabs over their websocket, well under
+// Cloudflare's limit; past it they're told to sync instead
+const MAX_MESSAGE = 512 * 1024
+
 interface ProjectRow {
   id: string
   updated_at: number
@@ -124,12 +128,21 @@ export const sync = createServerFn({ method: 'POST' })
     ])
     const [changes, settings] = results.slice(writes.length)
 
-    // the user's other tabs sync now if this one changed anything (a write
-    // that wasn't newer changes nothing)
-    if (results.slice(0, writes.length).some((r) => r.meta.changes > 0)) {
+    // the user's other tabs are sent what this one changed (a write that
+    // wasn't newer changes nothing), or told to sync if it's too big to send
+    const wrote = (i: number) => results[i].meta.changes > 0
+    const changedProjects = data.projects.filter((_, i) => wrote(i))
+    const changedSettings =
+      data.settings && wrote(data.projects.length) ? data.settings : null
+    if (changedProjects.length || changedSettings) {
+      const change = JSON.stringify({
+        projects: changedProjects,
+        settings: changedSettings,
+      })
       try {
         await cf.SYNC_ROOM.get(cf.SYNC_ROOM.idFromName(userId)).notify(
           data.client ?? '',
+          change.length > MAX_MESSAGE ? 'changed' : change,
         )
       } catch (err) {
         // they'll still sync at their next poll or when they're next opened

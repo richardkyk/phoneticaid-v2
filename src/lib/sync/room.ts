@@ -21,12 +21,13 @@ export class SyncRoom extends DurableObject<Env> {
     return new Response(null, { status: 101, webSocket: socket })
   }
 
-  // a sync from `client` changed the user's projects or settings
-  notify(client: string) {
+  // a sync from `client` changed the user's projects or settings: `message`
+  // is the change, or 'changed' to have the other tabs sync
+  notify(client: string, message: string) {
     for (const ws of this.ctx.getWebSockets()) {
       if (this.ctx.getTags(ws).includes(client)) continue
       try {
-        ws.send('changed')
+        ws.send(message)
       } catch {
         // already closing
       }
