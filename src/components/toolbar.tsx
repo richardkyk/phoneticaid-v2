@@ -300,11 +300,11 @@ function PrintButton(props: PrintButtonProps) {
     <Button
       variant="ghost"
       onClick={handlePrint}
-      size="sm"
+      size="icon-sm"
+      title="Print"
       className={props.className}
     >
       <PrinterIcon className="size-4" />
-      Print
     </Button>
   )
 }
