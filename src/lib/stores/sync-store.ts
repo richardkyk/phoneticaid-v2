@@ -23,8 +23,10 @@ const PING_INTERVAL = 30_000
 // the longest wait before reconnecting, doubling up to it from a second
 const MAX_RECONNECT_DELAY = 30_000
 
-// this tab, so the server doesn't tell it about its own syncs
-const clientId = newId()
+// this tab, so the server doesn't tell it about its own syncs. Made on first
+// use, as the server imports this too and can't make random ids at load
+let clientId: string | undefined
+const getClientId = () => (clientId ??= newId())
 
 export type SyncStatus = 'idle' | 'syncing' | 'error'
 
@@ -110,7 +112,7 @@ export const useSyncStore = create<SyncState>()(
             : undefined
 
         const res = await sync({
-          data: { since: cursor, projects, settings, client: clientId },
+          data: { since: cursor, projects, settings, client: getClientId() },
         })
         if (!res.ok) throw new Error(res.error)
 
@@ -236,7 +238,7 @@ export const useSyncStore = create<SyncState>()(
             if (stopped || socket) return
             const protocol = location.protocol === 'https:' ? 'wss' : 'ws'
             const ws = new WebSocket(
-              `${protocol}://${location.host}/api/sync/socket?client=${clientId}`,
+              `${protocol}://${location.host}/api/sync/socket?client=${getClientId()}`,
             )
             socket = ws
             ws.onopen = () => {
