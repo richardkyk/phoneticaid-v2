@@ -16,6 +16,7 @@ import { gridToPosition } from '@/lib/layout'
 import { SelectionHandles } from './selection-handles'
 import { useRevealStore } from '@/lib/stores/reveal-store'
 import { useReadingsStore } from '@/lib/stores/readings-store'
+import { useUiStore } from '@/lib/stores/ui-store'
 import React, { Fragment, useCallback, useEffect, useMemo, useRef } from 'react'
 
 const clamp = (val: number, min: number, max: number) =>
@@ -277,9 +278,19 @@ export const Editor: React.FC<EditorProps> = (props) => {
   const touch = useTouchGestures({ followPointer, placeCaret, closeKeyboard })
 
   const lastPointerTypeRef = useRef('')
+  // the press started while the settings drawer was open
+  const drawerPressRef = useRef(false)
+  const drawerTap = useDrawerTap()
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     lastPointerTypeRef.current = e.pointerType
+    // while the settings drawer's open the pages can be panned and zoomed to
+    // see its changes, and a tap only closes it
+    drawerPressRef.current = useUiStore.getState().settingsDrawerOpen
+    if (drawerPressRef.current) {
+      drawerTap(e)
+      return
+    }
     // other buttons (e.g. middle dragging to pan) don't select
     if (e.button !== 0) return
     const pageEl = (e.target as HTMLElement).closest(
@@ -364,6 +375,8 @@ export const Editor: React.FC<EditorProps> = (props) => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault()
+    // it closed the settings drawer, rather than opening the keyboard
+    if (drawerPressRef.current) return
     if (lastPointerTypeRef.current === 'touch') {
       // tapping off the pages closes the keyboard, as elsewhere on phones
       if (!(e.target as HTMLElement).closest('[data-page]')) {
@@ -597,6 +610,51 @@ const cellIndex = (target: EventTarget) => {
 // Selecting with a finger, which otherwise pans: a long press selects the
 // word under it (dragging then extends the selection), and a double tap
 // selects the sentence. Either is translated.
+// Closes the settings drawer on a tap, but not a pan or a pinch
+function useDrawerTap() {
+  const tapRef = useRef<{
+    pointerId: number
+    x: number
+    y: number
+    moved: boolean
+  } | null>(null)
+
+  return useCallback((e: React.PointerEvent) => {
+    // a second finger is a pinch
+    if (tapRef.current) {
+      tapRef.current.moved = true
+      return
+    }
+    tapRef.current = {
+      pointerId: e.pointerId,
+      x: e.clientX,
+      y: e.clientY,
+      moved: false,
+    }
+    const handleMove = (e: PointerEvent) => {
+      const tap = tapRef.current
+      if (!tap || e.pointerId !== tap.pointerId) return
+      if (Math.hypot(e.clientX - tap.x, e.clientY - tap.y) > TOUCH_SLOP) {
+        tap.moved = true
+      }
+    }
+    const handleUp = (e: PointerEvent) => {
+      const tap = tapRef.current
+      if (!tap || e.pointerId !== tap.pointerId) return
+      tapRef.current = null
+      window.removeEventListener('pointermove', handleMove)
+      window.removeEventListener('pointerup', handleUp)
+      window.removeEventListener('pointercancel', handleUp)
+      if (!tap.moved && e.type === 'pointerup') {
+        useUiStore.getState().setSettingsDrawerOpen(false)
+      }
+    }
+    window.addEventListener('pointermove', handleMove)
+    window.addEventListener('pointerup', handleUp)
+    window.addEventListener('pointercancel', handleUp)
+  }, [])
+}
+
 interface TouchActions {
   // the selection follows the pointer until it's lifted
   followPointer: (pointerId: number, word?: [number, number]) => void

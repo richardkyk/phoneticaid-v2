@@ -7,6 +7,7 @@ import { useProjectsStore } from '@/lib/stores/projects-store'
 import { useUiStore } from '@/lib/stores/ui-store'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { useEffect } from 'react'
 
 // A project's workspace
 export const Route = createFileRoute('/projects/$projectId')({
@@ -26,6 +27,11 @@ function Workspace() {
   const narrow = useIsMobile()
   const settingsOpen = useUiStore((state) => state.settingsOpen)
   const drawerOpen = useUiStore((state) => state.settingsDrawerOpen)
+  // the drawer's only on narrow screens, and taps on the pages only close it
+  // while it's open
+  useEffect(() => {
+    if (!narrow) useUiStore.getState().setSettingsDrawerOpen(false)
+  }, [narrow])
 
   return (
     // fixed to the viewport so the canvas scrolls rather than the page, and
@@ -38,16 +44,17 @@ function Workspace() {
         </div>
         {!narrow && settingsOpen && <SettingsPanel />}
         {/* on narrow screens it's a drawer from the bottom, leaving the top
-        of the page in view */}
+        of the page in view. The pages can still be panned and zoomed under
+        it, and tapping them closes it (see editor.tsx) */}
         {narrow && (
           <Drawer
+            modal={false}
             open={drawerOpen}
             onOpenChange={(open) =>
               useUiStore.getState().setSettingsDrawerOpen(open)
             }
           >
             <DrawerContent
-              overlayClassName="bg-black/10"
               className="h-[60dvh] print:hidden"
               aria-describedby={undefined}
             >
