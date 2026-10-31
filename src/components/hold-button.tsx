@@ -1,5 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Button } from './ui/button'
+import { cn } from '@/lib/utils'
+
+// how long it's held before it starts repeating, in ms, so a slow tap is
+// still one step
+const REPEAT_DELAY = 400
 
 interface HoldButtonProps extends React.ComponentProps<typeof Button> {
   onClick: () => void
@@ -7,43 +12,45 @@ interface HoldButtonProps extends React.ComponentProps<typeof Button> {
   children: React.ReactNode
 }
 
+// Steps once when pressed, then repeats while it's held. Pointer events fire
+// once for a touch, where touch and mouse events both fire (iOS sends a mouse
+// press after the touch ends)
 export const HoldButton: React.FC<HoldButtonProps> = ({
   onClick,
   interval = 100,
   children,
+  className,
   ...props
 }) => {
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const touchActiveRef = useRef(false)
-
-  const handleMouseDown = () => {
-    if (touchActiveRef.current) return
-    onClick()
-    intervalRef.current = setInterval(onClick, interval)
-  }
-
-  const handleTouchStart = () => {
-    touchActiveRef.current = true
-    onClick()
-    intervalRef.current = setInterval(onClick, interval)
-  }
+  const timerRef = useRef<number | null>(null)
 
   const clear = () => {
-    touchActiveRef.current = false
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
-      intervalRef.current = null
+    if (timerRef.current !== null) {
+      window.clearTimeout(timerRef.current)
+      window.clearInterval(timerRef.current)
+      timerRef.current = null
     }
+  }
+  useEffect(() => clear, [])
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (e.button !== 0) return
+    clear()
+    onClick()
+    timerRef.current = window.setTimeout(() => {
+      timerRef.current = window.setInterval(onClick, interval)
+    }, REPEAT_DELAY)
   }
 
   return (
     <Button
-      onMouseDown={handleMouseDown}
-      onMouseUp={clear}
-      onMouseLeave={clear}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={clear}
-      onTouchCancel={clear}
+      onPointerDown={handlePointerDown}
+      onPointerUp={clear}
+      onPointerLeave={clear}
+      onPointerCancel={clear}
+      // a long press doesn't select text or open a menu
+      onContextMenu={(e) => e.preventDefault()}
+      className={cn('select-none', className)}
       {...props}
     >
       {children}
