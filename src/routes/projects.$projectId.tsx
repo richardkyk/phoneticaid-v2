@@ -32,6 +32,17 @@ function Workspace() {
   useEffect(() => {
     if (!narrow) useUiStore.getState().setSettingsDrawerOpen(false)
   }, [narrow])
+  // a pinch zooms the pages (see canvas.tsx), anywhere else (e.g. on the
+  // drawer) it would zoom the whole app in Safari
+  useEffect(() => {
+    const preventZoom = (e: Event) => e.preventDefault()
+    document.addEventListener('gesturestart', preventZoom)
+    document.addEventListener('gesturechange', preventZoom)
+    return () => {
+      document.removeEventListener('gesturestart', preventZoom)
+      document.removeEventListener('gesturechange', preventZoom)
+    }
+  }, [])
 
   return (
     // fixed to the viewport so the canvas scrolls rather than the page, and
@@ -48,7 +59,11 @@ function Workspace() {
         it, and tapping them closes it (see editor.tsx) */}
         {narrow && (
           <Drawer
+            // vaul is patched to pass this on to Radix, which otherwise
+            // blocks touches outside the drawer (patches/vaul.patch)
             modal={false}
+            // the page is already fixed, so its body needn't be on Safari
+            noBodyStyles
             open={drawerOpen}
             onOpenChange={(open) =>
               useUiStore.getState().setSettingsDrawerOpen(open)

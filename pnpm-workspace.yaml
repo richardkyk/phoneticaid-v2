@@ -3,3 +3,6 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
   - unrs-resolver
+
+patchedDependencies:
+  vaul: patches/vaul.patch

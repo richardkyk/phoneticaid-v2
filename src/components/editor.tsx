@@ -607,9 +607,6 @@ const cellIndex = (target: EventTarget) => {
   return el ? Number(el.dataset.index) : -1
 }
 
-// Selecting with a finger, which otherwise pans: a long press selects the
-// word under it (dragging then extends the selection), and a double tap
-// selects the sentence. Either is translated.
 // Closes the settings drawer on a tap, but not a pan or a pinch
 function useDrawerTap() {
   const tapRef = useRef<{
@@ -662,6 +659,9 @@ interface TouchActions {
   closeKeyboard: () => void
 }
 
+// Selecting with a finger, which otherwise pans: a long press selects the
+// word under it (dragging then extends the selection), and a double tap
+// selects the sentence. Either is translated.
 function useTouchGestures(actions: TouchActions) {
   // the handlers are made once, so the listeners they add can be removed
   const actionsRef = useRef(actions)
