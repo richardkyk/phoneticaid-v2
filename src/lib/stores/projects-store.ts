@@ -155,6 +155,7 @@ export const useProjectsStore = create<MultiProjectState>()(
         const deleted = { ...get().deleted }
         let activeChanged = false
         let activeDeleted = false
+        let changed = false
 
         for (const remote of synced) {
           const local = projects.find((p) => p.id === remote.id)
@@ -163,6 +164,7 @@ export const useProjectsStore = create<MultiProjectState>()(
             if (!local || local.lastUpdated > remote.updatedAt) continue
             projects = projects.filter((p) => p.id !== remote.id)
             deleted[remote.id] = remote.updatedAt
+            changed = true
             if (remote.id === get().activeId) activeDeleted = true
             continue
           }
@@ -188,9 +190,12 @@ export const useProjectsStore = create<MultiProjectState>()(
             ? projects.map((p) => (p.id === remote.id ? project : p))
             : [...projects, project]
           if (remote.id === get().activeId) activeChanged = true
+          changed = true
         }
 
-        set({ projects, deleted })
+        // only set when something came down: any change to the projects
+        // schedules another sync, so setting every time would loop
+        if (changed) set({ projects, deleted })
         for (const remote of synced) {
           if (remote.deleted) {
             useHistoryStore.getState().forgetProject(remote.id)
