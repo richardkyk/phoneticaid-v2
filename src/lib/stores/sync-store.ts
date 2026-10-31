@@ -271,6 +271,7 @@ export const useSyncStore = create<SyncState>()(
             ws.onmessage = (e) => {
               // what changed comes with the message, unless it was too big
               // to send
+              if (e.data === 'pong') return
               if (e.data === 'changed') return get().syncNow()
               try {
                 const change = JSON.parse(e.data as string) as {
