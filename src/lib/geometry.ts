@@ -169,17 +169,19 @@ export const pinyinRect = (doc: GeometrySettings, line: number, slot: number) =>
     doc.pinyinSize,
   )
 
-// the caret before `slot`, drawn in the gap before the character
+// the caret before `slot`, centred in the gap before the character. Its
+// thickness follows the font size, not the gap, so wide spacing doesn't
+// make it a block.
 export const caretRect = (
   doc: GeometrySettings,
   line: number,
   slot: number,
 ) => {
   const gap = charAdvance(doc) - doc.fontSize
-  const thickness = Math.max(gap, MIN_CARET_THICKNESS)
+  const thickness = Math.max(doc.fontSize / 20, MIN_CARET_THICKNESS)
   return toPhysical(
     doc,
-    slot * charAdvance(doc) - thickness,
+    slot * charAdvance(doc) - gap / 2 - thickness / 2,
     charAcross(doc, line),
     thickness,
     doc.fontSize,
