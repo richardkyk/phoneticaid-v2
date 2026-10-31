@@ -60,21 +60,22 @@ export function SettingsPanel(props: SettingsPanelProps) {
         )}
       </div>
       <DocumentToolbar />
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        {tab === 'settings' ? (
-          <>
-            <TextToolbar />
-            <PinyinToolbar />
-            <LayoutToolbar />
-            <SpacingToolbar />
-          </>
-        ) : (
-          <>
+      {tab === 'settings' ? (
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <TextToolbar />
+          <PinyinToolbar />
+          <LayoutToolbar />
+          <SpacingToolbar />
+        </div>
+      ) : (
+        // only the history scrolls, under the translation settings
+        <div className="flex min-h-0 flex-1 flex-col">
+          <div className="shrink-0">
             <TranslationSettings />
-            <TranslationHistory />
-          </>
-        )}
-      </div>
+          </div>
+          <TranslationHistory />
+        </div>
+      )}
     </aside>
   )
 }
