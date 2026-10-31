@@ -107,31 +107,17 @@ export function useCanvas(
     // ctrl + scroll, so the real Control key is tracked to tell them apart.
     // ctrl + scroll zooms far too fast in some browsers, so it's ignored
     let controlHeld = false
-    // Alt peeks at the pinyin (see reading-aids.tsx), but mouse tools such as
-    // Logi Options+ turn a held modifier into a pinch, so tapping Alt while a
-    // scroll wheel is still spinning would zoom. Scrolls with Alt held pan
-    let altHeld = false
     const handleControl = (e: KeyboardEvent) => {
       if (e.key === 'Control') controlHeld = e.type === 'keydown'
-      if (e.key === 'Alt') altHeld = e.type === 'keydown'
     }
-    const releaseControl = () => {
-      controlHeld = false
-      altHeld = false
-    }
+    const releaseControl = () => (controlHeld = false)
 
     // What a scroll gesture does is decided when it starts and kept until it
     // ends, so its momentum doesn't start panning once the key is let go
     let wheelMode: 'pan' | 'zoom' | 'ignore' | null = null
     let wheelGestureTimer: number | undefined
     const wheelModeFor = (e: WheelEvent) =>
-      controlHeld
-        ? 'ignore'
-        : altHeld || e.altKey
-          ? 'pan'
-          : e.ctrlKey || e.metaKey
-            ? 'zoom'
-            : 'pan'
+      controlHeld ? 'ignore' : e.ctrlKey || e.metaKey ? 'zoom' : 'pan'
 
     // scrolling (two fingers on a trackpad) pans, pinching and cmd + scroll zoom
     const handleWheel = (e: WheelEvent) => {
