@@ -4,8 +4,9 @@
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
   // runs the worker near the database (in Australia) rather than wherever a
-  // request arrives, as some providers send Australian visitors to the US
-  "placement": { "mode": "smart" },
+  // request arrives, as some providers send Australian visitors to the US.
+  // Named rather than "smart", which needs more traffic than this gets
+  "placement": { "region": "aws:ap-southeast-2" },
   "main": "src/server.ts",
   "ai": {
     "binding": "AI",
