@@ -186,7 +186,8 @@ export const caretRect = (
   )
 }
 
-// highlight covering slots startSlot..endSlot (inclusive)
+// highlight covering slots startSlot..endSlot (inclusive), stopping at the
+// last character's edge so it leaves the caret's gap after it clear
 export const spanRect = (
   doc: GeometrySettings,
   line: number,
@@ -197,7 +198,7 @@ export const spanRect = (
     doc,
     startSlot * charAdvance(doc),
     charAcross(doc, line),
-    (endSlot - startSlot + 1) * charAdvance(doc),
+    (endSlot - startSlot) * charAdvance(doc) + doc.fontSize,
     doc.fontSize,
   )
 
