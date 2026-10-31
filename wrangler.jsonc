@@ -3,6 +3,9 @@
   "name": "phoneticaid-v2",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
+  // runs the worker near the database (in Australia) rather than wherever a
+  // request arrives, as some providers send Australian visitors to the US
+  "placement": { "mode": "smart" },
   "main": "src/server.ts",
   "ai": {
     "binding": "AI",

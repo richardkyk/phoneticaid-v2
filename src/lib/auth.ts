@@ -25,6 +25,10 @@ const createAuth = async () => {
     session: {
       // a year, refreshed daily while the app is used
       expiresIn: 60 * 60 * 24 * 365,
+      // the session is also kept in a signed cookie, so most requests (like
+      // each sync) don't need a trip to the database to check it. Signing out
+      // elsewhere takes up to this long to apply here
+      cookieCache: { enabled: true, maxAge: 5 * 60 },
     },
     plugins: [tanstackStartCookies()],
   })
