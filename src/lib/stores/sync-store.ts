@@ -15,8 +15,16 @@ import { useUiStore } from './ui-store'
 
 // after an edit, so typing doesn't sync every keystroke
 const DEBOUNCE = 2000
-// picks up changes from other devices while the app is open
+// other devices' changes arrive over a websocket (see src/lib/sync/room.ts),
+// this picks them up instead while it's disconnected
 const POLL_INTERVAL = 60_000
+// keeps the websocket from being dropped as idle
+const PING_INTERVAL = 30_000
+// the longest wait before reconnecting, doubling up to it from a second
+const MAX_RECONNECT_DELAY = 30_000
+
+// this tab, so the server doesn't tell it about its own syncs
+const clientId = newId()
 
 export type SyncStatus = 'idle' | 'syncing' | 'error'
 
@@ -101,7 +109,9 @@ export const useSyncStore = create<SyncState>()(
             ? { updatedAt: settingsUpdatedAt, data: readSettings() }
             : undefined
 
-        const res = await sync({ data: { since: cursor, projects, settings } })
+        const res = await sync({
+          data: { since: cursor, projects, settings, client: clientId },
+        })
         if (!res.ok) throw new Error(res.error)
 
         // what was sent is on the server now (or the server had newer)
@@ -215,17 +225,65 @@ export const useSyncStore = create<SyncState>()(
             },
           )
 
+          // told by the server when another tab or device changed something
+          let socket: WebSocket | null = null
+          let connected = false
+          let reconnects = 0
+          let reconnectTimer: ReturnType<typeof setTimeout> | undefined
+          let stopped = false
+          const connect = () => {
+            clearTimeout(reconnectTimer)
+            if (stopped || socket) return
+            const protocol = location.protocol === 'https:' ? 'wss' : 'ws'
+            const ws = new WebSocket(
+              `${protocol}://${location.host}/api/sync/socket?client=${clientId}`,
+            )
+            socket = ws
+            ws.onopen = () => {
+              reconnects = 0
+              // changes made while it was disconnected weren't announced
+              if (connected) get().syncNow()
+              connected = true
+            }
+            ws.onmessage = (e) => {
+              if (e.data === 'changed') get().syncNow()
+            }
+            ws.onclose = () => {
+              socket = null
+              if (stopped) return
+              const delay = Math.min(
+                1000 * 2 ** reconnects++,
+                MAX_RECONNECT_DELAY,
+              )
+              reconnectTimer = setTimeout(connect, delay)
+            }
+          }
+          const isOpen = () => socket?.readyState === WebSocket.OPEN
+          const ping = setInterval(() => {
+            if (isOpen()) socket?.send('ping')
+          }, PING_INTERVAL)
+
           const onVisible = () => {
-            if (document.visibilityState === 'visible') get().syncNow()
+            if (document.visibilityState !== 'visible') return
+            // a phone may have dropped the socket while the app was hidden
+            connect()
+            get().syncNow()
           }
           document.addEventListener('visibilitychange', onVisible)
           const poll = setInterval(() => {
-            if (document.visibilityState === 'visible') get().syncNow()
+            if (document.visibilityState === 'visible' && !isOpen()) {
+              get().syncNow()
+            }
           }, POLL_INTERVAL)
 
+          connect()
           get().syncNow()
 
           return () => {
+            stopped = true
+            clearTimeout(reconnectTimer)
+            socket?.close()
+            clearInterval(ping)
             clearTimeout(timer)
             clearInterval(poll)
             document.removeEventListener('visibilitychange', onVisible)

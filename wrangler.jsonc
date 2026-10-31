@@ -3,7 +3,7 @@
   "name": "phoneticaid-v2",
   "compatibility_date": "2025-09-02",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  "main": "src/server.ts",
   "ai": {
     "binding": "AI",
     "remote": true,
@@ -17,4 +17,10 @@
       "migrations_dir": "migrations",
     },
   ],
+  // tells a user's other tabs and devices when a sync changed something
+  // (see src/lib/sync/room.ts)
+  "durable_objects": {
+    "bindings": [{ "name": "SYNC_ROOM", "class_name": "SyncRoom" }],
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SyncRoom"] }],
 }

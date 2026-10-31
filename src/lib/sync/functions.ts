@@ -29,6 +29,8 @@ const SyncSchema = z.object({
   // projects changed on this device since it last synced
   projects: z.array(SyncedProjectSchema),
   settings: SettingsSchema.optional(),
+  // this tab, so the others are told of what it changed but it isn't
+  client: z.string().max(64).optional(),
 })
 
 export type ProjectData = z.infer<typeof ProjectDataSchema>
@@ -108,20 +110,32 @@ export const sync = createServerFn({ method: 'POST' })
 
     // >= rather than >, as another request may have written in the same
     // millisecond as the last cursor; getting a project twice is harmless
-    const [changes, settings] = await db
-      .batch<any>([
-        ...writes,
-        db
-          .prepare(
-            `select id, updated_at, deleted, data, synced_at from project
+    const results = await db.batch<any>([
+      ...writes,
+      db
+        .prepare(
+          `select id, updated_at, deleted, data, synced_at from project
            where user_id = ?1 and synced_at >= ?2`,
-          )
-          .bind(userId, data.since),
-        db
-          .prepare(`select updated_at, data from settings where user_id = ?1`)
-          .bind(userId),
-      ])
-      .then((results) => results.slice(writes.length))
+        )
+        .bind(userId, data.since),
+      db
+        .prepare(`select updated_at, data from settings where user_id = ?1`)
+        .bind(userId),
+    ])
+    const [changes, settings] = results.slice(writes.length)
+
+    // the user's other tabs sync now if this one changed anything (a write
+    // that wasn't newer changes nothing)
+    if (results.slice(0, writes.length).some((r) => r.meta.changes > 0)) {
+      try {
+        await cf.SYNC_ROOM.get(cf.SYNC_ROOM.idFromName(userId)).notify(
+          data.client ?? '',
+        )
+      } catch (err) {
+        // they'll still sync at their next poll or when they're next opened
+        console.error('Sync notify failed', err)
+      }
+    }
 
     const rows = changes.results as Array<ProjectRow>
     const settingsRow = settings.results[0] as
