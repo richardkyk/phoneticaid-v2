@@ -28,6 +28,7 @@ import { HoldButton } from './hold-button'
 import { flushSync } from 'react-dom'
 import { toast } from 'sonner'
 import { CollapsibleToolbar } from './collapsible-toolbar'
+import { AccountMenu } from './account-menu'
 import { useProjectsStore } from '@/lib/stores/projects-store'
 import { Switch } from './ui/switch'
 import { useUiStore } from '@/lib/stores/ui-store'
@@ -308,7 +309,7 @@ function PrintButton(props: PrintButtonProps) {
   )
 }
 
-// Undo, redo and printing, at the top of the settings panel
+// Undo, redo, printing and the account, at the top of the settings panel
 export function DocumentToolbar() {
   const { past, future } = useHistoryStore()
 
@@ -333,6 +334,7 @@ export function DocumentToolbar() {
         <RedoIcon />
       </Button>
       <PrintButton className="ml-auto" />
+      <AccountMenu icon />
     </div>
   )
 }

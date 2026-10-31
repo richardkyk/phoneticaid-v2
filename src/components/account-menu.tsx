@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useRouterState } from '@tanstack/react-router'
 import {
+  CircleUserRoundIcon,
   CloudAlertIcon,
   CloudCheckIcon,
   LogOutIcon,
@@ -19,7 +20,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
-import { cn } from '@/lib/utils'
 
 const PROJECT_PATH = /^\/projects\/([^/]+)/
 
@@ -95,9 +95,9 @@ function GoogleIcon() {
 }
 
 interface AccountMenuProps {
-  // a full width row with the name and sync status (at the bottom of the
-  // settings panel), rather than just the avatar
-  full?: boolean
+  // a profile icon when signed out too (beside the print button), rather
+  // than a sign in button
+  icon?: boolean
 }
 // Signing in with Google syncs projects between devices
 export function AccountMenu(props: AccountMenuProps) {
@@ -113,76 +113,66 @@ export function AccountMenu(props: AccountMenuProps) {
 
   if (isPending) return null
 
+  const signIn = () =>
+    authClient.signIn.social({
+      provider: 'google',
+      callbackURL: window.location.pathname,
+    })
+
+  if (!session && props.icon) {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon-sm" title="Account">
+            <CircleUserRoundIcon />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-60">
+          <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+            Sign in to sync your projects between devices
+          </DropdownMenuLabel>
+          <DropdownMenuItem onClick={signIn}>
+            <GoogleIcon />
+            Sign in with Google
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  }
+
   if (!session) {
     return (
       <Button
         variant="outline"
         size="sm"
-        className={cn(props.full && 'w-full')}
         title="Sign in to sync your projects between devices"
-        onClick={() =>
-          authClient.signIn.social({
-            provider: 'google',
-            callbackURL: window.location.pathname,
-          })
-        }
+        onClick={signIn}
       >
         <GoogleIcon />
-        {props.full ? 'Sign in to sync' : 'Sign in'}
+        Sign in
       </Button>
     )
   }
 
   const { user } = session
   const StatusIcon = status === 'error' ? CloudAlertIcon : CloudCheckIcon
-  const statusText =
-    status === 'syncing'
-      ? 'Syncing…'
-      : status === 'error'
-        ? "Couldn't sync"
-        : lastSynced
-          ? `Synced ${syncedAgo(lastSynced)}`
-          : 'Not synced yet'
-  const avatar = (
-    <Avatar className="size-7">
-      {user.image && <AvatarImage src={user.image} alt="" />}
-      <AvatarFallback>{user.name.slice(0, 1)}</AvatarFallback>
-    </Avatar>
-  )
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        {props.full ? (
-          <Button
-            variant="ghost"
-            className="h-auto w-full justify-start px-2 py-1.5 font-normal"
-          >
-            {avatar}
-            <div className="min-w-0 text-left">
-              <div className="truncate text-sm">{user.name}</div>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <StatusIcon className="size-3" />
-                {statusText}
-              </div>
-            </div>
-          </Button>
-        ) : (
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="rounded-full"
-            title={user.name}
-          >
-            {avatar}
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="rounded-full"
+          title={user.name}
+        >
+          <Avatar className="size-7">
+            {user.image && <AvatarImage src={user.image} alt="" />}
+            <AvatarFallback>{user.name.slice(0, 1)}</AvatarFallback>
+          </Avatar>
+        </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align={props.full ? 'start' : 'end'}
-        side={props.full ? 'top' : 'bottom'}
-        className="w-60"
-      >
+      <DropdownMenuContent align="end" className="w-60">
         <DropdownMenuLabel className="font-normal">
           <div className="truncate text-sm font-medium">{user.name}</div>
           <div className="truncate text-xs text-muted-foreground">
@@ -192,7 +182,13 @@ export function AccountMenu(props: AccountMenuProps) {
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="flex items-center gap-2 text-xs font-normal text-muted-foreground">
           <StatusIcon className="size-4" />
-          {statusText}
+          {status === 'syncing'
+            ? 'Syncing…'
+            : status === 'error'
+              ? "Couldn't sync"
+              : lastSynced
+                ? `Synced ${syncedAgo(lastSynced)}`
+                : 'Not synced yet'}
         </DropdownMenuLabel>
         <DropdownMenuItem
           onSelect={(e) => {
