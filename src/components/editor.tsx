@@ -489,20 +489,77 @@ const shouldRedirectKey = (e: KeyboardEvent) => {
   return false
 }
 
+// The hidden input is padded with blank lines of spaces around the caret, so
+// iOS's spacebar trackpad has room to move it; each step is replayed as an arrow
+// key and the caret put back in the middle
+const PAD_SIDE = '   '
+const PAD_LINE = PAD_SIDE + PAD_SIDE
+const PAD_VALUE = [PAD_LINE, PAD_LINE, PAD_LINE].join('\n')
+const PAD_CARET = PAD_LINE.length + 1 + PAD_SIDE.length
+
+const resetPadding = (el: HTMLTextAreaElement) => {
+  if (el.value !== PAD_VALUE) el.value = PAD_VALUE
+  el.setSelectionRange(PAD_CARET, PAD_CARET)
+}
+
+// the line and column of an offset in the padding
+const padLineCol = (offset: number) => {
+  const line = Math.floor(offset / (PAD_LINE.length + 1))
+  return { line, col: offset - line * (PAD_LINE.length + 1) }
+}
+
 interface HiddenInputProps {
   ref: React.RefObject<HTMLTextAreaElement | null>
 }
 const HiddenInput = (props: HiddenInputProps) => {
   const setFocused = useCursorStore((state) => state.setFocused)
 
+  const composingRef = useRef(false)
+
   useEffect(() => {
+    const inputEl = props.ref.current
+    if (inputEl) resetPadding(inputEl)
     // autoFocus may have focused the input before React attached the focus handler
-    setFocused(
-      document.activeElement === props.ref.current && document.hasFocus(),
-    )
+    setFocused(document.activeElement === inputEl && document.hasFocus())
+  }, [])
+
+  // the caret moved natively, e.g. by sliding on iOS's spacebar
+  useEffect(() => {
+    const handleSelectionChange = () => {
+      const inputEl = props.ref.current
+      if (!inputEl || document.activeElement !== inputEl) return
+      if (composingRef.current || inputEl.value !== PAD_VALUE) return
+      const offset = inputEl.selectionEnd
+      if (offset === PAD_CARET && inputEl.selectionStart === PAD_CARET) return
+      const from = padLineCol(PAD_CARET)
+      const to = padLineCol(offset)
+      const keys: Array<string> = []
+      const vertical = to.line - from.line
+      const horizontal = vertical === 0 ? to.col - from.col : 0
+      for (let i = 0; i < Math.abs(vertical); i++) {
+        keys.push(vertical < 0 ? 'ArrowUp' : 'ArrowDown')
+      }
+      for (let i = 0; i < Math.abs(horizontal); i++) {
+        keys.push(horizontal < 0 ? 'ArrowLeft' : 'ArrowRight')
+      }
+      resetPadding(inputEl)
+      if (keys.length === 0) return
+      const cursor = useCursorStore.getState()
+      const writingMode = useDocumentStore.getState().writingMode
+      cursor.resetSelection()
+      for (const key of keys) {
+        const move = keyToCaretMove(writingMode, key)
+        if (move) cursor.moveCursor(move)
+      }
+      moveIMEInputToCursor(props.ref)
+    }
+    document.addEventListener('selectionchange', handleSelectionChange)
+    return () =>
+      document.removeEventListener('selectionchange', handleSelectionChange)
   }, [])
 
   const handleFocus = () => {
+    if (props.ref.current) resetPadding(props.ref.current)
     setFocused(true)
     moveIMEInputToCursor(props.ref)
   }
@@ -518,7 +575,9 @@ const HiddenInput = (props: HiddenInputProps) => {
     if (ev.inputType === 'insertText' && ev.data) {
       e.preventDefault()
       usePieceTableStore.getState().insertAtCursor(ev.data)
-      if (props.ref.current) props.ref.current.value = ''
+    }
+    if (!ev.isComposing && !composingRef.current && props.ref.current) {
+      resetPadding(props.ref.current)
     }
   }
 
@@ -553,6 +612,7 @@ const HiddenInput = (props: HiddenInputProps) => {
     e: React.CompositionEvent<HTMLTextAreaElement>,
   ) => {
     e.preventDefault()
+    composingRef.current = true
     const inputEl = props.ref.current
     if (inputEl) {
       inputEl.style.opacity = '1'
@@ -564,13 +624,14 @@ const HiddenInput = (props: HiddenInputProps) => {
     e: React.CompositionEvent<HTMLTextAreaElement>,
   ) => {
     e.preventDefault()
+    composingRef.current = false
     const text = e.data
     if (text.length !== 0) {
       usePieceTableStore.getState().insertAtCursor(text)
     }
     const inputEl = props.ref.current
     if (inputEl) {
-      inputEl.value = ''
+      resetPadding(inputEl)
       inputEl.style.opacity = '0'
     }
   }
